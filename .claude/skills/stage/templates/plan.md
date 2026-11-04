@@ -9,6 +9,7 @@
 
 - **입력**: <파일 목록. 앞 단계 output은 링크>
 - **산출물**: `docs/<DIR>/output/<파일>`. <구성>
+- **최종 문서**: `docs/<DIR>/output/<파일>`. <문서 유형>(`.claude/skills/stage/templates/output-types.md`의 NN 행). `doc` 모드에서 쓴다.
 - **부산물**: 도구별 사용 기록과 평가. `docs/dev-process/<DIR>/`에 둔다.
 - **닫아야 할 결정**:
   - <결정>
