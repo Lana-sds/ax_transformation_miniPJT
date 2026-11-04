@@ -1,6 +1,7 @@
 # LLM 앱 개발 라이프사이클별 스킬셋 추천
 
 작성일: 2026-11-03
+수정: 2026-11-04, 단계별 추천 표에 `디렉토리` 열 추가
 전제: LangChain / LangGraph / DeepAgents + Langfuse, 로컬 미니 프로젝트.
 근거: 각 저장소 README를 읽고 정리한 내용이며, 실제 조합을 돌려 검증하지는 않았다.
 paperthin(2026-11-04 추가)은 README 요약을 바탕으로 했다. 단계 매핑은 스킬 이름과 설명에서 추론한 것이고, README에 명시된 분류가 아니다. Windows 지원 여부도 확인하지 못했다.
@@ -18,18 +19,20 @@ paperthin(2026-11-04 추가)은 README 요약을 바탕으로 했다. 단계 매
 
 ## 단계별 추천
 
-| 단계 | 1순위 | 보조 | 이유 |
-|---|---|---|---|
-| 1. 아이디어와 요구사항 | gstack `/office-hours` | ouroboros `interview`, paperthin `aim`, `readchk` | gstack은 프레이밍을 도전하고, ouroboros는 모호성을 점수로 막는다. paperthin은 데이터나 지시를 받았을 때 의도를 제안하고 이해를 검증한다. |
-| 2. 스펙과 설계 | ouroboros `seed` | superpowers `brainstorming`, `writing-plans`, paperthin `re0-plan`, `modelchk` | 수용 기준을 Seed로 고정한다. 가볍게 가려면 superpowers만 쓴다. `modelchk`는 작업에 맞는 모델 등급과 추론 강도를 정한다. |
-| 3. 구현 | superpowers (TDD, worktree, subagent) | pstack `/tdd`, `/blast-radius` | 규율은 superpowers가 자동으로 강제하고, 영향 범위 분석은 pstack이 낫다. |
-| 4. 프롬프트와 모델 실험 | pstack `/arena` | ouroboros `evolve` | 변형 N개를 시도해 최선을 합친다. |
-| 5. 평가와 리뷰 | ouroboros `evaluate` | pstack `/interrogate`, gstack `/review`, paperthin `mandela`, `factchk`, `shower`, `sip` | 기준 충족 증명, 다중 모델 적대적 리뷰, 프로덕션 버그 탐지. paperthin은 평가 누수 점검(`mandela`), 사실 검증(`factchk`), 무맥락 재독(`shower`), 작성 직후 자가 점검(`sip`)을 더한다. |
-| 6. QA | gstack `/qa` | superpowers 검증 스킬 | 실제 브라우저에서 버그를 재현하고 고친다. UI가 있는 앱에 유용하다. |
-| 7. 배포 | gstack `/ship`, `/canary` | pstack ship 플레이북, paperthin `re0-merge`, `re0-release` | PR 생성과 배포 후 모니터링. |
-| 8. 운영과 회고 | gstack `/retro`, `/cso` | pstack `/reflect`, `/correct`, paperthin `re0-memo`, `ssotize`, `catchup` | 회고와 보안 감사. paperthin은 교훈 정리, 문서 중복 통합, 공백 후 맥락 복구를 맡는다. |
-| 문서와 산출물 정리 (전 단계 공통) | paperthin `re0`, `debloat`, `ssotize` | paperthin `detool`, `dedash`, `reorder` | 반복 작업 후 산출물을 최신 v0로 정리하고, 흩어진 사실을 한 곳으로 모은다. |
-| 장시간 무인 작업 | gajae-code | ouroboros `ralph`, pstack 야간 실행 플레이북, paperthin `re0-loop`, `nba` | 원격 승인과 구독 재활용이 필요할 때. `re0-loop`는 build, QA, 회고를 반복하고 `nba`는 다음 행동 하나를 고른다. |
+`디렉토리` 열은 `docs/` 아래 단계 폴더 이름이다. 실행 계획은 `docs/dev-process/<디렉토리>-plan.md`, 수행 기록은 `docs/dev-process/<디렉토리>/`에 둔다. 디렉토리가 `-`인 행은 단계가 아니라 여러 단계에서 함께 쓰는 도구다.
+
+| 단계 | 디렉토리 | 1순위 | 보조 | 이유 |
+|---|---|---|---|---|
+| 1. 아이디어와 요구사항 | `01-requirements` | gstack `/office-hours` | ouroboros `interview`, paperthin `aim`, `readchk` | gstack은 프레이밍을 도전하고, ouroboros는 모호성을 점수로 막는다. paperthin은 데이터나 지시를 받았을 때 의도를 제안하고 이해를 검증한다. |
+| 2. 스펙과 설계 | `02-spec-design` | ouroboros `seed` | superpowers `brainstorming`, `writing-plans`, paperthin `re0-plan`, `modelchk` | 수용 기준을 Seed로 고정한다. 가볍게 가려면 superpowers만 쓴다. `modelchk`는 작업에 맞는 모델 등급과 추론 강도를 정한다. |
+| 3. 구현 | `03-implementation` | superpowers (TDD, worktree, subagent) | pstack `/tdd`, `/blast-radius` | 규율은 superpowers가 자동으로 강제하고, 영향 범위 분석은 pstack이 낫다. |
+| 4. 프롬프트와 모델 실험 | `04-prompt-model-experiments` | pstack `/arena` | ouroboros `evolve` | 변형 N개를 시도해 최선을 합친다. |
+| 5. 평가와 리뷰 | `05-evaluation-review` | ouroboros `evaluate` | pstack `/interrogate`, gstack `/review`, paperthin `mandela`, `factchk`, `shower`, `sip` | 기준 충족 증명, 다중 모델 적대적 리뷰, 프로덕션 버그 탐지. paperthin은 평가 누수 점검(`mandela`), 사실 검증(`factchk`), 무맥락 재독(`shower`), 작성 직후 자가 점검(`sip`)을 더한다. |
+| 6. QA | `06-qa` | gstack `/qa` | superpowers 검증 스킬 | 실제 브라우저에서 버그를 재현하고 고친다. UI가 있는 앱에 유용하다. |
+| 7. 배포 | `07-deploy` | gstack `/ship`, `/canary` | pstack ship 플레이북, paperthin `re0-merge`, `re0-release` | PR 생성과 배포 후 모니터링. |
+| 8. 운영과 회고 | `08-operations-retro` | gstack `/retro`, `/cso` | pstack `/reflect`, `/correct`, paperthin `re0-memo`, `ssotize`, `catchup` | 회고와 보안 감사. paperthin은 교훈 정리, 문서 중복 통합, 공백 후 맥락 복구를 맡는다. |
+| 문서와 산출물 정리 (전 단계 공통) | - | paperthin `re0`, `debloat`, `ssotize` | paperthin `detool`, `dedash`, `reorder` | 반복 작업 후 산출물을 최신 v0로 정리하고, 흩어진 사실을 한 곳으로 모은다. |
+| 장시간 무인 작업 | - | gajae-code | ouroboros `ralph`, pstack 야간 실행 플레이북, paperthin `re0-loop`, `nba` | 원격 승인과 구독 재활용이 필요할 때. `re0-loop`는 build, QA, 회고를 반복하고 `nba`는 다음 행동 하나를 고른다. |
 
 ## 이 프로젝트(로컬 미니 프로젝트)의 선택
 
