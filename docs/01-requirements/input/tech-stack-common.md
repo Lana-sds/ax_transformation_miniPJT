@@ -9,7 +9,7 @@
 
 - 사용 스택: LangChain, LangGraph, Langfuse
 - 환경 제약: AWS Bedrock. LLM 모델이 필요한 모든 곳(출제 파이프라인, B안의 OpenWiki 포함)에서 Bedrock만 사용한다.
-- 용어: 이 문서 묶음에서 모델 호출은 "Bedrock 경유 Claude"로 쓴다. Anthropic API 직접 호출은 쓰지 않는다.
+- 용어: 모델 호출은 AWS Bedrock 경유로 쓴다. Anthropic API 직접 호출은 쓰지 않는다. 사용 가능 모델은 [bedrock-model-list.md](bedrock-model-list.md)를 따른다(Claude, Amazon Nova).
 
 ## 2. 공통 구조
 
@@ -60,6 +60,8 @@ Bedrock 사용 자체는 공통이다. 아래는 B안에서 OpenWiki가 추가�
 
 ## 5. 미확인 사항
 
-- 사용할 Bedrock 경유 Claude 모델 ID, 리전, 계정 내 모델 접근 허용 여부.
+> 모델 ID와 단계별 모델 분리는 [requirements.md](../output/requirements.md) NFR-4, Langfuse 호스팅은 NFR-5에서 정했다. 아래는 작성 당시 기록이다.
+
+- 사용할 Bedrock 모델 ID, 리전, 계정 내 모델 접근 허용 여부.
 - 단계별 모델 분리 여부(예: 생성은 저가 모델, 검증은 고성능 모델). 파일럿 비용 측정 후 결정한다.
 - Langfuse 호스팅 방식(클라우드 또는 자체 호스팅). 환경 제약에 따라 정한다.

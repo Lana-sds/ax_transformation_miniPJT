@@ -45,6 +45,9 @@ logs/
 # --- Claude Code local settings ---
 .claude/settings.local.json
 
+# --- Ouroboros runtime cache ---
+.ouroboros/
+
 # --- OS / editor ---
 .DS_Store
 Thumbs.db

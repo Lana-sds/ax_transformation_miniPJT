@@ -4,6 +4,8 @@
 
 > 같은 주제의 CCA-F 버전은 [candidate_ccaf.md](candidate_ccaf.md)에 있다. 두 버전은 앱 구조가 같고, 출제 설계도, 근거 자료, 검증 방식이 다르다.
 
+> 이 후보가 MVP로 선택됐다(2026-11-04). 범위, 비중, MVP, 열린 질문의 결정은 [requirements.md](../output/requirements.md)를 따른다. 이 문서 본문은 작성 당시 기록이다.
+
 ## 개요
 
 LangChain·LangGraph 공식 문서를 근거로, 삼성SDS AX 교육(7일 과정)에서 정리한 학습 노트와 실습 코드의 범위에 맞춰 LangChain 중심 LLM 개발 지식을 묻는 예상 문제를 매일 10개씩 풀 수 있는 LLM 웹앱을 만든다.

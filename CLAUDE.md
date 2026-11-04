@@ -1,6 +1,6 @@
 # ax_transformation_miniPJT
 
-LLM 학습 문제 풀이 웹앱 과제. 후보 2개(CCA-F, LangChain) 중 선택 진행 중.
+LLM 학습 문제 풀이 웹앱 과제. LangChain 팩을 먼저 만들고 CCA-F 팩은 다음에 붙인다. 요구사항은 `docs/01-requirements/output/requirements.md`를 따른다.
 
 ## 디렉토리
 - `docs/NN-<stage>/`: 단계별 과제 결과물. 단계는 docs/dev-process/skillset-by-lifecycle.md를 따른다.
@@ -10,6 +10,6 @@ LLM 학습 문제 풀이 웹앱 과제. 후보 2개(CCA-F, LangChain) 중 선택
 - 코드는 docs/ 밖에 둔다.
 
 ## 고정 결정
-- 모델 호출은 "Bedrock 경유 Claude"로 쓴다. Anthropic API 직접 호출 안 함.
+- 모델 호출은 AWS Bedrock 경유로 쓴다. Anthropic API 직접 호출 안 함. 사용 가능 모델은 `docs/01-requirements/input/bedrock-model-list.md`를 따른다(Claude, Amazon Nova).
 - 정답·해설 근거는 공식 문서 원문 인용만 인정. 학습 노트는 탐색용.
 - 문제는 영어, 해설은 한국어. 형식: 단일·복수 선택, 단답, 코드 선택.
