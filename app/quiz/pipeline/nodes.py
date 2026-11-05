@@ -3,7 +3,7 @@
 import json
 from typing import Any, TypedDict
 
-from quiz import gates, llm
+from quiz import gates, llm, sandbox_client
 from quiz.pipeline import prompts
 from quiz.pipeline.schemas import SCHEMAS, JudgeVerdict
 
@@ -85,14 +85,42 @@ def generate(state: SlotState, model=None) -> dict[str, Any]:
     return {"question": question, "fail_reasons": [], "tokens": tokens}
 
 
+JUDGE_RULE_FORMATS = ("short", CODE_FORMAT)
+HIDDEN_FROM_JUDGE = ("fetched_at", "doc_url", "lock_hash")
+
+
+def _judge_view(question: dict) -> dict:
+    """Judge에게 보일 문제. 코드형 기대값(`expected`)은 숨긴다. 예측이 기대값을 베끼지 않게 한다."""
+    view = {k: v for k, v in question.items() if k not in HIDDEN_FROM_JUDGE}
+    if view.get("exec_spec"):
+        view["exec_spec"] = [{"choice_id": c["choice_id"], "code": c["code"]} for c in view["exec_spec"]]
+    return view
+
+
+def merge_variants(accepted: list[str], variants: list[str]) -> list[str]:
+    """Judge가 찾은 단답 변형을 보탠다. 정규화해서 같으면 넣지 않는다. 합쳐서 최대 5개다(GR-3)."""
+    out = list(accepted)
+    seen = {gates.normalize_short_answer(a) for a in out}
+    for v in variants:
+        key = gates.normalize_short_answer(v)
+        if len(out) >= gates.MAX_ACCEPTED_ANSWERS:
+            break
+        if key and key not in seen:
+            out.append(v.strip())
+            seen.add(key)
+    return out
+
+
 def judge(state: SlotState, model=None) -> dict[str, Any]:
     question = state.get("question")
     if question is None:
         return {"judge": None}
+    fmt = state["slot"]["format"]
     snapshots = state["snapshots"]
     prompt = prompts.render(
         "judge",
-        question=json.dumps(question, ensure_ascii=False, indent=2),
+        question=json.dumps(_judge_view(question), ensure_ascii=False, indent=2),
+        format_rules=prompts.load(f"judge/{fmt}").strip() if fmt in JUDGE_RULE_FORMATS else "",
         page=", ".join(snapshots), document=_documents(snapshots),
     )
     model = model or llm.judge_model()
@@ -103,7 +131,36 @@ def judge(state: SlotState, model=None) -> dict[str, Any]:
         return {"judge": None, "fail_reasons": fails + ["judge_fail:schema_invalid"], "tokens": tokens}
     verdict = out["parsed"].model_dump()
     fails += [f"judge_fail:{item}" for item in JUDGE_ITEMS if not verdict[item]]
-    return {"judge": verdict, "fail_reasons": fails, "tokens": tokens}
+    result = {"judge": verdict, "fail_reasons": fails, "tokens": tokens}
+    if fmt == "short" and verdict["missing_variants"]:
+        accepted = merge_variants(question.get("accepted_answers") or [], verdict["missing_variants"])
+        result["question"] = {**question, "accepted_answers": accepted}
+    return result
+
+
+EXEC_FAIL_ORDER = ("version_conflict", "judge_exec_mismatch")
+
+
+def execute(state: SlotState, run=None) -> dict[str, Any]:
+    """코드형 보기마다 샌드박스에서 실행하고 Judge 예측, 문서 기준 기대값과 비교한다(8.2)."""
+    question = state.get("question")
+    if question is None or state["slot"]["format"] != CODE_FORMAT:
+        return {}
+    run = run or sandbox_client.run
+    preds = {p["choice_id"]: p for p in (state.get("judge") or {}).get("exec_predictions") or []}
+    results, found = [], set()
+    for case in question.get("exec_spec") or []:
+        actual = run(case["code"])
+        results.append({"choice_id": case["choice_id"], **actual})
+        if (reason := sandbox_client.compare(actual, case["expected"], preds.get(case["choice_id"]))):
+            found.add(reason)
+    fails = [r for r in EXEC_FAIL_ORDER if r in found]
+    return {
+        "question": {**question, "lock_hash": sandbox_client.lock_hash()},
+        "exec_result": results,
+        "exec_match": int(not fails),
+        "fail_reasons": list(state.get("fail_reasons", [])) + fails,
+    }
 
 
 def run_gates(state: SlotState) -> dict[str, Any]:

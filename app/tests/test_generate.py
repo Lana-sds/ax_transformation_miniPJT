@@ -1,9 +1,9 @@
 """generate 노드 4형식(T2.1, design.md 6.1). 모델은 가짜로 바꾼다. Bedrock을 부르지 않는다."""
 
 import pytest
-from langchain_core.messages import AIMessage
 from pydantic import ValidationError
 
+from llm_fakes import FakeModel
 from quiz.pipeline import nodes, schemas
 
 PAGE = "/oss/python/langgraph/graph-api"
@@ -90,30 +90,6 @@ def test_cca_f_tag_is_closed_set():
 
 
 # --- 노드 ---
-
-class FakeStructured:
-    def __init__(self, parent, schema):
-        self.parent, self.schema = parent, schema
-
-    def invoke(self, prompt):
-        self.parent.prompts.append(prompt)
-        self.parent.schemas.append(self.schema)
-        raw = AIMessage(content="", usage_metadata={"input_tokens": 100, "output_tokens": 20, "total_tokens": 120})
-        if self.parent.payload is None:
-            return {"raw": raw, "parsed": None, "parsing_error": ValueError("bad")}
-        return {"raw": raw, "parsed": self.schema.model_validate(self.parent.payload), "parsing_error": None}
-
-
-class FakeModel:
-    def __init__(self, payload):
-        self.payload = payload
-        self.prompts: list[str] = []
-        self.schemas: list[type] = []
-
-    def with_structured_output(self, schema, include_raw=False):
-        assert include_raw
-        return FakeStructured(self, schema)
-
 
 def state(fmt: str, near: bool = False, pages=(PAGE, PAGE2)) -> dict:
     return {

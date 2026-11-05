@@ -129,10 +129,23 @@ SCHEMAS: dict[str, type[_Common]] = {
 }
 
 
+class ExecPrediction(BaseModel):
+    choice_id: str = Field(description="The choice whose program you predict")
+    ok: bool = Field(description="True if the program finishes without an uncaught exception")
+    stdout: str = Field(description="Exact text the program prints, including the trailing newline of print()")
+    error_type: str | None = Field(description="Class name of the uncaught exception, or null if ok")
+
+
 class JudgeVerdict(BaseModel):
-    answer_key_correct: bool = Field(description="The answer key is the only correct choice")
+    answer_key_correct: bool = Field(description="The answer key is exactly the set of correct choices")
     quote_supports_answer: bool = Field(description="The quotes support the answer key")
     distractors_wrong: bool = Field(description="Every other choice is actually wrong per the document")
     mapping_faithful: bool = Field(description="Every segment ko neither omits nor adds meaning to en")
     verdict: Literal["pass", "fail"]
     reasons: list[str] = Field(description="Short English reasons for any failed item; empty if pass")
+    missing_variants: list[str] = Field(
+        default_factory=list,
+        description="Format short only: correct spellings of the answer missing from accepted_answers; else empty")
+    exec_predictions: list[ExecPrediction] = Field(
+        default_factory=list,
+        description="Format code only: one prediction per choice program in exec_spec; else empty")
