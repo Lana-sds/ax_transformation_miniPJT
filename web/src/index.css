@@ -87,6 +87,47 @@ button:disabled {
   background: #ddf4ff;
 }
 
+.choices label input {
+  margin-right: 6px;
+}
+
+.select-count {
+  font-weight: 600;
+  margin: 8px 0;
+}
+
+.code-block {
+  margin: 6px 0 0;
+  padding: 10px 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.short-answer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.short-answer input {
+  font: inherit;
+  font-family: ui-monospace, Consolas, monospace;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  max-width: 420px;
+}
+
+.short-answer input:focus {
+  outline: 2px solid var(--accent);
+  border-color: var(--accent);
+}
+
 .result {
   margin-top: 16px;
   padding: 16px;
