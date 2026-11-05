@@ -101,6 +101,14 @@ def upsert_verification(conn, qid: str, attempt_no: int, state: dict) -> None:
     )
 
 
+def batch_slots(conn, batch_id: str) -> list[dict]:
+    rows = conn.execute(
+        """SELECT s.slot_no, s.bucket, s.topic, s.format, s.question_type, s.question_id, q.status
+           FROM batch_slots s LEFT JOIN questions q ON q.question_id = s.question_id
+           WHERE s.batch_id = ? ORDER BY s.slot_no""", (batch_id,)).fetchall()
+    return [dict(r) for r in rows]
+
+
 def passed_in_bucket(conn, bucket: str, exclude_qid: str | None = None) -> list[dict]:
     """dedupe 비교 대상: 같은 버킷의 passed 문제(본문, 인용)."""
     rows = conn.execute(
@@ -114,7 +122,8 @@ def passed_in_bucket(conn, bucket: str, exclude_qid: str | None = None) -> list[
     return out
 
 
-def finish_batch(conn, batch_id: str) -> None:
+def finish_batch(conn, batch_id: str, done: bool = True) -> None:
+    """토큰 합계를 시도 행에서 다시 센다. 모든 슬롯이 끝났을 때만 `finished_at`을 채운다."""
     conn.execute(
         """UPDATE batches SET finished_at = ?,
                input_tokens = (SELECT COALESCE(SUM(v.input_tokens), 0) FROM verification_results v
@@ -122,5 +131,5 @@ def finish_batch(conn, batch_id: str) -> None:
                output_tokens = (SELECT COALESCE(SUM(v.output_tokens), 0) FROM verification_results v
                                 JOIN questions q ON q.question_id = v.question_id WHERE q.batch_id = ?)
            WHERE batch_id = ?""",
-        (now(), batch_id, batch_id, batch_id),
+        (now() if done else None, batch_id, batch_id, batch_id),
     )

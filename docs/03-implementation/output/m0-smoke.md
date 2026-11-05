@@ -24,7 +24,7 @@
 | 0 | `rm ../data/quiz.db` | 빈 DB에서 시작한다 |
 | 1 | `uv run quiz migrate` | `applied=[1] schema_version=1` |
 | 2 | (스냅샷이 없을 때만) `MSYS_NO_PATHCONV=1 uv run quiz snapshot fetch /oss/python/langgraph/graph-api` | `sha256=cd6c0535...`가 `packs/langchain/allowlist.yaml` 값과 같다 |
-| 3 | `uv run quiz generate --count 1` | `<question_id> passed []`. `dropped`이면 다시 돌린다 |
+| 3 | `uv run quiz generate --plan pool --count 1` | `<question_id> passed`. `dropped`이면 다시 돌린다. pool 계획의 슬롯 1(rag 단답)만 돈다 |
 | 4 | `uv run quiz pool freeze` | `pool_snapshot_id=ps_...` |
 | 5 | `uv run uvicorn quiz.server:app --port 8000` | `Application startup complete` |
 | 6 | `web/`에서 `npm install`(처음 한 번), `npm run dev` | `http://localhost:5173` |

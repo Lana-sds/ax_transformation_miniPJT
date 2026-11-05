@@ -1,22 +1,29 @@
 """생성 배치 실행(design.md 6.2).
 
-M0 임시: 슬롯 계획은 허용 목록 첫 행에서 단일 선택 슬롯을 만든다. T2.7(슬롯 계획, 재개)에서 바꾼다.
+- 시작할 때 슬롯 목록을 `batch_slots`에 먼저 쓴다. `pilot`은 버킷당 1슬롯(6), `pool`은 60슬롯이다.
+- 슬롯 사이 동시 실행은 2개다(8.1). 슬롯 하나가 예외로 멈춰도 나머지는 돈다.
+- 모든 슬롯이 `passed`·`dropped`가 되어야 `finished_at`을 채운다.
+- `--resume <batch_id>`는 `batch_slots`에서 `passed`·`dropped`가 아닌 슬롯만 처음부터 다시 돈다.
+  슬롯의 근거 페이지는 허용 목록에서 다시 만든다(`slots.slot_for`).
 """
 
-from quiz import allowlist, db, llm, store
+import traceback
+from concurrent.futures import ThreadPoolExecutor
+
+from quiz import allowlist, db, llm, slots, store
 from quiz.backup import backup
 from quiz.migrate import apply_migrations
 from quiz.pipeline import graph as slot_graph
 from quiz.pipeline.graph import build_graph
 
+WORKERS = 2
+DONE = ("passed", "dropped")
+PER_BUCKET = {"pilot": 1, "pool": 10}
 
-def m0_slots(rows: list[dict], count: int) -> list[dict]:
-    row = next(r for r in rows if r.get("snapshot"))  # M0 임시: 스냅샷이 있는 첫 행. T2.7에서 슬롯 계획으로 바꾼다
-    return [
-        {"bucket": row["bucket"], "topic": row["topic"], "format": "single", "question_type": "concept",
-         "pages": [row["path"]], "near": False, "near_pages": []}
-        for _ in range(count)
-    ]
+
+def make_plan(rows: list[dict], kind: str, count: int | None = None) -> list[dict]:
+    planned = slots.plan_slots(rows, per_bucket=PER_BUCKET[kind])
+    return planned[:count] if count is not None else planned
 
 
 def process_slot(graph, batch_id: str, slot_no: int, slot: dict, snapshots: dict[str, str],
@@ -41,28 +48,55 @@ def process_slot(graph, batch_id: str, slot_no: int, slot: dict, snapshots: dict
     return state
 
 
-def run_batch(count: int) -> str:
+def unfinished(batch_id: str) -> int:
+    with db.connect() as conn:
+        return sum(1 for s in store.batch_slots(conn, batch_id) if s["status"] not in DONE)
+
+
+def run_batch(plan: str | None = None, count: int | None = None, resume: str | None = None,
+              gen_model=None, judge_model=None, gate_fn=None, run=None, workers: int = WORKERS) -> str:
+    """배치를 새로 돌리거나(`plan`) 이어 돈다(`resume`). batch_id를 돌려준다."""
     backup(db.db_path(), "batch")
     rows = allowlist.load_rows()
     allowlist.verify(rows)
     pages = allowlist.allowed_pages(rows)
     by_path = {r["path"]: r for r in rows}
-    slots = m0_slots(rows, count)
-    graph = build_graph()
 
     with db.connect() as conn:
         apply_migrations(conn)
-        batch_id = store.next_batch_id(conn)
-        store.insert_batch(conn, batch_id, "pool", llm.GEN_MODEL, llm.JUDGE_MODEL)
-        store.insert_slots(conn, batch_id, slots)
-    for no, slot in enumerate(slots, start=1):
-        state = process_slot(
-            graph, batch_id, no, slot,
-            {p: allowlist.read_snapshot(by_path[p]) for p in slot["pages"]},
-            {p: by_path[p]["fetched_at"] for p in slot["pages"]},
-            pages,
-        )
-        print(f"{store.question_id(batch_id, no)} {state['status']} {state.get('drop_reason') or ''}")
+        if resume is None:
+            planned = make_plan(rows, plan, count)
+            batch_id = store.next_batch_id(conn)
+            store.insert_batch(conn, batch_id, "pool", llm.GEN_MODEL, llm.JUDGE_MODEL)
+            store.insert_slots(conn, batch_id, planned)
+        else:
+            batch_id = resume
+        todo = [(s["slot_no"], slots.slot_for(rows, s["bucket"], s["topic"], s["format"], s["question_type"]))
+                for s in store.batch_slots(conn, batch_id) if s["status"] not in DONE]
+    print(f"batch_id={batch_id} slots_to_run={len(todo)}", flush=True)
+
+    graph = build_graph(gen_model, judge_model, gate_fn=gate_fn, run=run)
+
+    def one(item):
+        no, slot = item
+        qid = store.question_id(batch_id, no)
+        try:
+            state = process_slot(
+                graph, batch_id, no, slot,
+                {p: allowlist.read_snapshot(by_path[p]) for p in slot["pages"]},
+                {p: by_path[p]["fetched_at"] for p in slot["pages"]},
+                pages,
+            )
+        except Exception as e:  # 한 슬롯 실패로 배치를 멈추지 않는다. 재개 때 다시 돈다
+            print(f"{qid} error {type(e).__name__}: {e}", flush=True)
+            traceback.print_exc()
+            return
+        print(f"{qid} {state['status']} {state.get('drop_reason') or ''} regen={state.get('regen_count')}",
+              flush=True)
+
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        list(ex.map(one, todo))
+
     with db.connect() as conn:
-        store.finish_batch(conn, batch_id)
+        store.finish_batch(conn, batch_id, done=unfinished(batch_id) == 0)
     return batch_id

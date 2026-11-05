@@ -69,13 +69,16 @@ def cmd_allowlist_build(args: argparse.Namespace) -> int:
 
 
 def cmd_generate(args: argparse.Namespace) -> int:
-    from quiz.batch import run_batch
+    from quiz.batch import run_batch, unfinished
     from quiz.env import load_cli_env
 
     load_cli_env()
-    batch_id = run_batch(args.count)
-    print(f"batch_id={batch_id}")
-    return 0
+    batch_id = run_batch(plan=args.plan, count=args.count, resume=args.resume)
+    left = unfinished(batch_id)
+    print(f"batch_id={batch_id} unfinished={left}")
+    if left:
+        print(f"resume: uv run quiz generate --resume {batch_id}")
+    return 1 if left else 0
 
 
 def cmd_pool_freeze(args: argparse.Namespace) -> int:
@@ -89,6 +92,11 @@ def cmd_pool_freeze(args: argparse.Namespace) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
+    return args.func(args)
+
+
+def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="quiz")
     sub = parser.add_subparsers(dest="command", required=True)
 
@@ -108,14 +116,16 @@ def main(argv: list[str] | None = None) -> int:
     build.set_defaults(func=cmd_allowlist_build)
 
     gen = sub.add_parser("generate", help="문제 생성 배치")
-    gen.add_argument("--count", type=int, default=1, help="M0 임시: 단일 선택 슬롯 수")
+    mode = gen.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--plan", choices=["pilot", "pool"], help="pilot: 버킷당 1문제(6), pool: 60슬롯")
+    mode.add_argument("--resume", metavar="BATCH_ID", help="passed·dropped가 아닌 슬롯만 다시 돈다")
+    gen.add_argument("--count", type=int, help="슬롯 계획 앞에서 N개만 쓴다")
     gen.set_defaults(func=cmd_generate)
 
     pool = sub.add_parser("pool", help="풀 스냅샷").add_subparsers(dest="pool_cmd", required=True)
     pool.add_parser("freeze", help="passed 문제로 풀 스냅샷을 만든다").set_defaults(func=cmd_pool_freeze)
 
-    args = parser.parse_args(argv)
-    return args.func(args)
+    return parser
 
 
 if __name__ == "__main__":

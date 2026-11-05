@@ -141,6 +141,29 @@ def _assign_topics(bucket: str, formats: list[str], topics: list[dict]) -> list[
     return out
 
 
+def _slot(t: dict, f: str, qtype: str) -> dict:
+    pages = [p for p in t["pages"] if p not in t["mcp_pages"]] if f == CODE_FORMAT else list(t["pages"])
+    return {
+        "bucket": t["bucket"],
+        "topic_no": t["topic_no"],
+        "topic": t["topic"],
+        "format": f,
+        "question_type": qtype,
+        "status": t["status"],
+        "near": t["status"] == NEAR,
+        "near_pages": [p for p in pages if p in t["near_pages"]],
+        "pages": pages,
+    }
+
+
+def slot_for(rows: list[dict], bucket: str, topic: str, fmt: str, question_type: str) -> dict:
+    """`batch_slots` 한 행(버킷, 주제, 형식, 유형)에서 슬롯 전체를 다시 만든다. 재개(6.2)에 쓴다."""
+    for t in group_topics(rows):
+        if t["bucket"] == bucket and t["topic"] == topic:
+            return _slot(t, fmt, question_type)
+    raise ValueError(f"topic not in allowlist: {bucket} / {topic}")
+
+
 def plan_slots(rows: list[dict], per_bucket: int = 10, formats: list[str] = FORMATS) -> list[dict]:
     """슬롯 목록을 만든다. 같은 입력이면 같은 출력이다. 입력을 바꾸지 않는다.
 
@@ -161,28 +184,14 @@ def plan_slots(rows: list[dict], per_bucket: int = 10, formats: list[str] = FORM
             if f == CODE_FORMAT:
                 qtype = TYPES_CODE[counters["code"] % len(TYPES_CODE)]
                 counters["code"] += 1
-                pages = [p for p in t["pages"] if p not in t["mcp_pages"]]
             elif t["is_mcp"]:
                 qtype = TYPES_MCP[counters["mcp"] % len(TYPES_MCP)]
                 counters["mcp"] += 1
-                pages = list(t["pages"])
             elif f == "short":
                 qtype = TYPES_SHORT[counters["short"] % len(TYPES_SHORT)]
                 counters["short"] += 1
-                pages = list(t["pages"])
             else:
                 qtype = TYPES_OTHER[counters["other"] % len(TYPES_OTHER)]
                 counters["other"] += 1
-                pages = list(t["pages"])
-            slots.append({
-                "bucket": b,
-                "topic_no": t["topic_no"],
-                "topic": t["topic"],
-                "format": f,
-                "question_type": qtype,
-                "status": t["status"],
-                "near": t["status"] == NEAR,
-                "near_pages": [p for p in pages if p in t["near_pages"]],
-                "pages": pages,
-            })
+            slots.append(_slot(t, f, qtype))
     return slots

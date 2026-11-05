@@ -31,7 +31,7 @@ LLM 학습 문제 풀이 웹앱 과제(agent-dev-quiz). LangChain 팩을 먼저 
 | `app/` | `uv run pytest` | 전체 테스트 |
 | `app/` | `uv run quiz migrate` | 스키마 적용 |
 | `app/` | `MSYS_NO_PATHCONV=1 uv run quiz snapshot fetch <page...>` | 문서 스냅샷 수집 |
-| `app/` | `uv run quiz generate --count N` | 문제 생성(Bedrock 호출) |
+| `app/` | `uv run quiz generate --plan pilot\|pool [--count N]`, `--resume <batch_id>` | 문제 생성(Bedrock 호출) |
 | `app/` | `uv run quiz pool freeze` | 풀 스냅샷 |
 | `app/` | `uv run uvicorn quiz.server:app --port 8000` | API 서버 |
 | `web/` | `npm run dev` | `http://localhost:5173`, `/api`를 8000으로 넘긴다 |
