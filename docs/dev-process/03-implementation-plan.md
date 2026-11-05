@@ -3,6 +3,7 @@
 상태: 승인 (2026-11-05). 결정 1은 추천안(superpowers 설치 안 함)으로 확정
 작성일: 2026-11-05
 수정: 2026-11-05, 사용자 지시로 마감을 2026-11-06 17:00으로 당겼다. 상위 문서(requirements 2.0, seed 1.1.0, SERVICE.md 0.4)를 함께 고쳤다. 변형 문제(T7.1)를 면제하고 체크포인트를 2026-11-06 09:00으로 옮겼다. 일정은 [TASKS.md](../../TASKS.md) "일정" 절에 있다
+수정: 2026-11-05, M0 완료 뒤 "병렬 실행" 절을 더했다. 워커는 격리 worktree 서브에이전트로 띄운다. 격리 worktree는 `main`(`37c2535`)에서 갈라지는 것을 확인했다(2026-11-05). 그래서 워커는 시작할 때 코디네이터 HEAD로 맞춘다
 대상: [SERVICE.md](../../SERVICE.md), [design.md](../02-spec-design/output/design.md), [seed.yaml](../02-spec-design/output/seed.yaml), [page-allowlist.md](../02-spec-design/output/page-allowlist.md), [06-output.md](02-spec-design/06-output.md). 2단계 확정 산출물 3개와 PRD 1개
 근거: [skillset-by-lifecycle.md](skillset-by-lifecycle.md)의 "3. 구현" 행. 도구 README는 2026-11-05에 다시 읽지 않았다(미확인). 02 계획의 2026-11-04 확인을 따른다.
 
@@ -66,6 +67,25 @@
 | 8 | M7 축소 대상 | T7.2 확인 통과 또는 면제 기록. T7.1은 면제 | `08-m7.md` |
 
 기록 파일 이름은 템플릿의 `0K-<도구>.md` 대신 묶음 이름을 쓴다. 모든 단계가 같은 방식으로 진행되기 때문이다.
+
+### 병렬 실행
+
+코디네이터는 이 worktree(`.env`, `data/quiz.db`가 있는 곳)의 세션이다. 워커는 격리 worktree 서브에이전트다. 워커는 첫 명령으로 `git reset --hard <코디네이터 HEAD>`를 실행하고 `git log -1`로 확인한다. 줄 안의 작업은 위에서부터 순서대로 한다.
+
+| 단계 | 줄 | 작업 | 소유 파일 | 선행 | 실행 위치 |
+| --- | --- | --- | --- | --- | --- |
+| 2 (M1) | 코디네이터 | T1.4 → T1.5 → T1.6, 그 사이 T1.3 | `app/quiz/cli.py`, `allowlist.py`, `migrate.py`, 새 `backup.py`, `packs/langchain/allowlist.yaml`, `packs/langchain/snapshots/`, `design.md` 1.4 | - | 이 worktree. 스냅샷 수집은 백그라운드로 돌린다 |
+| 2 (M1) | W1 | T1.1 → T1.2 | `app/quiz/gates.py`, `app/quiz/grading.py`, `app/tests/test_gates.py`, `app/tests/test_grading.py` | - | 격리 worktree |
+| 2 (M1) | W2 | T1.7 | 새 `app/quiz/slots.py`, `app/tests/test_slots.py` | - | 격리 worktree. `page-allowlist.md`는 읽기만 한다 |
+| 3 (M2) | 코디네이터 | T2.1 → T2.2 → T2.3 → T2.6 → T2.7 → T2.8 → T2.9 | `app/quiz/pipeline/`, `batch.py`, `cli.py`, `llm.py`, `packs/langchain/prompts/` | - | 이 worktree(Bedrock) |
+| 3 (M2) | W1 | T2.4 | `sandbox/` 전체 | - | 격리 worktree |
+| 3 (M2) | 코디네이터 | T2.5 | `app/quiz/sandbox_client.py`, `pipeline/` 실행 노드 | T2.4 병합 | 이 worktree |
+| 5 (M4) | 코디네이터 | T4.1 | `data/quiz.db` | M3 | 이 worktree. 백그라운드 |
+| 5 (M4) | W1 | T4.2 → T4.3 → T4.4 | `app/quiz/sets.py`, `review.py`, `server.py`, 해당 테스트 | - | 격리 worktree |
+| 5 (M4) | W2 | T4.5 | `web/src/` 형식 컴포넌트 | - | 격리 worktree |
+| 5 (M4) | 코디네이터 | T4.6 | `web/src/` 태그·이어 풀기 | T4.4, T4.5 병합 | 이 worktree |
+
+나머지 단계(M3, M5~M7)는 순서대로 한다. 모델 호출이나 사용자 확인이 중심이기 때문이다.
 
 ## 4. 사전 조건과 위험
 
