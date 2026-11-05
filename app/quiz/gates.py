@@ -34,14 +34,101 @@ def check_segments(segments: list[dict]) -> str | None:
     return None
 
 
-def run_gates(question: dict, snapshots: dict[str, str], allowed_pages: set[str]) -> list[str]:
+MIN_ACCEPTED_ANSWERS = 1
+MAX_ACCEPTED_ANSWERS = 5
+SHORT_FORMAT = "short"
+
+
+def check_accepted_answers(accepted: list[str] | None) -> str | None:
+    """단답 허용 답안은 1~5개다(4.4, D-3). 없으면 0개로 본다."""
+    n = len(accepted or [])
+    if MIN_ACCEPTED_ANSWERS <= n <= MAX_ACCEPTED_ANSWERS:
+        return None
+    return "accepted_answers_count"
+
+
+_TRAILING_CALL = re.compile(r"\(\)$")
+
+
+def normalize_short_answer(text: str) -> str:
+    """단답 채점 정규화(4.4). 채점(grading.py)도 이 함수를 쓴다.
+
+    NFKC, 대소문자 무시(casefold), 백틱 제거, 모든 공백 제거, 끝의 `()` 한 번 제거 순이다.
+    공백을 먼저 지우므로 `add_node ( )`도 `add_node`가 된다.
+    """
+    s = unicodedata.normalize("NFKC", text).casefold().replace("`", "")
+    s = _WS.sub("", s)
+    return _TRAILING_CALL.sub("", s)
+
+
+DUPLICATE_JACCARD = (6, 10)  # 0.6을 정수 비로 둔다. 경계값 비교에서 부동소수 오차를 피한다
+_TOKEN = re.compile(r"\w+")
+
+
+def stem_tokens(stem: str) -> set[str]:
+    """문제 본문 토큰 집합. NFKC, casefold 뒤 단어 문자(`\\w+`)만 토큰으로 본다. 구두점과 백틱은 버린다."""
+    return set(_TOKEN.findall(unicodedata.normalize("NFKC", stem).casefold()))
+
+
+def jaccard(a: set[str], b: set[str]) -> float:
+    union = a | b
+    return len(a & b) / len(union) if union else 0.0
+
+
+def _jaccard_at_least(a: set[str], b: set[str], ratio: tuple[int, int]) -> bool:
+    union = len(a | b)
+    if not union:
+        return False
+    num, den = ratio
+    return len(a & b) * den >= num * union
+
+
+def _quotes(question: dict) -> set[str]:
+    return {normalize(r["quote"]) for r in question.get("grounding_records", []) if r.get("quote")}
+
+
+def find_duplicate(question: dict, others: list[dict]) -> str | None:
+    """유사 중복 대상의 `question_id`를 돌려준다. 없으면 None이다(4.4, D-4).
+
+    others: 같은 버킷의 `passed` 문제. 버킷 거르기는 호출하는 쪽이 한다.
+    (1) 정규화한 quote가 하나라도 같거나 (2) 본문 토큰 Jaccard ≥ 0.6이면 중복이다.
+    같은 `question_id`(재개 때 자기 자신)는 건너뛴다.
+    """
+    qid = question.get("question_id")
+    quotes = _quotes(question)
+    tokens = stem_tokens(question.get("stem_en", ""))
+    for other in others:
+        oid = other.get("question_id")
+        if qid is not None and oid == qid:
+            continue
+        if quotes & _quotes(other):
+            return oid
+        if _jaccard_at_least(tokens, stem_tokens(other.get("stem_en", "")), DUPLICATE_JACCARD):
+            return oid
+    return None
+
+
+def check_duplicate(question: dict, others: list[dict]) -> tuple[str | None, str | None]:
+    """(실패 이유, duplicate_of). 중복이 아니면 (None, None)이다."""
+    dup = find_duplicate(question, others)
+    return ("duplicate", dup) if dup is not None else (None, None)
+
+
+def run_gates(
+    question: dict, snapshots: dict[str, str], allowed_pages: set[str], fmt: str | None = None
+) -> list[str]:
     """실패 이유 목록을 돌려준다. 빈 목록이면 통과다.
 
     snapshots: {page: 스냅샷 원문}
+    fmt: 문제 형식. 없으면 question["format"]을 쓴다. 단답이면 허용 답안 개수를 본다.
+    유사 중복은 다른 문제가 필요하므로 여기서 보지 않는다(dedupe 노드가 check_duplicate를 부른다).
     """
     fails: list[str] = []
     if (f := check_segments(question.get("segments", []))):
         fails.append(f)
+    if (fmt or question.get("format")) == SHORT_FORMAT:
+        if (f := check_accepted_answers(question.get("accepted_answers"))):
+            fails.append(f)
     records = question.get("grounding_records", [])
     if not records:
         fails.append("grounding_missing")
