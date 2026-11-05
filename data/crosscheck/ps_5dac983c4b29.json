@@ -1,0 +1,1371 @@
+{
+  "target": "ps_5dac983c4b29",
+  "kind": "pool",
+  "models": [
+    "us.amazon.nova-pro-v1:0",
+    "openai.gpt-oss-120b-1:0"
+  ],
+  "created_at": "2026-11-05T04:42:01Z",
+  "review_values": [
+    "ok",
+    "key_error",
+    "weak_grounding",
+    "ambiguous"
+  ],
+  "summary": {
+    "questions": 49,
+    "flagged": [
+      "b20261105-03-008",
+      "b20261105-03-010",
+      "b20261105-03-023",
+      "b20261105-03-047"
+    ],
+    "priority_1": [
+      "b20261105-03-010"
+    ],
+    "priority_2": [
+      "b20261105-03-023",
+      "b20261105-03-047"
+    ],
+    "weak_grounding": [],
+    "errors": []
+  },
+  "items": [
+    {
+      "question_id": "b20261105-01-001",
+      "format": "single",
+      "answer_key": [
+        "C"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "C",
+          "supporting_sentence": "Command adds dynamic edges. Static edges from the same node still run. Do not mix Command routing with add_edge from one node.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "C",
+          "supporting_sentence": "`Command` adds dynamic edges. Static edges from the same node still run. Do not mix `Command` routing with `add_edge` from one node.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-01-002",
+      "format": "single",
+      "answer_key": [
+        "B"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "B",
+          "supporting_sentence": "The default reducer replaces the left value with the right. Nodes return partial updates, not the full state.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "B",
+          "supporting_sentence": "The default reducer replaces the left value with the right.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-02-001",
+      "format": "single",
+      "answer_key": [
+        "A"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "* `lazy_load()`: Streams documents lazily, useful for large datasets.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "`lazy_load()`: Streams documents lazily, useful for large datasets.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-02-002",
+      "format": "multi",
+      "answer_key": [
+        "A",
+        "C"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "To clear the field while keeping a merging reducer, wrap the update with `Overwrite`.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "When a node returns a value wrapped with `Overwrite`, the reducer is bypassed and the channel is set directly to that value.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-02-003",
+      "format": "short",
+      "answer_key": [
+        "return_direct"
+      ],
+      "accepted_answers": [
+        "return_direct"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "return_direct",
+          "supporting_sentence": "Set return direct on a tool to short-circuit the agent loop: the agent returns the tool's output to the caller immediately, without sending it back through the model for further processing.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "return_direct",
+          "supporting_sentence": "Set return direct on a tool to short-circuit the agent loop: the agent returns the tool's output to the caller immediately, without sending it back through the model for further processing.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-02-006",
+      "format": "multi",
+      "answer_key": [
+        "A",
+        "C"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "The `Send` API lets you dynamically create worker nodes and send them specific inputs. Each worker has its own state, and all worker outputs are written to a shared state key that is accessible to the orchestrator graph. This gives the orchestrator access to all worker output and allows it to synthesize them into a final output.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "Tasks support status tracking (`'pending'`, `'in_progress'`, `'completed'`) and are persisted in agent state.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-003",
+      "format": "single",
+      "answer_key": [
+        "A"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "Set `add_start_index=True` so each split keeps a `start_index` metadata field for its character offset in the original document.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "Set `add_start_index=True` so each split keeps a `start_index` metadata field for its character offset in the original document.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-005",
+      "format": "single",
+      "answer_key": [
+        "A"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "Several modern open models (E5, BGE, Qwen3-Embedding, GTE) are trained with different text prefixes for queries versus documents. Using the wrong prefix at query time is a common quality regression. When using HuggingFaceEmbeddings, pass prompts explicitly:",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "When using `HuggingFaceEmbeddings`, pass prompts explicitly:",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-006",
+      "format": "multi",
+      "answer_key": [
+        "A",
+        "C"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "Always set the `namespace` parameter to avoid collisions when using different embedding models. - `CacheBackedEmbeddings` does not cache query embeddings by default. To enable this, specify a `query_embedding_cache`.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "`CacheBackedEmbeddings` does not cache query embeddings by default.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-007",
+      "format": "multi",
+      "answer_key": [
+        "A",
+        "B"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, B",
+          "supporting_sentence": "",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A, B",
+          "supporting_sentence": "vector_store.update_documents(ids=[\"1\"], documents=[updated_document])",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-008",
+      "format": "short",
+      "answer_key": [
+        "score_threshold"
+      ],
+      "accepted_answers": [
+        "score_threshold"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "score_threshold",
+          "supporting_sentence": "You can use retrievers in more complex apps such as [retrieval-augmented generation (RAG)](/oss/python/deepagents/retrieval), which combine a question with retrieved context in a prompt for an LLM. To learn more about building such an application, check out the [RAG tutorial](/oss/python/deepagents/rag) tutorial.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": true,
+          "answer": "",
+          "supporting_sentence": "VectorStoreRetriever supports search types of \"similarity\" (default), \"mmr\" (maximum marginal relevance), and \"similarity_score_threshold\". Use the last option to filter documents by similarity score.",
+          "verdict": "unanswerable"
+        }
+      },
+      "priority": null,
+      "flagged": true,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-009",
+      "format": "single",
+      "answer_key": [
+        "A"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "It uses a rank fusion.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "The key in the document's metadata used to determine unique documents. If not specified, page_content is used.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-010",
+      "format": "multi",
+      "answer_key": [
+        "A",
+        "C"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, E",
+          "supporting_sentence": "A. Use `ContextualCompressionRetriever`, which wraps a base retriever and compresses the results, satisfying the broad-fetch-then-filter requirement.\nE. Use `NVIDIARAGRetriever` as the self-hostable reranker because the documentation marks it as self-host only with no cloud offering.",
+          "verdict": "mismatch"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A, E",
+          "supporting_sentence": "Retriever that wraps a base retriever and compresses the results.; `NVIDIARAGRetriever` ... Self-host ✅ ... Cloud ❌",
+          "verdict": "mismatch"
+        }
+      },
+      "priority": 1,
+      "flagged": true,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-013",
+      "format": "single",
+      "answer_key": [
+        "A"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "The routing function `routing_fn` returns `state[\"which\"]`, which is set to \"b\" in the `a` function, so the graph will transition to node `b` after node `a`.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "Here `foo` overwrites. `bar` appends with `operator.add`.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-019",
+      "format": "short",
+      "answer_key": [
+        "state_schema"
+      ],
+      "accepted_answers": [
+        "state_schema",
+        "state_schema=MyState"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "state_schema",
+          "supporting_sentence": "To add custom fields (for example, a `user_id` or a counter), subclass `AgentState` and pass the subclass to `create_agent` via `state_schema=`:",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "state_schema",
+          "supporting_sentence": "To add custom fields (for example, a `user_id` or a counter), subclass `AgentState` and pass the subclass to `create_agent` via `state_schema=`:",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-020",
+      "format": "multi",
+      "answer_key": [
+        "A",
+        "C"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "Safari blocks localhost connections to Studio. To work around this, run the above command with --tunnel to access Studio via a secure tunnel. You'll need to manually add the tunnel URL to allowed origins by clicking Connect to a local server in the Studio UI.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "You'll need to manually add the tunnel URL to allowed origins by clicking **Connect to a local server** in the Studio UI.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-021",
+      "format": "single",
+      "answer_key": [
+        "B"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "B",
+          "supporting_sentence": "When the model calls several tools in one step, all of them execute first. After all tools finish, the agent routes to END only if every tool in that batch has return_direct=True. The final response includes the ToolMessage outputs of every tool that was called in that step.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "B",
+          "supporting_sentence": "If the model calls a `return_direct=True` tool alongside tools that do not have `return_direct=True`, the agent does **not** exit after that step. It routes back to the model with every `ToolMessage` from the batch, so the model can reason over all results.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-023",
+      "format": "multi",
+      "answer_key": [
+        "B",
+        "E"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, E",
+          "supporting_sentence": "Defaults to a callable that:  - Catches tool invocation errors (due to invalid arguments provided by the     model) and returns a descriptive error message - Ignores tool execution errors (they will be re-raised) (default: `_default_handle_tool_errors`)",
+          "verdict": "mismatch"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "B, E",
+          "supporting_sentence": "Defaults to a callable that:  - Catches tool invocation errors (due to invalid arguments provided by the model) and returns a descriptive error message - Ignores tool execution errors (they will be re‑raised) (default: `_default_handle_tool_errors`)",
+          "verdict": "match"
+        }
+      },
+      "priority": 2,
+      "flagged": true,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-025",
+      "format": "single",
+      "answer_key": [
+        "A"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "An `MCPConfig` fleet shares a single negotiated [protocol era](#protocol-eras) across every backend, though: add a legacy-only server and the whole fleet drops to the legacy era.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "An `MCPConfig` fleet shares a single negotiated [protocol era](#protocol-eras) across every backend, though: add a legacy-only server and the whole fleet drops to the legacy era.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-026",
+      "format": "short",
+      "answer_key": [
+        "ClientGroup"
+      ],
+      "accepted_answers": [
+        "ClientGroup",
+        "fastmcp.client.group.ClientGroup",
+        "fastmcp.client.ClientGroup"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "ClientGroup",
+          "supporting_sentence": "To keep each server on its own connection, pass a [`ClientGroup`](https://gofastmcp.com/clients/client-groups). Each member keeps its own negotiated protocol era, authentication, and handlers, and the group routes each call back to the client that advertised the tool.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "ClientGroup",
+          "supporting_sentence": "To keep each server on its own connection, pass a [`ClientGroup`](https://gofastmcp.com/clients/client-groups).",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-027",
+      "format": "single",
+      "answer_key": [
+        "A"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "Use LangChain `@wrap_tool_call` middleware and pass it via `middleware=[...]` to `create_agent`, checking `metadata[\"mcp\"]` on the tool if MCP-specific branching is needed.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "The `langchain-mcp-adapters` interceptor types (`tool_interceptors`, `ToolCallInterceptor`, `MCPToolCallRequest`, `MCPToolCallResult`) are gone. Intercept tool calls agent-side with LangChain `@wrap_tool_call` middleware.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-029",
+      "format": "multi",
+      "answer_key": [
+        "A",
+        "B"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, B",
+          "supporting_sentence": "By default, retry_on uses default_retry_on, which retries on any exception except the following (and their subclasses): ValueError, TypeError, ArithmeticError, ImportError, LookupError, NameError, SyntaxError, RuntimeError, ReferenceError, StopIteration, StopAsyncIteration, OSError.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A, B",
+          "supporting_sentence": "Only after retries are exhausted does the error handler run.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-030",
+      "format": "short",
+      "answer_key": [
+        "node"
+      ],
+      "accepted_answers": [
+        "node",
+        "NodeError.node",
+        "error.node"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "node",
+          "supporting_sentence": "Error handlers receive failure context through a typed `error: NodeError` parameter, injected by type annotation (the same pattern as `runtime: Runtime`):",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "node",
+          "supporting_sentence": "`node`    | `str`           | Name of the node whose execution failed.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-033",
+      "format": "short",
+      "answer_key": [
+        "override"
+      ],
+      "accepted_answers": [
+        "override",
+        "request.override"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "override",
+          "supporting_sentence": "return handler(request.override(system_message=new_system_message))",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "override",
+          "supporting_sentence": "return handler(request.override(system_message=new_system_message))",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-035",
+      "format": "single",
+      "answer_key": [
+        "A"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "**Fix:** Use a persistent checkpointer for production:\n\n* `PostgresSaver`: PostgreSQL with async support\n* `SqliteSaver`: Local file-based storage for development",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "`MemorySaver` and `InMemorySaver` store checkpoints in RAM. When the process restarts, all checkpoints are lost.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-039",
+      "format": "single",
+      "answer_key": [
+        "A"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "`block` : Raise exception when detected",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "block | Raise exception when detected | Error thrown",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-040",
+      "format": "short",
+      "answer_key": [
+        "block"
+      ],
+      "accepted_answers": [
+        "block",
+        "\"block\""
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "block",
+          "supporting_sentence": "`block` | Raise exception when detected | Error thrown",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "block",
+          "supporting_sentence": "# Block API keys - raise error if detected",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-043",
+      "format": "multi",
+      "answer_key": [
+        "A",
+        "B"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, B",
+          "supporting_sentence": "Use the handoffs pattern when you need to enforce sequential constraints (unlock capabilities only after preconditions are met), the agent needs to converse directly with the user across different states, or you're building multi-stage conversational flows. This pattern is particularly valuable for customer support scenarios where you need to collect information in a specific sequence—for example, collecting a warranty ID before processing a refund. Use the single agent with middleware approach rather than multiple agent subgraphs, because it is simpler and avoids managing distinct agent instances.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A, B",
+          "supporting_sentence": "Use the handoffs pattern when you need to enforce sequential constraints (unlock capabilities only after preconditions are met), the agent needs to converse directly with the user across different states, or you're building multi-stage conversational flows. This pattern is particularly valuable for customer support scenarios where you need to collect information in a specific sequence—for example, collecting a warranty ID before processing a refund.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-045",
+      "format": "single",
+      "answer_key": [
+        "A"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "Per-thread subgraphs do not support parallel tool calls. When an LLM has access to a per-thread subagent as a tool, it may try to call that tool multiple times in parallel (for example, asking the fruit expert about apples and bananas simultaneously). This causes checkpoint conflicts because both calls write to the same namespace.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "This causes checkpoint conflicts because both calls write to the same namespace.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-046",
+      "format": "short",
+      "answer_key": [
+        "invoke"
+      ],
+      "accepted_answers": [
+        "invoke",
+        "subgraph.invoke"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "invoke",
+          "supporting_sentence": "response = subgraph.invoke(child_graph_input)",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "invoke",
+          "supporting_sentence": "When the parent graph and subgraph have **different state schemas** (no shared keys), invoke the subgraph inside a node function.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-047",
+      "format": "single",
+      "answer_key": [
+        "A"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "B",
+          "supporting_sentence": "Turn 2: Router LLM call (1) → Milk agent calls buy_coffee (2) → Milk agent responds (3)",
+          "verdict": "mismatch"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "**4 calls again → 8 total**",
+          "verdict": "match"
+        }
+      },
+      "priority": 2,
+      "flagged": true,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-048",
+      "format": "multi",
+      "answer_key": [
+        "A",
+        "C"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "Subagents are stateless by design—each invocation follows the same flow. This provides strong context isolation but repeats the full flow.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "Subagents are **stateless by design**—each invocation follows the same flow.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-049",
+      "format": "multi",
+      "answer_key": [
+        "A",
+        "D"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, D",
+          "supporting_sentence": "The `subset` mode ensures the agent did not call any tools beyond those in the reference, and the `create_trajectory_llm_as_judge` function with `TRAJECTORY_ACCURACY_PROMPT` can score the final synthesized answer without requiring a reference trajectory.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A, D",
+          "supporting_sentence": "The `subset` mode ensures the agent did not call any tools beyond those in the reference.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-053",
+      "format": "short",
+      "answer_key": [
+        "checkpointer"
+      ],
+      "accepted_answers": [
+        "checkpointer"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "checkpointer",
+          "supporting_sentence": "To add short-term memory (thread-level persistence) to an agent, you need to specify a checkpointer when creating an agent.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "checkpointer",
+          "supporting_sentence": "To add short-term memory (thread-level persistence) to an agent, you need to specify a `checkpointer` when creating an agent.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-057",
+      "format": "multi",
+      "answer_key": [
+        "A",
+        "D"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, D",
+          "supporting_sentence": "The `strict` mode ensures trajectories contain identical messages in the same order with the same tool calls, though it allows for differences in message content. This is useful when you need to enforce a specific sequence of operations, such as requiring a policy lookup before authorizing an action.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A, D",
+          "supporting_sentence": "evaluation = evaluator(outputs=result[\"messages\"], reference_outputs=reference_trajectory)",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-058",
+      "format": "short",
+      "answer_key": [
+        "TRAJECTORY_ACCURACY_PROMPT"
+      ],
+      "accepted_answers": [
+        "TRAJECTORY_ACCURACY_PROMPT"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "TRAJECTORY_ACCURACY_PROMPT",
+          "supporting_sentence": "If you have a reference trajectory, use the prebuilt `TRAJECTORY_ACCURACY_PROMPT_WITH_REFERENCE` prompt:",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "TRAJECTORY_ACCURACY_PROMPT",
+          "supporting_sentence": "evaluator = create_trajectory_llm_as_judge(\n    model=\"openai:gpt-5.4-mini\",\n    prompt=TRAJECTORY_ACCURACY_PROMPT,\n)",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-059",
+      "format": "single",
+      "answer_key": [
+        "A"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "The `--record-mode=once` option records HTTP interactions on the first run and replays them on subsequent runs.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "The `--record-mode=once` option records HTTP interactions on the first run and replays them on subsequent runs.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-03-060",
+      "format": "short",
+      "answer_key": [
+        "pytest-recording"
+      ],
+      "accepted_answers": [
+        "pytest-recording"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "pytest-recording",
+          "supporting_sentence": "The [`pytest-recording`](https://pypi.org/project/pytest-recording/) plugin integrates this with pytest.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "pytest-recording",
+          "supporting_sentence": "The [`pytest-recording`](https://pypi.org/project/pytest-recording/) plugin integrates this with pytest.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-04-003",
+      "format": "multi",
+      "answer_key": [
+        "A",
+        "C"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "When the limit is exceeded, LangGraph raises `GraphRecursionError`.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "Node A sees []\nNode B sees ['A']\nNode A sees ['A', 'B']\nNode B sees ['A', 'B', 'A']\nNode A sees ['A', 'B', 'A', 'B']\nRecursion Error",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-04-006",
+      "format": "short",
+      "answer_key": [
+        "_default_handle_tool_errors"
+      ],
+      "accepted_answers": [
+        "_default_handle_tool_errors"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "_default_handle_tool_errors",
+          "supporting_sentence": "Defaults to a callable that:  - Catches tool invocation errors (due to invalid arguments provided by the     model) and returns a descriptive error message - Ignores tool execution errors (they will be re-raised) (default: `_default_handle_tool_errors`)",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "_default_handle_tool_errors",
+          "supporting_sentence": "Defaults to a callable that:  - Catches tool invocation errors (due to invalid arguments provided by the model) and returns a descriptive error message - Ignores tool execution errors (they will be re-raised) (default: `_default_handle_tool_errors`)",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-04-010",
+      "format": "multi",
+      "answer_key": [
+        "A",
+        "C"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "Do not use `respond` to deny side-effecting tools, because its message is treated as a successful tool result.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "The `message` is required. The model receives it as a successful tool result, so use `reject` to deny a call.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-04-012",
+      "format": "short",
+      "answer_key": [
+        "configurable"
+      ],
+      "accepted_answers": [
+        "configurable"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "configurable",
+          "supporting_sentence": "Pass `thread_id` in `configurable`. The outer `invoke()` or `stream_events()` call must include a `thread_id` so the graph can checkpoint and resume.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "configurable",
+          "supporting_sentence": "Pass `thread_id` in `configurable`.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-04-017",
+      "format": "short",
+      "answer_key": [
+        "wait_for_all_tracers"
+      ],
+      "accepted_answers": [
+        "wait_for_all_tracers",
+        "wait_for_all_tracers()"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "wait_for_all_tracers",
+          "supporting_sentence": "For both languages, LangChain exposes methods to wait for traces to be submitted before your process exits. Below is an example:",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "wait_for_all_tracers",
+          "supporting_sentence": "wait_for_all_tracers()",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-05-007",
+      "format": "short",
+      "answer_key": [
+        "operator.add"
+      ],
+      "accepted_answers": [
+        "operator.add"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "operator.add",
+          "supporting_sentence": "The reducer (operator.add in Python) concatenates these lists, collecting all parallel results into state[\"results\"].",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "operator.add",
+          "supporting_sentence": "The `results` field uses a **reducer** (`operator.add` in Python, a concat function in JS) to collect outputs from parallel agent executions into a single list.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-08-004",
+      "format": "single",
+      "answer_key": [
+        "A"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "You can stack multiple guardrails by adding them to the middleware array. They execute in order, allowing you to build layered protection:",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "ContentFilterMiddleware(banned_keywords=[\"hack\", \"exploit\"]),\n        PIIMiddleware(\"email\", strategy=\"redact\", apply_to_input=True),\n        HumanInTheLoopMiddleware(interrupt_on={\"send_email\": True})",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-09-001",
+      "format": "single",
+      "answer_key": [
+        "B"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "B",
+          "supporting_sentence": "Tenant ID. Required for Chroma Cloud connections. Default is 'default_tenant' for local Chroma servers.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "B",
+          "supporting_sentence": "tenant: Tenant ID. Required for Chroma Cloud connections. Default is 'default_tenant' for local Chroma servers.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-09-004",
+      "format": "short",
+      "answer_key": [
+        "jump_to"
+      ],
+      "accepted_answers": [
+        "jump_to"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "jump_to",
+          "supporting_sentence": "if keyword in content:  # Block execution before any processing  return {  \"messages\": [{  \"role\": \"assistant\",  \"content\": \"I cannot process requests containing inappropriate content. Please rephrase your request.\"  }],  \"jump_to\": \"end\"  }",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "jump_to",
+          "supporting_sentence": "return { \"messages\": [{ \"role\": \"assistant\", \"content\": \"I cannot process requests containing inappropriate content. Please rephrase your request.\" }], \"jump_to\": \"end\" }",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-10-002",
+      "format": "short",
+      "answer_key": [
+        "last to first"
+      ],
+      "accepted_answers": [
+        "last to first",
+        "Last to first",
+        "reverse",
+        "last-to-first",
+        "reverse order"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "reverse order",
+          "supporting_sentence": "**After hooks run in reverse order:**",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "reverse order",
+          "supporting_sentence": "After hooks run in reverse order:",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-13-001",
+      "format": "multi",
+      "answer_key": [
+        "A",
+        "C"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "The built-in field is:\n| Field      | Type                | Description                                                                                                | \n| ---------- | ------------------- | ---------------------------------------------------------------------------------------------------------- | \n| `messages` | `list[BaseMessage]` | The full conversation history for the current thread. Append-only: new messages are added, never replaced. |",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "`messages` | `list[BaseMessage]` | The full conversation history for the current thread. Append-only: new messages are added, never replaced.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    }
+  ]
+}
