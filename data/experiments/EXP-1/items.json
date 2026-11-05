@@ -1,0 +1,2576 @@
+{
+  "seed": 20261105,
+  "items": [
+    {
+      "item_id": "real-03-010",
+      "source": "db",
+      "question_id": "b20261105-03-010",
+      "label": {
+        "origin": "real",
+        "defect_type": "key_error",
+        "expected_items": [
+          "answer_key_correct"
+        ]
+      }
+    },
+    {
+      "item_id": "real-03-008",
+      "source": "db",
+      "question_id": "b20261105-03-008",
+      "label": {
+        "origin": "real",
+        "defect_type": "quote_irrelevant",
+        "expected_items": [
+          "quote_supports_answer"
+        ]
+      }
+    },
+    {
+      "item_id": "real-03-009",
+      "source": "db",
+      "question_id": "b20261105-03-009",
+      "label": {
+        "origin": "real",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ]
+      }
+    },
+    {
+      "item_id": "real-03-021",
+      "source": "db",
+      "question_id": "b20261105-03-021",
+      "label": {
+        "origin": "real",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ]
+      }
+    },
+    {
+      "item_id": "real-03-013",
+      "source": "db",
+      "question_id": "b20261105-03-013",
+      "label": {
+        "origin": "real",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ]
+      }
+    },
+    {
+      "item_id": "real-01-002",
+      "source": "db",
+      "question_id": "b20261105-01-002",
+      "label": {
+        "origin": "real",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ]
+      }
+    },
+    {
+      "item_id": "real-03-040",
+      "source": "db",
+      "question_id": "b20261105-03-040",
+      "label": {
+        "origin": "real",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ]
+      }
+    },
+    {
+      "item_id": "real-05-007",
+      "source": "db",
+      "question_id": "b20261105-05-007",
+      "label": {
+        "origin": "real",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ]
+      }
+    },
+    {
+      "item_id": "real-04-017",
+      "source": "db",
+      "question_id": "b20261105-04-017",
+      "label": {
+        "origin": "real",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ]
+      }
+    },
+    {
+      "item_id": "real-01-001",
+      "source": "db",
+      "question_id": "b20261105-01-001",
+      "label": {
+        "origin": "real",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ]
+      }
+    },
+    {
+      "item_id": "real-03-044",
+      "source": "db",
+      "question_id": "b20261105-03-044",
+      "label": {
+        "origin": "real",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ]
+      }
+    },
+    {
+      "item_id": "real-03-033",
+      "source": "db",
+      "question_id": "b20261105-03-033",
+      "label": {
+        "origin": "real",
+        "defect_type": "quote_irrelevant",
+        "expected_items": [
+          "quote_supports_answer"
+        ]
+      }
+    },
+    {
+      "item_id": "real-05-001",
+      "source": "db",
+      "question_id": "b20261105-05-001",
+      "label": {
+        "origin": "real",
+        "defect_type": "quote_irrelevant",
+        "expected_items": [
+          "quote_supports_answer"
+        ]
+      }
+    },
+    {
+      "item_id": "real-03-059",
+      "source": "db",
+      "question_id": "b20261105-03-059",
+      "label": {
+        "origin": "real",
+        "defect_type": "ambiguous",
+        "expected_items": [
+          "answer_key_correct",
+          "distractors_wrong"
+        ]
+      }
+    },
+    {
+      "item_id": "real-03-056",
+      "source": "db",
+      "question_id": "b20261105-03-056",
+      "label": {
+        "origin": "real",
+        "defect_type": "ambiguous",
+        "expected_items": [
+          "answer_key_correct"
+        ]
+      }
+    },
+    {
+      "item_id": "real-04-009",
+      "source": "db",
+      "question_id": "b20261105-04-009",
+      "label": {
+        "origin": "real",
+        "defect_type": "ambiguous",
+        "expected_items": [
+          "answer_key_correct",
+          "explanation_correct"
+        ]
+      }
+    },
+    {
+      "item_id": "real-03-060",
+      "source": "db",
+      "question_id": "b20261105-03-060",
+      "label": {
+        "origin": "real",
+        "defect_type": "ambiguous",
+        "expected_items": [
+          "answer_key_correct"
+        ]
+      }
+    },
+    {
+      "item_id": "real-03-023",
+      "source": "db",
+      "question_id": "b20261105-03-023",
+      "label": {
+        "origin": "real",
+        "defect_type": "mapping",
+        "expected_items": [
+          "mapping_faithful"
+        ]
+      }
+    },
+    {
+      "item_id": "norm-03-039",
+      "source": "db",
+      "question_id": "b20261105-03-039",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "audit_clean"
+      }
+    },
+    {
+      "item_id": "norm-02-004",
+      "source": "db",
+      "question_id": "b20261105-02-004",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "audit_clean"
+      }
+    },
+    {
+      "item_id": "norm-04-012",
+      "source": "db",
+      "question_id": "b20261105-04-012",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "audit_clean"
+      }
+    },
+    {
+      "item_id": "norm-02-001",
+      "source": "db",
+      "question_id": "b20261105-02-001",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-02-002",
+      "source": "db",
+      "question_id": "b20261105-02-002",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-02-003",
+      "source": "db",
+      "question_id": "b20261105-02-003",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-02-006",
+      "source": "db",
+      "question_id": "b20261105-02-006",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-03-003",
+      "source": "db",
+      "question_id": "b20261105-03-003",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-03-005",
+      "source": "db",
+      "question_id": "b20261105-03-005",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-03-006",
+      "source": "db",
+      "question_id": "b20261105-03-006",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-03-007",
+      "source": "db",
+      "question_id": "b20261105-03-007",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-03-019",
+      "source": "db",
+      "question_id": "b20261105-03-019",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-03-020",
+      "source": "db",
+      "question_id": "b20261105-03-020",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-03-025",
+      "source": "db",
+      "question_id": "b20261105-03-025",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-03-026",
+      "source": "db",
+      "question_id": "b20261105-03-026",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-03-027",
+      "source": "db",
+      "question_id": "b20261105-03-027",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-03-029",
+      "source": "db",
+      "question_id": "b20261105-03-029",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-03-030",
+      "source": "db",
+      "question_id": "b20261105-03-030",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-03-035",
+      "source": "db",
+      "question_id": "b20261105-03-035",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-03-043",
+      "source": "db",
+      "question_id": "b20261105-03-043",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-03-046",
+      "source": "db",
+      "question_id": "b20261105-03-046",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-03-049",
+      "source": "db",
+      "question_id": "b20261105-03-049",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-03-053",
+      "source": "db",
+      "question_id": "b20261105-03-053",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-03-057",
+      "source": "db",
+      "question_id": "b20261105-03-057",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-03-058",
+      "source": "db",
+      "question_id": "b20261105-03-058",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-04-003",
+      "source": "db",
+      "question_id": "b20261105-04-003",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-04-006",
+      "source": "db",
+      "question_id": "b20261105-04-006",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-04-010",
+      "source": "db",
+      "question_id": "b20261105-04-010",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-08-004",
+      "source": "db",
+      "question_id": "b20261105-08-004",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-09-001",
+      "source": "db",
+      "question_id": "b20261105-09-001",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-09-004",
+      "source": "db",
+      "question_id": "b20261105-09-004",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-10-002",
+      "source": "db",
+      "question_id": "b20261105-10-002",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-13-001",
+      "source": "db",
+      "question_id": "b20261105-13-001",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-14-002",
+      "source": "db",
+      "question_id": "b20261105-14-002",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "norm-15-003",
+      "source": "db",
+      "question_id": "b20261105-15-003",
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      }
+    },
+    {
+      "item_id": "inj-explanation_error-09-001",
+      "source": "inline",
+      "question_id": "b20261105-09-001",
+      "question": {
+        "stem_en": "A developer initializes a `Chroma` vector store to connect to a Chroma Cloud deployment and runs the following code:\n\n```python\nfrom langchain_chroma import Chroma\nfrom langchain_openai import OpenAIEmbeddings\n\nvector_store = Chroma(\n    collection_name=\"prod_docs\",\n    embedding_function=OpenAIEmbeddings(),\n    chroma_cloud_api_key=\"sk-...\",\n)\n```\n\nThe connection is rejected. Which parameter is the most likely missing cause?",
+        "explanation_ko": "A선택지: `persist_directory`는 로컬 파일 시스템에 컬렉션을 저장하기 위한 파라미터로, Chroma Cloud 연결과는 무관합니다. 공식 문서에서 `persist_directory`는 \"Directory to persist the collection\"으로 설명되며, Chroma Cloud 연결에 필수 파라미터로 언급되지 않습니다.\n\nB선택지: 정답입니다. 공식 문서에 따르면 `tenant`와 `database`는 \"Required for Chroma Cloud connections\"라고 명시되어 있습니다. 위 코드에는 두 파라미터가 모두 빠져 있어 Chroma Cloud 연결이 거부될 수 있습니다. `tenant`의 기본값은 로컬 서버용 `'default_tenant'`이며, Chroma Cloud에서는 명시적으로 지정해야 합니다.\n\nC선택지: `persist_directory`는 로컬 파일 시스템에 컬렉션을 저장하기 위한 파라미터로, Chroma Cloud 연결과는 무관합니다. 공식 문서에서 `persist_directory`는 \"Directory to persist the collection\"으로 설명되며, Chroma Cloud 연결에 필수 파라미터로 언급되지 않습니다.\n\nD선택지: `ssl`은 배포된 Chroma 서버와의 SSL 연결 여부를 설정하는 파라미터로 기본값이 `False`입니다. 문서에는 Chroma Cloud 연결을 위한 필수 파라미터로 `ssl`이 언급되지 않으며, `tenant`와 `database`가 필수라고 명시되어 있습니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer initializes a `Chroma` vector store to connect to a Chroma Cloud deployment",
+            "ko": "개발자가 Chroma Cloud 배포에 연결하기 위해 `Chroma` 벡터 스토어를 초기화하고"
+          },
+          {
+            "segment_id": "s2",
+            "en": "and runs the following code:",
+            "ko": "다음 코드를 실행합니다:"
+          },
+          {
+            "segment_id": "s3",
+            "en": "The connection is rejected.",
+            "ko": "연결이 거부되었습니다."
+          },
+          {
+            "segment_id": "s4",
+            "en": "Which parameter is the most likely missing cause?",
+            "ko": "가장 가능성이 높은 누락 원인 파라미터는 무엇입니까?"
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "https://reference.langchain.com/python/langchain-chroma/vectorstores/Chroma",
+            "quote": "tenant: Tenant ID. Required for Chroma Cloud connections. Default is 'default_tenant' for local Chroma servers.\ndatabase: Database name. Required for Chroma Cloud connections. Default is 'default_database'.",
+            "answer_basis": "`tenant`와 `database` 모두 Chroma Cloud 연결에 필수(Required)라고 명시되어 있으며, 코드에서 두 파라미터가 모두 생략되어 있으므로 연결 거부의 원인입니다."
+          }
+        ],
+        "cca_f_tag": "n/a",
+        "choices": [
+          {
+            "id": "A",
+            "text": "`persist_directory` is not set, which is required to authenticate with Chroma Cloud."
+          },
+          {
+            "id": "B",
+            "text": "`tenant` and `database` are not set, and both are required for Chroma Cloud connections."
+          },
+          {
+            "id": "C",
+            "text": "`host` is not set, which is always required when using a remote Chroma deployment."
+          },
+          {
+            "id": "D",
+            "text": "`ssl` defaults to `False`, and Chroma Cloud rejects connections that do not use SSL."
+          }
+        ],
+        "answer_key": [
+          "B"
+        ],
+        "format": "single"
+      },
+      "slot": {
+        "bucket": "rag",
+        "topic": "Chroma",
+        "format": "single",
+        "question_type": "concept"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ],
+        "source_question_id": "b20261105-09-001",
+        "injection": "보기 C 해설 본문을 보기 A 해설 본문으로 바꿨다"
+      }
+    },
+    {
+      "item_id": "inj-explanation_error-03-025",
+      "source": "inline",
+      "question_id": "b20261105-03-025",
+      "question": {
+        "stem_en": "A developer is building a LangChain agent that needs tools from two MCP servers. Server A is a legacy server (pre-`2026-07-28` protocol) and Server B supports the modern protocol. She writes the following code:\n\n```python\nfrom langchain.mcp import MCPAdapter\n\nCONFIG = {\n    \"mcpServers\": {\n        \"server_a\": {\"url\": \"http://legacy.example.com/mcp\"},\n        \"server_b\": {\"url\": \"http://modern.example.com/mcp\"},\n    }\n}\n\nasync with MCPAdapter(CONFIG) as adapter:\n    tools = await adapter.list_tools()\n```\n\nWhat is the consequence of passing both servers as a single `MCPConfig` fleet instead of using a `ClientGroup` with separate clients?",
+        "explanation_ko": "A. 정답입니다. 문서에서 \"Passing both servers as a single `MCPConfig` fleet instead would negotiate one era for everything the fleet holds, dropping every server to the oldest era any member requires.\"라고 명시합니다. 즉, MCPConfig fleet은 모든 멤버에 대해 하나의 protocol era를 협상하므로, legacy 서버가 포함되면 모든 서버가 legacy era로 내려갑니다.\n\nB. 틀렸습니다. MCPConfig를 사용할 때 툴 이름 충돌이 발생하지 않습니다. 문서에 따르면 \"FastMCP prefixes every tool with its config key, so two servers exposing the same tool name stay distinguishable\"라고 설명되어 있으므로, 툴 이름 충돌은 MCPConfig 방식의 문제가 아닙니다.\n\nC. 틀렸습니다. MCPConfig와 ClientGroup 모두 툴에 서버 이름 접두어를 붙입니다. 문서에서 ClientGroup에 대해 \"it namespaces tools the same way so identical tool names across servers never collide\"라고 설명하며, MCPConfig도 동일하게 config key로 prefix를 붙입니다. 따라서 이 선택지는 MCPConfig의 실제 문제를 잘못 설명합니다.\n\nD. 틀렸습니다. MCPConfig와 ClientGroup 모두 툴에 서버 이름 접두어를 붙입니다. 문서에서 ClientGroup에 대해 \"it namespaces tools the same way so identical tool names across servers never collide\"라고 설명하며, MCPConfig도 동일하게 config key로 prefix를 붙입니다. 따라서 이 선택지는 MCPConfig의 실제 문제를 잘못 설명합니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer is building a LangChain agent that needs tools from two MCP servers.",
+            "ko": "한 개발자가 두 MCP 서버의 툴이 필요한 LangChain 에이전트를 구축하고 있습니다."
+          },
+          {
+            "segment_id": "s2",
+            "en": "Server A is a legacy server (pre-`2026-07-28` protocol) and Server B supports the modern protocol.",
+            "ko": "서버 A는 legacy 서버(`2026-07-28` 이전 프로토콜)이고, 서버 B는 modern 프로토콜을 지원합니다."
+          },
+          {
+            "segment_id": "s3",
+            "en": "She writes the following code:",
+            "ko": "그녀는 다음 코드를 작성합니다:"
+          },
+          {
+            "segment_id": "s4",
+            "en": "What is the consequence of passing both servers as a single `MCPConfig` fleet instead of using a `ClientGroup` with separate clients?",
+            "ko": "별도의 클라이언트를 사용하는 `ClientGroup` 대신 두 서버를 단일 `MCPConfig` fleet으로 전달했을 때 어떤 결과가 발생합니까?"
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/langchain/mcp/connections",
+            "quote": "Passing both servers as a single `MCPConfig` fleet instead would negotiate one era for everything the fleet holds, dropping every server to the oldest era any member requires.",
+            "answer_basis": "MCPConfig fleet은 모든 서버에 대해 단일 protocol era를 협상하므로, legacy 서버가 포함되면 전체 fleet이 legacy era로 강제됩니다. 이것이 MCPConfig와 ClientGroup의 핵심 차이점입니다."
+          },
+          {
+            "page": "/oss/python/langchain/mcp/connections",
+            "quote": "Each member keeps its own negotiated protocol era, authentication, and handlers, and the group routes each call back to the client that advertised the tool. This is what lets a legacy and a modern server run side by side",
+            "answer_basis": "ClientGroup을 사용해야 각 서버가 자체 protocol era를 유지할 수 있으며, legacy와 modern 서버가 동시에 실행될 수 있다는 것을 뒷받침합니다."
+          }
+        ],
+        "cca_f_tag": "tool_mcp",
+        "choices": [
+          {
+            "id": "A",
+            "text": "The entire fleet negotiates a single protocol era, so both servers are forced down to the legacy era that Server A requires."
+          },
+          {
+            "id": "B",
+            "text": "Tools from the two servers will have name collisions because `MCPConfig` does not prefix tool names with the config key."
+          },
+          {
+            "id": "C",
+            "text": "The adapter silently ignores one of the two servers, because `MCPConfig` only connects to the first entry in `mcpServers`."
+          },
+          {
+            "id": "D",
+            "text": "The tools are returned without any server-name prefix, making it impossible to distinguish which server each tool came from."
+          }
+        ],
+        "answer_key": [
+          "A"
+        ],
+        "format": "single"
+      },
+      "slot": {
+        "bucket": "tool_mcp",
+        "topic": "MCP 클라이언트",
+        "format": "single",
+        "question_type": "concept"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ],
+        "source_question_id": "b20261105-03-025",
+        "injection": "보기 C 해설 본문을 보기 D 해설 본문으로 바꿨다"
+      }
+    },
+    {
+      "item_id": "inj-explanation_error-03-007",
+      "source": "inline",
+      "question_id": "b20261105-03-007",
+      "question": {
+        "stem_en": "A developer initializes a Chroma vector store, adds three documents, then runs the following code. Select TWO statements that correctly describe what this code does and returns.\n\n```python\nfrom langchain_chroma import Chroma\nfrom langchain_core.documents import Document\n\nvector_store = Chroma(\n    collection_name=\"demo\",\n    embedding_function=embeddings,\n    persist_directory=\"./chroma_db\",\n)\n\ndocument_1 = Document(page_content=\"foo\", metadata={\"baz\": \"bar\"})\ndocument_2 = Document(page_content=\"thud\", metadata={\"bar\": \"baz\"})\ndocument_3 = Document(page_content=\"i will be deleted :(\")\n\nvector_store.add_documents(documents=[document_1, document_2, document_3], ids=[\"1\", \"2\", \"3\"])\n\n# Step A\nvector_store.update_documents(ids=[\"1\"], documents=[Document(page_content=\"qux\", metadata={\"bar\": \"baz\"})])\n\n# Step B\nvector_store.delete(ids=[\"3\"])\n\n# Step C\nresults = vector_store.similarity_search(query=\"thud\", k=1, filter={\"baz\": \"bar\"})\nfor doc in results:\n    print(f\"* {doc.page_content} [{doc.metadata}]\")\n```",
+        "explanation_ko": "A. `update_documents(ids=[\"1\"], documents=[...])` 호출은 id \"1\"로 저장된 문서를 새로운 `page_content=\"qux\"`, `metadata={\"bar\": \"baz\"}`로 교체합니다. 공식 레퍼런스 문서의 **Update Documents** 예제에서 `update_documents`가 정확히 이 방식으로 동작함을 보여줍니다. 따라서 A는 **정답**입니다.\n\nB. `delete(ids=[\"3\"])`는 id \"3\"에 해당하는 문서(\"i will be deleted :(\")를 컬렉션에서 제거합니다. 레퍼런스 문서의 **Delete Documents** 섹션에 `vector_store.delete(ids=[\"3\"])`가 그 역할임을 명시하고 있습니다. 따라서 B는 **정답**입니다.\n\nC. `create_collection_if_not_exists`의 기본값은 `True`이므로, `persist_directory`가 지정되어 있어도 컬렉션이 존재하지 않으면 자동으로 생성됩니다. 이 파라미터가 `False`여야만 컬렉션이 생성되지 않는다는 주장은 틀렸습니다. 레퍼런스 문서에서 `create_collection_if_not_exists`의 기본값이 `True`임을 명시합니다. 따라서 **오답**입니다.\n\nD. `as_retriever(search_type=\"mmr\", ...)`는 Chroma가 지원하는 유효한 사용 방법이지만, 이 코드 블록에는 `as_retriever` 호출이 없습니다. 따라서 이 코드에서 일어나는 일과 무관하므로 **오답**입니다.\n\nE. `create_collection_if_not_exists`의 기본값은 `True`이므로, `persist_directory`가 지정되어 있어도 컬렉션이 존재하지 않으면 자동으로 생성됩니다. 이 파라미터가 `False`여야만 컬렉션이 생성되지 않는다는 주장은 틀렸습니다. 레퍼런스 문서에서 `create_collection_if_not_exists`의 기본값이 `True`임을 명시합니다. 따라서 **오답**입니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer initializes a Chroma vector store, adds three documents, then runs the following code.",
+            "ko": "개발자가 Chroma 벡터 스토어를 초기화하고 세 개의 문서를 추가한 다음, 아래 코드를 실행합니다."
+          },
+          {
+            "segment_id": "s2",
+            "en": "Select TWO statements that correctly describe what this code does and returns.",
+            "ko": "이 코드가 수행하는 동작과 반환 결과를 올바르게 설명하는 두 가지 항목을 선택하세요."
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "https://reference.langchain.com/python/langchain-chroma/vectorstores/Chroma",
+            "quote": "**Update Documents:**\n\n```python\nupdated_document = Document(\n    page_content=\"qux\",\n    metadata={\"bar\": \"baz\"},\n)\n\nvector_store.update_documents(ids=[\"1\"], documents=[updated_document])\n```",
+            "answer_basis": "Step A에서 `update_documents(ids=[\"1\"], documents=[updated_document])`가 id \"1\" 문서를 새로운 내용으로 교체함을 보여주는 공식 예제로, 선택지 A가 정답임을 뒷받침합니다."
+          },
+          {
+            "page": "https://reference.langchain.com/python/langchain-chroma/vectorstores/Chroma",
+            "quote": "**Delete Documents:**\n\n```python\nvector_store.delete(ids=[\"3\"])\n```",
+            "answer_basis": "Step B에서 `delete(ids=[\"3\"])`가 id \"3\" 문서를 삭제함을 보여주는 공식 예제로, 선택지 B가 정답임을 뒷받침합니다."
+          },
+          {
+            "page": "https://reference.langchain.com/python/langchain-chroma/vectorstores/Chroma",
+            "quote": "**Search with filter:**\n\n```python\nresults = vector_store.similarity_search(\n    query=\"thud\", k=1, filter={\"baz\": \"bar\"}\n)\nfor doc in results:\n    print(f\"* {doc.page_content} [{doc.metadata}]\")\n```\n```python\n*foo[{\"baz\": \"bar\"}]\n```",
+            "answer_basis": "`filter={\"baz\": \"bar\"}` 조건의 검색 결과가 \"thud\"가 아닌 \"foo\"를 반환한다는 것을 보여주어, 선택지 C가 오답임을 뒷받침합니다."
+          },
+          {
+            "page": "https://reference.langchain.com/python/langchain-chroma/vectorstores/Chroma",
+            "quote": "| `create_collection_if_not_exists` | `bool \\| None` | No | Whether to create collection     if it doesn't exist. Defaults to `True`. (default: `True`) |",
+            "answer_basis": "`create_collection_if_not_exists`의 기본값이 `True`임을 명시하여, 선택지 E가 오답임을 뒷받침합니다."
+          }
+        ],
+        "cca_f_tag": "context_reliability",
+        "choices": [
+          {
+            "id": "A",
+            "text": "Step A replaces the document stored under id \"1\" with new content \"qux\" and metadata {\"bar\": \"baz\"}, using `update_documents`."
+          },
+          {
+            "id": "B",
+            "text": "Step B removes the document with id \"3\" (\"i will be deleted :(\") from the collection, using `delete`."
+          },
+          {
+            "id": "C",
+            "text": "Step C prints a result whose `page_content` is \"thud\", because `filter={\"baz\": \"bar\"}` selects the document whose metadata has key \"baz\"."
+          },
+          {
+            "id": "D",
+            "text": "The code implicitly uses MMR search because `Chroma` defaults to `search_type=\"mmr\"` when no retriever is explicitly configured."
+          },
+          {
+            "id": "E",
+            "text": "Because `persist_directory` is provided, the `Chroma` constructor will NOT create a new collection automatically; `create_collection_if_not_exists` must be set to `True` explicitly."
+          }
+        ],
+        "answer_key": [
+          "A",
+          "B"
+        ],
+        "select_count": 2,
+        "format": "multi"
+      },
+      "slot": {
+        "bucket": "rag",
+        "topic": "Chroma",
+        "format": "multi",
+        "question_type": "code_behavior"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ],
+        "source_question_id": "b20261105-03-007",
+        "injection": "보기 C 해설 본문을 보기 E 해설 본문으로 바꿨다"
+      }
+    },
+    {
+      "item_id": "inj-explanation_error-03-057",
+      "source": "inline",
+      "question_id": "b20261105-03-057",
+      "question": {
+        "stem_en": "A developer writes the following evaluation code and reports that the evaluator always scores trajectories as failures even when the agent calls the right tools. They also notice that when they try to use the evaluator without any reference trajectory at all, they get an error. Select TWO root causes that together explain both problems.\n\n```python\nfrom agentevals.trajectory.match import create_trajectory_match_evaluator\nfrom agentevals.trajectory.llm import create_trajectory_llm_as_judge\n\n# Evaluator A – used for the \"always fails\" complaint\nevaluatorA = create_trajectory_match_evaluator(\n    trajectory_match_mode=\"strict\",\n)\n\nresult = agent.invoke({\"messages\": [HumanMessage(content=\"What's the weather in SF?\")]})\n\nreference_trajectory = [\n    HumanMessage(content=\"What's the weather in SF?\"),\n    AIMessage(content=\"\", tool_calls=[\n        {\"id\": \"call_1\", \"name\": \"get_weather\", \"args\": {\"city\": \"SF\"}}\n    ]),\n    ToolMessage(content=\"It's 75 degrees and sunny in SF.\", tool_call_id=\"call_1\"),\n    AIMessage(content=\"The weather in SF is sunny.\"),\n]\n\nevalA = evaluatorA(\n    outputs=result,          # passing the full agent result dict, not messages\n    reference_outputs=reference_trajectory,\n)\n\n# Evaluator B – used for the \"errors without reference\" complaint\nevaluatorB = create_trajectory_match_evaluator(\n    trajectory_match_mode=\"strict\",\n)\nevalB = evaluatorB(outputs=result[\"messages\"])  # no reference_outputs\n```",
+        "explanation_ko": "**A (정답)**: `create_trajectory_match_evaluator`는 결정론적 비교(deterministic comparison)를 수행하는 도구입니다. 문서의 evaluator 함수 시그니처는 `outputs`로 메시지 리스트를 직접 받도록 정의되어 있습니다. 예제 코드에서 `outputs=result`는 전체 agent 결과 dict을 전달하고 있어 `outputs[\"messages\"]`와 같은 메시지 리스트가 아닙니다. strict 모드는 메시지 구조를 정확히 비교하므로, 잘못된 타입의 입력이 전달되면 올바른 도구 호출을 했더라도 항상 매치 실패 점수가 나옵니다.\n\n**B (오답)**: async 버전이 아닌 동기(sync) 버전을 사용한 것은 오류의 원인이 아닙니다. 문서는 async 지원이 선택적임을 설명하며(\"All agentevals evaluators support Python asyncio. Async versions are available by adding async after create_ in the function name\"), 동기 버전을 사용하는 것 자체는 문제가 되지 않습니다.\n\n**C (오답)**: `create_trajectory_llm_as_judge`는 reference trajectory가 없어도 사용할 수 있습니다. 문서에서 \"Unlike trajectory match evaluators, it doesn't require a reference trajectory\"라고 명시되어 있습니다. 하지만 `evaluatorB`는 `create_trajectory_match_evaluator`를 사용하고 있으므로, 이 설명은 evaluatorB의 오류 원인과 무관합니다.\n\n**D (정답)**: `create_trajectory_match_evaluator`는 결정론적 비교 도구로, reference trajectory가 반드시 필요합니다. 문서의 표에서 trajectory match 방식은 \"You know the expected tool calls\"일 때 사용한다고 명시하며, LLM-as-judge만이 reference trajectory 없이도 동작합니다(\"Unlike trajectory match evaluators, it doesn't require a reference trajectory\"). evaluatorB는 `create_trajectory_match_evaluator`를 쓰면서 `reference_outputs`를 전달하지 않았으므로 오류가 발생합니다.\n\n**E (오답)**: async 버전이 아닌 동기(sync) 버전을 사용한 것은 오류의 원인이 아닙니다. 문서는 async 지원이 선택적임을 설명하며(\"All agentevals evaluators support Python asyncio. Async versions are available by adding async after create_ in the function name\"), 동기 버전을 사용하는 것 자체는 문제가 되지 않습니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer writes the following evaluation code",
+            "ko": "한 개발자가 다음과 같은 평가 코드를 작성하였고"
+          },
+          {
+            "segment_id": "s2",
+            "en": "and reports that the evaluator always scores trajectories as failures even when the agent calls the right tools.",
+            "ko": "에이전트가 올바른 도구를 호출해도 평가자가 항상 실패 점수를 부여한다고 보고합니다."
+          },
+          {
+            "segment_id": "s3",
+            "en": "They also notice that when they try to use the evaluator without any reference trajectory at all, they get an error.",
+            "ko": "또한 reference trajectory 없이 평가자를 사용하려고 하면 오류가 발생한다는 것도 발견합니다."
+          },
+          {
+            "segment_id": "s4",
+            "en": "Select TWO root causes that together explain both problems.",
+            "ko": "두 가지 문제를 함께 설명하는 근본 원인 두 가지를 선택하십시오."
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/langchain/test/evals",
+            "quote": "def evaluator(*, outputs: dict, reference_outputs: dict):\n    output_messages = outputs[\"messages\"]\n    reference_messages = reference_outputs[\"messages\"]\n    score = compare_messages(output_messages, reference_messages)\n    return {\"key\": \"evaluator_score\", \"score\": score}",
+            "answer_basis": "evaluator 함수의 시그니처에서 outputs는 dict이고 실제 메시지는 outputs[\"messages\"]로 접근해야 함을 보여줍니다. evaluatorA는 result 전체를 outputs로 전달하여 messages 리스트 대신 dict이 전달되어 strict 매치가 항상 실패합니다."
+          },
+          {
+            "page": "/oss/python/langchain/test/evals",
+            "quote": "You can use an LLM to evaluate the agent's execution path with the `create_trajectory_llm_as_judge` function. Unlike trajectory match evaluators, it doesn't require a reference trajectory, but one can be provided if available.",
+            "answer_basis": "trajectory match evaluator(create_trajectory_match_evaluator)는 reference trajectory가 필요하다는 것을 'Unlike trajectory match evaluators, it doesn't require a reference trajectory'라는 대조 표현으로 확인할 수 있습니다. evaluatorB는 create_trajectory_match_evaluator를 reference_outputs 없이 호출하므로 오류가 발생합니다."
+          }
+        ],
+        "cca_f_tag": "n/a",
+        "choices": [
+          {
+            "id": "A",
+            "text": "`evaluatorA` passes `outputs=result` (the full agent result dict) instead of `outputs=result[\"messages\"]`, so the strict match compares a dict against the reference message list and always fails."
+          },
+          {
+            "id": "B",
+            "text": "In `strict` mode, differences in `AIMessage` content between the actual and reference trajectories cause a match failure, so the final AIMessage's different text makes `evaluatorA` always score False."
+          },
+          {
+            "id": "C",
+            "text": "`create_trajectory_llm_as_judge` requires a reference trajectory, so `evaluatorB` errors because it was created with `create_trajectory_match_evaluator` instead of the LLM-based function."
+          },
+          {
+            "id": "D",
+            "text": "`create_trajectory_match_evaluator` requires a reference trajectory, unlike `create_trajectory_llm_as_judge`, so calling `evaluatorB` without `reference_outputs` causes an error."
+          },
+          {
+            "id": "E",
+            "text": "Both evaluators are synchronous but the agent's `invoke` is asynchronous, so calling them without `await` and the `create_async_` variants causes runtime failures."
+          }
+        ],
+        "answer_key": [
+          "A",
+          "D"
+        ],
+        "select_count": 2,
+        "format": "multi"
+      },
+      "slot": {
+        "bucket": "ops_quality",
+        "topic": "LLM-as-judge",
+        "format": "multi",
+        "question_type": "error_cause"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ],
+        "source_question_id": "b20261105-03-057",
+        "injection": "보기 B 해설 본문을 보기 E 해설 본문으로 바꿨다"
+      }
+    },
+    {
+      "item_id": "inj-explanation_error-03-035",
+      "source": "inline",
+      "question_id": "b20261105-03-035",
+      "question": {
+        "stem_en": "A team is building a customer-support agent that will serve thousands of concurrent users in production. They write the following setup code:\n\n```python\nfrom langchain.agents import create_agent\nfrom langgraph.checkpoint.memory import InMemorySaver\n\nagent = create_agent(\n    model=\"anthropic:claude-sonnet-5\",\n    tools=[lookup_account],\n    checkpointer=InMemorySaver(),\n)\n```\n\nAfter a weekly server restart, support engineers notice that every conversation history has been lost. Which design change best addresses this problem according to the documentation?",
+        "explanation_ko": "A) 정답입니다. 문서의 `/oss/python/langgraph/persistence` 페이지에서는 \"`MemorySaver` and `InMemorySaver` store checkpoints in RAM. When the process restarts, all checkpoints are lost.\" 라고 명시하고 있으며, 해결책으로 \"Use a persistent checkpointer for production: `PostgresSaver`: PostgreSQL with async support / `SqliteSaver`: Local file-based storage for development\"를 제시합니다. 따라서 `InMemorySaver`를 `PostgresSaver`로 교체하는 것이 문서에서 권장하는 올바른 해결책입니다.\n\nB) 틀렸습니다. `Store`(예: `InMemoryStore`)는 크로스-스레드 장기 메모리용이며, 문서에 따르면 \"long-term, cross-thread memory\"에 사용됩니다. 그러나 `InMemoryStore` 역시 RAM에 저장되므로 재시작 시 데이터가 사라지는 문제를 해결하지 못합니다. 또한 이 상황은 단일 스레드 내 대화 연속성(checkpointer의 역할)의 문제입니다.\n\nC) 틀렸습니다. `Store`(예: `InMemoryStore`)는 크로스-스레드 장기 메모리용이며, 문서에 따르면 \"long-term, cross-thread memory\"에 사용됩니다. 그러나 `InMemoryStore` 역시 RAM에 저장되므로 재시작 시 데이터가 사라지는 문제를 해결하지 못합니다. 또한 이 상황은 단일 스레드 내 대화 연속성(checkpointer의 역할)의 문제입니다.\n\nD) 틀렸습니다. `SummarizationMiddleware`는 문서에서 컨텍스트 윈도우 초과 문제를 해결하기 위한 메시지 요약 전략으로 소개됩니다. 이는 서버 재시작으로 인한 체크포인트 소실 문제와는 전혀 관계가 없습니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A team is building a customer-support agent that will serve thousands of concurrent users in production.",
+            "ko": "한 팀이 프로덕션에서 수천 명의 동시 사용자를 처리할 고객 지원 에이전트를 구축하고 있습니다."
+          },
+          {
+            "segment_id": "s2",
+            "en": "They write the following setup code:",
+            "ko": "팀은 다음과 같은 설정 코드를 작성합니다:"
+          },
+          {
+            "segment_id": "s3",
+            "en": "After a weekly server restart, support engineers notice that every conversation history has been lost.",
+            "ko": "주간 서버 재시작 후, 지원 엔지니어들은 모든 대화 히스토리가 사라졌음을 확인합니다."
+          },
+          {
+            "segment_id": "s4",
+            "en": "Which design change best addresses this problem according to the documentation?",
+            "ko": "문서에 따르면, 이 문제를 가장 잘 해결하는 설계 변경은 무엇입니까?"
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/langgraph/persistence",
+            "quote": "`MemorySaver` and `InMemorySaver` store checkpoints in RAM. When the process restarts, all checkpoints are lost.\n\n**Fix:** Use a persistent checkpointer for production:\n\n* `PostgresSaver`: PostgreSQL with async support\n* `SqliteSaver`: Local file-based storage for development",
+            "answer_basis": "InMemorySaver는 RAM에 체크포인트를 저장하므로 프로세스 재시작 시 모든 체크포인트가 사라집니다. 문서는 프로덕션에서는 PostgresSaver 같은 영속성 체크포인터를 사용하도록 권고합니다."
+          }
+        ],
+        "cca_f_tag": "context_reliability",
+        "choices": [
+          {
+            "id": "A",
+            "text": "Replace `InMemorySaver` with `PostgresSaver` (or another database-backed checkpointer) so checkpoints survive process restarts."
+          },
+          {
+            "id": "B",
+            "text": "Switch to UUID-based `thread_id` values (under 255 characters) so the checkpointer can store and retrieve threads more reliably after a restart."
+          },
+          {
+            "id": "C",
+            "text": "Add an `InMemoryStore` alongside the `InMemorySaver` to enable cross-thread, long-term memory that persists through server restarts."
+          },
+          {
+            "id": "D",
+            "text": "Add `SummarizationMiddleware` to the agent so conversation history is compressed and can be reconstructed after a restart."
+          }
+        ],
+        "answer_key": [
+          "A"
+        ],
+        "format": "single"
+      },
+      "slot": {
+        "bucket": "middleware_hitl_guardrails",
+        "topic": "checkpointer·`thread_id`",
+        "format": "single",
+        "question_type": "design"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ],
+        "source_question_id": "b20261105-03-035",
+        "injection": "보기 B 해설 본문을 보기 C 해설 본문으로 바꿨다"
+      }
+    },
+    {
+      "item_id": "inj-explanation_error-02-001",
+      "source": "inline",
+      "question_id": "b20261105-02-001",
+      "question": {
+        "stem_en": "A developer is building a RAG pipeline and writes the following code to load a large PDF corpus:\n\n```python\nfrom langchain_docling.loader import DoclingLoader\n\nloader = DoclingLoader(file_path=\"https://arxiv.org/pdf/2408.09869\")\ndocuments = loader.load()\n```\n\nA teammate suggests replacing `loader.load()` with an iteration over `loader.lazy_load()` instead. According to the LangChain documentation, what is the primary reason to prefer `lazy_load()` over `load()` in this scenario?",
+        "explanation_ko": "A선택지: `lazy_load()`는 \"Streams documents lazily, useful for large datasets\"라고 문서에 명시되어 있습니다. 대용량 데이터셋에서 문서를 스트리밍 방식으로 처리하므로, 모든 문서를 한 번에 메모리에 올리지 않아도 된다는 것이 핵심 이유입니다. 이것이 정답입니다.\n\nB선택지: `lazy_load()`가 문서를 병렬로 처리한다는 내용은 문서 어디에도 없습니다. 문서는 단순히 \"Streams documents lazily\"라고만 설명하며, 병렬 처리에 대한 언급은 전혀 없습니다.\n\nC선택지: `lazy_load()`가 문서 메타데이터를 자동으로 보강한다는 내용은 문서에 전혀 없습니다. 두 메서드의 차이는 로딩 방식(일괄 vs 스트리밍)에 있으며, 메타데이터와는 무관합니다.\n\nD선택지: `lazy_load()`가 문서 메타데이터를 자동으로 보강한다는 내용은 문서에 전혀 없습니다. 두 메서드의 차이는 로딩 방식(일괄 vs 스트리밍)에 있으며, 메타데이터와는 무관합니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer is building a RAG pipeline and writes the following code to load a large PDF corpus:",
+            "ko": "한 개발자가 RAG 파이프라인을 구축하면서 대용량 PDF 코퍼스를 로드하기 위해 다음 코드를 작성합니다:"
+          },
+          {
+            "segment_id": "s2",
+            "en": "A teammate suggests replacing `loader.load()` with an iteration over `loader.lazy_load()` instead.",
+            "ko": "팀원이 `loader.load()` 대신 `loader.lazy_load()`를 반복(iteration)하는 방식으로 교체하자고 제안합니다."
+          },
+          {
+            "segment_id": "s3",
+            "en": "According to the LangChain documentation, what is the primary reason to prefer `lazy_load()` over `load()` in this scenario?",
+            "ko": "LangChain 문서에 따르면, 이 시나리오에서 `load()` 대신 `lazy_load()`를 선호하는 주된 이유는 무엇입니까?"
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/integrations/document_loaders",
+            "quote": "* `load()`: Loads all documents at once.\n* `lazy_load()`: Streams documents lazily, useful for large datasets.",
+            "answer_basis": "`lazy_load()`의 설명이 'useful for large datasets(대용량 데이터셋에 유용)'임을 직접 명시하고 있어, 정답(A)의 근거가 됩니다."
+          }
+        ],
+        "cca_f_tag": "context_reliability",
+        "choices": [
+          {
+            "id": "A",
+            "text": "`lazy_load()` streams documents one at a time, which avoids loading the entire dataset into memory at once and is useful for large datasets."
+          },
+          {
+            "id": "B",
+            "text": "`lazy_load()` processes documents in parallel, which reduces total loading time compared to the sequential behavior of `load()`."
+          },
+          {
+            "id": "C",
+            "text": "`lazy_load()` is compatible with more document loader integrations than `load()`, making it the safer default choice."
+          },
+          {
+            "id": "D",
+            "text": "`lazy_load()` automatically enriches each document's metadata with additional source information that `load()` does not provide."
+          }
+        ],
+        "answer_key": [
+          "A"
+        ],
+        "format": "single"
+      },
+      "slot": {
+        "bucket": "rag",
+        "topic": "문서 로드",
+        "format": "single",
+        "question_type": "concept"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ],
+        "source_question_id": "b20261105-02-001",
+        "injection": "보기 C 해설 본문을 보기 D 해설 본문으로 바꿨다"
+      }
+    },
+    {
+      "item_id": "inj-quote_irrelevant-03-026",
+      "source": "inline",
+      "question_id": "b20261105-03-026",
+      "question": {
+        "stem_en": "A developer is building a LangChain agent that must connect to two MCP servers simultaneously: a legacy server at `legacy_url` that only supports the older handshake protocol, and a modern server at `modern_url` that supports the latest protocol version. The developer wants each server to negotiate the best protocol era it individually supports, rather than both being forced down to the legacy era. Which class from the FastMCP library should be used to group the two `Client` objects so that each maintains its own independent protocol negotiation when passed to `MCPAdapter`? Answer with the class name.",
+        "explanation_ko": "문서에 따르면, 여러 서버를 하나의 `MCPConfig` dict로 묶으면 전체 fleet이 단일 프로토콜 era로 협상되어 레거시 서버가 있을 경우 모든 서버가 레거시 era로 강제 하향됩니다. 반면 각 서버가 자신만의 독립적인 프로토콜 협상을 유지하게 하려면, `fastmcp.client.group`의 `ClientGroup`을 사용해야 합니다. `ClientGroup`은 각 멤버 `Client`가 자체 협상 프로토콜 era, 인증, 핸들러를 유지하도록 해주며, `MCPAdapter`에 전달할 수 있습니다. 문서의 예제 코드에서 `group = ClientGroup({\"weather\": Client(legacy_url, mode=\"legacy\"), \"calc\": Client(modern_url, mode=\"auto\")})`처럼 사용하는 것을 확인할 수 있습니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer is building a LangChain agent that must connect to two MCP servers simultaneously:",
+            "ko": "개발자가 두 개의 MCP 서버에 동시에 연결해야 하는 LangChain 에이전트를 구축하고 있습니다:"
+          },
+          {
+            "segment_id": "s2",
+            "en": "a legacy server at `legacy_url` that only supports the older handshake protocol,",
+            "ko": "이전 핸드셰이크 프로토콜만 지원하는 `legacy_url`의 레거시 서버,"
+          },
+          {
+            "segment_id": "s3",
+            "en": "and a modern server at `modern_url` that supports the latest protocol version.",
+            "ko": "그리고 최신 프로토콜 버전을 지원하는 `modern_url`의 모던 서버."
+          },
+          {
+            "segment_id": "s4",
+            "en": "The developer wants each server to negotiate the best protocol era it individually supports,",
+            "ko": "개발자는 각 서버가 개별적으로 지원하는 최선의 프로토콜 era를 협상하기를 원합니다,"
+          },
+          {
+            "segment_id": "s5",
+            "en": "rather than both being forced down to the legacy era.",
+            "ko": "둘 다 레거시 era로 강제 하향되는 것이 아니라."
+          },
+          {
+            "segment_id": "s6",
+            "en": "Which class from the FastMCP library should be used to group the two `Client` objects so that each maintains its own independent protocol negotiation when passed to `MCPAdapter`?",
+            "ko": "각 `Client` 객체가 `MCPAdapter`에 전달될 때 자신만의 독립적인 프로토콜 협상을 유지하도록 두 `Client` 객체를 묶기 위해 FastMCP 라이브러리의 어떤 클래스를 사용해야 합니까?"
+          },
+          {
+            "segment_id": "s7",
+            "en": "Answer with the class name.",
+            "ko": "클래스 이름으로 답하세요."
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/langchain/mcp/connections",
+            "quote": "Pick one row from each table. Server shape and connection lifetime are independent; any shape works with any lifetime.",
+            "answer_basis": "`ClientGroup`이 각 멤버 `Client`의 독립적인 프로토콜 era 협상을 유지시켜 준다고 명시되어 있으며, 이것이 레거시 서버와 모던 서버를 나란히 실행할 수 있게 해주는 이유임을 설명합니다."
+          },
+          {
+            "page": "/oss/python/langchain/mcp/connections",
+            "quote": "If you want a session held open across several calls, keep the adapter's context open when you call the agent. The reentrant client reuses the existing connection rather than opening a second one.",
+            "answer_basis": "`MCPConfig`를 사용하면 모든 서버가 가장 낮은 era로 하향된다고 명시되어 있어, `ClientGroup`이 올바른 대안임을 뒷받침합니다."
+          }
+        ],
+        "cca_f_tag": "tool_mcp",
+        "answer_key": [
+          "ClientGroup"
+        ],
+        "accepted_answers": [
+          "ClientGroup",
+          "fastmcp.client.group.ClientGroup",
+          "fastmcp.client.ClientGroup"
+        ],
+        "format": "short"
+      },
+      "slot": {
+        "bucket": "tool_mcp",
+        "topic": "MCP 클라이언트",
+        "format": "short",
+        "question_type": "design"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "quote_irrelevant",
+        "expected_items": [
+          "quote_supports_answer"
+        ],
+        "source_question_id": "b20261105-03-026",
+        "injection": "인용을 모두 같은 페이지의 무관한 평문 문장으로 바꿨다: Pick one row from each table. Server shape and connection li / If you want a session held open across several calls, keep t"
+      }
+    },
+    {
+      "item_id": "inj-quote_irrelevant-03-019",
+      "source": "inline",
+      "question_id": "b20261105-03-019",
+      "question": {
+        "stem_en": "A developer wants to add a `user_id` field to the agent's execution state so that middleware and tools can read it during a run. They have already defined a subclass of `AgentState` with the extra field. Which parameter of `create_agent` should they pass the subclass to? Answer with the parameter name.",
+        "explanation_ko": "문서에 따르면, `AgentState`를 상속한 커스텀 상태 클래스를 에이전트에 적용하려면 `create_agent`의 `state_schema=` 파라미터에 해당 서브클래스를 전달해야 합니다. 문서 예시에서 `class MyState(AgentState): user_id: str`처럼 커스텀 필드를 정의한 뒤, `create_agent(..., state_schema=MyState)`와 같이 사용하는 방법을 명시하고 있습니다. 즉, `state_schema`가 정답이며 `state_schema=MyState`라고 쓰는 것도 동일하게 정답으로 인정됩니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer wants to add a `user_id` field to the agent's execution state",
+            "ko": "개발자가 에이전트의 실행 상태(state)에 `user_id` 필드를 추가하려 합니다"
+          },
+          {
+            "segment_id": "s2",
+            "en": "so that middleware and tools can read it during a run.",
+            "ko": "미들웨어와 도구가 실행 중에 이 필드를 읽을 수 있도록 하기 위해서입니다."
+          },
+          {
+            "segment_id": "s3",
+            "en": "They have already defined a subclass of `AgentState` with the extra field.",
+            "ko": "개발자는 이미 추가 필드를 포함한 `AgentState`의 서브클래스를 정의했습니다."
+          },
+          {
+            "segment_id": "s4",
+            "en": "Which parameter of `create_agent` should they pass the subclass to?",
+            "ko": "`create_agent`의 어느 파라미터에 해당 서브클래스를 전달해야 합니까?"
+          },
+          {
+            "segment_id": "s5",
+            "en": "Answer with the parameter name.",
+            "ko": "파라미터 이름으로 답하십시오."
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/langchain/agents",
+            "quote": "An agent is a model calling tools in a loop until a given task is complete.",
+            "answer_basis": "문서가 커스텀 필드를 추가할 때 `state_schema=` 파라미터에 서브클래스를 전달하라고 명시적으로 안내하므로 `state_schema`가 정답임을 직접 뒷받침합니다."
+          }
+        ],
+        "cca_f_tag": "agentic_architecture",
+        "answer_key": [
+          "state_schema"
+        ],
+        "accepted_answers": [
+          "state_schema",
+          "state_schema=MyState"
+        ],
+        "format": "short"
+      },
+      "slot": {
+        "bucket": "langgraph_basics",
+        "topic": "ReAct",
+        "format": "short",
+        "question_type": "design"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "quote_irrelevant",
+        "expected_items": [
+          "quote_supports_answer"
+        ],
+        "source_question_id": "b20261105-03-019",
+        "injection": "인용을 모두 같은 페이지의 무관한 평문 문장으로 바꿨다: An agent is a model calling tools in a loop until a given ta"
+      }
+    },
+    {
+      "item_id": "inj-quote_irrelevant-03-046",
+      "source": "inline",
+      "question_id": "b20261105-03-046",
+      "question": {
+        "stem_en": "A developer has two subgraphs with different state schemas from the parent graph. They want to run a subgraph inside a node function, manually mapping state before and after the call. To invoke the compiled subgraph object and get a result back within that node function, which method should be called on the compiled subgraph? Answer with the method name.",
+        "explanation_ko": "부모 그래프와 다른 state 스키마를 가진 서브그래프를 노드 함수 내부에서 호출할 때, 문서는 컴파일된 서브그래프 객체에 대해 `invoke` 메서드를 사용하는 방식을 설명합니다. 노드 함수 안에서 부모 state를 서브그래프 state로 변환한 뒤 `subgraph.invoke({...})`를 호출하고, 그 반환값을 다시 부모 state 형식으로 변환해 리턴합니다. 문서의 코드 예시에서 `subgraph_output = subgraph.invoke({\"bar\": state[\"foo\"]})` 처럼 `invoke`를 사용하는 것을 명확히 보여줍니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer has two subgraphs with different state schemas from the parent graph.",
+            "ko": "개발자는 부모 그래프와 다른 state 스키마를 가진 두 개의 서브그래프를 가지고 있습니다."
+          },
+          {
+            "segment_id": "s2",
+            "en": "They want to run a subgraph inside a node function,",
+            "ko": "그들은 노드 함수 내부에서 서브그래프를 실행하려 하며,"
+          },
+          {
+            "segment_id": "s3",
+            "en": "manually mapping state before and after the call.",
+            "ko": "호출 전후로 state를 직접 변환합니다."
+          },
+          {
+            "segment_id": "s4",
+            "en": "To invoke the compiled subgraph object and get a result back within that node function,",
+            "ko": "해당 노드 함수 안에서 컴파일된 서브그래프 객체를 호출하고 결과를 받아오려면,"
+          },
+          {
+            "segment_id": "s5",
+            "en": "which method should be called on the compiled subgraph?",
+            "ko": "컴파일된 서브그래프 객체에 어떤 메서드를 호출해야 합니까?"
+          },
+          {
+            "segment_id": "s6",
+            "en": "Answer with the method name.",
+            "ko": "메서드 이름으로 답하십시오."
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/langgraph/use-subgraphs",
+            "quote": "Open a public LangSmith run for this example.",
+            "answer_basis": "노드 함수 내부에서 컴파일된 서브그래프를 호출할 때 `invoke` 메서드를 사용한다는 것을 코드 예시로 직접 보여줍니다."
+          }
+        ],
+        "cca_f_tag": "agentic_architecture",
+        "answer_key": [
+          "invoke"
+        ],
+        "accepted_answers": [
+          "invoke",
+          "subgraph.invoke"
+        ],
+        "format": "short"
+      },
+      "slot": {
+        "bucket": "multi_agent",
+        "topic": "계층 구조",
+        "format": "short",
+        "question_type": "concept"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "quote_irrelevant",
+        "expected_items": [
+          "quote_supports_answer"
+        ],
+        "source_question_id": "b20261105-03-046",
+        "injection": "인용을 모두 같은 페이지의 무관한 평문 문장으로 바꿨다: Open a public LangSmith run for this example."
+      }
+    },
+    {
+      "item_id": "inj-quote_irrelevant-10-002",
+      "source": "inline",
+      "question_id": "b20261105-10-002",
+      "question": {
+        "stem_en": "A developer builds a `LoggingMiddleware` class that extends `AgentMiddleware` and implements both `before_model` and `after_model` hooks. When the agent is invoked, she notices that `after_model` runs *before* `before_model` of the next iteration completes for a second middleware placed later in the list. She wants to understand the ordering rule: for `after_*` hooks specifically, in which direction do they fire relative to the middleware list order? She asks: \"In what order do `after_model` hooks execute across multiple middleware — first-to-last or last-to-first?\" Answer with the exact two-word phrase the documentation uses to describe this ordering direction (e.g., \"first-to-last\" or \"last-to-first\" or \"reverse order\").",
+        "explanation_ko": "공식 문서의 \"Execution order\" 섹션에서는 `after_*` 훅이 미들웨어 목록의 **역순(last to first)**으로 실행된다고 명시합니다. 즉, 미들웨어 리스트가 `[middleware1, middleware2, middleware3]`일 때, `after_model`은 `middleware3 → middleware2 → middleware1` 순서로 실행됩니다. 문서의 핵심 규칙 요약에서 \"`after_*` hooks: Last to first (reverse)\"라고 직접 기술되어 있으므로, 정답은 `reverse`(또는 `last to first`)입니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer builds a `LoggingMiddleware` class that extends `AgentMiddleware`",
+            "ko": "개발자가 `AgentMiddleware`를 상속하는 `LoggingMiddleware` 클래스를 만들고"
+          },
+          {
+            "segment_id": "s2",
+            "en": "and implements both `before_model` and `after_model` hooks.",
+            "ko": "`before_model`과 `after_model` 훅을 모두 구현합니다."
+          },
+          {
+            "segment_id": "s3",
+            "en": "She wants to understand the ordering rule:",
+            "ko": "그녀는 실행 순서 규칙을 이해하고 싶어 합니다:"
+          },
+          {
+            "segment_id": "s4",
+            "en": "for `after_*` hooks specifically, in which direction do they fire relative to the middleware list order?",
+            "ko": "`after_*` 훅은 미들웨어 목록 순서에 대해 어떤 방향으로 실행됩니까?"
+          },
+          {
+            "segment_id": "s5",
+            "en": "She asks: \"In what order do `after_model` hooks execute across multiple middleware — first-to-last or last-to-first?\"",
+            "ko": "그녀가 묻습니다: \"`after_model` 훅은 여러 미들웨어에 걸쳐 first-to-last로 실행됩니까, 아니면 last-to-first로 실행됩니까?\""
+          },
+          {
+            "segment_id": "s6",
+            "en": "Answer with the exact two-word phrase the documentation uses to describe this ordering direction",
+            "ko": "문서에서 이 순서 방향을 설명하는 정확한 두 단어 표현으로 답하세요"
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/langchain/middleware/custom",
+            "quote": "Build custom middleware by implementing hooks that run at specific points in the agent execution flow.",
+            "answer_basis": "`after_*` 훅은 미들웨어 목록의 역순(last to first)으로 실행된다고 명시하고 있어 정답이 'last to first'임을 직접 뒷받침합니다."
+          }
+        ],
+        "cca_f_tag": "agentic_architecture",
+        "answer_key": [
+          "last to first"
+        ],
+        "accepted_answers": [
+          "last to first",
+          "Last to first",
+          "reverse",
+          "last-to-first",
+          "reverse order"
+        ],
+        "format": "short"
+      },
+      "slot": {
+        "bucket": "middleware_hitl_guardrails",
+        "topic": "로깅·마스킹·요약 미들웨어",
+        "format": "short",
+        "question_type": "concept"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "quote_irrelevant",
+        "expected_items": [
+          "quote_supports_answer"
+        ],
+        "source_question_id": "b20261105-10-002",
+        "injection": "인용을 모두 같은 페이지의 무관한 평문 문장으로 바꿨다: Build custom middleware by implementing hooks that run at sp"
+      }
+    },
+    {
+      "item_id": "inj-quote_irrelevant-03-053",
+      "source": "inline",
+      "question_id": "b20261105-03-053",
+      "question": {
+        "stem_en": "A developer wants to add short-term memory to a LangChain agent so that conversation history persists across multiple `invoke` calls on the same thread. They call `create_agent` but forget to pass any persistence-related argument. Which parameter must they supply to `create_agent` to enable thread-level state persistence? Answer with the parameter name.",
+        "explanation_ko": "단기 기억(short-term memory)을 에이전트에 추가하려면 `create_agent` 호출 시 `checkpointer` 파라미터를 반드시 제공해야 합니다. 문서에 따르면 \"To add short-term memory (thread-level persistence) to an agent, you need to specify a `checkpointer` when creating an agent.\"라고 명시되어 있습니다. `checkpointer`는 에이전트의 State를 데이터베이스(또는 메모리)에 저장하여 동일한 thread_id로 이루어진 여러 `invoke` 호출 간에 대화 기록이 유지될 수 있게 합니다. `store` 파라미터는 장기 기억(long-term memory)에 사용되며, `state_schema`는 커스텀 상태 구조 정의에 사용되므로 단기 기억 활성화와는 다릅니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer wants to add short-term memory to a LangChain agent",
+            "ko": "개발자가 LangChain 에이전트에 단기 기억(short-term memory)을 추가하려고 합니다"
+          },
+          {
+            "segment_id": "s2",
+            "en": "so that conversation history persists across multiple `invoke` calls on the same thread.",
+            "ko": "동일한 스레드에서 여러 번의 `invoke` 호출에 걸쳐 대화 기록이 유지되도록 하기 위해서입니다."
+          },
+          {
+            "segment_id": "s3",
+            "en": "They call `create_agent` but forget to pass any persistence-related argument.",
+            "ko": "그들은 `create_agent`를 호출하지만 지속성 관련 인자를 전달하는 것을 잊었습니다."
+          },
+          {
+            "segment_id": "s4",
+            "en": "Which parameter must they supply to `create_agent` to enable thread-level state persistence?",
+            "ko": "스레드 수준 상태 지속성을 활성화하기 위해 `create_agent`에 반드시 제공해야 하는 파라미터는 무엇입니까?"
+          },
+          {
+            "segment_id": "s5",
+            "en": "Answer with the parameter name.",
+            "ko": "파라미터 이름으로 답하십시오."
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/langchain/short-term-memory",
+            "quote": "Access short term memory (state) in middleware to create dynamic prompts based on conversation history or custom state fields.",
+            "answer_basis": "`checkpointer`가 `create_agent`에서 단기 기억(thread-level persistence)을 활성화하는 파라미터임을 직접 명시합니다."
+          }
+        ],
+        "cca_f_tag": "context_reliability",
+        "answer_key": [
+          "checkpointer"
+        ],
+        "accepted_answers": [
+          "checkpointer"
+        ],
+        "format": "short"
+      },
+      "slot": {
+        "bucket": "ops_quality",
+        "topic": "단기·장기 기억",
+        "format": "short",
+        "question_type": "concept"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "quote_irrelevant",
+        "expected_items": [
+          "quote_supports_answer"
+        ],
+        "source_question_id": "b20261105-03-053",
+        "injection": "인용을 모두 같은 페이지의 무관한 평문 문장으로 바꿨다: Access short term memory (state) in middleware to create dyn"
+      }
+    },
+    {
+      "item_id": "inj-quote_irrelevant-04-006",
+      "source": "inline",
+      "question_id": "b20261105-04-006",
+      "question": {
+        "stem_en": "A developer builds a `ToolNode` and wants any tool invocation error caused by invalid arguments from the model to be caught and returned as a `ToolMessage`, while errors raised during the actual tool execution are re-raised rather than swallowed. The developer decides NOT to pass `handle_tool_errors` explicitly when constructing the `ToolNode`. What is the name of the value that `handle_tool_errors` defaults to in this case? Answer with the parameter name that describes this default behavior as documented.",
+        "explanation_ko": "공식 문서에 따르면, `ToolNode`의 `handle_tool_errors` 파라미터는 명시적으로 지정하지 않을 경우 `_default_handle_tool_errors`라는 callable로 기본 설정됩니다. 이 기본값은 다음과 같이 동작합니다: 모델이 잘못된 인수를 제공했을 때 발생하는 tool invocation 오류는 잡아서 설명적인 오류 메시지가 담긴 `ToolMessage`로 반환하고, 실제 tool 실행 중 발생하는 오류는 그대로 re-raise합니다. 문서의 `handle_tool_errors` 파라미터 설명에서 \"Defaults to a callable that: Catches tool invocation errors (due to invalid arguments provided by the model) and returns a descriptive error message - Ignores tool execution errors (they will be re-raised)\"라고 명시되어 있으며, signature에서도 `handle_tool_errors: ... = _default_handle_tool_errors`로 표기되어 있습니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer builds a `ToolNode`",
+            "ko": "개발자가 `ToolNode`를 생성하고"
+          },
+          {
+            "segment_id": "s2",
+            "en": "and wants any tool invocation error caused by invalid arguments from the model to be caught and returned as a `ToolMessage`,",
+            "ko": "모델이 잘못된 인수를 제공하여 발생한 tool invocation 오류는 잡아서 `ToolMessage`로 반환하고,"
+          },
+          {
+            "segment_id": "s3",
+            "en": "while errors raised during the actual tool execution are re-raised rather than swallowed.",
+            "ko": "실제 tool 실행 중 발생한 오류는 삼키지 않고 re-raise되기를 원합니다."
+          },
+          {
+            "segment_id": "s4",
+            "en": "The developer decides NOT to pass `handle_tool_errors` explicitly when constructing the `ToolNode`.",
+            "ko": "개발자는 `ToolNode`를 생성할 때 `handle_tool_errors`를 명시적으로 전달하지 않기로 결정합니다."
+          },
+          {
+            "segment_id": "s5",
+            "en": "What is the name of the value that `handle_tool_errors` defaults to in this case?",
+            "ko": "이 경우 `handle_tool_errors`가 기본값으로 사용하는 값의 이름은 무엇입니까?"
+          },
+          {
+            "segment_id": "s6",
+            "en": "Answer with the parameter name that describes this default behavior as documented.",
+            "ko": "문서에 기재된 이 기본 동작을 나타내는 값의 이름으로 답하십시오."
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "https://reference.langchain.com/python/langgraph.prebuilt/tool_node/ToolNode",
+            "quote": "A node for executing tools in LangGraph workflows.",
+            "answer_basis": "`handle_tool_errors`의 기본값이 `_default_handle_tool_errors`라는 callable임을 명시하며, 그 동작—invocation 오류는 캐치하고 execution 오류는 re-raise—을 정확히 설명합니다."
+          }
+        ],
+        "cca_f_tag": "tool_mcp",
+        "answer_key": [
+          "_default_handle_tool_errors"
+        ],
+        "accepted_answers": [
+          "_default_handle_tool_errors"
+        ],
+        "format": "short"
+      },
+      "slot": {
+        "bucket": "tool_mcp",
+        "topic": "ToolNode 병렬·에러 처리",
+        "format": "short",
+        "question_type": "concept"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "quote_irrelevant",
+        "expected_items": [
+          "quote_supports_answer"
+        ],
+        "source_question_id": "b20261105-04-006",
+        "injection": "인용을 모두 같은 페이지의 무관한 평문 문장으로 바꿨다: A node for executing tools in LangGraph workflows."
+      }
+    },
+    {
+      "item_id": "inj-key_error-03-029",
+      "source": "inline",
+      "question_id": "b20261105-03-029",
+      "question": {
+        "stem_en": "A developer configures the following LangGraph graph and runs it. Select TWO reasons why the `charge_payment` node's error handler will NOT fire even though `charge_payment` always raises an exception.\n\n```python\nfrom langgraph.errors import NodeError\nfrom langgraph.types import RetryPolicy\nfrom langgraph.graph import StateGraph, START, END\nfrom typing_extensions import TypedDict\n\nclass State(TypedDict):\n    status: str\n\ndef charge_payment(state: State) -> State:\n    raise ValueError(\"card declined\")\n\ndef payment_handler(state: State, error: NodeError) -> State:\n    return {\"status\": \"compensated\"}\n\ngraph = (\n    StateGraph(State)\n    .add_node(\n        \"charge_payment\",\n        charge_payment,\n        retry_policy=RetryPolicy(max_attempts=3),\n        error_handler=payment_handler,\n    )\n    .add_edge(START, \"charge_payment\")\n    .add_edge(\"charge_payment\", END)\n    .compile()\n)\n```",
+        "explanation_ko": "**A (정답):** `RetryPolicy`의 기본 `retry_on`은 `default_retry_on`을 사용하며, 문서에 따르면 `ValueError`는 기본적으로 재시도하지 않는 예외 목록에 명시되어 있습니다. 따라서 `ValueError`가 발생하면 재시도 정책은 즉시 \"exhausted\"로 처리되지 않고, 재시도 대상이 아니므로 **에러 핸들러도 실행되지 않습니다**. 문서는 \"Only after retries are exhausted does the error handler run\"이라고 명시하고 있으며, `default_retry_on`이 매치하지 않으면(즉, `retry_on`이 예외를 재시도 대상으로 판단하지 않는 경우) 예외는 재시도 없이 바로 버블업됩니다. 정확히는, `ValueError`는 `retry_on`에 의해 재시도 불가(non-retryable)로 분류되므로 재시도가 소진되지 않고 바로 예외가 버블업되어 에러 핸들러에 도달하지 않습니다.\n\n**B (정답):** 문서의 \"Behavior with `interrupt()`\" 섹션이 아니라 \"Limitations\" 섹션에 \"Handler failures bubble up: if the error handler itself raises, that exception propagates\"라고 되어 있지만, 이 보기는 다른 내용입니다. 실제로 문서에서 \"the error handler runs after a node fails and **all retries are exhausted**\"라고 하며, `default_retry_on`이 `ValueError`를 재시도하지 않으므로 에러 핸들러에 도달할 수 없습니다. 이 선택지(B)는 **재시도 정책의 `retry_on`이 `ValueError`를 포함하지 않으므로 예외가 재시도 소진 없이 바로 버블업된다**는 점을 지적하는 올바른 답입니다. (A와 B는 같은 근본 원인을 두 측면에서 설명합니다: A는 `ValueError`가 기본적으로 재시도 불가 목록에 있다는 것, B는 에러 핸들러는 재시도 소진 후에만 실행된다는 것.)\n\n실제로 두 정답은: (1) `ValueError`는 `default_retry_on`의 non-retryable 목록에 있어 retry 자체가 시도되지 않는다는 것, (2) 에러 핸들러는 오직 재시도가 소진된 뒤에만 실행되므로, 재시도가 소진되지 않고 바로 버블업되면 핸들러가 실행되지 않는다는 것입니다.\n\n**C (오답):** `error_handler`는 `add_node`에 올바르게 전달되었으므로 등록 자체는 문제없습니다. 문서에는 에러 핸들러를 등록하는 방법이 정확히 이 방식으로 설명되어 있습니다.\n\n**D (오답):** `NodeError`를 파라미터로 받는 핸들러 시그니처는 문서에서 설명된 올바른 방식입니다. 문서는 \"Error handlers receive failure context through a typed `error: NodeError` parameter, injected by type annotation\"이라고 명시합니다.\n\n**E (오답):** `interrupt()`가 에러 핸들러를 우회한다는 내용은 맞지만, 이 코드에서는 `interrupt()`가 전혀 사용되지 않았으므로 이 이유는 이 상황에 적용되지 않습니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer configures the following LangGraph graph and runs it.",
+            "ko": "개발자가 다음 LangGraph 그래프를 구성하고 실행합니다."
+          },
+          {
+            "segment_id": "s2",
+            "en": "Select TWO reasons why the `charge_payment` node's error handler will NOT fire",
+            "ko": "`charge_payment` 노드의 에러 핸들러가 실행되지 않는 이유 두 가지를 선택하십시오"
+          },
+          {
+            "segment_id": "s3",
+            "en": "even though `charge_payment` always raises an exception.",
+            "ko": "`charge_payment`가 항상 예외를 발생시킴에도 불구하고."
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/langgraph/fault-tolerance",
+            "quote": "By default, `retry_on` uses `default_retry_on`, which retries on **any** exception except the following (and their subclasses):\n\n* `ValueError`",
+            "answer_basis": "`ValueError`는 `default_retry_on`의 기본 비재시도 예외 목록에 명시적으로 포함되어 있어, `RetryPolicy`가 있어도 이 예외는 재시도되지 않고 바로 버블업됩니다."
+          },
+          {
+            "page": "/oss/python/langgraph/fault-tolerance",
+            "quote": "An error handler runs after a node fails and all retries are exhausted.",
+            "answer_basis": "에러 핸들러는 오직 재시도가 모두 소진된 후에만 실행됩니다. `ValueError`는 재시도 대상이 아니므로 재시도가 소진되지 않고 예외가 바로 버블업되어 핸들러가 실행되지 않습니다."
+          }
+        ],
+        "cca_f_tag": "tool_mcp",
+        "choices": [
+          {
+            "id": "A",
+            "text": "`ValueError` is in `default_retry_on`'s non-retryable list, so the retry policy never attempts a retry and the exception bubbles up immediately."
+          },
+          {
+            "id": "B",
+            "text": "The error handler only runs after all retries are exhausted; because `ValueError` is not retried, retries are never exhausted and the handler is skipped."
+          },
+          {
+            "id": "C",
+            "text": "Passing `error_handler=` directly to `add_node` is not the supported registration pattern; it must be set via `set_node_defaults` instead."
+          },
+          {
+            "id": "D",
+            "text": "The handler signature `(state, error: NodeError)` is invalid; error handlers must accept only `(state)` and cannot take a `NodeError` parameter."
+          },
+          {
+            "id": "E",
+            "text": "The handler is bypassed because `interrupt()` is used inside `charge_payment`, and interrupts always skip both retry policies and error handlers."
+          }
+        ],
+        "answer_key": [
+          "A",
+          "D"
+        ],
+        "select_count": 2,
+        "format": "multi"
+      },
+      "slot": {
+        "bucket": "tool_mcp",
+        "topic": "장애 주입",
+        "format": "multi",
+        "question_type": "error_cause"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "key_error",
+        "expected_items": [
+          "answer_key_correct"
+        ],
+        "source_question_id": "b20261105-03-029",
+        "injection": "정답 키 B를 오답 D로 바꿨다: ['A', 'B'] -> ['A', 'D']"
+      }
+    },
+    {
+      "item_id": "inj-key_error-03-003",
+      "source": "inline",
+      "question_id": "b20261105-03-003",
+      "question": {
+        "stem_en": "A developer is building a RAG pipeline over a large PDF and writes the following code:\n\n```python\nfrom langchain_text_splitters import RecursiveCharacterTextSplitter\n\ntext_splitter = RecursiveCharacterTextSplitter(\n    chunk_size=1000, chunk_overlap=200\n)\nall_splits = text_splitter.split_documents(docs)\n```\n\nAfter indexing, they notice that retrieved chunks are hard to trace back to their original location in the PDF. Which single change to the splitter instantiation would let each chunk carry a `start_index` metadata field indicating its character offset in the source document?",
+        "explanation_ko": "A. 정답입니다. 공식 문서에서 \"Set `add_start_index=True` so each split keeps a `start_index` metadata field for its character offset in the original document.\"라고 명시하고 있습니다. `add_start_index=True`를 생성자에 전달하면 각 청크의 `metadata`에 `start_index` 필드가 추가됩니다.\n\nB. 오답입니다. `keep_separator=True`는 `RecursiveCharacterTextSplitter`의 생성자 파라미터이지만, 이것은 구분자(separator)를 청크에 남길지 여부를 제어하는 것이지, 원본 문서 내 문자 오프셋 메타데이터를 추가하는 기능과는 관련이 없습니다.\n\nC. 오답입니다. `chunk_overlap`을 늘리면 청크 간 중복이 늘어나 문맥 보존에 도움이 되지만, 각 청크가 원본 문서에서 어느 위치에서 시작하는지를 나타내는 `start_index` 메타데이터를 추가하지는 않습니다.\n\nD. 오답입니다. `is_separator_regex=True`는 구분자를 정규식으로 해석할지 여부를 제어하는 파라미터로, 문서 내 문자 오프셋 추적과는 전혀 관련이 없습니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer is building a RAG pipeline over a large PDF",
+            "ko": "한 개발자가 대용량 PDF에 대한 RAG 파이프라인을 구축하고 있으며"
+          },
+          {
+            "segment_id": "s2",
+            "en": "and writes the following code:",
+            "ko": "다음 코드를 작성합니다:"
+          },
+          {
+            "segment_id": "s3",
+            "en": "After indexing, they notice that retrieved chunks are hard to trace back to their original location in the PDF.",
+            "ko": "인덱싱 후, 검색된 청크들을 PDF의 원래 위치로 추적하기 어렵다는 것을 발견합니다."
+          },
+          {
+            "segment_id": "s4",
+            "en": "Which single change to the splitter instantiation would let each chunk carry a `start_index` metadata field indicating its character offset in the source document?",
+            "ko": "스플리터 인스턴스화에 어떤 한 가지 변경을 하면 각 청크가 원본 문서 내 문자 오프셋을 나타내는 `start_index` 메타데이터 필드를 갖게 될까요?"
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/langchain/knowledge-base",
+            "quote": "Set `add_start_index=True` so each split keeps a `start_index` metadata field for its character offset in the original document.",
+            "answer_basis": "`add_start_index=True`를 전달하면 각 청크에 `start_index` 메타데이터 필드가 추가된다고 문서에서 직접 명시하고 있어 정답(A)의 근거가 됩니다."
+          }
+        ],
+        "cca_f_tag": "context_reliability",
+        "choices": [
+          {
+            "id": "A",
+            "text": "Add `add_start_index=True` to the `RecursiveCharacterTextSplitter` constructor."
+          },
+          {
+            "id": "B",
+            "text": "Add `keep_separator=True` to the `RecursiveCharacterTextSplitter` constructor."
+          },
+          {
+            "id": "C",
+            "text": "Increase `chunk_overlap` to a value larger than 200 in the constructor."
+          },
+          {
+            "id": "D",
+            "text": "Add `is_separator_regex=True` to the `RecursiveCharacterTextSplitter` constructor."
+          }
+        ],
+        "answer_key": [
+          "C"
+        ],
+        "format": "single"
+      },
+      "slot": {
+        "bucket": "rag",
+        "topic": "청킹·메타데이터",
+        "format": "single",
+        "question_type": "concept"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "key_error",
+        "expected_items": [
+          "answer_key_correct"
+        ],
+        "source_question_id": "b20261105-03-003",
+        "injection": "정답 키 A를 오답 C로 바꿨다: ['A'] -> ['C']"
+      }
+    },
+    {
+      "item_id": "inj-key_error-03-020",
+      "source": "inline",
+      "question_id": "b20261105-03-020",
+      "question": {
+        "stem_en": "A developer sets up LangSmith Studio locally and runs `langgraph dev`. They then open Studio on Safari and find that the UI cannot connect to their local agent. They consider the following actions to resolve the issue. Select TWO actions that are correct according to the documentation.",
+        "explanation_ko": "A: 정답입니다. 문서에 따르면 \"Safari blocks `localhost` connections to Studio. To work around this, run the above command with `--tunnel` to access Studio via a secure tunnel.\"이라고 명시되어 있습니다. `--tunnel` 옵션은 Safari의 localhost 차단 문제를 해결하는 공식 방법입니다.\n\nB: 오답입니다. 문서는 Safari 문제에 대해 `--tunnel` 플래그 사용을 권장하며, Chrome이나 다른 브라우저로 전환하라는 언급은 없습니다. 다른 브라우저로 전환하는 것은 문서에서 제시된 해결책이 아닙니다.\n\nC: 정답입니다. 문서에 따르면 \"--tunnel` 옵션으로 실행한 후 \"You'll need to manually add the tunnel URL to allowed origins by clicking **Connect to a local server** in the Studio UI.\"라고 명시되어 있습니다. 터널 URL을 Studio UI에서 허용 출처에 수동으로 추가해야 합니다.\n\nD: 오답입니다. 문서는 `LANGSMITH_TRACING=false`를 설정하면 데이터가 로컬 서버 밖으로 나가지 않는다고 설명하지만, 이것이 Safari의 연결 문제를 해결한다는 언급은 없습니다. 이는 개인 정보 보호를 위한 설정이지 연결 문제 해결책이 아닙니다.\n\nE: 오답입니다. 문서에서 개발 서버의 기본 포트는 `http://127.0.0.1:2024`이며, 포트를 변경하면 오히려 Studio UI URL(`https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024`)과 불일치가 발생할 수 있습니다. 포트 변경은 Safari 문제의 해결책으로 문서에서 제시되지 않습니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer sets up LangSmith Studio locally and runs `langgraph dev`.",
+            "ko": "개발자가 LangSmith Studio를 로컬에서 설정하고 `langgraph dev`를 실행합니다."
+          },
+          {
+            "segment_id": "s2",
+            "en": "They then open Studio on Safari and find that the UI cannot connect to their local agent.",
+            "ko": "그런 다음 Safari에서 Studio를 열었더니 UI가 로컬 에이전트에 연결할 수 없다는 것을 발견합니다."
+          },
+          {
+            "segment_id": "s3",
+            "en": "They consider the following actions to resolve the issue.",
+            "ko": "그들은 문제를 해결하기 위해 다음 조치들을 고려합니다."
+          },
+          {
+            "segment_id": "s4",
+            "en": "Select TWO actions that are correct according to the documentation.",
+            "ko": "문서에 따라 올바른 조치 두 가지를 선택하세요."
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/langgraph/studio",
+            "quote": "Safari blocks `localhost` connections to Studio. To work around this, run the above command with `--tunnel` to access Studio via a secure tunnel. You'll need to manually add the tunnel URL to allowed origins by clicking **Connect to a local server** in the Studio UI.",
+            "answer_basis": "Safari의 localhost 차단 문제를 해결하기 위해 --tunnel 플래그를 사용해야 하고, 생성된 터널 URL을 Studio UI에서 수동으로 허용 출처에 추가해야 한다는 두 가지 올바른 조치를 모두 지지합니다."
+          }
+        ],
+        "cca_f_tag": "agentic_architecture",
+        "choices": [
+          {
+            "id": "A",
+            "text": "Re-run the development server with the `--tunnel` flag: `langgraph dev --tunnel`."
+          },
+          {
+            "id": "B",
+            "text": "Switch to a non-Safari browser such as Chrome or Firefox to connect to `http://127.0.0.1:2024`."
+          },
+          {
+            "id": "C",
+            "text": "After starting the tunnel, manually add the tunnel URL to allowed origins by clicking **Connect to a local server** in the Studio UI."
+          },
+          {
+            "id": "D",
+            "text": "Set `LANGSMITH_TRACING=false` in the `.env` file so that no data leaves the local server, which resolves the connection block."
+          },
+          {
+            "id": "E",
+            "text": "Change the local server port away from `2024` in `langgraph.json` to avoid Safari's localhost restriction."
+          }
+        ],
+        "answer_key": [
+          "A",
+          "E"
+        ],
+        "select_count": 2,
+        "format": "multi"
+      },
+      "slot": {
+        "bucket": "langgraph_basics",
+        "topic": "LangSmith Studio",
+        "format": "multi",
+        "question_type": "code_behavior"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "key_error",
+        "expected_items": [
+          "answer_key_correct"
+        ],
+        "source_question_id": "b20261105-03-020",
+        "injection": "정답 키 C를 오답 E로 바꿨다: ['A', 'C'] -> ['A', 'E']"
+      }
+    },
+    {
+      "item_id": "inj-key_error-03-049",
+      "source": "inline",
+      "question_id": "b20261105-03-049",
+      "question": {
+        "stem_en": "A team has built a multi-source knowledge base router that fans out to GitHub, Notion, and Slack agents in parallel. After shipping, they want to add automated quality gates that run on every pull request. They have two requirements:\n\n1. For the routing classification step, they want to **deterministically verify** that only the expected agents are invoked (no extra agents beyond the reference set).\n2. For the final synthesized answer, they want to **score overall response quality** without needing a pre-defined reference answer.\n\nSelect TWO choices that together satisfy both requirements as described in the documentation.",
+        "explanation_ko": "**A (정답)**: `subset` 모드는 \"Agent calls only tools from reference (no extras)\"를 보장합니다. 즉, 참조 집합을 초과하는 추가 에이전트 호출이 없음을 결정론적으로 검증할 수 있어 요구사항 1을 만족합니다. 문서의 trajectory match 표에 \"subset: Agent calls only tools from reference (no extras) — Ensuring agent doesn't exceed expected scope\"로 명시되어 있습니다.\n\n**B (오답)**: `superset` 모드는 \"Agent calls at least the reference tools (extras allowed)\"입니다. 이는 추가 에이전트 호출을 허용하므로 \"no extra agents beyond the reference set\"이라는 요구사항 1에 맞지 않습니다.\n\n**C (오답)**: `strict` 모드는 동일한 순서의 완전한 메시지 구조와 툴 호출을 요구합니다(\"Exact match of message structure and tool calls in the same order\"). 이는 라우팅 분류 단계 검증에 과도하게 엄격하며, 문서는 strict를 \"Testing specific sequences (e.g., policy lookup before authorization)\"에 사용하라고 설명합니다. 요구사항은 순서가 아닌 범위 제한(no extras)이므로 subset이 더 적합합니다.\n\n**D (정답)**: `create_trajectory_llm_as_judge`는 참조 트라젝토리 없이도 전반적인 품질과 추론을 평가할 수 있습니다. 문서에 \"Unlike trajectory match evaluators, it doesn't require a reference trajectory\"라고 명시되어 있어 요구사항 2를 만족합니다.\n\n**E (오답)**: `unordered` 모드는 \"Same message structure and tool calls as reference, but tool calls can happen in any order\"입니다. 순서는 무관하지만 참조의 모든 툴을 정확히 동일하게 포함해야 하므로, 추가 에이전트 호출을 막는 \"no extras\" 요구사항을 충족하지 않습니다. 추가 툴 호출이 있으면 이 모드에서 실패합니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A team has built a multi-source knowledge base router that fans out to GitHub, Notion, and Slack agents in parallel.",
+            "ko": "팀이 GitHub, Notion, Slack 에이전트로 병렬 팬아웃하는 다중 소스 지식 베이스 라우터를 구축했습니다."
+          },
+          {
+            "segment_id": "s2",
+            "en": "After shipping, they want to add automated quality gates that run on every pull request.",
+            "ko": "출시 후, 모든 풀 리퀘스트마다 실행되는 자동화된 품질 게이트를 추가하려 합니다."
+          },
+          {
+            "segment_id": "s3",
+            "en": "They have two requirements:",
+            "ko": "두 가지 요구사항이 있습니다:"
+          },
+          {
+            "segment_id": "s4",
+            "en": "1. For the routing classification step, they want to deterministically verify that only the expected agents are invoked (no extra agents beyond the reference set).",
+            "ko": "1. 라우팅 분류 단계에서, 예상된 에이전트만 호출되는지(참조 집합을 초과하는 추가 에이전트 없음) 결정론적으로 검증하고자 합니다."
+          },
+          {
+            "segment_id": "s5",
+            "en": "2. For the final synthesized answer, they want to score overall response quality without needing a pre-defined reference answer.",
+            "ko": "2. 최종 합성 답변에 대해, 사전 정의된 참조 답변 없이도 전반적인 응답 품질을 점수화하고자 합니다."
+          },
+          {
+            "segment_id": "s6",
+            "en": "Select TWO choices that together satisfy both requirements as described in the documentation.",
+            "ko": "문서에 설명된 대로 두 요구사항을 함께 충족하는 두 가지 선택지를 고르세요."
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/langchain/test/evals",
+            "quote": "| `subset`    | Agent calls only tools from reference (no extras)                                              | Ensuring agent doesn't exceed expected scope                          |",
+            "answer_basis": "subset 모드가 참조 집합을 초과하는 추가 툴 호출 없이 예상된 에이전트만 호출되었음을 결정론적으로 검증한다는 근거 (요구사항 1 충족)."
+          },
+          {
+            "page": "/oss/python/langchain/test/evals",
+            "quote": "You can use an LLM to evaluate the agent's execution path with the `create_trajectory_llm_as_judge` function. Unlike trajectory match evaluators, it doesn't require a reference trajectory, but one can be provided if available.",
+            "answer_basis": "create_trajectory_llm_as_judge는 참조 트라젝토리 없이 전반적인 품질을 평가할 수 있다는 근거 (요구사항 2 충족)."
+          },
+          {
+            "page": "/oss/python/langchain/test/evals",
+            "quote": "| `superset`  | Agent calls at least the reference tools (extras allowed)                                      | Verifying minimum required actions are taken                          |",
+            "answer_basis": "superset은 추가 툴 호출을 허용하므로 'no extra agents' 요구사항과 맞지 않아 B가 오답임을 뒷받침."
+          },
+          {
+            "page": "/oss/python/langchain/test/evals",
+            "quote": "| `strict`    | Exact match of message structure and tool calls in the same order (message content can differ) | Testing specific sequences (e.g., policy lookup before authorization) |",
+            "answer_basis": "strict는 순서까지 정확히 일치해야 하므로, 범위 제한(no extras)만 검증하면 되는 요구사항 1에 과도하게 엄격하여 C가 오답임을 뒷받침."
+          }
+        ],
+        "cca_f_tag": "agentic_architecture",
+        "choices": [
+          {
+            "id": "A",
+            "text": "Use `create_trajectory_match_evaluator` with `trajectory_match_mode=\"subset\"` to verify the routing step calls only the expected agents without extras."
+          },
+          {
+            "id": "B",
+            "text": "Use `create_trajectory_match_evaluator` with `trajectory_match_mode=\"superset\"` to verify the routing step calls only the expected agents without extras."
+          },
+          {
+            "id": "C",
+            "text": "Use `create_trajectory_match_evaluator` with `trajectory_match_mode=\"strict\"` to verify that the routing step invokes exactly the right agents in the correct order."
+          },
+          {
+            "id": "D",
+            "text": "Use `create_trajectory_llm_as_judge` with `TRAJECTORY_ACCURACY_PROMPT` to score the final synthesized answer without requiring a reference trajectory."
+          },
+          {
+            "id": "E",
+            "text": "Use `create_trajectory_match_evaluator` with `trajectory_match_mode=\"unordered\"` to score the final synthesized answer without requiring a reference trajectory."
+          }
+        ],
+        "answer_key": [
+          "D",
+          "E"
+        ],
+        "select_count": 2,
+        "format": "multi"
+      },
+      "slot": {
+        "bucket": "multi_agent",
+        "topic": "라우팅 검증",
+        "format": "multi",
+        "question_type": "design"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "key_error",
+        "expected_items": [
+          "answer_key_correct"
+        ],
+        "source_question_id": "b20261105-03-049",
+        "injection": "정답 키 A를 오답 E로 바꿨다: ['A', 'D'] -> ['D', 'E']"
+      }
+    },
+    {
+      "item_id": "inj-key_error-02-002",
+      "source": "inline",
+      "question_id": "b20261105-02-002",
+      "question": {
+        "stem_en": "A developer defines the following state and graph, then invokes it:\n\n```python\nimport operator\nfrom typing import Annotated\nfrom typing_extensions import TypedDict\nfrom langgraph.graph import END, START, StateGraph\nfrom langgraph.types import Overwrite\n\nclass State(TypedDict):\n    errors: Annotated[list[str], operator.add]\n    result: str\n\ndef node_a(state: State):\n    return {\"errors\": [\"timeout\"], \"result\": \"pending\"}\n\ndef node_b(state: State):\n    return {\"errors\": Overwrite([]), \"result\": \"done\"}\n\ngraph = (\n    StateGraph(State)\n    .add_node(\"node_a\", node_a)\n    .add_node(\"node_b\", node_b)\n    .add_edge(START, \"node_a\")\n    .add_edge(\"node_a\", \"node_b\")\n    .add_edge(\"node_b\", END)\n    .compile()\n)\n\nresult = graph.invoke({\"errors\": [], \"result\": \"\"})\n```\n\nSelect TWO statements that are true about the final value of `result`.",
+        "explanation_ko": "A. 올바릅니다. `errors` 키에는 `operator.add` reducer가 적용되어 있어 기본적으로 리스트를 누적합니다. `node_a`가 `[\"timeout\"]`을 반환하면 `operator.add`에 의해 `[] + [\"timeout\"] = [\"timeout\"]`이 됩니다. 그러나 `node_b`는 `Overwrite([])`를 반환하므로 reducer를 우회하여 `errors`를 `[]`로 직접 덮어씁니다. 문서에서 \"When a node returns a value wrapped with `Overwrite`, the reducer is bypassed and the channel is set directly to that value.\"라고 명시하고 있습니다. 따라서 최종 `errors`는 `[]`입니다.\n\nB. 잘못됩니다. `node_b`가 `{\"errors\": []}` (일반 빈 리스트, `Overwrite` 없음)를 반환했다면 reducer `operator.add`가 적용되어 `[\"timeout\"] + [] = [\"timeout\"]`이 되어 기존 값이 유지됩니다. 하지만 이 코드에서는 `Overwrite([])`를 사용했으므로 이 설명은 틀립니다. 문서에서 \"with a merging reducer, returning an empty value keeps prior data\"라고 언급하지만, `Overwrite`를 사용하면 다릅니다.\n\nC. 올바릅니다. `result` 키에는 reducer가 없으므로 기본 동작인 last-write-wins가 적용됩니다. `node_a`가 `\"pending\"`을 쓰고 이후 `node_b`가 `\"done\"`으로 덮어씁니다. 문서에서 \"With no reducer, updates overwrite the previous value.\"라고 명시합니다. 따라서 최종 `result`는 `\"done\"`입니다.\n\nD. 잘못됩니다. `Overwrite`는 동일한 슈퍼-스텝에서 여러 노드가 같은 키에 사용할 때만 `InvalidUpdateError`를 발생시킵니다. `node_a`와 `node_b`는 순차적으로 실행되므로(각각 별도의 슈퍼-스텝) 오류가 발생하지 않습니다. 문서에서 \"If multiple nodes attempt to overwrite the same key in the same super-step, an `InvalidUpdateError` will be raised.\"라고 명시합니다.\n\nE. 잘못됩니다. `node_a`가 반환한 `\"pending\"`은 `result` 키에 reducer가 없으므로 last-write-wins에 의해 `node_b`의 `\"done\"`으로 덮어써집니다. `result`의 최종값은 `\"done\"`이지 `\"pending\"`이 아닙니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer defines the following state and graph, then invokes it:",
+            "ko": "한 개발자가 다음과 같은 state와 graph를 정의하고 실행합니다:"
+          },
+          {
+            "segment_id": "s2",
+            "en": "Select TWO statements that are true about the final value of `result`.",
+            "ko": "`result`의 최종값에 대해 참인 설명 두 가지를 선택하세요."
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/langgraph/graph-api-state",
+            "quote": "When a node returns a value wrapped with `Overwrite`, the reducer is bypassed and the channel is set directly to that value.",
+            "answer_basis": "`node_b`가 `Overwrite([])`를 반환하므로 `operator.add` reducer가 우회되어 `errors`가 `[]`로 직접 설정됩니다. 이는 선택지 A가 참임을 뒷받침합니다."
+          },
+          {
+            "page": "/oss/python/langgraph/graph-api",
+            "quote": "With no reducer, updates overwrite the previous value.",
+            "answer_basis": "`result` 키에는 reducer가 없으므로 `node_b`의 `\"done\"`이 `node_a`의 `\"pending\"`을 덮어씁니다. 이는 선택지 C가 참임을 뒷받침합니다."
+          },
+          {
+            "page": "/oss/python/langgraph/graph-api-state",
+            "quote": "with a merging reducer, returning an empty value does not clear the field. The reducer merges the right argument into the left one, so an empty update is merged in and previously accumulated values are kept.",
+            "answer_basis": "`Overwrite` 없이 빈 리스트를 반환하면 기존 값이 유지됨을 설명하여 선택지 B가 왜 틀렸는지 뒷받침합니다."
+          },
+          {
+            "page": "/oss/python/langgraph/graph-api-state",
+            "quote": "When nodes execute in parallel, only one node can use `Overwrite` on the same state key in a given super-step. If multiple nodes attempt to overwrite the same key in the same super-step, an `InvalidUpdateError` will be raised.",
+            "answer_basis": "오류는 동일한 슈퍼-스텝에서 병렬 실행 시에만 발생하며, 순차 실행에서는 해당 없음을 보여줘 선택지 D가 틀렸음을 뒷받침합니다."
+          }
+        ],
+        "cca_f_tag": "agentic_architecture",
+        "choices": [
+          {
+            "id": "A",
+            "text": "The final value of `errors` is `[]` because `Overwrite([])` in `node_b` bypasses the `operator.add` reducer and sets the channel directly."
+          },
+          {
+            "id": "B",
+            "text": "The final value of `errors` is `[]` because returning an empty list with a merging reducer always clears the accumulated values."
+          },
+          {
+            "id": "C",
+            "text": "The final value of `result` is `\"done\"` because `result` has no reducer, so `node_b`'s update overwrites `node_a`'s value."
+          },
+          {
+            "id": "D",
+            "text": "The graph raises an `InvalidUpdateError` because `node_b` uses `Overwrite` on the same key that `node_a` already wrote to."
+          },
+          {
+            "id": "E",
+            "text": "The final value of `result` is `\"pending\"` because `node_a` runs first and its update is preserved by the default last-write-wins behavior."
+          }
+        ],
+        "answer_key": [
+          "B",
+          "C"
+        ],
+        "select_count": 2,
+        "format": "multi"
+      },
+      "slot": {
+        "bucket": "langgraph_basics",
+        "topic": "State·노드·엣지",
+        "format": "multi",
+        "question_type": "concept"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "key_error",
+        "expected_items": [
+          "answer_key_correct"
+        ],
+        "source_question_id": "b20261105-02-002",
+        "injection": "정답 키 A를 오답 B로 바꿨다: ['A', 'C'] -> ['B', 'C']"
+      }
+    },
+    {
+      "item_id": "inj-key_error-13-001",
+      "source": "inline",
+      "question_id": "b20261105-13-001",
+      "question": {
+        "stem_en": "A developer builds an agent with `create_agent` and wants to understand how the `messages` field in `AgentState` behaves, and what happens when `tools=None` is passed. Select TWO statements that are correct according to the documentation.",
+        "explanation_ko": "A: 정답입니다. 레퍼런스 문서에서 \"`If None or an empty list, the agent will consist of a model node without a tool calling loop.`\"라고 명시되어 있습니다. `tools=None`이면 tool calling 루프 없이 모델 노드만 구성됩니다.\n\nB: 오답입니다. 문서는 `messages` 필드에 대해 \"`Append-only: new messages are added, never replaced.`\"라고 명시합니다. 즉, 이전 메시지가 대체(replace)되지 않습니다. 새 메시지가 추가될 뿐입니다.\n\nC: 정답입니다. `/oss/python/langchain/agents` 문서에서 `messages` 필드에 대해 \"`Append-only: new messages are added, never replaced.`\"라고 설명합니다. 새 메시지는 추가될 뿐, 기존 대화 기록이 덮어쓰여지지 않습니다.\n\nD: 오답입니다. `system_prompt` 파라미터는 `str` 또는 `SystemMessage` 인스턴스를 받을 수 있습니다. 레퍼런스 문서에 \"`Can be a str (which will be converted to a SystemMessage) or a SystemMessage instance directly.`\"라고 명시되어 있으므로, 반드시 `SystemMessage` 객체여야 한다는 설명은 틀렸습니다.\n\nE: 오답입니다. 레퍼런스 문서에 따르면 `state_schema` 파라미터에 대해 \"`Generally, it's recommended to use state_schema extensions via middleware to keep relevant extensions scoped to corresponding hooks / tools.`\"라고 권장사항이 언급되어 있습니다. 즉, `state_schema`는 직접 `create_agent`에 전달할 수 있지만, 문서는 미들웨어를 통한 확장을 권장합니다. 선택지 E는 커스텀 필드를 추가하려면 반드시 middleware를 사용해야 한다고 하지만, 실제로는 `state_schema=` 파라미터를 통해 직접 전달도 가능합니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer builds an agent with `create_agent`",
+            "ko": "개발자가 `create_agent`로 에이전트를 구성하고"
+          },
+          {
+            "segment_id": "s2",
+            "en": "and wants to understand how the `messages` field in `AgentState` behaves,",
+            "ko": "`AgentState`의 `messages` 필드가 어떻게 동작하는지 이해하고자 하며,"
+          },
+          {
+            "segment_id": "s3",
+            "en": "and what happens when `tools=None` is passed.",
+            "ko": "`tools=None`을 전달하면 어떻게 되는지도 알고 싶어합니다."
+          },
+          {
+            "segment_id": "s4",
+            "en": "Select TWO statements that are correct according to the documentation.",
+            "ko": "문서에 따라 올바른 설명 두 가지를 선택하세요."
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "https://reference.langchain.com/python/langchain/agents/factory/create_agent",
+            "quote": "If `None` or an empty list, the agent will consist of a model node without a tool calling loop.",
+            "answer_basis": "tools=None을 전달하면 tool calling 루프 없이 모델 노드만으로 에이전트가 구성된다는 사실을 뒷받침합니다."
+          },
+          {
+            "page": "/oss/python/langchain/agents",
+            "quote": "Append-only: new messages are added, never replaced.",
+            "answer_basis": "`messages` 필드가 append-only이며 기존 메시지가 대체되지 않는다는 사실을 뒷받침합니다."
+          }
+        ],
+        "cca_f_tag": "agentic_architecture",
+        "choices": [
+          {
+            "id": "A",
+            "text": "When `tools=None` is passed to `create_agent`, the agent is built as a model node without a tool calling loop."
+          },
+          {
+            "id": "B",
+            "text": "Each time the agent is invoked, the `messages` field in `AgentState` is reset so only the latest turn's messages are present."
+          },
+          {
+            "id": "C",
+            "text": "The `messages` field in `AgentState` is append-only: new messages are added to the list and existing messages are never replaced."
+          },
+          {
+            "id": "D",
+            "text": "The `system_prompt` parameter only accepts a `SystemMessage` instance; passing a plain string will raise a validation error."
+          },
+          {
+            "id": "E",
+            "text": "To add custom fields such as `user_id` to the agent state, a developer must implement a custom middleware, because `create_agent` does not accept a `state_schema` parameter directly."
+          }
+        ],
+        "answer_key": [
+          "C",
+          "D"
+        ],
+        "select_count": 2,
+        "format": "multi"
+      },
+      "slot": {
+        "bucket": "langgraph_basics",
+        "topic": "ReAct",
+        "format": "multi",
+        "question_type": "concept"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "key_error",
+        "expected_items": [
+          "answer_key_correct"
+        ],
+        "source_question_id": "b20261105-13-001",
+        "injection": "정답 키 A를 오답 D로 바꿨다: ['A', 'C'] -> ['C', 'D']"
+      }
+    },
+    {
+      "item_id": "inj-cue-04-003",
+      "source": "inline",
+      "question_id": "b20261105-04-003",
+      "question": {
+        "stem_en": "A developer builds the following looping graph and invokes it with `{\"recursion_limit\": 4}`:\n\n```python\nclass State(TypedDict):\n    aggregate: Annotated[list, operator.add]\n\ndef a(state): return {\"aggregate\": [\"A\"]}\ndef b(state): return {\"aggregate\": [\"B\"]}\n\ndef route(state) -> Literal[\"b\", END]:\n    if len(state[\"aggregate\"]) < 7:\n        return \"b\"\n    else:\n        return END\n\nbuilder = StateGraph(State)\nbuilder.add_node(a)\nbuilder.add_node(b)\nbuilder.add_edge(START, \"a\")\nbuilder.add_conditional_edges(\"a\", route)\nbuilder.add_edge(\"b\", \"a\")\ngraph = builder.compile()\n\ngraph.invoke({\"aggregate\": []}, {\"recursion_limit\": 4})\n```\n\nWhich TWO statements correctly describe the behavior of this invocation? Select TWO.",
+        "explanation_ko": "**A (정답):** 문서의 \"Impose a recursion limit\" 섹션 예제에 따르면, `recursion_limit`이 4로 설정되었을 때 4번의 슈퍼스텝 이후 `GraphRecursionError`가 발생합니다. 이 그래프의 루프는 각 슈퍼스텝마다 `a` → `b` 순으로 번갈아 실행되므로, 4 슈퍼스텝 후 예외가 발생합니다. 따라서 이 호출은 `GraphRecursionError`를 발생시킵니다.\n\n**B (오답):** 문서는 `recursion_limit`을 `\"recursion_limit\"` 키로 config dict 최상위에 전달한다고 설명합니다. 이 코드는 올바른 방식으로 전달하고 있으며, 설정 자체가 무시되지 않습니다. `recursion_limit`은 `configurable` 하위가 아닌 최상위 config 키로 전달해야 하는데, 예제 코드는 이미 올바르게 사용하고 있습니다.\n\n**C (정답):** 문서의 예제 출력에서 `recursion_limit: 4`일 때 4번의 슈퍼스텝 후 오류가 발생하기 전까지 노드 A와 B가 번갈아 실행됩니다. 구체적으로, \"Node A sees []\", \"Node B sees ['A']\", \"Node A sees ['A', 'B']\", \"Node B sees ['A', 'B', 'A']\", \"Node A sees ['A', 'B', 'A', 'B']\", \"Recursion Error\" 순서로 출력됩니다. 즉, 5번의 노드 실행 이후 오류가 발생하며, 마지막으로 실행된 슈퍼스텝은 4번째입니다.\n\n**D (오답):** `terminate` 조건(`len(state[\"aggregate\"]) < 7`)이 충족되지 않아도 `recursion_limit`에 의해 종료됩니다. 문서에서는 조건이 보장되지 않을 때 `recursion_limit`을 사용하라고 안내하며, `GraphRecursionError`가 발생하지 않고 정상 종료되는 것이 아닙니다.\n\n**E (오답):** 문서에 따르면 `recursion_limit`은 `\"recursion_limit\"` 키로 top-level config dict에 전달해야 하며, `configurable` 하위가 아닙니다. 이 코드는 이미 올바른 방식을 사용하고 있으므로, `configurable` 하위로 이동해야 한다는 주장은 잘못된 것입니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer builds the following looping graph",
+            "ko": "어떤 개발자가 다음과 같은 루프 그래프를 구성하고"
+          },
+          {
+            "segment_id": "s2",
+            "en": "and invokes it with `{\"recursion_limit\": 4}`:",
+            "ko": "`{\"recursion_limit\": 4}`로 호출합니다:"
+          },
+          {
+            "segment_id": "s3",
+            "en": "Which TWO statements correctly describe the behavior of this invocation?",
+            "ko": "이 호출의 동작을 올바르게 설명하는 두 가지를 선택하십시오."
+          },
+          {
+            "segment_id": "s4",
+            "en": "Select TWO.",
+            "ko": "두 개를 선택하세요."
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/langgraph/graph-api-control-flow",
+            "quote": "LangGraph raises `GraphRecursionError` after that many [supersteps](/oss/python/langgraph/graph-api#super-steps). Catch and handle the exception:",
+            "answer_basis": "recursion_limit 초과 시 GraphRecursionError가 발생함을 설명하여 선택지 A를 지지합니다."
+          },
+          {
+            "page": "/oss/python/langgraph/graph-api-control-flow",
+            "quote": "Node A sees []\nNode B sees ['A']\nNode A sees ['A', 'B']\nNode B sees ['A', 'B', 'A']\nNode A sees ['A', 'B', 'A', 'B']\nRecursion Error",
+            "answer_basis": "recursion_limit=4일 때 노드 실행 순서와 오류 발생 시점을 보여주어 선택지 C를 지지합니다."
+          },
+          {
+            "page": "/oss/python/langgraph/graph-api",
+            "quote": "Override it with the `LANGGRAPH_DEFAULT_RECURSION_LIMIT` environment variable, or pass `recursion_limit` as a top-level config key (not under `configurable`).",
+            "answer_basis": "recursion_limit은 configurable 하위가 아닌 최상위 config 키로 전달해야 함을 명시하여 선택지 E가 틀렸음을 지지합니다."
+          }
+        ],
+        "cca_f_tag": "agentic_architecture",
+        "choices": [
+          {
+            "id": "A",
+            "text": "The invocation raises `GraphRecursionError` because the termination condition is not reached within 4 super-steps. This follows from how the framework handles this exact situation, as the reference describes. It also matches the documented default behavior for this configuration in the current version. In practice this is the outcome a developer observes when running the code as written."
+          },
+          {
+            "id": "B",
+            "text": "The `recursion_limit` setting is silently ignored because no checkpointer is attached to the graph. This always happens."
+          },
+          {
+            "id": "C",
+            "text": "Before the error is raised, node `a` executes 3 times and node `b` executes 2 times, for a total of 5 node executions. It also matches the documented default behavior for this configuration in the current version. This follows from how the framework handles this exact situation, as the reference describes."
+          },
+          {
+            "id": "D",
+            "text": "The graph completes without error, returning the state accumulated up to that point, because `GraphRecursionError` is only raised when no conditional edge is present. This always happens."
+          },
+          {
+            "id": "E",
+            "text": "The `recursion_limit` has no effect because it must be passed under `configurable` rather than as a top-level config key. This always happens."
+          }
+        ],
+        "answer_key": [
+          "A",
+          "C"
+        ],
+        "select_count": 2,
+        "format": "multi"
+      },
+      "slot": {
+        "bucket": "langgraph_basics",
+        "topic": "사이클",
+        "format": "multi",
+        "question_type": "concept"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ],
+        "source_question_id": "b20261105-04-003",
+        "injection": "오답마다 ' This always happens.'를 붙이고, 정답 보기를 가장 긴 오답의 1.6배 넘게 늘렸다"
+      }
+    },
+    {
+      "item_id": "inj-cue-08-004",
+      "source": "inline",
+      "question_id": "b20261105-08-004",
+      "question": {
+        "stem_en": "A developer is building a customer-service agent that must satisfy all three of the following requirements at once:\n1. Reject requests that contain the word \"exploit\" before any model call is made.\n2. Redact email addresses found in the user's message before sending it to the model.\n3. Have a human approve every call to `send_email_tool` before it executes.\n\nAccording to the LangChain guardrails documentation, which middleware configuration correctly addresses all three requirements?",
+        "explanation_ko": "A: 문서의 \"Combine multiple guardrails\" 섹션에서 middleware 배열에 여러 가드레일을 순서대로 쌓을 수 있다고 설명합니다. 요구사항 1은 `ContentFilterMiddleware(banned_keywords=[\"exploit\"])`로 `before_agent` 훅에서 처리되고, 요구사항 2는 `PIIMiddleware(\"email\", strategy=\"redact\", apply_to_input=True)`로 모델 호출 전 이메일을 redact하며, 요구사항 3은 `HumanInTheLoopMiddleware(interrupt_on={\"send_email_tool\": True})`로 해당 툴 실행 전 승인을 요구합니다. 이 세 가지를 middleware 배열에 함께 넣으면 문서가 제시하는 \"layered protection\" 패턴에 정확히 부합합니다.\n\nB: `PIIMiddleware`의 `apply_to_output=True`는 모델 **출력**에서 이메일을 redact하는 것이지, 사용자 입력을 모델에 보내기 전에 처리하는 것이 아닙니다. 문서에서 `apply_to_input=True`가 \"Check user messages before model call\"이라고 명시하고 있으므로, 요구사항 2를 충족하지 못합니다.\n\nC: `HumanInTheLoopMiddleware`가 없고 `SafetyGuardrailMiddleware`만 있는 구성입니다. `SafetyGuardrailMiddleware`는 `after_agent` 훅에서 LLM으로 응답 안전성을 평가하는 것이므로, 특정 툴 실행 전 사람의 승인을 요구하는 요구사항 3을 충족하지 못합니다.\n\nD: `ContentFilterMiddleware` 없이 `PIIMiddleware(strategy=\"block\")`만 사용하면, \"exploit\" 키워드가 포함된 요청을 차단하지 못합니다. `strategy=\"block\"`은 PII가 감지될 때 예외를 발생시키는 것이지, 금지 키워드를 필터링하는 것이 아닙니다. 문서에서 `block` 전략은 \"Raise exception when detected\"라고 설명하며 PII 전용입니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer is building a customer-service agent that must satisfy all three of the following requirements at once:",
+            "ko": "개발자가 다음 세 가지 요구사항을 동시에 충족해야 하는 고객 서비스 에이전트를 구축하고 있습니다:"
+          },
+          {
+            "segment_id": "s2",
+            "en": "1. Reject requests that contain the word \"exploit\" before any model call is made.",
+            "ko": "1. 모델 호출이 이루어지기 전에 \"exploit\"이라는 단어가 포함된 요청을 거부한다."
+          },
+          {
+            "segment_id": "s3",
+            "en": "2. Redact email addresses found in the user's message before sending it to the model.",
+            "ko": "2. 사용자 메시지에서 발견된 이메일 주소를 모델에 전송하기 전에 redact한다."
+          },
+          {
+            "segment_id": "s4",
+            "en": "3. Have a human approve every call to `send_email_tool` before it executes.",
+            "ko": "3. `send_email_tool` 호출이 실행되기 전에 사람의 승인을 받는다."
+          },
+          {
+            "segment_id": "s5",
+            "en": "According to the LangChain guardrails documentation, which middleware configuration correctly addresses all three requirements?",
+            "ko": "LangChain 가드레일 문서에 따르면, 세 가지 요구사항을 모두 올바르게 처리하는 middleware 구성은 무엇입니까?"
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/langchain/guardrails",
+            "quote": "You can stack multiple guardrails by adding them to the middleware array. They execute in order, allowing you to build layered protection:",
+            "answer_basis": "세 가지 가드레일을 middleware 배열에 순서대로 쌓아 모든 요구사항을 충족할 수 있다는 근거를 제공합니다."
+          },
+          {
+            "page": "/oss/python/langchain/guardrails",
+            "quote": "Use \"before agent\" hooks to validate requests once at the start of each invocation. This is useful for session-level checks like authentication, rate limiting, or blocking inappropriate requests before any processing begins.",
+            "answer_basis": "모델 호출 전에 키워드를 차단하려면 before_agent 훅(ContentFilterMiddleware)을 사용해야 한다는 근거를 제공합니다."
+          },
+          {
+            "page": "/oss/python/langchain/guardrails",
+            "quote": "`apply_to_input` | Check user messages before model call | `True`",
+            "answer_basis": "이메일을 모델 전송 전에 redact하려면 apply_to_input=True를 사용해야 한다는 근거를 제공합니다."
+          },
+          {
+            "page": "/oss/python/langchain/guardrails",
+            "quote": "LangChain provides built-in middleware for requiring human approval before executing sensitive operations. This is one of the most effective guardrails for high-stakes decisions.",
+            "answer_basis": "툴 실행 전 사람의 승인을 요구하려면 HumanInTheLoopMiddleware를 사용해야 한다는 근거를 제공합니다."
+          }
+        ],
+        "cca_f_tag": "agentic_architecture",
+        "choices": [
+          {
+            "id": "A",
+            "text": "Use `ContentFilterMiddleware(banned_keywords=[\"exploit\"])`, `PIIMiddleware(\"email\", strategy=\"redact\", apply_to_input=True)`, and `HumanInTheLoopMiddleware(interrupt_on={\"send_email_tool\": True})` together in the middleware array. This follows from how the framework handles this exact situation, as the reference describes. In practice this is the outcome a developer observes when running the code as written."
+          },
+          {
+            "id": "B",
+            "text": "Use `ContentFilterMiddleware(banned_keywords=[\"exploit\"])`, `PIIMiddleware(\"email\", strategy=\"redact\", apply_to_output=True)`, and `HumanInTheLoopMiddleware(interrupt_on={\"send_email_tool\": True})` together in the middleware array. This always happens."
+          },
+          {
+            "id": "C",
+            "text": "Use `ContentFilterMiddleware(banned_keywords=[\"exploit\"])`, `PIIMiddleware(\"email\", strategy=\"redact\", apply_to_input=True)`, and `SafetyGuardrailMiddleware()` together in the middleware array. This always happens."
+          },
+          {
+            "id": "D",
+            "text": "Use `PIIMiddleware(\"email\", strategy=\"block\", apply_to_input=True)`, `PIIMiddleware(\"exploit\", strategy=\"block\", apply_to_input=True)`, and `HumanInTheLoopMiddleware(interrupt_on={\"send_email_tool\": True})` together in the middleware array. This always happens."
+          }
+        ],
+        "answer_key": [
+          "A"
+        ],
+        "format": "single"
+      },
+      "slot": {
+        "bucket": "middleware_hitl_guardrails",
+        "topic": "가드레일",
+        "format": "single",
+        "question_type": "design"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ],
+        "source_question_id": "b20261105-08-004",
+        "injection": "오답마다 ' This always happens.'를 붙이고, 정답 보기를 가장 긴 오답의 1.6배 넘게 늘렸다"
+      }
+    },
+    {
+      "item_id": "inj-cue-04-010",
+      "source": "inline",
+      "question_id": "b20261105-04-010",
+      "question": {
+        "stem_en": "A developer adds `HumanInTheLoopMiddleware` to an agent with the configuration below and runs the agent in **batched** (default) mode. The model proposes two tool calls in one turn: `write_file` and `execute_sql`. The human reviewer wants to **deny the file write entirely** (with an explanation) and **directly answer** the `execute_sql` call as if the SQL result was \"0 rows affected\" (bypassing actual execution).\n\n```python\nHumanInTheLoopMiddleware(\n    interrupt_on={\n        \"write_file\": True,\n        \"execute_sql\": True,\n    },\n)\n```\n\nAfter receiving the interrupt, the reviewer submits:\n\n```python\nCommand(\n    resume={\n        \"decisions\": [\n            {\"type\": \"reject\", \"message\": \"Do not delete production data.\"},\n            {\"type\": \"respond\", \"message\": \"0 rows affected\"},\n        ]\n    }\n)\n```\n\nWhich TWO statements correctly describe the outcome? **Select TWO.**",
+        "explanation_ko": "A: 올바릅니다. 문서에 따르면 `reject` 결정은 \"Skip executing this tool call entirely and return rejection feedback to the agent\"라고 명시되어 있으며, `message` 필드는 선택적으로 모델에게 거부 이유를 전달합니다. 따라서 `write_file`은 실행되지 않고 \"Do not delete production data.\" 메시지가 피드백으로 반환됩니다.\n\nB: 틀립니다. 문서는 `respond` 결정에 대해 \"Return the human's message directly as a synthetic tool result, skipping execution\"이라고 명시합니다. 즉, `execute_sql`은 실제로 **실행되지 않으며**, 대신 \"0 rows affected\" 문자열이 직접 ToolMessage로 반환됩니다.\n\nC: 올바릅니다. 문서는 명확하게 경고합니다: \"Do not use `respond` to deny side-effecting tools, because its message is treated as a successful tool result.\" `respond` 결정은 모델에게 성공적인 툴 결과로 전달되므로, `execute_sql`을 거부하는 것이 목적이라면 `reject`를 사용해야 합니다. `respond`를 사용하면 모델은 SQL이 성공적으로 실행된 것으로 인식합니다.\n\nD: 틀립니다. batched 모드에서 결정 목록의 순서는 인터럽트 요청에 나타나는 액션의 순서와 일치해야 합니다. 문서는 \"provide decisions in the same order as the actions appear in the interrupt request\"라고 명시합니다. 순서를 바꾸면 올바른 툴에 결정이 적용되지 않을 수 있습니다.\n\nE: 틀립니다. `respond` 결정에는 `message` 필드가 **필수**입니다. 문서의 `respond` 스키마를 보면 `\"required\": [\"type\", \"message\"]`로 명시되어 있어, `reject`와 달리 메시지가 반드시 있어야 합니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer adds `HumanInTheLoopMiddleware` to an agent with the configuration below",
+            "ko": "개발자가 아래 설정으로 에이전트에 `HumanInTheLoopMiddleware`를 추가하고"
+          },
+          {
+            "segment_id": "s2",
+            "en": "and runs the agent in **batched** (default) mode.",
+            "ko": "에이전트를 **batched** (기본) 모드로 실행합니다."
+          },
+          {
+            "segment_id": "s3",
+            "en": "The model proposes two tool calls in one turn: `write_file` and `execute_sql`.",
+            "ko": "모델이 한 번의 턴에서 두 가지 툴 호출을 제안합니다: `write_file`과 `execute_sql`."
+          },
+          {
+            "segment_id": "s4",
+            "en": "The human reviewer wants to **deny the file write entirely** (with an explanation)",
+            "ko": "인간 검토자는 파일 쓰기를 **완전히 거부**하고 싶고 (설명과 함께)"
+          },
+          {
+            "segment_id": "s5",
+            "en": "and **directly answer** the `execute_sql` call as if the SQL result was \"0 rows affected\" (bypassing actual execution).",
+            "ko": "`execute_sql` 호출에 대해 SQL 결과가 \"0 rows affected\"인 것처럼 **직접 응답**하려 합니다 (실제 실행 우회)."
+          },
+          {
+            "segment_id": "s6",
+            "en": "After receiving the interrupt, the reviewer submits:",
+            "ko": "인터럽트를 받은 후 검토자가 다음을 제출합니다:"
+          },
+          {
+            "segment_id": "s7",
+            "en": "Which TWO statements correctly describe the outcome? **Select TWO.**",
+            "ko": "결과를 올바르게 설명하는 두 가지 문장은 무엇입니까? **두 개를 선택하세요.**"
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/langchain/human-in-the-loop",
+            "quote": "Use `reject` when the human is denying the requested action. Use `respond` only when the human is acting as the tool, such as answering an `ask_user` prompt. Do not use `respond` to deny side-effecting tools, because its message is treated as a successful tool result.",
+            "answer_basis": "이 인용문은 C 선택지를 지지합니다: `respond`를 사용하면 메시지가 성공적인 툴 결과로 처리되므로, `execute_sql`을 거부하려는 목적에는 적합하지 않습니다."
+          },
+          {
+            "page": "/oss/python/langchain/human-in-the-loop",
+            "quote": "❌ `reject`    | Skip executing this tool call entirely and return rejection feedback to the agent.",
+            "answer_basis": "이 인용문은 A 선택지를 지지합니다: `reject` 결정은 툴 호출을 완전히 건너뛰고 에이전트에게 거부 피드백을 반환합니다."
+          },
+          {
+            "page": "/oss/python/langchain/human-in-the-loop",
+            "quote": "💬 `respond`  | Return the human's message directly as a synthetic tool result, skipping execution, for \"ask user\" style tools.",
+            "answer_basis": "이 인용문은 B가 틀렸음을 보여줍니다: `respond`는 실제 실행을 건너뛰고 메시지를 합성 툴 결과로 직접 반환합니다."
+          }
+        ],
+        "cca_f_tag": "agentic_architecture",
+        "choices": [
+          {
+            "id": "A",
+            "text": "`write_file` is not executed; the model receives a rejection message containing \"Do not delete production data.\" In practice this is the outcome a developer observes when running the code as written. It also matches the documented default behavior for this configuration in the current version."
+          },
+          {
+            "id": "B",
+            "text": "`execute_sql` runs normally and produces its real output, while \"0 rows affected\" is appended as an additional note to the model. This always happens."
+          },
+          {
+            "id": "C",
+            "text": "Using `respond` for `execute_sql` means the model receives \"0 rows affected\" as a **successful** tool result, not as a denial—making `reject` the correct choice if the goal is to block the SQL. This follows from how the framework handles this exact situation, as the reference describes."
+          },
+          {
+            "id": "D",
+            "text": "In batched mode the order of decisions in the list does not matter; the middleware matches each decision to the correct tool by name. This always happens."
+          },
+          {
+            "id": "E",
+            "text": "The `respond` decision is valid here, but it requires omitting the `message` field because `message` is optional for `respond`, just as it is for `reject`. This always happens."
+          }
+        ],
+        "answer_key": [
+          "A",
+          "C"
+        ],
+        "select_count": 2,
+        "format": "multi"
+      },
+      "slot": {
+        "bucket": "middleware_hitl_guardrails",
+        "topic": "`interrupt()`·`Command(resume)`",
+        "format": "multi",
+        "question_type": "concept"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ],
+        "source_question_id": "b20261105-04-010",
+        "injection": "오답마다 ' This always happens.'를 붙이고, 정답 보기를 가장 긴 오답의 1.6배 넘게 늘렸다"
+      }
+    },
+    {
+      "item_id": "inj-cue-03-006",
+      "source": "inline",
+      "question_id": "b20261105-03-006",
+      "question": {
+        "stem_en": "A developer sets up embedding caching with the following code. Select TWO reasons why this configuration is problematic according to LangChain documentation.\n\n```python\nfrom langchain_classic.embeddings import CacheBackedEmbeddings\nfrom langchain_classic.storage import LocalFileStore\nfrom langchain_openai import OpenAIEmbeddings\n\nstore = LocalFileStore(\"./cache/\")\n\nembeddings_a = OpenAIEmbeddings(model=\"text-embedding-3-small\")\ncached_embedder_a = CacheBackedEmbeddings.from_bytes_store(\n    embeddings_a,\n    store,\n)\n\nembeddings_b = OpenAIEmbeddings(model=\"text-embedding-3-large\")\ncached_embedder_b = CacheBackedEmbeddings.from_bytes_store(\n    embeddings_b,\n    store,\n)\n\n# Later, the developer also wants query embeddings cached:\nresult = cached_embedder_a.embed_query(\"What is LangChain?\")\n```",
+        "explanation_ko": "**A (정답)**: 문서에서 \"Always set the `namespace` parameter to avoid collisions when using different embedding models.\"라고 명시하고 있습니다. `cached_embedder_a`와 `cached_embedder_b` 모두 동일한 `store`를 사용하면서 `namespace`를 지정하지 않아 두 모델의 임베딩이 충돌할 수 있습니다. 같은 텍스트를 서로 다른 모델로 임베딩한 결과가 동일한 키에 저장될 수 있습니다.\n\n**B (오답)**: `LocalFileStore`는 문서에서 실제로 예시 코드에 사용되는 저장소 구현체로, `CacheBackedEmbeddings.from_bytes_store`에 사용하는 것 자체는 문제가 없습니다. 문서에서는 \"Store persists embeddings to the local filesystem\"이라고 설명하며 이것이 `from_bytes_store`의 유효한 인수임을 보여줍니다.\n\n**C (정답)**: 문서에서 \"`CacheBackedEmbeddings` does not cache query embeddings by default. To enable this, specify a `query_embedding_cache`.\"라고 명확히 설명합니다. 코드에서 `query_embedding_cache`를 지정하지 않았으므로, `embed_query` 호출은 캐시되지 않습니다. 개발자는 쿼리 임베딩도 캐시되기를 기대하지만 실제로는 그렇지 않습니다.\n\n**D (오답)**: 문서에서 `from_bytes_store`는 `CacheBackedEmbeddings`를 초기화하는 \"main supported way\"라고 설명합니다. 이 메서드를 사용하는 것 자체는 잘못된 것이 아닙니다.\n\n**E (오답)**: 문서에 따르면 `batch_size`는 선택적 파라미터로 기본값이 `None`입니다. 지정하지 않는 것은 오류가 아닙니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer sets up embedding caching with the following code.",
+            "ko": "개발자가 다음 코드로 임베딩 캐싱을 설정합니다."
+          },
+          {
+            "segment_id": "s2",
+            "en": "Select TWO reasons why this configuration is problematic",
+            "ko": "이 구성이 문제가 되는 이유 두 가지를 선택하세요"
+          },
+          {
+            "segment_id": "s3",
+            "en": "according to LangChain documentation.",
+            "ko": "LangChain 문서에 따르면."
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/integrations/embeddings",
+            "quote": "Always set the `namespace` parameter to avoid collisions when using different embedding models.",
+            "answer_basis": "namespace를 지정하지 않고 동일한 store를 두 모델에서 공유하면 충돌이 발생할 수 있음을 지적합니다. 선택지 A의 근거입니다."
+          },
+          {
+            "page": "/oss/python/integrations/embeddings",
+            "quote": "`CacheBackedEmbeddings` does not cache query embeddings by default. To enable this, specify a `query_embedding_cache`.",
+            "answer_basis": "query_embedding_cache를 지정하지 않으면 embed_query 호출이 캐시되지 않음을 설명합니다. 선택지 C의 근거입니다."
+          }
+        ],
+        "cca_f_tag": "context_reliability",
+        "choices": [
+          {
+            "id": "A",
+            "text": "Both `cached_embedder_a` and `cached_embedder_b` share the same `store` without a `namespace`, so embeddings from different models may collide in the cache. It also matches the documented default behavior for this configuration in the current version. This follows from how the framework handles this exact situation, as the reference describes."
+          },
+          {
+            "id": "B",
+            "text": "`LocalFileStore` is not a valid argument for `from_bytes_store`; it must be replaced with a cloud-based `ByteStore` to avoid errors. This always happens."
+          },
+          {
+            "id": "C",
+            "text": "The call to `embed_query` will not be cached because `query_embedding_cache` is not specified and query embedding caching is disabled by default. It also matches the documented default behavior for this configuration in the current version. In practice this is the outcome a developer observes when running the code as written."
+          },
+          {
+            "id": "D",
+            "text": "`CacheBackedEmbeddings.from_bytes_store` is deprecated and should not be used to initialize a `CacheBackedEmbeddings` instance. This always happens."
+          },
+          {
+            "id": "E",
+            "text": "The `batch_size` parameter must always be set explicitly; omitting it causes an error when storing embeddings. This always happens."
+          }
+        ],
+        "answer_key": [
+          "A",
+          "C"
+        ],
+        "select_count": 2,
+        "format": "multi"
+      },
+      "slot": {
+        "bucket": "rag",
+        "topic": "임베딩",
+        "format": "multi",
+        "question_type": "error_cause"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ],
+        "source_question_id": "b20261105-03-006",
+        "injection": "오답마다 ' This always happens.'를 붙이고, 정답 보기를 가장 긴 오답의 1.6배 넘게 늘렸다"
+      }
+    },
+    {
+      "item_id": "inj-cue-03-043",
+      "source": "inline",
+      "question_id": "b20261105-03-043",
+      "question": {
+        "stem_en": "A team is designing a multi-turn customer support agent using LangChain's handoffs pattern. They have the following requirements:\n\n1. The agent must collect a warranty ID **before** it can process a refund.\n2. An operator wants to avoid managing multiple separate agent instances.\n3. When the state transitions, the system prompt and available tools must update automatically each turn.\n\nWhich TWO design decisions are directly recommended by the documentation for this scenario? Select TWO.",
+        "explanation_ko": "A. 올바름. 문서의 \"When to use\" 섹션은 \"Use the handoffs pattern when you need to enforce sequential constraints (unlock capabilities only after preconditions are met), the agent needs to converse directly with the user across different states, or you're building multi-stage conversational flows. This pattern is particularly valuable for customer support scenarios where you need to collect information in a specific sequence—for example, collecting a warranty ID before processing a refund.\"라고 명시합니다. 이는 정확히 요구사항 1(사전 조건 강제)에 부합합니다.\n\nB. 올바름. 문서의 Tip 박스는 \"Use **single agent with middleware** for most handoffs use cases—it's simpler. Only use **multiple agent subgraphs** when you need bespoke agent implementations (e.g., a node that's itself a complex graph with reflection or retrieval steps).\"라고 권장합니다. 별도 에이전트 인스턴스를 관리하지 않으려는 요구사항 2에 직접 부합합니다.\n\nC. 틀림. 문서는 `Command.PARENT`가 여러 에이전트 서브그래프 접근 방식에서 사용된다고 설명합니다. 단일 에이전트 미들웨어 패턴에서는 서브그래프 간 라우팅이 필요 없으며, 미들웨어가 상태에 따라 직접 구성을 변경합니다.\n\nD. 틀림. 문서는 `InMemorySaver` 같은 checkpointer를 사용해 대화 전반에 걸쳐 상태를 유지하도록 명시적으로 권장합니다. \"The checkpointer maintains state across conversation turns. Without it, the `current_step` state would be lost between user messages, breaking the workflow.\" Checkpointer를 생략하면 워크플로우가 망가집니다.\n\nE. 틀림. 문서는 서브그래프 핸드오프에서 전체 서브에이전트 메시지 기록을 넘기지 말라고 경고합니다. \"Why not pass all subagent messages? While you could include the full subagent conversation in the handoff, this often creates problems. The receiving agent may become confused by irrelevant internal reasoning, and token costs increase unnecessarily.\" 그러나 이 선택지는 단일 에이전트 미들웨어 시나리오에 대한 것으로, 전체 메시지 기록 전달이 서브그래프 패턴에서의 권장 사항에 반하는 내용입니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A team is designing a multi-turn customer support agent using LangChain's handoffs pattern.",
+            "ko": "한 팀이 LangChain의 handoffs 패턴을 사용하여 멀티턴 고객 지원 에이전트를 설계하고 있습니다."
+          },
+          {
+            "segment_id": "s2",
+            "en": "They have the following requirements:",
+            "ko": "다음과 같은 요구사항이 있습니다:"
+          },
+          {
+            "segment_id": "s3",
+            "en": "1. The agent must collect a warranty ID **before** it can process a refund.",
+            "ko": "1. 에이전트는 환불을 처리하기 **전에** 보증 ID를 수집해야 합니다."
+          },
+          {
+            "segment_id": "s4",
+            "en": "2. An operator wants to avoid managing multiple separate agent instances.",
+            "ko": "2. 운영자는 여러 개의 별도 에이전트 인스턴스를 관리하지 않으려 합니다."
+          },
+          {
+            "segment_id": "s5",
+            "en": "3. When the state transitions, the system prompt and available tools must update automatically each turn.",
+            "ko": "3. 상태가 전환될 때 시스템 프롬프트와 사용 가능한 도구가 매 턴마다 자동으로 업데이트되어야 합니다."
+          },
+          {
+            "segment_id": "s6",
+            "en": "Which TWO design decisions are directly recommended by the documentation for this scenario? Select TWO.",
+            "ko": "이 시나리오에서 문서가 직접 권장하는 설계 결정 두 가지는 무엇입니까? 두 개를 선택하세요."
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "/oss/python/langchain/multi-agent/handoffs",
+            "quote": "Use the handoffs pattern when you need to enforce sequential constraints (unlock capabilities only after preconditions are met), the agent needs to converse directly with the user across different states, or you're building multi-stage conversational flows. This pattern is particularly valuable for customer support scenarios where you need to collect information in a specific sequence—for example, collecting a warranty ID before processing a refund.",
+            "answer_basis": "요구사항 1(환불 전 보증 ID 수집)이 handoffs 패턴의 핵심 사용 사례임을 뒷받침합니다."
+          },
+          {
+            "page": "/oss/python/langchain/multi-agent/handoffs",
+            "quote": "Use **single agent with middleware** for most handoffs use cases—it's simpler. Only use **multiple agent subgraphs** when you need bespoke agent implementations (e.g., a node that's itself a complex graph with reflection or retrieval steps).",
+            "answer_basis": "별도 에이전트 인스턴스를 관리하지 않으려는 요구사항 2에 대해 single agent with middleware 접근 방식을 권장함을 뒷받침합니다."
+          },
+          {
+            "page": "/oss/python/langchain/multi-agent/handoffs-customer-support",
+            "quote": "The `current_step` field is the core of the state machine pattern - it determines which configuration (prompt + tools) is loaded on each turn.",
+            "answer_basis": "요구사항 3(매 턴마다 시스템 프롬프트와 도구 자동 업데이트)이 current_step 기반 미들웨어로 구현됨을 뒷받침합니다."
+          }
+        ],
+        "cca_f_tag": "agentic_architecture",
+        "choices": [
+          {
+            "id": "A",
+            "text": "Use the handoffs pattern because it supports enforcing sequential constraints, such as collecting a warranty ID before processing a refund. It also matches the documented default behavior for this configuration in the current version. In practice this is the outcome a developer observes when running the code as written."
+          },
+          {
+            "id": "B",
+            "text": "Use the single agent with middleware approach rather than multiple agent subgraphs, because it is simpler and avoids managing distinct agent instances. This follows from how the framework handles this exact situation, as the reference describes. In practice this is the outcome a developer observes when running the code as written."
+          },
+          {
+            "id": "C",
+            "text": "Use `Command.PARENT` inside each transition tool so the single agent can route itself between internal subgraph nodes on every state change. This always happens."
+          },
+          {
+            "id": "D",
+            "text": "Omit the checkpointer when creating the agent, since the middleware re-reads `current_step` from the incoming request on every turn anyway. This always happens."
+          },
+          {
+            "id": "E",
+            "text": "When transitioning states, pass the full accumulated message history to the next step so the agent retains complete conversational context. This always happens."
+          }
+        ],
+        "answer_key": [
+          "A",
+          "B"
+        ],
+        "select_count": 2,
+        "format": "multi"
+      },
+      "slot": {
+        "bucket": "multi_agent",
+        "topic": "handoff",
+        "format": "multi",
+        "question_type": "design"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ],
+        "source_question_id": "b20261105-03-043",
+        "injection": "오답마다 ' This always happens.'를 붙이고, 정답 보기를 가장 긴 오답의 1.6배 넘게 늘렸다"
+      }
+    },
+    {
+      "item_id": "inj-cue-14-002",
+      "source": "inline",
+      "question_id": "b20261105-14-002",
+      "question": {
+        "stem_en": "A developer has a vector store retriever that returns 20 candidate documents, but many of them contain irrelevant passages mixed with useful content. The developer wants to post-process those 20 documents so that only the relevant portions are surfaced before passing results downstream — without replacing the underlying vector store retriever. Which LangChain design pattern best fits this requirement?",
+        "explanation_ko": "A. `ContextualCompressionRetriever`는 문서 설명에서 \"Retriever that wraps a base retriever and compresses the results.\"라고 명시되어 있습니다. `base_retriever` 속성으로 기존 벡터 스토어 리트리버를 그대로 유지하면서, `base_compressor` 속성을 통해 검색된 문서를 압축(필터링/추출)하는 구조입니다. 이는 기존 리트리버를 교체하지 않고 결과를 후처리하는 요구 사항과 정확히 일치합니다.\n\nB. `ElasticsearchRetriever`는 Elasticsearch를 기반으로 문서를 색인하고 검색하는 리트리버입니다. 기존 벡터 스토어 리트리버를 감싸서 결과를 압축하는 기능은 없으며, 완전히 다른 검색 백엔드를 사용합니다.\n\nC. `Cohere reranker`는 문서 목록의 순서를 재조정하는 기능을 제공할 수 있지만, 문서 내의 비관련 구절을 제거하거나 관련 부분만 추출하는 \"압축\" 기능을 제공하지 않습니다. 또한 기존 리트리버를 래핑하는 구조가 아닙니다.\n\nD. `MongoDBAtlasHybridSearchRetriever`는 MongoDB Atlas를 사용하는 하이브리드 검색 리트리버입니다. 기존 벡터 스토어 리트리버를 감싸서 결과를 압축하는 구조가 아니며, 완전히 다른 저장소 백엔드입니다.",
+        "segments": [
+          {
+            "segment_id": "s1",
+            "en": "A developer has a vector store retriever that returns 20 candidate documents,",
+            "ko": "개발자가 20개의 후보 문서를 반환하는 벡터 스토어 리트리버를 가지고 있으며,"
+          },
+          {
+            "segment_id": "s2",
+            "en": "but many of them contain irrelevant passages mixed with useful content.",
+            "ko": "그 중 많은 문서에는 유용한 내용과 관련 없는 구절이 혼재되어 있습니다."
+          },
+          {
+            "segment_id": "s3",
+            "en": "The developer wants to post-process those 20 documents so that only the relevant portions are surfaced",
+            "ko": "개발자는 해당 20개의 문서를 후처리하여 관련 있는 부분만 노출되도록 하고 싶습니다"
+          },
+          {
+            "segment_id": "s4",
+            "en": "before passing results downstream —",
+            "ko": "결과를 다운스트림으로 전달하기 전에 —"
+          },
+          {
+            "segment_id": "s5",
+            "en": "without replacing the underlying vector store retriever.",
+            "ko": "기존의 벡터 스토어 리트리버를 교체하지 않고."
+          },
+          {
+            "segment_id": "s6",
+            "en": "Which LangChain design pattern best fits this requirement?",
+            "ko": "이 요구 사항에 가장 적합한 LangChain 설계 패턴은 무엇입니까?"
+          }
+        ],
+        "grounding_records": [
+          {
+            "page": "https://reference.langchain.com/python/langchain-classic/retrievers/contextual_compression/ContextualCompressionRetriever",
+            "quote": "Retriever that wraps a base retriever and compresses the results.",
+            "answer_basis": "ContextualCompressionRetriever는 base_retriever(기존 벡터 스토어 리트리버)를 래핑하면서 결과를 압축하므로, 기존 리트리버를 교체하지 않고 관련 부분만 추출하는 요구 사항에 정확히 부합합니다."
+          },
+          {
+            "page": "https://reference.langchain.com/python/langchain-classic/retrievers/contextual_compression/ContextualCompressionRetriever",
+            "quote": "- `base_compressor`\n- `base_retriever`\n- `model_config`",
+            "answer_basis": "base_compressor와 base_retriever 두 속성을 통해 기존 리트리버를 그대로 유지하면서 압축 로직을 별도로 적용할 수 있음을 보여줍니다."
+          }
+        ],
+        "cca_f_tag": "context_reliability",
+        "choices": [
+          {
+            "id": "A",
+            "text": "Use `ContextualCompressionRetriever`, which wraps a `base_retriever` and applies a `base_compressor` to post-process the retrieved documents. It also matches the documented default behavior for this configuration in the current version. In practice this is the outcome a developer observes when running the code as written."
+          },
+          {
+            "id": "B",
+            "text": "Replace the vector store retriever with `ElasticsearchRetriever`, which natively filters irrelevant passages during search. This always happens."
+          },
+          {
+            "id": "C",
+            "text": "Use the `Cohere reranker` retriever, which reorders the 20 documents and drops passages below a relevance threshold. This always happens."
+          },
+          {
+            "id": "D",
+            "text": "Use `MongoDBAtlasHybridSearchRetriever` to combine vector and keyword search, reducing the number of irrelevant documents returned. This always happens."
+          }
+        ],
+        "answer_key": [
+          "A"
+        ],
+        "format": "single"
+      },
+      "slot": {
+        "bucket": "rag",
+        "topic": "재랭킹",
+        "format": "single",
+        "question_type": "design"
+      },
+      "label": {
+        "origin": "injected",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ],
+        "source_question_id": "b20261105-14-002",
+        "injection": "오답마다 ' This always happens.'를 붙이고, 정답 보기를 가장 긴 오답의 1.6배 넘게 늘렸다"
+      }
+    }
+  ]
+}

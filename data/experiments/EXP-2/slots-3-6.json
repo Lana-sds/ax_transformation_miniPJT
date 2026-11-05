@@ -1,0 +1,71 @@
+{
+  "seed": 20261105,
+  "source": "slots.json slots 3-6 (04-exp2-generate.md 결정)",
+  "exclude_page_parts": [
+    "langsmith/studio",
+    "graph-api-control-flow"
+  ],
+  "slots": [
+    {
+      "bucket": "langgraph_basics",
+      "topic_no": 5,
+      "topic": "ReAct",
+      "format": "short",
+      "question_type": "error_cause",
+      "status": "근접",
+      "near": true,
+      "near_pages": [
+        "/oss/python/langchain/agents",
+        "https://reference.langchain.com/python/langchain/agents/factory/create_agent"
+      ],
+      "pages": [
+        "/oss/python/langchain/agents",
+        "https://reference.langchain.com/python/langchain/agents/factory/create_agent"
+      ]
+    },
+    {
+      "bucket": "langgraph_basics",
+      "topic_no": 1,
+      "topic": "State·노드·엣지",
+      "format": "code",
+      "question_type": "code_behavior",
+      "status": "확인",
+      "near": false,
+      "near_pages": [],
+      "pages": [
+        "/oss/python/langgraph/graph-api",
+        "/oss/python/langgraph/graph-api-state",
+        "https://reference.langchain.com/python/langgraph/graph/state/CompiledStateGraph",
+        "https://reference.langchain.com/python/langgraph/graph/state/StateGraph"
+      ]
+    },
+    {
+      "bucket": "tool_mcp",
+      "topic_no": 1,
+      "topic": "`@tool`",
+      "format": "single",
+      "question_type": "error_cause",
+      "status": "확인",
+      "near": false,
+      "near_pages": [],
+      "pages": [
+        "/oss/python/langchain/tools"
+      ]
+    },
+    {
+      "bucket": "tool_mcp",
+      "topic_no": 5,
+      "topic": "`langchain-mcp-adapters`",
+      "format": "multi",
+      "question_type": "design",
+      "status": "확인",
+      "near": false,
+      "near_pages": [],
+      "pages": [
+        "/oss/python/migrate/langchain-mcp-adapters",
+        "https://reference.langchain.com/python/langchain-mcp-adapters/client/MultiServerMCPClient",
+        "https://reference.langchain.com/python/langchain-mcp-adapters/langchain_mcp_adapters/tools/load_mcp_tools"
+      ]
+    }
+  ]
+}

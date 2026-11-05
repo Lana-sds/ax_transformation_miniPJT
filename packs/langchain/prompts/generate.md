@@ -20,7 +20,11 @@ Question types:
 
 1. The question stem and choices are in English. The explanation (`explanation_ko`) is in Korean. Keep API, class, function and parameter names exactly as written in the document.
 2. Every fact the answer depends on must come from the documents. Do not use outside knowledge.
-3. `grounding_records`: at least one. `page` must be exactly one of the allowed page paths above. `quote` must be copied character for character from that page's document: one contiguous passage, at least 30 characters, no ellipsis, no paraphrase, no added or removed markdown. Prefer one or two full sentences.
+3. `grounding_records`: at least one. `page` must be exactly one of the allowed page paths above. `quote` must be an exact substring of that page's raw source (only whitespace runs are collapsed). Copy it character for character:
+   - One contiguous passage of at least 30 characters, usually one or two full sentences. No ellipsis, no paraphrase.
+   - Prefer plain prose with no links, backticks or `**`. If the span has markup, keep all of it: ``[`Name`](/path#anchor)`` links whole (never `` `Name` `` alone), backticks, `**`, list markers, `|` pipes, HTML tags and entities.
+   - To quote code, copy lines from inside the fence and leave out the fence line (```python theme={...}).
+   - Do not fix typos, change case, punctuation or quote marks, or add a final period.
 4. Wrong choices must be clearly wrong according to the documents, not merely less complete.
 5. `segments`: split the English stem into consecutive phrases (`en`) that together cover the whole stem, and give a faithful Korean translation (`ko`) of each phrase. Number them s1, s2, ...
 6. `cca_f_tag`: the closest Claude Certified Architect (Foundations) domain, or `n/a` if none fits:
@@ -42,3 +46,7 @@ Question types:
 ## Documents
 
 {{documents}}
+
+## Before you answer
+
+Find each `quote` in its page above and compare it character by character, markdown included. If anything differs, copy it again or pick a plain-prose sentence.

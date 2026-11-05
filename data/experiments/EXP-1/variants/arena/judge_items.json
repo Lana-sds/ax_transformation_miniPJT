@@ -1,0 +1,9 @@
+{
+  "extra_items": [
+    {
+      "name": "explanation_correct",
+      "description": "explanation_ko gives each choice (short: each accepted answer) a reason that matches the document and discusses that choice; false if a paragraph is missing, argues about another choice, contradicts the document or the answer key, or rejects a choice only because the document is silent.",
+      "formats": ["single", "multi", "short", "code"]
+    }
+  ]
+}

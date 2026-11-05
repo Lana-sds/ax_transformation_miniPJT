@@ -2,19 +2,35 @@
 
 import json
 import operator
+import re
 from typing import Annotated, Any, TypedDict
 
 from quiz import gates, llm, pricing, sandbox_client
 from quiz.pipeline import prompts
-from quiz.pipeline.schemas import SCHEMAS, JudgeVerdict
+from quiz.pipeline.schemas import SCHEMAS, JudgeVerdict, verdict_schema
 
 CODE_FORMAT = "code"
 SHORT_FORMAT = "short"
+ALL_FORMATS = ("single", "multi", "short", "code")
 JUDGE_ITEMS = ("answer_key_correct", "quote_supports_answer", "distractors_wrong", "mapping_faithful")
 # 선택형(single, multi, code)에만 보는 출제 품질 항목(T2.11)
 CHOICE_JUDGE_ITEMS = ("distractors_plausible", "no_cue")
+# 프롬프트 디렉토리에 두는 Judge 추가 항목 설정(04 결정 6). 없으면 위 4+2개만 본다.
+JUDGE_ITEMS_CONFIG = "judge_items.json"
+_ITEM_NAME = re.compile(r"^[a-z][a-z0-9_]*$")
 DOCS_BASE = "https://docs.langchain.com"
-NEAR_RULE = prompts.load("near").strip()
+
+
+def near_rule() -> str:
+    """근접 주제 금지 규칙. 프롬프트 디렉토리(`QUIZ_PROMPTS_DIR`)를 따르도록 부를 때 읽는다."""
+    return prompts.load("near").strip()
+
+
+def __getattr__(name: str):
+    # 하위 호환: `nodes.NEAR_RULE`은 지금 프롬프트 디렉토리의 규칙이다
+    if name == "NEAR_RULE":
+        return near_rule()
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
 class SlotState(TypedDict, total=False):
@@ -83,7 +99,7 @@ def generate(state: SlotState, model=None) -> dict[str, Any]:
         "generate",
         bucket=slot["bucket"], topic=slot["topic"], format=fmt, question_type=slot["question_type"],
         pages="\n".join(f"  - `{p}`" for p in snapshots),
-        near_rule=NEAR_RULE if slot.get("near") else "",
+        near_rule=near_rule() if slot.get("near") else "",
         format_rules=_format_rules(fmt),
         quality_rules=prompts.load("quality/short" if fmt == SHORT_FORMAT else "quality/choice").strip(),
         feedback=_feedback(state.get("feedback") or []),
@@ -138,8 +154,58 @@ def _judge_rules(fmt: str) -> str:
     return "\n\n".join(parts)
 
 
-def judge_items(fmt: str) -> tuple[str, ...]:
+def _load_extra_items() -> list[dict]:
+    """`judge_items.json`을 읽고 검사한다. 모양:
+
+    {"extra_items": [{"name": "explanation_correct", "description": "...", "formats": ["single", ...]}]}
+
+    `name`은 소문자 식별자이고 기존 항목이나 `JudgeVerdict` 필드와 겹치면 안 된다. `description`은 Judge
+    출력 스키마의 필드 설명이 된다. `formats`는 생략하면 4형식 모두다. 항목이 거짓이면 실패 이유
+    `judge_fail:<name>`이 된다.
+    """
+    path = prompts.prompt_dir() / JUDGE_ITEMS_CONFIG
+    if not path.exists():
+        return []
+    data = json.loads(path.read_text(encoding="utf-8"))
+    entries = data.get("extra_items") if isinstance(data, dict) else None
+    if not isinstance(entries, list):
+        raise ValueError(f"{path}: needs an 'extra_items' list")
+    reserved = set(JUDGE_ITEMS) | set(CHOICE_JUDGE_ITEMS) | set(JudgeVerdict.model_fields)
+    out, seen = [], set()
+    for e in entries:
+        name = e.get("name") if isinstance(e, dict) else None
+        if not isinstance(name, str) or not _ITEM_NAME.match(name):
+            raise ValueError(f"{path}: bad item name {name!r}")
+        if name in reserved or name in seen:
+            raise ValueError(f"{path}: item name {name!r} is reserved or repeated")
+        desc = e.get("description")
+        if not isinstance(desc, str) or not desc.strip():
+            raise ValueError(f"{path}: item {name!r} needs a description")
+        formats = e.get("formats", list(ALL_FORMATS))
+        if not isinstance(formats, list) or not formats or not set(formats) <= set(ALL_FORMATS):
+            raise ValueError(f"{path}: item {name!r} has bad formats {formats!r}")
+        seen.add(name)
+        out.append({"name": name, "description": desc.strip(), "formats": list(formats)})
+    return out
+
+
+def extra_judge_items(fmt: str | None = None) -> list[dict]:
+    """설정 파일의 추가 항목. `fmt`를 주면 그 형식에 보는 항목만 준다."""
+    items = _load_extra_items()
+    return items if fmt is None else [i for i in items if fmt in i["formats"]]
+
+
+def _base_items(fmt: str) -> tuple[str, ...]:
     return JUDGE_ITEMS if fmt == SHORT_FORMAT else JUDGE_ITEMS + CHOICE_JUDGE_ITEMS
+
+
+def judge_items(fmt: str) -> tuple[str, ...]:
+    return _base_items(fmt) + tuple(i["name"] for i in extra_judge_items(fmt))
+
+
+def _extra_item_lines(extra: list[dict]) -> str:
+    """judge.md의 `{{extra_items}}` 자리에 넣는 항목 목록. 자리가 없으면 쓰이지 않는다."""
+    return "\n".join(f"- `{i['name']}`: {i['description']}" for i in extra)
 
 
 def judge(state: SlotState, model=None) -> dict[str, Any]:
@@ -148,20 +214,23 @@ def judge(state: SlotState, model=None) -> dict[str, Any]:
         return {"judge": None}
     fmt = state["slot"]["format"]
     snapshots = state["snapshots"]
+    extra = extra_judge_items(fmt)
     prompt = prompts.render(
         "judge",
+        extra_items=_extra_item_lines(extra),
         question=json.dumps(_judge_view(question), ensure_ascii=False, indent=2),
         format_rules=_judge_rules(fmt),
         page=", ".join(snapshots), document=_documents(snapshots),
     )
     model = model or llm.judge_model()
-    out = model.with_structured_output(JudgeVerdict, include_raw=True).invoke(prompt)
+    out = model.with_structured_output(verdict_schema(extra), include_raw=True).invoke(prompt)
     tokens = _add_tokens(state, out["raw"], model, out.get("model_id"))
     fails = list(state.get("fail_reasons", []))
     if out.get("parsed") is None:
         return {"judge": None, "fail_reasons": fails + ["judge_fail:schema_invalid"], "tokens": tokens}
     verdict = out["parsed"].model_dump()
-    fails += [f"judge_fail:{item}" for item in judge_items(fmt) if not verdict[item]]
+    items = _base_items(fmt) + tuple(i["name"] for i in extra)
+    fails += [f"judge_fail:{item}" for item in items if not verdict[item]]
     result = {"judge": verdict, "fail_reasons": fails, "tokens": tokens}
     if fmt == SHORT_FORMAT and verdict["missing_variants"]:
         accepted = merge_variants(question.get("accepted_answers") or [], verdict["missing_variants"])

@@ -3,6 +3,8 @@
 작성일: 2026-11-03
 수정: 2026-11-04, 단계별 추천 표에 `디렉토리` 열 추가
 수정: 2026-11-05, 03 구현 회고([10-retro.md](03-implementation/10-retro.md)) 수정안 5개 반영. 3단계 실제 진행 방식, UI 테스트 도구, Bedrock 일일 토큰 한도, 공식 문서 MCP, 보조 스킬 기록
+수정: 2026-11-05, 과제 범위를 적었다. 5단계까지 하고, 6단계는 시간이 남으면 한다
+수정: 2026-11-05, 04 실험 회고([07-retro.md](04-prompt-model-experiments/07-retro.md)) 수정안 4개 반영. 4행 `/arena` 사용 방식, 4행 보조를 `mandela`로 교체, 실험 전 `mandela` 점검, 실험 배치 ID와 비용 재추정
 전제: LangChain / LangGraph / DeepAgents + Langfuse, 로컬 미니 프로젝트.
 근거: 각 저장소 README를 읽고 정리한 내용이며, 실제 조합을 돌려 검증하지는 않았다.
 paperthin(2026-11-04 추가)은 README 요약을 바탕으로 했다. 단계 매핑은 스킬 이름과 설명에서 추론한 것이고, README에 명시된 분류가 아니다. Windows 지원 여부도 확인하지 못했다.
@@ -27,7 +29,7 @@ paperthin(2026-11-04 추가)은 README 요약을 바탕으로 했다. 단계 매
 | 1. 아이디어와 요구사항 | `01-requirements` | gstack `/office-hours` | ouroboros `interview`, paperthin `aim`, `readchk` | gstack은 프레이밍을 도전하고, ouroboros는 모호성을 점수로 막는다. paperthin은 데이터나 지시를 받았을 때 의도를 제안하고 이해를 검증한다. |
 | 2. 스펙과 설계 | `02-spec-design` | ouroboros `seed` | superpowers `brainstorming`, `writing-plans`, paperthin `re0-plan`, `modelchk` | 수용 기준을 Seed로 고정한다. 가볍게 가려면 superpowers만 쓴다. `modelchk`는 작업에 맞는 모델 등급과 추론 강도를 정한다. |
 | 3. 구현 | `03-implementation` | superpowers (TDD, worktree, subagent) | pstack `/tdd`, `/blast-radius` | 규율은 superpowers가 자동으로 강제하고, 영향 범위 분석은 pstack이 낫다. 이 프로젝트는 superpowers를 쓰지 않았다("이 프로젝트의 선택" 참고). UI 컴포넌트 테스트 도구는 0단계에서 정한다. 없으면 UI 작업은 테스트를 먼저 쓸 수 없다. |
-| 4. 프롬프트와 모델 실험 | `04-prompt-model-experiments` | pstack `/arena` | ouroboros `evolve` | 변형 N개를 시도해 최선을 합친다. |
+| 4. 프롬프트와 모델 실험 | `04-prompt-model-experiments` | pstack `/arena` | paperthin `mandela` | 변형 N개를 시도해 최선을 합친다. 이 프로젝트는 `/arena`를 설치하지 않고 SKILL.md 절차만 따른다. 설치본의 모델 설정과 교차 Judge는 Cursor 기준이라 이 환경에서 쓸 수 없다. 서브에이전트가 한 모델 계열뿐이면 교차 Judge를 건너뛴다. 변형의 판정은 앱에서 A/B로 잰다. 실패 원인이 확인된 과제에서 쓴다. ouroboros `evolve`는 명세를 진화시키는 도구이고 프롬프트 A/B를 재지 않아 보조에서 뺐다. |
 | 5. 평가와 리뷰 | `05-evaluation-review` | ouroboros `evaluate` | pstack `/interrogate`, gstack `/review`, paperthin `mandela`, `factchk`, `shower`, `sip` | 기준 충족 증명, 다중 모델 적대적 리뷰, 프로덕션 버그 탐지. paperthin은 평가 누수 점검(`mandela`), 사실 검증(`factchk`), 무맥락 재독(`shower`), 작성 직후 자가 점검(`sip`)을 더한다. |
 | 6. QA | `06-qa` | gstack `/qa` | superpowers 검증 스킬 | 실제 브라우저에서 버그를 재현하고 고친다. UI가 있는 앱에 유용하다. |
 | 7. 배포 | `07-deploy` | gstack `/ship`, `/canary` | pstack ship 플레이북, paperthin `re0-merge`, `re0-release` | PR 생성과 배포 후 모니터링. |
@@ -37,6 +39,7 @@ paperthin(2026-11-04 추가)은 README 요약을 바탕으로 했다. 단계 매
 
 ## 이 프로젝트(로컬 미니 프로젝트)의 선택
 
+- 범위: 과제 목표는 5단계(평가와 리뷰)까지다. 6단계(QA)는 시간이 남으면 한다. 7단계(배포)와 8단계(운영과 회고)는 하지 않는다. 마감은 `TASKS.md`를 따른다(2026-11-06 17:00). 6단계를 할지는 5단계를 마친 시점에 남은 시간을 보고 정한다. 6단계에 쓸 도구는 6단계를 하기로 정할 때 고른다. 7, 8단계 디렉토리는 2026-11-05에 지웠다. 8단계의 회고 역할은 단계마다 끝에 하는 회고(`retro`)가 대신한다.
 - 기본: 처음에는 **superpowers 하나**로 시작하려 했다. 3단계(구현)는 superpowers를 설치하지 않고 구현 스킬 없이 진행했다. 작업 순서는 TASKS.md, 진행은 프로젝트 내장 stage 스킬 run 모드다. TDD는 `CLAUDE.md` 작업 규칙으로 지켰다. 병렬은 격리 worktree 서브에이전트로 했다. 격리 worktree는 기본 브랜치에서 갈라지므로 워커는 코디네이터 HEAD로 맞춘 뒤 시작한다. superpowers와 비교한 근거는 없다.
 - 요구가 불명확할 때만 ouroboros `interview`를 한 번 쓴다.
 - 프롬프트나 그래프 구조를 비교할 때만 pstack `/arena`를 쓴다.
@@ -45,6 +48,7 @@ paperthin(2026-11-04 추가)은 README 요약을 바탕으로 했다. 단계 매
 - paperthin은 개발 방법론이 아니라 산출물 품질 보조 스킬 모음이다. superpowers와 역할이 겹치지 않으므로 필요한 스킬만 골라 얹는다. 처음에는 `readchk`, `factchk`, `re0`, `ssotize` 정도면 충분하다. `re0-plan`, `re0-loop`는 계획 도구와 겹치므로 쓰지 않는다.
 - `readchk`는 요구사항 단계에 둔다. 3단계 계획에는 넣지 않는다. 3단계는 TASKS.md 작업마다 `확인:` 줄이 있어 지시 해석의 갈림길이 작았다. 03 계획에 넣었지만 호출 기록이 없고, 02 단계 두 번 호출에서도 갈림길을 올리지 않았다.
 - 보조 스킬을 계획에 넣으면 기록 파일에 호출 줄을 남긴다. 남기지 않으면 회고에서 평가할 수 없다.
+- 실험 단계는 `mandela`를 모델 호출 전, 실험 설계에 한 번 돌린다. 점검은 설계자가 아닌 맥락 없는 서브에이전트가 한다. 결과 뒤 점검은 해석용으로 한 번 더 한다. 04에서 결과 뒤 점검이 찾은 위협 3개는 호출 전에 고칠 수 있었다.
 - 근거를 공식 문서로 제한하므로 `docs-langchain`, `reference-langchain` MCP로 페이지 허용 목록과 스냅샷을 만든다. 스냅샷은 앱 코드에서 Python MCP 클라이언트로 받는다. 30KB 출력 한도는 줄 범위 분할과 서버 sha256 대조로 넘는다. 호출마다 시간 제한을 둔다(60초, 재시도 3회).
 - paperthin 스킬 상당수(`re0`, `readchk`, `aim`, `nba`, `ssotize` 등)는 이 환경에 이미 설치되어 있다. 새로 설치하기 전에 `npx skills` 설치본과 중복되는지 확인한다.
 
@@ -56,6 +60,8 @@ paperthin(2026-11-04 추가)은 README 요약을 바탕으로 했다. 단계 매
 - 트레이싱과 관측: 호출별 비용, 지연, 오류 (Langfuse Cloud 무료 티어 기준, 아래 한도 참고)
 - 모델이나 프롬프트 변경 시 회귀 테스트
 - 비용 제한, 레이트리밋, 프롬프트 인젝션 방어. Bedrock 일일 토큰 한도(`Too many tokens per day`)는 소스 리전과 추론 프로필마다 따로 걸린다. 대량 생성 전에 전환 순서를 정한다.
+- 실험 배치는 운영과 겹치지 않는 배치 ID와 Langfuse 태그를 쓴다. 겹치면 실험 사용량을 운영과 나누지 못한다.
+- 문서 원문을 입력에 넣는 호출은 첫 실행 실측으로 비용을 다시 잡는다. 04 Judge 호출은 4자당 1토큰 추정보다 입력이 37% 많았다.
 
 ouroboros `evaluate`는 코드의 수용 기준을 검증하는 것이지, 앱이 내는 응답 품질을 측정하지 않는다.
 

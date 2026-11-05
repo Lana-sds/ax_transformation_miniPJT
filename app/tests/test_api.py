@@ -197,3 +197,13 @@ def test_review_flow_through_api(pool_db):
         assert resumed["questions"][0]["review"] == "wrong"
         assert _answer(client, s3["set_id"], q, "B").json()["correct"] is True
     assert review_row(pool_db, q)["state"] == "cleared"
+
+
+def test_scalar_docs_page_points_at_openapi(tmp_db):
+    with TestClient(app) as client:
+        r = client.get("/scalar")
+        assert r.status_code == 200
+        assert r.headers["content-type"].startswith("text/html")
+        assert "@scalar/api-reference@" in r.text
+        assert 'data-url="/openapi.json"' in r.text
+        assert "/scalar" not in client.get("/openapi.json").json()["paths"]

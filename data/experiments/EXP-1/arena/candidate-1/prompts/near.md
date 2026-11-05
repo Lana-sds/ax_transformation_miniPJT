@@ -1,0 +1,1 @@
+8. The documents do not define this topic's pattern under the topic's name. Do not write that the documentation defines a pattern by that name. Ask only about behavior the documents actually describe.
