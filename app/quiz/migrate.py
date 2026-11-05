@@ -21,6 +21,12 @@ def migration_files(directory: Path = MIGRATIONS_DIR) -> list[tuple[int, Path]]:
     return files
 
 
+def pending_migrations(conn: sqlite3.Connection, directory: Path = MIGRATIONS_DIR) -> list[int]:
+    """아직 적용하지 않은 마이그레이션 번호."""
+    version = current_version(conn)
+    return [v for v, _ in migration_files(directory) if v > version]
+
+
 def current_version(conn: sqlite3.Connection) -> int:
     exists = conn.execute(
         "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'schema_version'"

@@ -17,7 +17,8 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 from quiz import audit, db, grading, review, sets
-from quiz.migrate import apply_migrations, current_version
+from quiz.backup import backup
+from quiz.migrate import apply_migrations, current_version, pending_migrations
 from quiz.pool import current_pool
 from quiz.store import now
 
@@ -27,6 +28,8 @@ DOCS_BASE = "https://docs.langchain.com"
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     with db.connect() as conn:
+        if pending_migrations(conn):  # 대기 중 마이그레이션이 있을 때만 백업한다(design.md 8.4)
+            backup(db.db_path(), "migrate")
         apply_migrations(conn)
     yield
 
