@@ -3,7 +3,7 @@
 | 항목 | 내용 |
 | --- | --- |
 | 문서 상태 | 확정 |
-| 버전 | 10.0 (부록 A) |
+| 버전 | 11.0 (부록 A) |
 | 작성일 | 2026-11-04 |
 | 요구사항 | [requirements.md](../../01-requirements/output/requirements.md) |
 | 관련 산출물 | [page-allowlist.md](page-allowlist.md), [seed.yaml](seed.yaml) |
@@ -556,8 +556,8 @@ sequenceDiagram
 | 메서드 | 경로 | 동작 | 요구사항 |
 | --- | --- | --- | --- |
 | GET | `/api/health` | DB 연결, `schema_version`, 현재 풀 스냅샷 ID | - |
-| POST | `/api/sets` | 새 세트 생성. 직전 세트에 태그 없는 오답이 있으면 409. 응답은 문제 10개(정답 키, 해설, 매핑, 근거 없음) | FR-1, FR-2.1 |
-| GET | `/api/sets/{set_id}` | 세트와 이미 푼 문제의 결과. 새로고침 뒤 이어 풀기 | FR-8.1 |
+| POST | `/api/sets` | 새 세트 생성. 직전 세트에 태그 없는 오답이 있으면 409. 응답은 문제 10개(정답 키, 해설, 매핑, 근거, `topic` 없음). 문제마다 `review`: 이 세트보다 앞 `set_no`의 풀이 기록을 원래 문제(`variant_of`) 기준으로 모아 오답이 있으면 `"wrong"`, 정답만 있으면 `"seen"`, 없으면 `null` | FR-1, FR-2.1 |
+| GET | `/api/sets/{set_id}` | 세트와 이미 푼 문제의 결과. 새로고침 뒤 이어 풀기. 문제의 `review`는 `POST /api/sets`와 같다 | FR-8.1 |
 | POST | `/api/sets/{set_id}/answers` | `{question_id, answer}`. 채점하고 `attempts`에 쓴다. 응답에 정답 여부, 정답 키, 해설, segments, 근거(문서 URL, quote), 코드형 `doc_url` | FR-2.2~FR-2.4, FR-3 |
 | PUT | `/api/attempts/{attempt_id}/tag` | `{mistake_tag, confused_segment_id?}`. 오답 행만. 복습 큐 갱신 | FR-4, FR-5 |
 | GET | `/api/audits/current` | 현재 풀 스냅샷의 감사, 표본 20문항(정답 키, 근거, 매핑 포함) | FR-9 |
@@ -688,3 +688,4 @@ Seed 수용 기준 번호는 [seed.yaml](seed.yaml) `acceptance_criteria` 순서
 | 8.0 | 2026-11-05 | 구현 M4 중 사용자 승인을 반영했다. 3.1 샌드박스 패키지에 `langchain-text-splitters`, `numpy`(requirements 3.0 GR-7.2), 6.1 `sandbox_module_missing` 판정, 7.2 `generate --plan fill`. 기록은 [05-m4.md](../../dev-process/03-implementation/05-m4.md)에 있다 |
 | 9.0 | 2026-11-05 | 사용자 승인으로 7.2 `generate --plan fill`이 버린 문제도 센다. 기록은 [05-m4.md](../../dev-process/03-implementation/05-m4.md)에 있다 |
 | 10.0 | 2026-11-05 | 사용자 승인으로 6.1 판정 규칙에 `quote_mismatch` 재생성 피드백 내용을 더했다. 기록은 [05-m4.md](../../dev-process/03-implementation/05-m4.md)에 있다 |
+| 11.0 | 2026-11-05 | 사용자 승인으로 7.1 세트 응답에 문제별 `review`를 더했다(T4.8). 기록은 [05-m4.md](../../dev-process/03-implementation/05-m4.md)에 있다 |
