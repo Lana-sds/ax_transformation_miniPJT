@@ -16,7 +16,7 @@
 
 ## 진행
 
-### 1번: `mandela` 누수 점검 (2026-11-05 17:30)
+### 1번: `mandela` 누수 점검 (2026-11-05, 분 미확인)
 
 - 호출: Skill `mandela`, 인자 "EXP-1(Judge 프롬프트 A/B)와 EXP-2(생성 프롬프트 A/B)를 점검한다. 근거: 계획 1.2·3장 3·4단계, 01~04 기록, exp-1.md, exp-2.md". 이 세션(실험 설계자)이 같은 세션에서 돌렸다. 독립 감사자(맥락 없는 서브에이전트)는 띄우지 않았다
 - 추가로 읽은 것: `data/experiments/EXP-1/arena/task.md`(후보에게 준 과제 정의)
@@ -60,25 +60,25 @@ EXP-1은 Judge가 새로 보는 차원(해설, 단서, 인용 관련성)에서 �
 | EXP-1 | `arena` 채택 후보(실제 결함 1 > 0, 오탈락 1 ≤ 2) | 1 > 0의 0은 구성으로 정해졌다. 오탈락 1은 실제 결함일 수 있다. 누수가 `arena`에 유리한데도 해설 오류 0/10이다 | 판정 근거가 약해진다. 결론 바뀜 가능. 사용자에게 보인다 |
 | EXP-2 | `arena` 채택 후보 | 주 지표는 독립이다. 보조 기준만 약하다 | 바뀌지 않는다 |
 
-### 2·3번: 결론 변화와 채택 (2026-11-05 17:40)
+### 2·3번: 결론 변화와 채택 (2026-11-05, 분 미확인)
 
 | 질문 | 추천 | 사용자 답 |
 | --- | --- | --- |
 | EXP-1 `arena` Judge(`explanation_correct` 포함)를 운영에 반영하는가 | 보류 | 보류 |
 | EXP-2 `arena` `generate.md`를 운영에 반영하는가 | 채택 | 채택 |
 
-### 4번: 반영 (2026-11-05 17:42)
+### 4번: 반영 (2026-11-05, 분 미확인)
 
 - `data/experiments/EXP-2/variants/arena/generate.md`를 `packs/langchain/prompts/generate.md`로 바이트 그대로 복사했다. sha256 `62c2e0b483e18051c4c0145db5cfa34ed4137c8789538a1bea98a7180304f229`(두 파일 같음). 나머지 프롬프트 파일은 바꾸지 않았다
 - `cd app && uv run pytest`: 373 passed, 13 warnings
 - 이후 `quiz generate` 배치에만 쓰인다. 고정 풀(`ps_326384fb5422`)과 `data/quiz.db`는 바꾸지 않았다
 - Judge 프롬프트와 Judge 항목은 바꾸지 않았다. `packs/langchain/prompts/`에 `judge_items.json`이 없으므로 Judge 항목은 지금 4+2개 그대로다
 
-### 6번: `data/quiz.db` 행 수 (2026-11-05 17:43, `mode=ro`)
+### 6번: `data/quiz.db` 행 수 (2026-11-05, 분 미확인, `mode=ro`)
 
 0단계([01-harness.md](01-harness.md))와 13개 테이블 모두 같다. attempts 40, audit_records 20, audits 1, batch_slots 122, batches 15, grounding_records 212, pool_snapshot_items 122, pool_snapshots 3, questions 117, quiz_sets 9, review_items 21, schema_version 2, verification_results 209.
 
-### 5번: design.md 개정 (2026-11-05 17:50)
+### 5번: design.md 개정 (2026-11-05, 분 미확인)
 
 - 차이를 보였다: 3.2 `QUIZ_PROMPTS_DIR`와 `judge_items.json`, 4.1 `experiments.py`·`data/experiments/`, 7.2 `generate --slots`·`experiment judge`·`experiment summary`·운영 DB 보호, 8.3 실험 Judge의 Langfuse 미기록, 9장 D-16. 사용자 답 "모두 반영"
 - design.md 12.1 → 13.0. 10장 요구사항 7.3 행에 `experiment summary`를 더했다. Judge 항목과 실패 이유 목록은 바꾸지 않았다(EXP-1 보류)
@@ -107,4 +107,4 @@ EXP-1은 Judge가 새로 보는 차원(해설, 단서, 인용 관련성)에서 �
 ## 끝나는 조건 확인
 
 - 조건: 누수 점검 결과와 채택 결정이 기록됐다. `data/quiz.db` 행 수가 0단계와 같다.
-- 결과(2026-11-05 17:50): 충족. 누수 점검 결과는 "1번", 채택 결정은 "결정" 표에 있다(EXP-1 보류, EXP-2 채택). `data/quiz.db` 13개 테이블 행 수가 0단계와 같다
+- 결과(2026-11-05, 분 미확인): 충족. 누수 점검 결과는 "1번", 채택 결정은 "결정" 표에 있다(EXP-1 보류, EXP-2 채택). `data/quiz.db` 13개 테이블 행 수가 0단계와 같다
