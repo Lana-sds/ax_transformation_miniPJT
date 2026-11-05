@@ -1,6 +1,6 @@
 # MVP 완료 조건 점검표
 
-상태: 초안. 조건 4는 T6.2 뒤 채운다
+상태: 초안(사용자 검토 전)
 측정일: 2026-11-05
 대상 DB: `data/quiz.db`
 대상 풀: `ps_326384fb5422`(최신 풀 스냅샷, `pool_snapshots.created_at` 2026-11-05T04:53:15Z)
@@ -13,7 +13,7 @@
 | 1 | 검증 통과 문제 60개. 버킷당 10개, 형식마다 10개 이상 | 60개. 버킷 6개 모두 10. 형식 code 11, multi 14, short 17, single 18 | 충족 |
 | 2 | 결정적 게이트 100%: 인용 원문 일치, 영·한 매핑 존재, 코드형 Judge-실행 불일치 0 | 60문항 마지막 시도 중 게이트 실패 0. 인용 60/60, 매핑 60/60, 코드형 실행 일치 11/11 | 충족 |
 | 3 | 본인 감사 통과: 정답 키 오류 ≤ 1, 인용 미지지 ≤ 2, 매핑 불충실 ≤ 2(20문항 중) | `au_326384fb5422` `pass`. 기록 20문항. 정답 키 오류 0, 인용 미지지 0, 매핑 불충실 1 | 충족 |
-| 4 | 통과 풀에서 3세트를 풀고 모든 오답에 태그 | 미측정(T6.2 전). 10행 세트 0개, 태그 없는 오답 0행 | 미충족 |
+| 4 | 통과 풀에서 3세트를 풀고 모든 오답에 태그 | 서버 재시작 뒤 10행 세트 3개(set_no 7, 8, 9). 태그 없는 오답 0행. 세그먼트 없는 `reading` 0행 | 충족 |
 
 ## 측정 쿼리
 
@@ -78,22 +78,28 @@ WHERE a.pool_snapshot_id = :ps GROUP BY a.audit_id;
 
 ### 조건 4
 
-서버를 다시 시작한 뒤 돌린다(T6.2 확인).
+서버를 다시 시작한 뒤 돌렸다(T6.2 확인).
 
 ```sql
--- 10행인 세트 수: 3 이상이어야 한다
+-- 10행인 세트 수: 3
 SELECT COUNT(*) FROM (
   SELECT a.set_id FROM attempts a JOIN quiz_sets s USING(set_id)
   WHERE s.pool_snapshot_id = :ps GROUP BY a.set_id HAVING COUNT(*) = 10);
 
--- 태그 없는 오답: 0이어야 한다
+-- 태그 없는 오답: 0
 SELECT COUNT(*) FROM attempts a JOIN quiz_sets s USING(set_id)
 WHERE s.pool_snapshot_id = :ps AND a.correct = 0 AND a.mistake_tag IS NULL;
 
--- confused_segment_id 없는 reading 행: 0이어야 한다
+-- confused_segment_id 없는 reading 행: 0
 SELECT COUNT(*) FROM attempts a JOIN quiz_sets s USING(set_id)
 WHERE s.pool_snapshot_id = :ps AND a.mistake_tag = 'reading' AND a.confused_segment_id IS NULL;
 ```
+
+| set_no | set_id | 행 | 정답 | 오답 | `reading` | `concept` |
+| --- | --- | --- | --- | --- | --- | --- |
+| 7 | `s007-6208763c` | 10 | 1 | 9 | 2 | 7 |
+| 8 | `s008-18acd639` | 10 | 5 | 5 | 1 | 4 |
+| 9 | `s009-8e009d6e` | 10 | 2 | 8 | 0 | 8 |
 
 ## 기준선 지표
 
@@ -103,5 +109,5 @@ WHERE s.pool_snapshot_id = :ps AND a.mistake_tag = 'reading' AND a.confused_segm
 | --- | --- |
 | Judge 통과율 | 204 / 209 = 0.9761 |
 | 버린 문제 | 55(duplicate 27, regen_exhausted 17, version_conflict 11) |
-| 세트별 정답률 | T6.2 뒤 채운다 |
+| 세트별 정답률 | 세트 7 0.1, 세트 8 0.5, 세트 9 0.2 |
 | 배치 | 15개. 토큰·비용·초는 파일에 있다 |

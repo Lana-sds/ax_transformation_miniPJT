@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-05T05:27:00Z",
+  "generated_at": "2026-11-05T05:48:35Z",
   "pool_snapshot_id": "ps_326384fb5422",
   "judge_pass_rate": {
     "attempts": 209,
@@ -14,7 +14,29 @@
       "version_conflict": 11
     }
   },
-  "sets": [],
+  "sets": [
+    {
+      "set_no": 7,
+      "set_id": "s007-6208763c",
+      "correct": 1,
+      "total": 10,
+      "rate": 0.1
+    },
+    {
+      "set_no": 8,
+      "set_id": "s008-18acd639",
+      "correct": 5,
+      "total": 10,
+      "rate": 0.5
+    },
+    {
+      "set_no": 9,
+      "set_id": "s009-8e009d6e",
+      "correct": 2,
+      "total": 10,
+      "rate": 0.2
+    }
+  ],
   "batches": [
     {
       "batch_id": "b20261105-01",
