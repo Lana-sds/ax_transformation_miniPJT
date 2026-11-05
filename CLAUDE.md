@@ -39,7 +39,7 @@ LLM 학습 문제 풀이 웹앱 과제(agent-dev-quiz). LangChain 팩을 먼저 
 | `app/` | `uv run quiz metrics` | `data/metrics/baseline.json`을 다시 쓴다 |
 | `app/` | `uv run quiz allowlist build` | `allowlist.yaml`을 만들고 스냅샷 해시를 검사한다 |
 | `app/` | `uv run uvicorn quiz.server:app --port 8000` | API 서버 |
-| `web/` | `npm run dev` | `http://localhost:5173`, `/api`를 8000으로 넘긴다 |
+| `web/` | `npm run dev` | `http://localhost:5173`, `/api`를 8000으로 넘긴다. API 문서 화면 `/docs`(Swagger), `/scalar`, `/redoc`도 넘긴다 |
 
 처음부터 끝까지 도는 순서는 `docs/03-implementation/output/m0-smoke.md`에 있다.
 `quiz` 명령은 기본으로 `data/quiz.db`를 쓴다. 다른 DB를 쓰려면 `QUIZ_DB`에 경로를 준다.
