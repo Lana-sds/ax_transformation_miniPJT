@@ -2,6 +2,7 @@
 
 한 세트는 항상 10문제다. 채우는 순서:
 1. 기한이 된 복습 문제 최대 3개(`due_set_no`가 이른 순, 같으면 question_id 순). 나머지는 다음 세트로 넘긴다.
+   개념 실수는 통과한 변형 문제가 있으면 그것을 낸다(`review.served_question`).
 2. 남은 새 문제(한 번도 풀지 않은 풀 문제). 버킷·형식을 따지지 않고 무작위다.
 3. 새 문제가 소진되면, 맞힌 적이 있고 복습 큐(`pending`)에 없는 문제를 마지막 풀이가 오래된 순으로. 같은 시각이면 무작위다.
 `retired` 문제는 다시 내지 않는다. 문제는 현재 풀 스냅샷 안에서만 고른다.
@@ -13,6 +14,7 @@ import random
 import sqlite3
 import uuid
 
+from quiz import review
 from quiz.pool import current_pool
 from quiz.store import now
 
@@ -44,11 +46,6 @@ def due_reviews(conn: sqlite3.Connection, set_no: int, pool: set[str]) -> list[s
     return [r for r in rows if r["question_id"] in pool]
 
 
-def served_for_review(conn: sqlite3.Connection, item: sqlite3.Row) -> str:
-    """복습 항목으로 낼 문제 ID."""
-    return item["question_id"]
-
-
 def compose(conn: sqlite3.Connection, set_no: int, rng: random.Random | None = None) -> list[str]:
     rng = rng or random.Random()
     psid = current_pool(conn)
@@ -57,7 +54,7 @@ def compose(conn: sqlite3.Connection, set_no: int, rng: random.Random | None = N
     pool_list = _pool_ids(conn, psid)
     pool = set(pool_list)
 
-    chosen = [served_for_review(conn, item) for item in due_reviews(conn, set_no, pool)[:MAX_REVIEW]]
+    chosen = [review.served_question(conn, item) for item in due_reviews(conn, set_no, pool)[:MAX_REVIEW]]
 
     attempted = {r[0] for r in conn.execute("SELECT DISTINCT question_id FROM attempts")}
     fresh = [q for q in pool_list if q not in attempted and q not in chosen]
