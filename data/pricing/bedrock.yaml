@@ -27,3 +27,12 @@ models:
     name: Claude Sonnet 4.5 (US cross-region)
     input: 3.3
     output: 16.5
+  # 예비 Judge 모델(NFR-4.3, 04 EXP-1). 같은 공표본에서 2026-11-05에 확인했다.
+  global.anthropic.claude-haiku-4-5-20251001-v1:0:
+    name: Claude Haiku 4.5
+    input: 1.0
+    output: 5.0
+  us.anthropic.claude-haiku-4-5-20251001-v1:0:
+    name: Claude Haiku 4.5 (US cross-region)
+    input: 1.1
+    output: 5.5
