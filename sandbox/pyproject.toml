@@ -1,0 +1,25 @@
+[project]
+name = "agent-dev-quiz-sandbox"
+version = "0.1.0"
+description = "코드형 문제 보기 실행 환경. app/과 의존성을 공유하지 않는다(GR-7.1)"
+requires-python = ">=3.14,<3.15"
+# langchain·langgraph·langchain-core는 lock 시점 최신이다(GR-7.2). uv.lock이 실제 버전을 고정한다.
+# MCP 4개는 요구사항 고정값이다. 바꾸지 않는다(GR-7.2).
+dependencies = [
+    "langchain",
+    "langgraph",
+    "langchain-core",
+    "mcp==1.30.0",
+    "fastmcp==2.13.0",
+    "langchain-mcp-adapters==0.3.2",
+    "mcp-server-time==2026.10.10",
+]
+
+[dependency-groups]
+dev = ["pytest"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
