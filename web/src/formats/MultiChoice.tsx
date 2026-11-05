@@ -1,3 +1,4 @@
+import { Markup } from '../MarkupText'
 import { ChoiceList } from './ChoiceList'
 import type { FormatSpec } from './types'
 
@@ -24,7 +25,7 @@ export const multi: FormatSpec = {
           disabled={disabled}
           multiple
           maxSelect={n}
-          renderBody={(c) => c.text}
+          renderBody={(c) => <Markup className="choice-text" text={c.text ?? ''} />}
         />
       </>
     )

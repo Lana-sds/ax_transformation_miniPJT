@@ -1,4 +1,5 @@
 import type { AnswerResult } from './api'
+import { Markup } from './MarkupText'
 
 // 답 제출 뒤 결과 화면(FR-2.2~FR-2.4). 오답 태그(T4.6)는 이 패널 아래에 붙인다.
 // doc_url은 코드형에만 있다(pipeline/nodes.py). 있으면 "코드 보기"를 공식 문서 페이지로 건다.
@@ -13,7 +14,7 @@ export function ResultPanel({ result }: { result: AnswerResult }) {
       </p>
 
       <h3>해설</h3>
-      <p className="explanation">{result.explanation_ko}</p>
+      <Markup className="explanation" text={result.explanation_ko} />
 
       <h3>영·한 구절 매핑</h3>
       <table className="segments">

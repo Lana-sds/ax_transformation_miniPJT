@@ -268,3 +268,20 @@ code {
   margin-left: 24px;
   color: var(--muted);
 }
+
+/* T4.7 코드 표시. 보기 문장은 번호 옆에 이어 붙이고, 문제 문장의 굵기는 코드 블록에 넘기지 않는다. */
+.choice-text {
+  display: inline;
+}
+
+.stem .code-block {
+  font-weight: normal;
+}
+
+.inline-code {
+  padding: 1px 4px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-size: 0.9em;
+}

@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { api, ApiError, type AnswerResult, type MistakeTag, type QuizSet } from './api'
 import { AnswerInput } from './formats/AnswerInput'
 import { isAnswerComplete } from './formats/registry'
+import { Markup } from './MarkupText'
 import { ResultPanel } from './ResultPanel'
 import { TagForm } from './TagForm'
 
@@ -193,7 +194,7 @@ export default function App() {
       {q && (
         <article className="question" data-format={q.format}>
           <form onSubmit={submit}>
-            <p className="stem">{q.stem_en}</p>
+            <Markup className="stem" text={q.stem_en} />
             <AnswerInput
               question={q}
               value={result ? result.answer : answer}

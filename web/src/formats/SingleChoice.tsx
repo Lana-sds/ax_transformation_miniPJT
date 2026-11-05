@@ -1,3 +1,4 @@
+import { Markup } from '../MarkupText'
 import { ChoiceList } from './ChoiceList'
 import type { FormatSpec } from './types'
 
@@ -9,7 +10,7 @@ export const single: FormatSpec = {
       value={value}
       onChange={onChange}
       disabled={disabled}
-      renderBody={(c) => c.text}
+      renderBody={(c) => <Markup className="choice-text" text={c.text ?? ''} />}
     />
   ),
   isComplete: (_q, value) => value.length === 1,
