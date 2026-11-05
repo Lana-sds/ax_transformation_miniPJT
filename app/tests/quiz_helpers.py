@@ -70,6 +70,22 @@ def add_review(conn, question_id: str, round_: int, due: int, state: str = "pend
     conn.commit()
 
 
+def make_short(conn, no: int, accepted=("add_node", "StateGraph.add_node")) -> str:
+    """단답 문제. 대표 답은 accepted[0]이다. 풀에 넣으려면 이 뒤에 freeze한다."""
+    sid = qid(no)
+    if not conn.execute("SELECT 1 FROM batches WHERE batch_id = ?", (PREFIX,)).fetchone():
+        store.insert_batch(conn, PREFIX, "pool", "gen", "judge")
+    store.upsert_question(
+        conn, sid, PREFIX,
+        {"bucket": "langgraph_basics", "topic": "t", "format": "short", "question_type": "concept"},
+        {"stem_en": "Which method adds a node?", "answer_key": [accepted[0]], "accepted_answers": list(accepted),
+         "explanation_ko": "해설", "segments": [{"segment_id": "s1", "en": "adds a node", "ko": "노드를 더한다"}],
+         "grounding_records": [{"page": "/p", "quote": "q" * 40, "answer_basis": "근거"}], "cca_f_tag": "n/a"},
+        status="passed", drop_reason=None, regen_count=0, fetched_at="2026-11-05",
+    )
+    return sid
+
+
 def review_row(conn, question_id: str) -> dict | None:
     row = conn.execute("SELECT * FROM review_items WHERE question_id = ?", (question_id,)).fetchone()
     return dict(row) if row else None
