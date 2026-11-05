@@ -67,19 +67,19 @@
 
 ## M1 결정적 로직과 근거 자료 완성 (모델 없이 테스트)
 
-- [ ] T1.1 `gates.py` 나머지: 단답 허용 답안 1~5개, 단답 채점 정규화(대소문자, 공백, 백틱, 끝 `()`), 유사 중복(같은 quote, 토큰 Jaccard ≥ 0.6) (US-2.1, W3)
+- [x] T1.1 `gates.py` 나머지: 단답 허용 답안 1~5개, 단답 채점 정규화(대소문자, 공백, 백틱, 끝 `()`), 유사 중복(같은 quote, 토큰 Jaccard ≥ 0.6) (US-2.1, W3)
   - 확인: `uv run pytest tests/test_gates.py`가 새 규칙의 경계값(Jaccard 0.59/0.60, 답안 0/1/5/6개)을 포함해 통과한다.
-- [ ] T1.2 `grading.py`: 형식별 채점 함수 등록(단일, 복수, 단답, 코드 선택). 복수 선택은 부분 점수 없음. 형식을 DB `CHECK`로 고정하지 않는다 (US-4.3, W8)
+- [x] T1.2 `grading.py`: 형식별 채점 함수 등록(단일, 복수, 단답, 코드 선택). 복수 선택은 부분 점수 없음. 형식을 DB `CHECK`로 고정하지 않는다 (US-4.3, W8)
   - 확인: `uv run pytest tests/test_grading.py`가 형식마다 정답·오답 사례를 통과하고, 등록 안 된 형식은 명확한 오류를 낸다.
-- [ ] T1.3 백업: 마이그레이션과 배치 전에 `sqlite3` backup API로 `data/backups/`에 백업한다. 보관 개수를 정해 설계서 1.4에 적는다 (US-0.2, W1)
+- [x] T1.3 백업: 마이그레이션과 배치 전에 `sqlite3` backup API로 `data/backups/`에 백업한다. 보관 개수를 정해 설계서 1.4에 적는다 (US-0.2, W1)
   - 확인: `uv run quiz migrate` 뒤 `data/backups/`에 새 파일이 생기고 그 파일을 열면 같은 테이블이 있다.
-- [ ] T1.4 `quiz allowlist build`: `page-allowlist.md` 표를 읽어 `allowlist.yaml`(행마다 `snapshot`, `sha256`, `fetched_at`)을 만들고 해시가 다르면 멈춘다 (US-1.1, W2)
+- [x] T1.4 `quiz allowlist build`: `page-allowlist.md` 표를 읽어 `allowlist.yaml`(행마다 `snapshot`, `sha256`, `fetched_at`)을 만들고 해시가 다르면 멈춘다 (US-1.1, W2)
   - 확인: 스냅샷 파일 1바이트를 바꾸면 명령이 오류로 멈추고, 되돌리면 통과한다.
-- [ ] T1.5 스냅샷 수집 1/2: RAG, LangGraph 기초, Tool·MCP 버킷의 허용 목록 페이지 (US-1.1, W2)
+- [x] T1.5 스냅샷 수집 1/2: RAG, LangGraph 기초, Tool·MCP 버킷의 허용 목록 페이지 (US-1.1, W2)
   - 확인: 세 버킷의 `allowlist.yaml` 행마다 스냅샷 파일이 있고 크기가 MCP `wc -c` 값과 같다.
-- [ ] T1.6 스냅샷 수집 2/2: 미들웨어·HITL·가드레일, 멀티 에이전트, 운영 품질 버킷과 API 레퍼런스(`get_symbol` 출력) (US-1.1, W2)
+- [x] T1.6 스냅샷 수집 2/2: 미들웨어·HITL·가드레일, 멀티 에이전트, 운영 품질 버킷과 API 레퍼런스(`get_symbol` 출력) (US-1.1, W2)
   - 확인: `uv run quiz allowlist build`가 모든 행에서 해시 검사를 통과한다.
-- [ ] T1.7 슬롯 계획 함수: 버킷당 10개, 형식별 10개 이상, MCP 주제와 `없음` 주제에 코드 선택 배정 안 함, `근접` 주제 표시 (US-2.4, W6)
+- [x] T1.7 슬롯 계획 함수: 버킷당 10개, 형식별 10개 이상, MCP 주제와 `없음` 주제에 코드 선택 배정 안 함, `근접` 주제 표시 (US-2.4, W6)
   - 확인: `uv run pytest tests/test_slots.py`가 60슬롯의 버킷·형식 개수와 금지 배정 0건을 확인한다.
 
 ## M2 파이프라인 완성

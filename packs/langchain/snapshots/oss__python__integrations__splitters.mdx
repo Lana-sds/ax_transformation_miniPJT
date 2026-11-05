@@ -1,0 +1,197 @@
+# Text splitter integrations
+
+> Integrate with text splitters using LangChain.
+
+export const PythonIntegrationComponentMap = ({active}) => {
+  const retrievalFlow = [{
+    id: "document-loaders",
+    label: "Document loaders",
+    href: "/oss/integrations/document_loaders"
+  }, {
+    id: "splitters",
+    label: "Text splitters",
+    href: "/oss/integrations/splitters"
+  }, {
+    id: "embeddings",
+    label: "Embedding models",
+    href: "/oss/integrations/embeddings"
+  }, {
+    id: "vectorstores",
+    label: "Vector stores",
+    href: "/oss/integrations/vectorstores"
+  }, {
+    id: "retrievers",
+    label: "Retrievers",
+    href: "/oss/integrations/retrievers"
+  }, {
+    id: "chat",
+    label: "Chat models",
+    href: "/oss/integrations/chat"
+  }];
+  const agentComponents = [{
+    id: "tools",
+    label: "Tools",
+    href: "/oss/integrations/tools"
+  }, {
+    id: "middleware",
+    label: "Middleware",
+    href: "/oss/integrations/middleware"
+  }];
+  const executionAndStateComponents = [{
+    id: "sandboxes",
+    label: "Sandboxes",
+    href: "/oss/integrations/sandboxes"
+  }, {
+    id: "backends",
+    label: "Backends",
+    href: "/oss/integrations/backends"
+  }, {
+    id: "checkpointers",
+    label: "Checkpointers",
+    href: "/oss/integrations/checkpointers"
+  }, {
+    id: "long-term-memory",
+    label: "Stores",
+    href: "/oss/integrations/long-term-memory"
+  }];
+  const ComponentLink = ({component, active}) => {
+    const isCurrent = component.id === active;
+    return <a href={component.href} aria-current={isCurrent ? "page" : undefined} className={`rounded-md border px-3 py-2 text-center text-sm font-medium no-underline transition-colors ${isCurrent ? "border-[#006DDD] bg-[#E5F4FF] text-[#030710] ring-2 ring-[#006DDD] dark:border-[#7FC8FF] dark:bg-[#161F34] dark:text-[#F2FAFF] dark:ring-[#7FC8FF]" : "border-[#40668D] bg-[#F2FAFF] text-[#030710] hover:border-[#006DDD] dark:border-[#40668D] dark:bg-[#0D1322] dark:text-[#F2FAFF] dark:hover:border-[#7FC8FF]"}`}>
+        {component.label}
+        {isCurrent && <span className="sr-only"> (current page)</span>}
+      </a>;
+  };
+  return <figure aria-labelledby="python-integration-component-map-title" className="not-prose my-6 rounded-xl border border-[#40668D] bg-[#F2FAFF] p-4 dark:border-[#40668D] dark:bg-[#0D1322] sm:p-5">
+      <figcaption id="python-integration-component-map-title" className="mb-4 text-sm font-semibold text-[#030710] dark:text-[#F2FAFF]">
+        Integration components
+        <span className="ml-2 font-normal text-[#2F4B68] dark:text-[#99D3FF]">Arrows show a typical retrieval flow. The highlighted component is the one this page covers.</span>
+      </figcaption>
+      <section aria-label="Typical retrieval flow" className="rounded-lg border border-[#40668D] bg-[#E5F4FF] p-3 dark:border-[#40668D] dark:bg-[#161F34]">
+        <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[#2F4B68] dark:text-[#99D3FF]">Typical retrieval flow</h3>
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          {retrievalFlow.map((component, index) => <div key={component.id} className="flex items-center gap-2">
+              <ComponentLink component={component} active={active} />
+              {index < retrievalFlow.length - 1 && <span aria-hidden="true" className="text-[#40668D] dark:text-[#99D3FF]">→</span>}
+            </div>)}
+        </div>
+      </section>
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <section aria-label="Agent capabilities" className="rounded-lg border border-[#40668D] bg-[#E5F4FF] p-3 dark:border-[#40668D] dark:bg-[#161F34]">
+          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[#2F4B68] dark:text-[#99D3FF]">Agent capabilities</h3>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {agentComponents.map(component => <ComponentLink key={component.id} component={component} active={active} />)}
+          </div>
+        </section>
+        <section aria-label="Execution and state" className="rounded-lg border border-[#40668D] bg-[#E5F4FF] p-3 dark:border-[#40668D] dark:bg-[#161F34]">
+          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[#2F4B68] dark:text-[#99D3FF]">Execution and state</h3>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {executionAndStateComponents.map(component => <ComponentLink key={component.id} component={component} active={active} />)}
+          </div>
+        </section>
+      </div>
+    </figure>;
+};
+
+<CodeGroup>
+  ```bash pip theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}
+  pip install -U langchain-text-splitters
+  ```
+
+  ```bash uv theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}
+  uv add langchain-text-splitters
+  ```
+</CodeGroup>
+
+**Text splitters** break large docs into smaller chunks that will be retrievable individually and fit within model context window limit.
+
+There are several strategies for splitting documents, each with its own advantages.
+
+<PythonIntegrationComponentMap active="splitters" />
+
+<Tip>
+  For most use cases, start with the [`RecursiveCharacterTextSplitter`](/oss/python/integrations/splitters/recursive_text_splitter). It provides a solid balance between keeping context intact and managing chunk size. This default strategy works well out of the box, and you should only consider adjusting it if you need to fine-tune performance for your specific application.
+</Tip>
+
+## Text structure-based
+
+Text is naturally organized into hierarchical units such as paragraphs, sentences, and words. We can leverage this inherent structure to inform our splitting strategy, creating split that maintain natural language flow, maintain semantic coherence within split, and adapts to varying levels of text granularity. LangChain's `RecursiveCharacterTextSplitter` implements this concept:
+
+* The [`RecursiveCharacterTextSplitter`](/oss/python/integrations/splitters/recursive_text_splitter) attempts to keep larger units (e.g., paragraphs) intact.
+* If a unit exceeds the chunk size, it moves to the next level (e.g., sentences).
+* This process continues down to the word level if necessary.
+
+Example usage:
+
+```python theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=0)
+texts = text_splitter.split_text(document)
+```
+
+**Available text splitters**:
+
+* [Recursively split text](/oss/python/integrations/splitters/recursive_text_splitter)
+
+## Length-based
+
+An intuitive strategy is to split documents based on their length. This simple yet effective approach ensures that each chunk doesn't exceed a specified size limit. Key benefits of length-based splitting:
+
+* Straightforward implementation
+* Consistent chunk sizes
+* Easily adaptable to different model requirements
+
+Types of length-based splitting:
+
+* Token-based: Splits text based on the number of tokens, which is useful when working with language models.
+* Character-based: Splits text based on the number of characters, which can be more consistent across different types of text.
+
+Example implementation using LangChain's `CharacterTextSplitter` with token-based splitting:
+
+```python theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}
+from langchain_text_splitters import CharacterTextSplitter
+
+text_splitter = CharacterTextSplitter.from_tiktoken_encoder(
+    encoding_name="cl100k_base", chunk_size=100, chunk_overlap=0
+)
+texts = text_splitter.split_text(document)
+```
+
+**Available text splitters**:
+
+* [Split by tokens](/oss/python/integrations/splitters/split_by_token)
+* [Split by characters](/oss/python/integrations/splitters/character_text_splitter)
+
+## Document structure-based
+
+Some documents have an inherent structure, such as HTML, Markdown, or JSON files. In these cases, it's beneficial to split the document based on its structure, as it often naturally groups semantically related text. Key benefits of structure-based splitting:
+
+* Preserves the logical organization of the document
+* Maintains context within each chunk
+* Can be more effective for downstream tasks like retrieval or summarization
+
+Examples of structure-based splitting:
+
+* Markdown: Split based on headers (e.g., `#`, `##`, `###`)
+* HTML: Split using tags
+* JSON: Split by object or array elements
+* Code: Split by functions, classes, or logical blocks
+
+**Available text splitters**:
+
+* [Split Markdown](/oss/python/integrations/splitters/markdown_header_metadata_splitter)
+* [Split JSON](/oss/python/integrations/splitters/recursive_json_splitter)
+* [Split code](/oss/python/integrations/splitters/code_splitter)
+* [Split HTML](/oss/python/integrations/splitters/split_html)
+
+***
+
+<div className="source-links">
+  <Callout icon="terminal-2">
+    [Connect these docs](/use-these-docs) to your agent of choice via MCP for real-time answers.
+  </Callout>
+
+  <Callout icon="edit">
+    [Edit this page on GitHub](https://github.com/langchain-ai/docs/edit/main/src/oss/integrations/splitters/index.mdx) or [file an issue](https://github.com/langchain-ai/docs/issues/new/choose).
+  </Callout>
+</div>

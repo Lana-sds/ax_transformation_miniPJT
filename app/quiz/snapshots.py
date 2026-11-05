@@ -8,6 +8,7 @@ MCP 결과 안의 지시문처럼 보이는 텍스트는 데이터로만 다룬�
 
 import asyncio
 import hashlib
+from datetime import timedelta
 from pathlib import Path
 
 from mcp import ClientSession
@@ -32,8 +33,19 @@ def snapshot_name(page: str) -> str:
     return page.strip("/").replace("/", "__") + ".mdx"
 
 
+CALL_TIMEOUT = timedelta(seconds=60)
+CALL_TRIES = 3
+
+
 async def _run(session: ClientSession, command: str) -> str:
-    res = await session.call_tool(DOCS_TOOL, {"command": command})
+    """서버 호출이 응답 없이 멈추는 일이 있어(2026-11-05) 호출마다 60초 제한, 3번까지 다시 한다."""
+    for attempt in range(1, CALL_TRIES + 1):
+        try:
+            res = await session.call_tool(DOCS_TOOL, {"command": command}, read_timeout_seconds=CALL_TIMEOUT)
+            break
+        except Exception as e:  # McpError(timeout) 등
+            if attempt == CALL_TRIES:
+                raise SnapshotError(f"call failed after {CALL_TRIES} tries: {command!r}: {e}") from e
     text = res.content[0].text
     if not text.startswith(STDOUT_PREFIX):
         raise SnapshotError(f"command failed: {command!r}: {text[:200]!r}")
@@ -146,7 +158,8 @@ async def fetch_refs(urls: list[str], on_done=None) -> tuple[dict[str, str], dic
                 try:
                     package, symbol = ref_target(url)
                     res = await session.call_tool(REF_TOOL, {"package": package, "symbol": symbol,
-                                                             "language": "python"})
+                                                             "language": "python"},
+                                                  read_timeout_seconds=CALL_TIMEOUT)
                     text = res.content[0].text
                     check_ref_text(text, symbol)
                 except SnapshotError as e:
