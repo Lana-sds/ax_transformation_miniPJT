@@ -211,15 +211,17 @@ def _typed_slots(assigned: list[tuple[dict, str]]) -> list[dict]:
 
 
 def plan_fill(rows: list[dict], have: list[dict], per_bucket: int = 10, per_format: int = 10,
-              formats: list[str] = FORMATS) -> list[dict]:
+              formats: list[str] = FORMATS, tried: list[dict] | None = None) -> list[dict]:
     """이미 있는 문제(`have`: bucket, topic, format)로 모자란 만큼만 슬롯을 만든다.
 
     - 버킷마다 `per_bucket`에서 모자란 수만큼 슬롯을 둔다.
     - 형식마다 `per_format`에서 모자란 수를 먼저 배정한다. code부터, 남은 부족분이 가장 큰 버킷에 준다.
       동률이면 BUCKETS 순이다. code는 code 가능 주제가 있는 버킷에만 준다.
     - 형식 부족분이 버킷 부족분보다 크면 그 형식을 받을 수 있는 버킷 중 문제가 가장 적은 버킷에 슬롯을 더한다.
-    - 나머지 슬롯은 (이미 있는 수 + 배정한 수)가 가장 적은 형식에 준다. 동률이면 `formats` 순이다.
-    - 주제는 이미 있는 문제까지 세어 덜 쓴 주제를 먼저 고른다. 같은 주제 반복(duplicate)을 줄인다.
+    - 나머지 슬롯은 그 버킷에서 버린 문제(`tried`)가 가장 적은 형식에 준다. 그다음 (이미 있는 수 + 배정한 수)가
+      가장 적은 형식, 그다음 `formats` 순이다.
+    - 주제는 이미 있는 문제와 버린 문제까지 세어 덜 쓴 주제를 먼저 고른다. 같은 주제·형식을 다시 내면
+      같은 이유(duplicate 등)로 또 버려지기 때문이다.
     같은 입력이면 같은 출력이다.
     """
     topics = group_topics(rows)
@@ -250,13 +252,15 @@ def plan_fill(rows: list[dict], have: list[dict], per_bucket: int = 10, per_form
             if not examinable[b]:
                 raise ValueError(f"bucket {b}: no examinable topic")
             projected = {f: fmt_count[f] + sum(a.count(f) for a in assigned.values()) for f in formats}
-            f = min((f for f in formats if can_take(b, f)), key=lambda f: (projected[f], formats.index(f)))
+            dropped = {f: sum(1 for t in tried or [] if t["bucket"] == b and t["format"] == f) for f in formats}
+            f = min((f for f in formats if can_take(b, f)),
+                    key=lambda f: (dropped[f], projected[f], formats.index(f)))
             assigned[b].append(f)
 
     out: list[dict] = []
     for b in buckets:
         if not assigned[b]:
             continue
-        used = sorted((h["topic"], h["format"]) for h in have if h["bucket"] == b)
+        used = sorted((h["topic"], h["format"]) for h in [*have, *(tried or [])] if h["bucket"] == b)
         out.extend(_typed_slots(_assign_topics(b, assigned[b], examinable[b], used)))
     return out

@@ -274,3 +274,20 @@ def test_real_fill_against_pool_matches_targets(rows):
     plan = slots.plan_fill(rows, [], per_bucket=10, per_format=10)
     assert Counter(s["bucket"] for s in plan) == {b: 10 for b in BUCKETS}
     assert all(n >= 10 for n in Counter(s["format"] for s in plan).values())
+
+
+# 버린 문제(`tried`)도 센다. 같은 주제·형식을 다시 내면 같은 이유로 또 버려진다(보충 3회차, 2026-11-05).
+
+def test_fill_avoids_topic_that_was_dropped():
+    have = [_have("multi_agent", "router", "single"), _have("multi_agent", "hier", "single")]
+    tried = [_have("multi_agent", "hier", "multi")] * 3
+    plan = slots.plan_fill(SYNTH, have, per_bucket=4, per_format=0, tried=tried)
+    assert [s["topic"] for s in plan if s["bucket"] == "multi_agent"] == ["router", "router"]
+
+
+def test_fill_rest_avoids_format_that_was_dropped_in_bucket():
+    have = ([_have("multi_agent", "router", f) for f in ("single", "single", "multi")]
+            + [_have("tool_mcp", "@tool", f) for f in ("single", "multi", "short", "code")])
+    tried = [_have("multi_agent", "router", "short")]
+    plan = slots.plan_fill(SYNTH, have, per_bucket=4, per_format=0, tried=tried)
+    assert [(s["bucket"], s["format"]) for s in plan] == [("multi_agent", "code")]

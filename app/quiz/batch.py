@@ -26,9 +26,11 @@ PER_BUCKET = {"pilot": 1, "pool": 10}
 FILL_TARGET = 10  # 버킷당, 형식마다
 
 
-def make_plan(rows: list[dict], kind: str, count: int | None = None, have: list[dict] | None = None) -> list[dict]:
+def make_plan(rows: list[dict], kind: str, count: int | None = None, have: list[dict] | None = None,
+              tried: list[dict] | None = None) -> list[dict]:
     if kind == "fill":
-        planned = slots.plan_fill(rows, have or [], per_bucket=FILL_TARGET, per_format=FILL_TARGET)
+        planned = slots.plan_fill(rows, have or [], per_bucket=FILL_TARGET, per_format=FILL_TARGET,
+                                  tried=tried or [])
     else:
         planned = slots.plan_slots(rows, per_bucket=PER_BUCKET[kind])
     return planned[:count] if count is not None else planned
@@ -73,12 +75,14 @@ def run_batch(plan: str | None = None, count: int | None = None, resume: str | N
     with db.connect() as conn:
         apply_migrations(conn)
         if resume is None:
-            have = None
+            have = tried = None
             if plan == "fill":
-                have = [{"bucket": b, "topic": t, "format": f} for b, t, f in conn.execute(
-                    "SELECT bucket, topic, format FROM questions"
-                    " WHERE status = 'passed' AND variant_of IS NULL ORDER BY question_id")]
-            planned = make_plan(rows, plan, count, have)
+                def query(status):
+                    return [{"bucket": b, "topic": t, "format": f} for b, t, f in conn.execute(
+                        "SELECT bucket, topic, format FROM questions"
+                        " WHERE status = ? AND variant_of IS NULL ORDER BY question_id", (status,))]
+                have, tried = query("passed"), query("dropped")
+            planned = make_plan(rows, plan, count, have, tried)
             batch_id = store.next_batch_id(conn)
             store.insert_batch(conn, batch_id, "pool", llm.GEN_MODEL, llm.JUDGE_MODEL)
             store.insert_slots(conn, batch_id, planned)

@@ -141,9 +141,9 @@ def test_fill_batch_reads_passed_questions_from_db(tmp_db, monkeypatch):
     seen = {}
     real = batch.make_plan
 
-    def spy(rows, kind, count=None, have=None):
+    def spy(rows, kind, count=None, have=None, tried=None):
         seen["kind"], seen["have"] = kind, have
-        return real(rows, kind, count, have)
+        return real(rows, kind, count, have, tried)
 
     monkeypatch.setattr(batch, "make_plan", spy)
     make_question(tmp_db, "b20261105-99-001")
@@ -157,3 +157,19 @@ def test_fill_batch_reads_passed_questions_from_db(tmp_db, monkeypatch):
 def test_cli_generate_accepts_fill():
     a = build_parser().parse_args(["generate", "--plan", "fill"])
     assert a.plan == "fill"
+
+
+def test_fill_batch_passes_dropped_questions_as_tried(tmp_db, monkeypatch):
+    seen = {}
+    real = batch.make_plan
+
+    def spy(rows, kind, count=None, have=None, tried=None):
+        seen["tried"] = tried
+        return real(rows, kind, count, have, tried)
+
+    monkeypatch.setattr(batch, "make_plan", spy)
+    make_question(tmp_db, "b20261105-99-001")
+    tmp_db.execute("UPDATE questions SET status = 'dropped', drop_reason = 'duplicate'")
+    tmp_db.commit()
+    batch.run_batch(plan="fill", count=1, **models())
+    assert seen["tried"] == [{"bucket": "langgraph_basics", "topic": "t", "format": "single"}]
