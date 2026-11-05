@@ -3,7 +3,7 @@
 | 항목 | 내용 |
 | --- | --- |
 | 문서 상태 | 확정 |
-| 버전 | 2.0 (부록 A) |
+| 버전 | 3.0 (부록 A) |
 | 작성일 | 2026-11-04 |
 | 요구사항 | [requirements.md](../../01-requirements/output/requirements.md) |
 | 관련 산출물 | [page-allowlist.md](page-allowlist.md), [seed.yaml](seed.yaml) |
@@ -48,7 +48,7 @@
 | 페이지 스냅샷 수집 방법 | Python MCP 클라이언트(4.3). 서버 URL `https://docs.langchain.com/mcp` | 확인함(2026-11-05) |
 | Bedrock 요청 제한과 비용 | 기본값(8.1) | 첫 배치에서 요청 제한 발생 여부와 비용을 확인한다 |
 | 생성 시간 | 없음 | 파일럿 배치로 측정한다(6.2) |
-| 백업 보관 개수 | 없음 | 구현 시 정한다. 위치는 `data/backups/` |
+| 백업 보관 개수 | 최근 10개(8.4) | 확인함(2026-11-05) |
 
 ## 2. 아키텍처
 
@@ -250,6 +250,13 @@ ax_transformation_miniPJT/
 - 호출당 출력이 30KB에서 잘리므로 `sed -n 'a,bp'` 줄 범위로 나눠 받는다. 한 범위가 25,000자를 넘으면 범위를 줄인다.
 - 합친 바이트의 sha256을 서버 `sha256sum` 값과 대조한다. 다르면 멈춘다.
 - 스냅샷은 줄바꿈 변환 없이 저장한다(`.gitattributes` `-text`).
+- URL 경로 `<p>`의 원문 파일은 `<p>.mdx`다. 없으면 `<p>/index.mdx`다. 스냅샷 이름은 URL 경로 기준이다.
+- 수집 호출은 호출마다 60초 제한이다. 실패하면 3번까지 다시 부른다.
+- 기대 해시는 `packs/langchain/snapshot-manifest.yaml`에 둔다. 스냅샷 이름마다 `sha256`, `fetched_at`이다. 수집 명령이 서버 대조 뒤 쓴다(D-15).
+- `allowlist build`는 스냅샷 파일 해시를 manifest와 대조한다. 다르면 멈춘다.
+- `allowlist.yaml`은 표 한 행이 한 행이다. 필드는 `bucket`, `topic_no`, `topic`, `path`, `kind`, `status`, `snapshot`, `sha256`, `fetched_at`이다. `없음` 행은 뺀다.
+- API 레퍼런스 스냅샷은 `reference-langchain` MCP `get_symbol(package, symbol, language="python")` 출력이다. package는 URL `/python/` 다음 마디, symbol은 마지막 마디다.
+- API 레퍼런스 스냅샷 이름은 `reference__<URL 경로의 /를 __로>.md`다. 서버 해시가 없다. 출력 첫 줄이 `# <symbol>`인지 확인하고 로컬 sha256을 manifest에 적는다.
 
 ### 4.4 결정적 검사 규칙 (`gates.py`)
 
@@ -258,9 +265,9 @@ ax_transformation_miniPJT/
 | 인용 정규화 | `quote`와 페이지 스냅샷 양쪽에 Unicode NFKC 정규화와 연속 공백(줄바꿈 포함)을 공백 1칸으로 줄이는 것만 적용한다. 마크다운과 코드 블록 기호는 그대로 둔다. 대소문자를 구분한다 |
 | 인용 대조 | 정규화한 `quote`가 정규화한 스냅샷 안에 그대로 있어야 한다. `quote`는 정규화 후 30자 이상이다. `page`는 `allowlist.yaml`에 있어야 한다 |
 | 매핑 존재 | 문제마다 `segments`가 있어야 한다 |
-| 단답 허용 답안 | 1~5개여야 한다 |
-| 단답 채점 정규화 | 대소문자, 공백, 백틱, 끝의 `()` 제거 |
-| 유사 중복 | 같은 버킷 안에서 (1) 같은 `quote`를 쓰거나 (2) 정규화한 문제 본문의 토큰 Jaccard가 0.6 이상이면 `duplicate`다. 모델 호출과 임베딩은 쓰지 않는다 |
+| 단답 허용 답안 | 1~5개여야 한다. 어기면 `accepted_answers_count`다 |
+| 단답 채점 정규화 | NFKC, casefold, 백틱 제거, 공백 모두 제거, 끝의 `()` 1개 제거 순서다. `_`와 `.`은 둔다. 게이트와 채점이 같은 함수를 쓴다 |
+| 유사 중복 | 같은 버킷 안에서 (1) 같은 `quote`를 쓰거나 (2) 정규화한 문제 본문의 토큰 Jaccard가 0.6 이상이면 `duplicate`다. 모델 호출과 임베딩은 쓰지 않는다. `quote`는 인용 정규화 뒤 비교한다. 본문 토큰은 NFKC·casefold 뒤 `\w+`다. 0.6 비교는 정수 연산이다. 같은 `question_id`는 비교에서 뺀다 |
 
 생성 프롬프트에는 스냅샷 원문을 주고 `quote`를 그대로 복사하게 한다.
 
@@ -452,7 +459,7 @@ flowchart TD
 | `generate` | 슬롯, 그 주제의 허용 목록 스냅샷 원문, 직전 실패 이유 | 구조화 출력(`with_structured_output`): 문제, 보기, 정답 키, 허용 답안, 해설, segments, grounding_records, 코드형 `exec_spec` | `schema_invalid` |
 | `judge` | 문제 전체, 인용한 스냅샷 원문 | 정답 확인, 근거가 정답을 뒷받침하는지, 오답 보기가 실제로 틀렸는지, 매핑 충실도, 빠진 단답 변형(합쳐서 최대 5개), 코드형 보기별 예측 `{ok, stdout, error_type}` | `judge_fail:<항목>` |
 | `execute` | `exec_spec`, lock 해시 | 보기별 실제 `{ok, stdout, error_type}` | `judge_exec_mismatch`, `version_conflict` |
-| `gates` | 문제, 스냅샷 | `quote_match`, `mapping_present`, 단답 허용 답안 1~5개, quote 30자 이상, `page`가 `allowlist.yaml`에 있음(4.4) | `quote_mismatch`, `quote_too_short`, `grounding_missing`, `mapping_missing`, `page_not_allowed` |
+| `gates` | 문제, 스냅샷 | `quote_match`, `mapping_present`, 단답 허용 답안 1~5개, quote 30자 이상, `page`가 `allowlist.yaml`에 있음(4.4) | `quote_mismatch`, `quote_too_short`, `grounding_missing`, `mapping_missing`, `page_not_allowed`, `accepted_answers_count` |
 | `dedupe` | 문제, 같은 버킷 `passed` 문제 | 같은 quote 또는 Jaccard ≥ 0.6이면 `duplicate_of`(4.4) | `duplicate` |
 
 판정 규칙:
@@ -474,6 +481,12 @@ flowchart TD
 - MCP 주제(MCP 클라이언트, `langchain-mcp-adapters`, MCP 도구 에러)는 개념·설계 문제만 현재 문서 기준으로 낸다. 코드형 문제는 내지 않는다(D-9). Tool·MCP 버킷의 코드형은 `@tool`, ToolNode, 재시도·장애 처리에서만 낸다. GR-7.2의 MCP 고정 4개는 그대로 둔다.
 - 코드 선택은 MCP 주제와 허용 목록 상태가 `없음`인 주제에 배정하지 않는다.
 - 허용 목록 상태가 `근접`인 주제는 프롬프트에 "문서가 그 이름으로 패턴을 정의한다고 쓰지 말 것"을 넣는다.
+- 주제 상태는 행 중 하나라도 `확인`이면 확인이다. 아니면 `근접`이 있으면 근접, 아니면 없음이다.
+- 경로에 `mcp`가 든 행이 MCP 행이다. 모든 행이 MCP인 주제가 MCP 주제다. 장애 주입 주제는 코드 슬롯을 받되 `mcp/tools` 페이지를 근거 페이지에서 뺀다.
+- 형식은 버킷 순서대로 단일, 복수, 단답, 코드 선택을 돌려 배정한다. 60슬롯이면 형식마다 15개다.
+- 버킷 안에서 코드 선택 슬롯을 먼저 두고, 가장 덜 쓴 주제에 준다.
+- 슬롯의 `near`는 주제 전체가 근접일 때 참이다. `near_pages`는 슬롯 근거 페이지 중 근접 행이다.
+- 문제 유형: 코드 선택은 `code_behavior`와 `error_cause`를 번갈아 쓴다. MCP 주제는 `concept`와 `design`이다. 단답은 `concept`, `error_cause`, `design`이다. 나머지는 네 유형을 돌린다.
 
 ### 6.2 배치 실행과 재개
 
@@ -554,7 +567,8 @@ sequenceDiagram
 | --- | --- |
 | `migrate` | 백업 뒤 마이그레이션 적용 |
 | `snapshot fetch <page...>` | 문서 페이지 스냅샷을 받아 `packs/langchain/snapshots/`에 쓰고 sha256을 출력 |
-| `allowlist build` | `docs/02-spec-design/output/page-allowlist.md` 표를 읽어 `packs/langchain/allowlist.yaml`을 만들고 스냅샷 해시를 검사 |
+| `snapshot fetch-ref <url...>` | API 레퍼런스 스냅샷을 받아 `packs/langchain/snapshots/`에 쓰고 sha256을 출력 |
+| `allowlist build [--allow-missing]` | `docs/02-spec-design/output/page-allowlist.md` 표를 읽어 `packs/langchain/allowlist.yaml`을 만들고 스냅샷 해시를 검사. 스냅샷이 없는 행이 있으면 멈춘다. `--allow-missing`이면 그 행을 `snapshot: null`로 둔다 |
 | `generate --plan pilot\|pool [--count N]` / `generate --resume <batch_id>` | 슬롯 계획을 쓰고 그래프를 돈다. 시작 전에 백업. `pilot`은 버킷당 1문제 |
 | `generate --variants` | 변형 문제가 없는 `concept` 큐 항목으로 변형 배치를 돈다 |
 | `pool freeze` | 현재 `passed`(변형 제외) 문제로 풀 스냅샷을 만든다 |
@@ -584,7 +598,8 @@ sequenceDiagram
 ### 8.4 DB 마이그레이션과 백업
 
 - `schema_version` 테이블과 번호 붙은 SQL 마이그레이션 파일(`migrations/`)을 서버 시작 시 적용한다.
-- 마이그레이션과 배치 전에 `sqlite3` backup API로 `data/backups/`에 백업한다. 보관 개수는 미정이다(1.4).
+- 마이그레이션과 배치 전에 `sqlite3` backup API로 `data/backups/`에 백업한다. DB 파일 옆 `backups/`다.
+- 파일 이름은 `quiz-<UTC 시각>-<migrate|batch>.db`다. 최근 10개만 남긴다. DB 파일이 없으면 백업하지 않는다.
 
 ### 8.5 보안
 
@@ -616,6 +631,7 @@ sequenceDiagram
 | D-12 | 리전을 `region_name`으로 직접 넘긴다. `AWS_REGION`이 없으면 `AWS_DEFAULT_REGION`을 쓴다 | botocore가 `AWS_REGION`을 읽게 둔다 | botocore가 이 변수를 리전으로 읽는지 확인하지 못했다. 자격 증명 `.env`에는 `AWS_DEFAULT_REGION`만 있다 | 3.2 |
 | D-13 | 배치는 슬롯을 먼저 기록하고 결정적 `question_id`와 upsert로 재개한다 | - | - | 6.2 |
 | D-14 | 스냅샷은 Python MCP 클라이언트로 줄 범위를 나눠 받고 sha256을 서버와 대조한다 | 에이전트 세션에서 MCP로 받아 쓰기 | 30KB 한도를 넘는 페이지(31~74KB)를 바이트 그대로 재현하고 검증할 수 있다 | 4.3 |
+| D-15 | 스냅샷 기대 해시는 수집 명령이 쓰는 manifest 파일에 둔다 | 기존 `allowlist.yaml`의 해시와 대조 | `allowlist.yaml`은 표에서 다시 만드는 산출물이라 기대 값의 출처가 될 수 없다 | 4.3 |
 
 ## 10. 요구사항 추적표
 
@@ -658,3 +674,4 @@ Seed 수용 기준 번호는 [seed.yaml](seed.yaml) `acceptance_criteria` 순서
 | 1.2 | 2026-11-04 | 4.3 스냅샷 수집 후보에서 개발 도구 이름을 뺐다. 설계 내용은 바꾸지 않았다 |
 | 1.3 | 2026-11-04 | 2.1 아키텍처 도식을 다시 그렸다(경로별 색 구분, 외부 서비스 묶음, SQLite를 두 경로 사이에 배치). 4.1 코드 구조를 디렉터리 트리 형식으로 바꿨다. 설계 내용은 바꾸지 않았다 |
 | 2.0 | 2026-11-05 | 구현 M0 결과를 반영했다. 1.4 확인 항목 3개를 닫았다. 3.1 버전 고정, 3.2 리전 대체 변수, 4.1 모듈, 4.3 수집 방법, 5.2 버킷 식별자, 6.1 게이트 실패 이유, 7.2 `snapshot fetch`, D-12 수정, D-14 추가. 기록은 [01-m0.md](../../dev-process/03-implementation/01-m0.md)에 있다 |
+| 3.0 | 2026-11-05 | 구현 M1 결과를 반영했다. 1.4 백업 보관 개수를 닫았다. 4.3 index 페이지·manifest·`allowlist.yaml` 필드·API 레퍼런스 스냅샷·호출 제한, 4.4 단답 실패 이유·정규화 순서·유사 중복 세부, 6.1 `accepted_answers_count`와 슬롯 계획 세부, 7.2 `snapshot fetch-ref`·`--allow-missing`, 8.4 백업 규칙, D-15 추가. 기록은 [02-m1.md](../../dev-process/03-implementation/02-m1.md)에 있다 |
