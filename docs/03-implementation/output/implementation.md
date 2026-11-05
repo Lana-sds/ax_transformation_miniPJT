@@ -2,8 +2,8 @@
 
 | 항목 | 내용 |
 | --- | --- |
-| 문서 상태 | 초안 |
-| 버전 | 0.2 (부록 A) |
+| 문서 상태 | 확정 |
+| 버전 | 1.0 (부록 A) |
 | 작성일 | 2026-11-05 |
 | 설계서 | [design.md](../../02-spec-design/output/design.md) 12.0 |
 | 관련 산출물 | [mvp-checklist.md](mvp-checklist.md), [m0-smoke.md](m0-smoke.md), [notes-link-allowlist-candidates.md](notes-link-allowlist-candidates.md) |
@@ -529,3 +529,4 @@ flowchart LR
 | --- | --- | --- |
 | 0.1 | 2026-11-05 | 초안 |
 | 0.2 | 2026-11-05 | 1.4에 문제 구성 개념을 더했다. 설계서 12.0 반영에 맞춰 3장, 5장 개정 열, 6장 테스트 수를 고쳤다. 서버 시작 마이그레이션 백업을 구현해(`81ad4da`) 8장에서 뺐다 |
+| 1.0 | 2026-11-05 | 확정 |
