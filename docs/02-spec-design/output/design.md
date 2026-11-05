@@ -3,7 +3,7 @@
 | 항목 | 내용 |
 | --- | --- |
 | 문서 상태 | 확정 |
-| 버전 | 4.0 (부록 A) |
+| 버전 | 5.0 (부록 A) |
 | 작성일 | 2026-11-04 |
 | 요구사항 | [requirements.md](../../01-requirements/output/requirements.md) |
 | 관련 산출물 | [page-allowlist.md](page-allowlist.md), [seed.yaml](seed.yaml) |
@@ -458,7 +458,7 @@ flowchart TD
 | 노드 | 입력 | 출력 | 실패 이유 |
 | --- | --- | --- | --- |
 | `generate` | 슬롯, 그 주제의 허용 목록 스냅샷 원문, 직전 실패 이유 | 구조화 출력(`with_structured_output`): 문제, 보기, 정답 키, 허용 답안, 해설, segments, grounding_records, 코드형 `exec_spec` | `schema_invalid` |
-| `judge` | 문제 전체, 인용한 스냅샷 원문 | 정답 확인, 근거가 정답을 뒷받침하는지, 오답 보기가 실제로 틀렸는지, 매핑 충실도, 빠진 단답 변형(합쳐서 최대 5개), 코드형 보기별 예측 `{ok, stdout, error_type}` | `judge_fail:<항목>` |
+| `judge` | 문제 전체, 인용한 스냅샷 원문 | 정답 확인, 근거가 정답을 뒷받침하는지, 오답 보기가 실제로 틀렸는지, 매핑 충실도, 선택형(`single`, `multi`, `code`) 오답 보기의 그럴듯함(`distractors_plausible`), 단서 없음(`no_cue`), 빠진 단답 변형(합쳐서 최대 5개), 코드형 보기별 예측 `{ok, stdout, error_type}` | `judge_fail:<항목>` |
 | `execute` | `exec_spec`, lock 해시 | 보기별 실제 `{ok, stdout, error_type}` | `judge_exec_mismatch`, `version_conflict` |
 | `gates` | 문제, 스냅샷 | `quote_match`, `mapping_present`, 단답 허용 답안 1~5개, quote 30자 이상, `page`가 `allowlist.yaml`에 있음(4.4) | `quote_mismatch`, `quote_too_short`, `grounding_missing`, `mapping_missing`, `page_not_allowed`, `accepted_answers_count` |
 | `dedupe` | 문제, 같은 버킷 `passed` 문제 | 같은 quote 또는 Jaccard ≥ 0.6이면 `duplicate_of`(4.4) | `duplicate` |
@@ -678,3 +678,4 @@ Seed 수용 기준 번호는 [seed.yaml](seed.yaml) `acceptance_criteria` 순서
 | 2.0 | 2026-11-05 | 구현 M0 결과를 반영했다. 1.4 확인 항목 3개를 닫았다. 3.1 버전 고정, 3.2 리전 대체 변수, 4.1 모듈, 4.3 수집 방법, 5.2 버킷 식별자, 6.1 게이트 실패 이유, 7.2 `snapshot fetch`, D-12 수정, D-14 추가. 기록은 [01-m0.md](../../dev-process/03-implementation/01-m0.md)에 있다 |
 | 3.0 | 2026-11-05 | 구현 M1 결과를 반영했다. 1.4 백업 보관 개수를 닫았다. 4.3 index 페이지·manifest·`allowlist.yaml` 필드·API 레퍼런스 스냅샷·호출 제한, 4.4 단답 실패 이유·정규화 순서·유사 중복 세부, 6.1 `accepted_answers_count`와 슬롯 계획 세부, 7.2 `snapshot fetch-ref`·`--allow-missing`, 8.4 백업 규칙, D-15 추가. 기록은 [02-m1.md](../../dev-process/03-implementation/02-m1.md)에 있다 |
 | 4.0 | 2026-11-05 | 구현 M2 중 사용자 승인을 반영했다. 1.4 Langfuse 키 이름과 Bedrock 단가를 닫았다. 3.1 `langfuse` 버전, 3.2 Langfuse 호스트 키, 5.1 `verification_results.cost_usd`(마이그레이션 0002), 5.4 단가 단위 1M 토큰, 8.3 콜백·세션·비용 규칙. 기록은 [03-m2.md](../../dev-process/03-implementation/03-m2.md)에 있다 |
+| 5.0 | 2026-11-05 | 출제 품질 기준(T2.11) 사용자 승인을 반영했다. 6.1 `judge` 출력에 선택형 항목 `distractors_plausible`, `no_cue`를 더했다. 기록은 [03-m2.md](../../dev-process/03-implementation/03-m2.md)에 있다 |
