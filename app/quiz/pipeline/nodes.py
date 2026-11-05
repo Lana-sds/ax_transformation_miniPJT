@@ -4,7 +4,7 @@ import json
 import operator
 from typing import Annotated, Any, TypedDict
 
-from quiz import gates, llm, sandbox_client
+from quiz import gates, llm, pricing, sandbox_client
 from quiz.pipeline import prompts
 from quiz.pipeline.schemas import SCHEMAS, JudgeVerdict
 
@@ -35,11 +35,15 @@ class SlotState(TypedDict, total=False):
     drop_reason: str | None
 
 
-def _add_tokens(state: SlotState, raw) -> dict:
+def _add_tokens(state: SlotState, raw, model) -> dict:
+    """시도 1회분 토큰과 비용을 더한다. 단가 없는 모델을 한 번이라도 쓰면 비용은 None이다."""
     i, o = llm.usage(raw)
     t = dict(state.get("tokens") or {"input": 0, "output": 0})
     t["input"] += i
     t["output"] += o
+    call = pricing.cost(getattr(model, "model_id", None), i, o)
+    prev = t.get("cost_usd", 0.0)
+    t["cost_usd"] = None if prev is None or call is None else prev + call
     return t
 
 
@@ -80,7 +84,7 @@ def generate(state: SlotState, model=None) -> dict[str, Any]:
     )
     model = model or llm.gen_model()
     out = model.with_structured_output(SCHEMAS[fmt], include_raw=True).invoke(prompt)
-    tokens = _add_tokens(state, out["raw"])
+    tokens = _add_tokens(state, out["raw"], model)
     if out.get("parsed") is None:
         return {"question": None, "fail_reasons": ["schema_invalid"], "tokens": tokens}
     question = out["parsed"].model_dump()
@@ -134,7 +138,7 @@ def judge(state: SlotState, model=None) -> dict[str, Any]:
     )
     model = model or llm.judge_model()
     out = model.with_structured_output(JudgeVerdict, include_raw=True).invoke(prompt)
-    tokens = _add_tokens(state, out["raw"])
+    tokens = _add_tokens(state, out["raw"], model)
     fails = list(state.get("fail_reasons", []))
     if out.get("parsed") is None:
         return {"judge": None, "fail_reasons": fails + ["judge_fail:schema_invalid"], "tokens": tokens}

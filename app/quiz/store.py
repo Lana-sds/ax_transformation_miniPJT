@@ -86,18 +86,18 @@ def upsert_verification(conn, qid: str, attempt_no: int, state: dict) -> None:
     conn.execute(
         """INSERT INTO verification_results (question_id, attempt_no, quote_match, mapping_present, judge_pass,
                exec_match, duplicate_of, judge_verdict_json, exec_result_json, fail_reasons_json,
-               input_tokens, output_tokens, created_at)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+               input_tokens, output_tokens, cost_usd, created_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
            ON CONFLICT (question_id, attempt_no) DO UPDATE SET
                quote_match = excluded.quote_match, mapping_present = excluded.mapping_present,
                judge_pass = excluded.judge_pass, exec_match = excluded.exec_match,
                duplicate_of = excluded.duplicate_of, judge_verdict_json = excluded.judge_verdict_json,
                exec_result_json = excluded.exec_result_json, fail_reasons_json = excluded.fail_reasons_json,
                input_tokens = excluded.input_tokens, output_tokens = excluded.output_tokens,
-               created_at = excluded.created_at""",
+               cost_usd = excluded.cost_usd, created_at = excluded.created_at""",
         (qid, attempt_no, quote_match, mapping_present, judge_pass, state.get("exec_match"),
          state.get("duplicate_of"), _j(judge), _j(state.get("exec_result")), _j(state.get("fail_reasons", [])),
-         tokens.get("input", 0), tokens.get("output", 0), now()),
+         tokens.get("input", 0), tokens.get("output", 0), tokens.get("cost_usd"), now()),
     )
 
 
@@ -129,7 +129,10 @@ def finish_batch(conn, batch_id: str, done: bool = True) -> None:
                input_tokens = (SELECT COALESCE(SUM(v.input_tokens), 0) FROM verification_results v
                                JOIN questions q ON q.question_id = v.question_id WHERE q.batch_id = ?),
                output_tokens = (SELECT COALESCE(SUM(v.output_tokens), 0) FROM verification_results v
-                                JOIN questions q ON q.question_id = v.question_id WHERE q.batch_id = ?)
+                                JOIN questions q ON q.question_id = v.question_id WHERE q.batch_id = ?),
+               cost_usd = (SELECT CASE WHEN COUNT(*) > 0 AND COUNT(v.cost_usd) = COUNT(*) THEN SUM(v.cost_usd) END
+                           FROM verification_results v
+                           JOIN questions q ON q.question_id = v.question_id WHERE q.batch_id = ?)
            WHERE batch_id = ?""",
-        (now() if done else None, batch_id, batch_id, batch_id),
+        (now() if done else None, batch_id, batch_id, batch_id, batch_id),
     )

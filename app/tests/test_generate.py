@@ -110,7 +110,7 @@ def test_generate_uses_format_schema(fmt):
     assert out["fail_reasons"] == []
     assert out["question"]["format"] == fmt
     assert out["question"]["fetched_at"] == "2026-11-05"
-    assert out["tokens"] == {"input": 100, "output": 20}
+    assert (out["tokens"]["input"], out["tokens"]["output"]) == (100, 20)
 
 
 def test_generate_prompt_has_every_page_and_format_rules():

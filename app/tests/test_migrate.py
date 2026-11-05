@@ -10,8 +10,8 @@ TABLES = {
 
 def test_migrate_creates_all_tables_and_is_idempotent(tmp_path):
     conn = connect(tmp_path / "t.db")
-    assert apply_migrations(conn) == [1]
+    assert apply_migrations(conn) == [1, 2]
     assert apply_migrations(conn) == []
-    assert current_version(conn) == 1
+    assert current_version(conn) == 2
     names = {r[0] for r in conn.execute("SELECT name FROM sqlite_master WHERE type='table'")}
     assert TABLES <= names
