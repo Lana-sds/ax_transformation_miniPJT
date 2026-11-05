@@ -96,9 +96,9 @@
   - 확인: `uv run pytest tests/test_sandbox_client.py`가 정상, 무한 루프(`timeout`), 환경 변수 미전달, 두 불일치 사례를 통과한다.
 - [x] T2.6 `dedupe` 노드 연결과 노드 순서 확정(생성 → Judge → 실행 → 게이트 → 중복) (US-2.2, D-10)
   - 확인: 같은 quote 문제를 두 번 만들면 두 번째가 `duplicate`로 재생성 없이 버려진다.
-- [ ] T2.7 배치 CLI 완성: `--plan pilot|pool`, `--count N`, 슬롯 선기록, upsert, 동시 호출 2, `--resume <batch_id>` (US-2.5, W6)
+- [x] T2.7 배치 CLI 완성: `--plan pilot|pool`, `--count N`, 슬롯 선기록, upsert, 동시 호출 2, `--resume <batch_id>` (US-2.5, W6)
   - 확인: 배치를 중간에 끊고 `--resume`하면 `passed`·`dropped`가 아닌 슬롯만 다시 돈다.
-- [ ] T2.8 토큰·비용: `verification_results`, `batches`에 토큰 누적, `data/pricing/bedrock.yaml`(AWS 가격 페이지 확인, 출처 URL, 날짜)로 `cost_usd` 계산 (US-2.5, US-7.2, W4)
+- [x] T2.8 토큰·비용: `verification_results`, `batches`에 토큰 누적, `data/pricing/bedrock.yaml`(AWS 가격 페이지 확인, 출처 URL, 날짜)로 `cost_usd` 계산 (US-2.5, US-7.2, W4)
   - 확인: 배치 1회 뒤 `batches.input_tokens`가 시도 행 합과 같고 단가가 있으면 `cost_usd`가 NULL이 아니다.
 - [ ] T2.9 Langfuse 선택 적용: SDK 키 이름 확인, 환경 변수 3개가 모두 있을 때만 콜백, `batch_id`를 세션 ID·태그로 (US-7.1, W4)
   - 확인: 환경 변수 없이 배치가 성공하고, 있으면 Langfuse UI에 그 `batch_id` trace가 1개 이상 있다.
