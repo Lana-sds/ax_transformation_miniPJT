@@ -9,7 +9,7 @@ from quiz.pipeline import nodes, schemas
 from test_generate import PAGE, payload, state
 
 PASS = {"answer_key_correct": True, "quote_supports_answer": True, "distractors_wrong": True,
-        "mapping_faithful": True, "verdict": "pass", "reasons": []}
+        "mapping_faithful": True, "distractors_plausible": True, "no_cue": True, "verdict": "pass", "reasons": []}
 
 
 def judged(fmt: str, question: dict | None = None) -> dict:

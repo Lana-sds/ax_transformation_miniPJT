@@ -8,9 +8,12 @@ from quiz import gates, llm, pricing, sandbox_client
 from quiz.pipeline import prompts
 from quiz.pipeline.schemas import SCHEMAS, JudgeVerdict
 
-JUDGE_ITEMS = ("answer_key_correct", "quote_supports_answer", "distractors_wrong", "mapping_faithful")
-DOCS_BASE = "https://docs.langchain.com"
 CODE_FORMAT = "code"
+SHORT_FORMAT = "short"
+JUDGE_ITEMS = ("answer_key_correct", "quote_supports_answer", "distractors_wrong", "mapping_faithful")
+# 선택형(single, multi, code)에만 보는 출제 품질 항목(T2.11)
+CHOICE_JUDGE_ITEMS = ("distractors_plausible", "no_cue")
+DOCS_BASE = "https://docs.langchain.com"
 NEAR_RULE = prompts.load("near").strip()
 
 
@@ -79,6 +82,7 @@ def generate(state: SlotState, model=None) -> dict[str, Any]:
         pages="\n".join(f"  - `{p}`" for p in snapshots),
         near_rule=NEAR_RULE if slot.get("near") else "",
         format_rules=_format_rules(fmt),
+        quality_rules=prompts.load("quality/short" if fmt == SHORT_FORMAT else "quality/choice").strip(),
         feedback=_feedback(state.get("feedback") or []),
         documents=_documents(snapshots),
     )
@@ -98,7 +102,7 @@ def generate(state: SlotState, model=None) -> dict[str, Any]:
     return {"question": question, "fail_reasons": [], "tokens": tokens}
 
 
-JUDGE_RULE_FORMATS = ("short", CODE_FORMAT)
+JUDGE_RULE_FORMATS = (SHORT_FORMAT, CODE_FORMAT)
 HIDDEN_FROM_JUDGE = ("fetched_at", "doc_url", "lock_hash")
 
 
@@ -124,6 +128,17 @@ def merge_variants(accepted: list[str], variants: list[str]) -> list[str]:
     return out
 
 
+def _judge_rules(fmt: str) -> str:
+    parts = [] if fmt == SHORT_FORMAT else [prompts.load("judge/choice").strip()]
+    if fmt in JUDGE_RULE_FORMATS:
+        parts.append(prompts.load(f"judge/{fmt}").strip())
+    return "\n\n".join(parts)
+
+
+def judge_items(fmt: str) -> tuple[str, ...]:
+    return JUDGE_ITEMS if fmt == SHORT_FORMAT else JUDGE_ITEMS + CHOICE_JUDGE_ITEMS
+
+
 def judge(state: SlotState, model=None) -> dict[str, Any]:
     question = state.get("question")
     if question is None:
@@ -133,7 +148,7 @@ def judge(state: SlotState, model=None) -> dict[str, Any]:
     prompt = prompts.render(
         "judge",
         question=json.dumps(_judge_view(question), ensure_ascii=False, indent=2),
-        format_rules=prompts.load(f"judge/{fmt}").strip() if fmt in JUDGE_RULE_FORMATS else "",
+        format_rules=_judge_rules(fmt),
         page=", ".join(snapshots), document=_documents(snapshots),
     )
     model = model or llm.judge_model()
@@ -143,9 +158,9 @@ def judge(state: SlotState, model=None) -> dict[str, Any]:
     if out.get("parsed") is None:
         return {"judge": None, "fail_reasons": fails + ["judge_fail:schema_invalid"], "tokens": tokens}
     verdict = out["parsed"].model_dump()
-    fails += [f"judge_fail:{item}" for item in JUDGE_ITEMS if not verdict[item]]
+    fails += [f"judge_fail:{item}" for item in judge_items(fmt) if not verdict[item]]
     result = {"judge": verdict, "fail_reasons": fails, "tokens": tokens}
-    if fmt == "short" and verdict["missing_variants"]:
+    if fmt == SHORT_FORMAT and verdict["missing_variants"]:
         accepted = merge_variants(question.get("accepted_answers") or [], verdict["missing_variants"])
         result["question"] = {**question, "accepted_answers": accepted}
     return result

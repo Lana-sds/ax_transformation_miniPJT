@@ -141,6 +141,10 @@ class JudgeVerdict(BaseModel):
     quote_supports_answer: bool = Field(description="The quotes support the answer key")
     distractors_wrong: bool = Field(description="Every other choice is actually wrong per the document")
     mapping_faithful: bool = Field(description="Every segment ko neither omits nor adds meaning to en")
+    distractors_plausible: bool = Field(
+        description="Formats with choices: every wrong choice carries a plausible misconception. Format short: true")
+    no_cue: bool = Field(
+        description="Formats with choices: the wording gives no cue to the answer. Format short: true")
     verdict: Literal["pass", "fail"]
     reasons: list[str] = Field(description="Short English reasons for any failed item; empty if pass")
     missing_variants: list[str] = Field(
