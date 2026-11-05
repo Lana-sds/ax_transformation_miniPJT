@@ -14,7 +14,7 @@ def m0_slots(rows: list[dict], count: int) -> list[dict]:
     row = next(r for r in rows if r.get("snapshot"))  # M0 임시: 스냅샷이 있는 첫 행. T2.7에서 슬롯 계획으로 바꾼다
     return [
         {"bucket": row["bucket"], "topic": row["topic"], "format": "single", "question_type": "concept",
-         "page": row["path"]}
+         "pages": [row["path"]], "near": False, "near_pages": []}
         for _ in range(count)
     ]
 
@@ -34,8 +34,13 @@ def run_batch(count: int) -> str:
         store.insert_batch(conn, batch_id, "pool", llm.GEN_MODEL, llm.JUDGE_MODEL)
         store.insert_slots(conn, batch_id, slots)
     for no, slot in enumerate(slots, start=1):
-        row = by_path[slot["page"]]
-        state = graph.invoke({"slot": slot, "snapshot": allowlist.read_snapshot(row), "allowed_pages": pages})
+        row = by_path[slot["pages"][0]]
+        state = graph.invoke({
+            "slot": slot,
+            "snapshots": {p: allowlist.read_snapshot(by_path[p]) for p in slot["pages"]},
+            "fetched": {p: by_path[p]["fetched_at"] for p in slot["pages"]},
+            "allowed_pages": pages,
+        })
         qid = store.question_id(batch_id, no)
         status = verdict(state)
         reasons = state.get("fail_reasons") or []
