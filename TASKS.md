@@ -104,7 +104,17 @@
   - 확인: 환경 변수 없이 배치가 성공하고, 있으면 Langfuse UI에 그 `batch_id` trace가 1개 이상 있다.
 - [ ] T2.10 `quiz crosscheck --pool <pool_snapshot_id> | --batch <batch_id>`: Claude 계열이 아닌 모델 2개(`us.amazon.nova-pro-v1:0`, `openai.gpt-oss-120b-1:0`)가 정답 키를 보지 않고 `passed` 문제를 풀어 정답 키 오류 후보를 찾는다. 요구사항 밖 보조 점검(사용자 승인 2026-11-05). 모델에는 `stem_en`, 보기, 형식, `select_count`, 근거 페이지 스냅샷 원문만 준다. 정답 키, 허용 답안, 해설, 매핑, quote, `answer_basis`는 주지 않는다. 코드형은 기본으로 건너뛴다. 리전이 `us-east-1`이 아니면 오류로 멈춘다. `grading.py`로 채점해 `data/crosscheck/<대상 ID>.json`에 문항별 두 모델의 답·일치 여부·근거 문장을 쓰고 불일치 요약 표를 낸다. DB, migrations, `status`는 바꾸지 않는다. 첫 실행은 T3.1 직후다
   - 확인: 파일럿 배치에 돌리면 문항마다 모델 2개의 결과가 파일에 있다.
-  - 판정: 두 모델 모두 정답 키와 다르면 감사 1순위, 한 모델만 다르면 2순위, 둘 다 `unanswerable`이면 근거 약함 신호다. 걸린 문항은 D-5 감사 표본과 별도로 사용자가 T5.1 전에 검토하고 파일의 `reviewed`(`ok`, `key_error`, `weak_grounding`, `ambiguous` 중 하나)에 적는다\| `key_error` \| `weak_grounding` \| `ambiguous`)에 적는다. `audit_records`에는 쓰지 않는다. 오류로 확인한 문항은 `audit_failed`로 바꾸고 다시 채운 뒤 freeze한다
+  - 판정: 두 모델 모두 정답 키와 다르면 감사 1순위, 한 모델만 다르면 2순위, 둘 다 `unanswerable`이면 근거 약함 신호다. 걸린 문항은 D-5 감사 표본과 별도로 사용자가 T5.1 전에 검토하고 파일의 `reviewed`(`ok`, `key_error`, `weak_grounding`, `ambiguous` 중 하나)에 적는다. `audit_records`에는 쓰지 않는다. 오류로 확인한 문항은 `audit_failed`로 바꾸고 다시 채운 뒤 freeze한다
+- [ ] T2.11 출제 품질 기준: 생성 프롬프트와 Judge에 좋은 문제 기준을 넣는다. 사용자 요청(2026-11-05). 스키마와 DB는 바꾸지 않는다. T3.1 파일럿 전에 끝낸다 (US-2.2)
+  - 생성 프롬프트(`generate.md` 또는 `prompts/formats/<형식>.md`):
+    1. 정의를 떠올리는 문제는 내지 않는다. 코드, 로그, 상황 같은 자료를 본문에 두고 적용·진단·판단을 묻는다.
+    2. (선택형: `single`, `multi`, `code`) 오답 보기마다 그럴듯한 오해 하나를 담는다. 예: 증상만 해결, 맞는 패턴을 틀린 맥락에 적용. 말이 안 되는 보기는 금지한다.
+    3. (선택형) 단서를 금지한다: 본문 단어를 정답에 되풀이, 오답에만 절대어(only/always/never), 정답만 유난히 긴 보기.
+    4. `explanation_ko`에 보기마다 왜 맞고 왜 틀린지 한 문단씩 쓰고, 판단마다 근거를 문서 인용으로 든다. 단답은 대표 답과 허용 답안의 근거를 쓴다.
+  - Judge(`judge.md`, `JUDGE_ITEMS`): 선택형에 `distractors_plausible`(2번), `no_cue`(3번)를 더한다. 실패하면 `judge_fail:distractors_plausible`, `judge_fail:no_cue`다. 기존 `distractors_wrong`은 그대로 둔다.
+  - 확인: (1) `uv run pytest`에서 프롬프트에 네 규칙 문구가 있고, 단답 프롬프트에는 2·3번이 없다. (2) 가짜 Judge 응답으로 두 항목이 false면 두 실패 이유가 나온다. (3) 실제 Judge로 단서가 든 문제 1개(정답만 길고 오답에만 절대어)를 넣으면 `judge_fail:no_cue`가 나온다.
+  - 완화: 생성 모델 일일 토큰 한도가 병목이다. T3.1 파일럿에서 두 항목 때문에 Judge 통과율이 크게 떨어지거나 `regen_exhausted`가 늘면, 두 항목을 실패 조건에서 빼고 `verification_results`에 경고로만 남긴다. 판단과 숫자를 기록 파일에 적는다.
+  - 기준 예시: 사용자가 준 샘플. 나쁜 예는 정의 회상, 말이 안 되는 오답, 본문 반복·절대어 단서. 좋은 예는 연결 trace를 읽고 원인을 진단한 뒤 고치는 방법을 고르는 문제(오답 A는 증상만 해결, C는 맞는 패턴을 틀린 맥락에 적용, 보기별 해설). 원문은 대화에만 있어 저장소에 없다
 
 ## M3 파일럿과 축소 판단
 
