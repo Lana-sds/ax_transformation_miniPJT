@@ -1,24 +1,21 @@
 """FastAPI 서버(design.md 7.1). SQLite만 읽고 쓴다.
 
 모델 호출, AWS 자격 증명, `.env` 로드가 없다(design.md 8.5). `quiz.llm`, `quiz.env`를 import하지 않는다.
-M0 임시: 풀 문제가 10개 미만이면 있는 만큼 낸다. 직전 세트 태그 확인(409)은 T4.4에서 붙인다.
+세트 구성은 `quiz.sets`가 한다. 10문제를 채우지 못하면 409다.
 """
 
 import json
-import random
 import sqlite3
-import uuid
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-from quiz import db, grading
+from quiz import db, grading, sets
 from quiz.migrate import apply_migrations, current_version
 from quiz.pool import current_pool
 from quiz.store import now
 
-SET_SIZE = 10
 DOCS_BASE = "https://docs.langchain.com"
 
 
@@ -83,23 +80,16 @@ def health() -> dict:
 @app.post("/api/sets")
 def create_set() -> dict:
     with _conn() as conn:
-        psid = current_pool(conn)
-        if psid is None:
-            raise HTTPException(409, "no frozen pool snapshot")
-        ids = [r[0] for r in conn.execute(
-            "SELECT question_id FROM pool_snapshot_items WHERE pool_snapshot_id = ?", (psid,)
-        )]
-        chosen = random.sample(ids, min(SET_SIZE, len(ids)))
-        set_no = (conn.execute("SELECT COALESCE(MAX(set_no), 0) FROM quiz_sets").fetchone()[0]) + 1
-        set_id = f"s{set_no:03d}-{uuid.uuid4().hex[:8]}"
-        conn.execute(
-            "INSERT INTO quiz_sets (set_id, set_no, pool_snapshot_id, question_ids_json, created_at) VALUES (?, ?, ?, ?, ?)",
-            (set_id, set_no, psid, json.dumps(chosen), now()),
-        )
+        try:
+            created = sets.create(conn)
+        except (sets.NoPoolError, sets.PoolTooSmallError) as exc:
+            raise HTTPException(409, str(exc))
+        chosen = created["question_ids"]
         rows = {r["question_id"]: r for r in conn.execute(
             f"SELECT * FROM questions WHERE question_id IN ({','.join('?' * len(chosen))})", chosen
         )}
-        return {"set_id": set_id, "set_no": set_no, "questions": [_public_question(rows[q]) for q in chosen]}
+        return {"set_id": created["set_id"], "set_no": created["set_no"],
+                "questions": [_public_question(rows[q]) for q in chosen]}
 
 
 class AnswerIn(BaseModel):
