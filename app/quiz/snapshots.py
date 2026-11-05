@@ -40,8 +40,19 @@ async def _run(session: ClientSession, command: str) -> str:
     return text[len(STDOUT_PREFIX):]
 
 
+async def _resolve_file(session: ClientSession, page: str) -> str:
+    """URL 경로의 원문 파일. `<page>.mdx`가 없으면 `<page>/index.mdx`다(예: /oss/python/integrations/embeddings)."""
+    base = page.rstrip("/")
+    out = await _run(session, f"if [ -f {base}.mdx ]; then echo {base}.mdx; elif [ -f {base}/index.mdx ]; "
+                              f"then echo {base}/index.mdx; else echo NONE; fi")
+    file = out.strip()
+    if file == "NONE":
+        raise SnapshotError(f"page not found: {page}")
+    return file
+
+
 async def _fetch_doc(session: ClientSession, page: str) -> tuple[bytes, str]:
-    file = page.rstrip("/") + ".mdx"
+    file = await _resolve_file(session, page)
     total_lines = int((await _run(session, f"wc -l {file}")).split()[0])
     remote_sha = (await _run(session, f"sha256sum {file}")).split()[0]
     parts: list[str] = []
@@ -63,22 +74,32 @@ async def _fetch_doc(session: ClientSession, page: str) -> tuple[bytes, str]:
     return data, local_sha
 
 
-async def fetch_docs(pages: list[str]) -> dict[str, str]:
-    """문서 페이지를 받아 스냅샷 파일로 쓰고 {page: sha256}를 돌려준다."""
+async def fetch_docs(pages: list[str], on_done=None) -> tuple[dict[str, str], dict[str, str]]:
+    """문서 페이지를 받아 스냅샷 파일로 쓴다. ({page: sha256}, {page: 오류})를 돌려준다.
+
+    on_done(page, sha256)은 페이지 하나를 쓸 때마다 부른다. 한 페이지가 실패해도 나머지를 받는다.
+    """
     SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
     out: dict[str, str] = {}
+    errors: dict[str, str] = {}
     async with streamablehttp_client(DOCS_MCP_URL) as (read, write, _):
         async with ClientSession(read, write) as session:
             await session.initialize()
             for page in pages:
-                data, sha = await _fetch_doc(session, page)
+                try:
+                    data, sha = await _fetch_doc(session, page)
+                except SnapshotError as e:
+                    errors[page] = str(e)
+                    continue
                 (SNAPSHOT_DIR / snapshot_name(page)).write_bytes(data)
                 out[page] = sha
-    return out
+                if on_done:
+                    on_done(page, sha)
+    return out, errors
 
 
-def fetch_docs_sync(pages: list[str]) -> dict[str, str]:
-    return asyncio.run(fetch_docs(pages))
+def fetch_docs_sync(pages: list[str], on_done=None) -> tuple[dict[str, str], dict[str, str]]:
+    return asyncio.run(fetch_docs(pages, on_done))
 
 
 def file_sha256(path: Path) -> str:

@@ -7,6 +7,10 @@ from quiz.migrate import apply_migrations, current_version
 
 
 def cmd_migrate(args: argparse.Namespace) -> int:
+    from quiz.backup import backup
+
+    if (b := backup(db.db_path(), "migrate")):
+        print(f"backup={b}")
     with db.connect() as conn:
         applied = apply_migrations(conn)
         print(f"applied={applied} schema_version={current_version(conn)} db={db.db_path()}")
@@ -14,10 +18,35 @@ def cmd_migrate(args: argparse.Namespace) -> int:
 
 
 def cmd_snapshot_fetch(args: argparse.Namespace) -> int:
+    from datetime import date
+
+    from quiz.allowlist import MANIFEST_PATH, record_fetch
     from quiz.snapshots import fetch_docs_sync, snapshot_name
 
-    for page, sha in fetch_docs_sync(args.pages).items():
-        print(f"{snapshot_name(page)} sha256={sha}")
+    today = date.today().isoformat()
+
+    def done(page: str, sha: str) -> None:
+        record_fetch(MANIFEST_PATH, snapshot_name(page), sha, today)
+        print(f"{snapshot_name(page)} sha256={sha}", flush=True)
+
+    _, errors = fetch_docs_sync(args.pages, done)
+    for page, err in errors.items():
+        print(f"error: {page}: {err}")
+    return 1 if errors else 0
+
+
+def cmd_allowlist_build(args: argparse.Namespace) -> int:
+    from quiz import allowlist
+
+    rows = allowlist.parse_page_table(allowlist.PAGE_ALLOWLIST_MD.read_text(encoding="utf-8"))
+    try:
+        out = allowlist.build(rows, allow_missing=args.allow_missing)
+    except allowlist.AllowlistError as e:
+        print(f"error: {e}")
+        return 1
+    allowlist.write_yaml(out)
+    have = sum(1 for r in out if r["snapshot"])
+    print(f"rows={len(out)} with_snapshot={have} missing={len(out) - have} path={allowlist.ALLOWLIST_PATH}")
     return 0
 
 
@@ -51,6 +80,11 @@ def main(argv: list[str] | None = None) -> int:
     fetch = snap.add_parser("fetch", help="docs-langchain MCP에서 문서 페이지를 받는다")
     fetch.add_argument("pages", nargs="+", help="문서 경로. 예: /oss/python/langgraph/graph-api")
     fetch.set_defaults(func=cmd_snapshot_fetch)
+
+    al = sub.add_parser("allowlist", help="허용 목록").add_subparsers(dest="allowlist_cmd", required=True)
+    build = al.add_parser("build", help="page-allowlist.md 표로 allowlist.yaml을 만들고 스냅샷 해시를 검사한다")
+    build.add_argument("--allow-missing", action="store_true", help="스냅샷이 없는 행을 snapshot: null로 둔다")
+    build.set_defaults(func=cmd_allowlist_build)
 
     gen = sub.add_parser("generate", help="문제 생성 배치")
     gen.add_argument("--count", type=int, default=1, help="M0 임시: 단일 선택 슬롯 수")

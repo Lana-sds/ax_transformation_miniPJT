@@ -5,12 +5,13 @@ M0 임시: 슬롯 계획은 허용 목록 첫 행에서 단일 선택 슬롯을 
 """
 
 from quiz import allowlist, db, llm, store
+from quiz.backup import backup
 from quiz.migrate import apply_migrations
 from quiz.pipeline.graph import build_graph, verdict
 
 
 def m0_slots(rows: list[dict], count: int) -> list[dict]:
-    row = rows[0]
+    row = next(r for r in rows if r.get("snapshot"))  # M0 임시: 스냅샷이 있는 첫 행. T2.7에서 슬롯 계획으로 바꾼다
     return [
         {"bucket": row["bucket"], "topic": row["topic"], "format": "single", "question_type": "concept",
          "page": row["path"]}
@@ -19,6 +20,7 @@ def m0_slots(rows: list[dict], count: int) -> list[dict]:
 
 
 def run_batch(count: int) -> str:
+    backup(db.db_path(), "batch")
     rows = allowlist.load_rows()
     allowlist.verify(rows)
     pages = allowlist.allowed_pages(rows)
