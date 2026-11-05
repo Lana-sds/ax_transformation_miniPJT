@@ -1,8 +1,9 @@
 """생성·Judge 구조화 출력 스키마(design.md 6.1). 형식마다 생성 스키마가 하나다(T2.1)."""
 
+from functools import lru_cache
 from typing import Literal
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, create_model, model_validator
 
 from quiz.gates import normalize_short_answer
 
@@ -153,3 +154,23 @@ class JudgeVerdict(BaseModel):
     exec_predictions: list[ExecPrediction] = Field(
         default_factory=list,
         description="Format code only: one prediction per choice program in exec_spec; else empty")
+
+
+@lru_cache(maxsize=32)
+def _extended_verdict(extra: tuple[tuple[str, str], ...]) -> type[BaseModel]:
+    fields = {}
+    for name, info in JudgeVerdict.model_fields.items():
+        if name == "verdict":
+            for item, description in extra:
+                fields[item] = (bool, Field(description=description))
+        fields[name] = (info.annotation, info)
+    return create_model("JudgeVerdict", **fields)
+
+
+def verdict_schema(extra_items: list[dict] | tuple = ()) -> type[BaseModel]:
+    """Judge 출력 스키마. 추가 항목(`judge_items.json`, 04 결정 6)이 없으면 `JudgeVerdict` 그대로다.
+
+    추가 항목은 필수 bool 필드로 `verdict` 앞에 넣는다. 모델이 항목을 본 뒤 `verdict`를 쓰게 한다.
+    """
+    extra = tuple((i["name"], i["description"]) for i in extra_items)
+    return _extended_verdict(extra) if extra else JudgeVerdict

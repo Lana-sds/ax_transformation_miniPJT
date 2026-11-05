@@ -64,8 +64,12 @@ def unfinished(batch_id: str) -> int:
 
 
 def run_batch(plan: str | None = None, count: int | None = None, resume: str | None = None,
-              gen_model=None, judge_model=None, gate_fn=None, run=None, workers: int = WORKERS) -> str:
-    """배치를 새로 돌리거나(`plan`) 이어 돈다(`resume`). batch_id를 돌려준다."""
+              gen_model=None, judge_model=None, gate_fn=None, run=None, workers: int = WORKERS,
+              fixed_slots: list[dict] | None = None) -> str:
+    """배치를 새로 돌리거나(`plan`) 이어 돈다(`resume`). batch_id를 돌려준다.
+
+    `fixed_slots`: 고정 슬롯 목록(04 실험 `--slots`). 주면 계획 대신 이 목록을 순서대로 쓴다. `count`는 앞에서 자른다.
+    """
     backup(db.db_path(), "batch")
     rows = allowlist.load_rows()
     allowlist.verify(rows)
@@ -74,7 +78,12 @@ def run_batch(plan: str | None = None, count: int | None = None, resume: str | N
 
     with db.connect() as conn:
         apply_migrations(conn)
-        if resume is None:
+        if resume is None and fixed_slots is not None:
+            planned = fixed_slots[:count] if count is not None else list(fixed_slots)
+            batch_id = store.next_batch_id(conn)
+            store.insert_batch(conn, batch_id, "pool", llm.GEN_MODEL, llm.JUDGE_MODEL)
+            store.insert_slots(conn, batch_id, planned)
+        elif resume is None:
             have = tried = None
             if plan == "fill":
                 def query(status):
