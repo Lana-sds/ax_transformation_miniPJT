@@ -1,0 +1,140 @@
+{
+  "generated_at": "2026-11-05T05:27:00Z",
+  "pool_snapshot_id": "ps_326384fb5422",
+  "judge_pass_rate": {
+    "attempts": 209,
+    "passed": 204,
+    "rate": 0.9761
+  },
+  "drops": {
+    "total": 55,
+    "by_reason": {
+      "duplicate": 27,
+      "regen_exhausted": 17,
+      "version_conflict": 11
+    }
+  },
+  "sets": [],
+  "batches": [
+    {
+      "batch_id": "b20261105-01",
+      "kind": "pool",
+      "input_tokens": 41447,
+      "output_tokens": 2269,
+      "cost_usd": null,
+      "seconds": 28
+    },
+    {
+      "batch_id": "b20261105-02",
+      "kind": "pool",
+      "input_tokens": 472638,
+      "output_tokens": 17664,
+      "cost_usd": 1.7163708,
+      "seconds": 969
+    },
+    {
+      "batch_id": "b20261105-03",
+      "kind": "pool",
+      "input_tokens": 5005502,
+      "output_tokens": 236965,
+      "cost_usd": 18.599013,
+      "seconds": 1334
+    },
+    {
+      "batch_id": "b20261105-04",
+      "kind": "pool",
+      "input_tokens": 1603078,
+      "output_tokens": 84559,
+      "cost_usd": 6.1941945,
+      "seconds": 586
+    },
+    {
+      "batch_id": "b20261105-05",
+      "kind": "pool",
+      "input_tokens": 758191,
+      "output_tokens": 45000,
+      "cost_usd": 2.9692773,
+      "seconds": 343
+    },
+    {
+      "batch_id": "b20261105-06",
+      "kind": "pool",
+      "input_tokens": 307931,
+      "output_tokens": 17157,
+      "cost_usd": 1.2228828,
+      "seconds": 193
+    },
+    {
+      "batch_id": "b20261105-07",
+      "kind": "pool",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": null,
+      "seconds": null
+    },
+    {
+      "batch_id": "b20261105-08",
+      "kind": "pool",
+      "input_tokens": 351968,
+      "output_tokens": 16960,
+      "cost_usd": 1.324617,
+      "seconds": 224
+    },
+    {
+      "batch_id": "b20261105-09",
+      "kind": "pool",
+      "input_tokens": 490747,
+      "output_tokens": 12456,
+      "cost_usd": 1.659081,
+      "seconds": 158
+    },
+    {
+      "batch_id": "b20261105-10",
+      "kind": "pool",
+      "input_tokens": 122438,
+      "output_tokens": 3736,
+      "cost_usd": 0.423354,
+      "seconds": 27
+    },
+    {
+      "batch_id": "b20261105-11",
+      "kind": "pool",
+      "input_tokens": 80667,
+      "output_tokens": 5962,
+      "cost_usd": 0.331431,
+      "seconds": 67
+    },
+    {
+      "batch_id": "b20261105-12",
+      "kind": "pool",
+      "input_tokens": 166909,
+      "output_tokens": 5474,
+      "cost_usd": 0.582837,
+      "seconds": 63
+    },
+    {
+      "batch_id": "b20261105-13",
+      "kind": "pool",
+      "input_tokens": 54422,
+      "output_tokens": 1744,
+      "cost_usd": 0.189426,
+      "seconds": 21
+    },
+    {
+      "batch_id": "b20261105-14",
+      "kind": "pool",
+      "input_tokens": 177479,
+      "output_tokens": 5548,
+      "cost_usd": 0.615657,
+      "seconds": 43
+    },
+    {
+      "batch_id": "b20261105-15",
+      "kind": "pool",
+      "input_tokens": 274846,
+      "output_tokens": 6160,
+      "cost_usd": 0.9169379999999999,
+      "seconds": 68
+    }
+  ]
+}

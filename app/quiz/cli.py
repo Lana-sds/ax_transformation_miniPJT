@@ -106,6 +106,16 @@ def cmd_pool_freeze(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_metrics(args: argparse.Namespace) -> int:
+    from quiz import metrics
+
+    with db.connect() as conn:
+        apply_migrations(conn)
+        path = metrics.write(conn)
+    print(f"file={path}")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     return args.func(args)
@@ -147,6 +157,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     pool = sub.add_parser("pool", help="풀 스냅샷").add_subparsers(dest="pool_cmd", required=True)
     pool.add_parser("freeze", help="passed 문제로 풀 스냅샷을 만든다").set_defaults(func=cmd_pool_freeze)
+
+    sub.add_parser("metrics", help="data/metrics/baseline.json을 다시 쓴다").set_defaults(func=cmd_metrics)
 
     return parser
 

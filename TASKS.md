@@ -167,7 +167,7 @@ M4는 T4.1, T4.6, T4.7 확인으로 2026-11-05 13:39에 완료했다(사용자 �
 
 ## M6 완료 조건 확인
 
-- [ ] T6.1 `quiz metrics`: `data/metrics/baseline.json`(Judge 통과율, 버린 이유별 개수, 세트별 정답률, 배치별 토큰·비용·초) (US-7.2, W13)
+- [x] T6.1 `quiz metrics`: `data/metrics/baseline.json`(Judge 통과율, 버린 이유별 개수, 세트별 정답률, 배치별 토큰·비용·초) (US-7.2, W13)
   - 확인: 파일이 설계서 5.4 형식의 키를 모두 가지고 숫자가 SQLite 조회와 같다.
 - [ ] T6.2 3세트 풀이와 모든 오답 태그 (W14)
   - 확인: 서버를 다시 시작한 뒤 SQLite 조회에서 서로 다른 `set_id` 3개 × 10행, 태그 없는 오답 0행, `reading` 행은 모두 `confused_segment_id`가 있다.
