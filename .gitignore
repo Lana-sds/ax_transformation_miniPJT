@@ -17,7 +17,6 @@ dist/
 .venv/
 venv/
 env/
-.python-version
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
@@ -56,3 +55,7 @@ desktop.ini
 .vscode/*
 !.vscode/extensions.json
 *.swp
+
+# --- Local DB backups (quiz.db 사본, data/backups/) ---
+data/*.bak
+data/backups/

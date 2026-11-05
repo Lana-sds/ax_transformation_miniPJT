@@ -1,0 +1,29 @@
+# Bedrock on-demand 단가(US-7.2, T2.8). 단위: USD / 1M 토큰.
+# 출처: AWS Price List API, 서비스 코드 AmazonBedrockFoundationModels(Bedrock 가격 페이지의 기계 판독판).
+# 가격 페이지(https://aws.amazon.com/bedrock/pricing/)는 표를 스크립트로 그려 본문에서 값을 읽지 못했다.
+# 행: feature "On-demand Inference", usagetype "<리전>-MP:<리전>_InputTokenCount_Global-Units",
+#     "<리전>-MP:<리전>_OutputTokenCount_Global-Units". 모델 ID의 `global.` 접두어가 Global 교차 리전 추론이다.
+# us-east-1, us-west-2, ap-northeast-2 세 리전 값이 같다. Regional(CRIS) 값은 입력 3.30, 출력 16.50이다.
+source: https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json
+page: https://aws.amazon.com/bedrock/pricing/
+publication_date: "2026-10-12T08:40:08Z"
+checked: "2026-11-05"
+unit: USD per 1M tokens
+models:
+  global.anthropic.claude-sonnet-4-6:
+    name: Claude Sonnet 4.6
+    input: 3.0
+    output: 15.0
+  # US 교차 리전 프로필(생성 모델 전환용). Regional(CRIS) 단가다. usagetype은 `_Global` 접미어가 없는 행이다.
+  us.anthropic.claude-sonnet-4-6:
+    name: Claude Sonnet 4.6 (US cross-region)
+    input: 3.3
+    output: 16.5
+  global.anthropic.claude-sonnet-4-5-20250929-v1:0:
+    name: Claude Sonnet 4.5
+    input: 3.0
+    output: 15.0
+  us.anthropic.claude-sonnet-4-5-20250929-v1:0:
+    name: Claude Sonnet 4.5 (US cross-region)
+    input: 3.3
+    output: 16.5

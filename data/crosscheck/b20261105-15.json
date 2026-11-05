@@ -1,0 +1,53 @@
+{
+  "target": "b20261105-15",
+  "kind": "batch",
+  "models": [
+    "us.amazon.nova-pro-v1:0",
+    "openai.gpt-oss-120b-1:0"
+  ],
+  "created_at": "2026-11-05T04:52:57Z",
+  "review_values": [
+    "ok",
+    "key_error",
+    "weak_grounding",
+    "ambiguous"
+  ],
+  "summary": {
+    "questions": 1,
+    "flagged": [],
+    "priority_1": [],
+    "priority_2": [],
+    "weak_grounding": [],
+    "errors": []
+  },
+  "items": [
+    {
+      "question_id": "b20261105-15-003",
+      "format": "short",
+      "answer_key": [
+        "ssl"
+      ],
+      "accepted_answers": [
+        "ssl"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "ssl",
+          "supporting_sentence": "ssl: Whether to establish an SSL connection with a deployed Chroma server. Default is False.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "ssl",
+          "supporting_sentence": "ssl: Whether to establish an SSL connection with a deployed Chroma server. Default is False.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    }
+  ]
+}

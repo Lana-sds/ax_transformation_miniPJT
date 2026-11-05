@@ -1,0 +1,656 @@
+/* T4.9 소프트 카드 테마. 색·글꼴·간격은 여기 변수로 모으고 풀이 화면과 감사 화면이 같이 쓴다.
+   마크업은 바꾸지 않고 기존 클래스에 스타일만 입힌다. */
+:root {
+  --bg: #f4f5f9;
+  --card: #ffffff;
+  --fg: #1f2330;
+  --muted: #6b7280;
+  --line: #e6e8ef;
+  --line-hover: #c9cfe0;
+  --accent: #4263eb;
+  --accent-hover: #3451d1;
+  --accent-soft: #edf2ff;
+  --ok: #2b8a3e;
+  --ok-soft: #ebfbee;
+  --ng: #e03131;
+  --ng-soft: #fff1f1;
+  --code-bg: #f6f7fb;
+  --quote-bg: #f8f9fc;
+
+  --font-sans: 'Pretendard Variable', Pretendard, system-ui, 'Malgun Gothic', sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', Consolas, monospace;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --shadow: 0 1px 2px rgba(31, 35, 48, 0.04), 0 8px 24px rgba(31, 35, 48, 0.06);
+
+  font-family: var(--font-sans);
+  color: var(--fg);
+  background: var(--bg);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+}
+
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: var(--space-7) var(--space-5) 96px;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* 머리글: 제목과 진행 알약. */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+h1 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+h3 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin: var(--space-5) 0 var(--space-2);
+}
+
+.progress {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--card);
+  border-radius: 999px;
+  padding: var(--space-1) var(--space-3);
+  box-shadow: var(--shadow);
+  font-variant-numeric: tabular-nums;
+}
+
+.key,
+.basis {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* 버튼: 남색 둥근 버튼. */
+button {
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 11px 24px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  margin-top: var(--space-5);
+  box-shadow: 0 2px 6px rgba(66, 99, 235, 0.25);
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+}
+
+button:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+button:focus-visible {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: 2px;
+}
+
+button:disabled {
+  background: #c5cbe0;
+  box-shadow: none;
+  cursor: default;
+}
+
+/* 문제 카드. 결과와 오답 태그도 같은 카드 안에 있다. */
+.question {
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: var(--space-6);
+}
+
+.stem {
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-5);
+}
+
+/* 보기: 둥근 상자. 번호는 원형 배지, 고른 보기는 남색 테두리와 옅은 바탕. */
+.choices {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.choices label {
+  position: relative;
+  display: block;
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.choices label:hover {
+  border-color: var(--line-hover);
+}
+
+.choices label.chosen {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.choices label input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.choices label:has(input:focus-visible) {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: 1px;
+}
+
+.choices label b {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  margin-right: var(--space-2);
+  border-radius: 50%;
+  background: var(--code-bg);
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  vertical-align: 1px;
+}
+
+.choices label.chosen b {
+  background: var(--accent);
+  color: #fff;
+}
+
+.select-count {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 2px var(--space-3);
+  margin: 0 0 var(--space-3);
+}
+
+.code-block {
+  margin: var(--space-2) 0 0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--code-bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+code {
+  font-family: var(--font-mono);
+}
+
+/* 단답: 둥근 입력칸. */
+.short-answer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: var(--space-4) 0;
+}
+
+.short-answer input {
+  font: inherit;
+  font-family: var(--font-mono);
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--fg);
+  max-width: 420px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.short-answer input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* 결과: 카드 안에서 구분선으로 나누고 판정은 색 띠로. */
+.result {
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--line);
+}
+
+.verdict {
+  font-size: 1.15rem;
+  font-weight: 800;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: baseline;
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+}
+
+.verdict .key {
+  font-weight: 500;
+}
+
+.verdict.ok {
+  color: var(--ok);
+  background: var(--ok-soft);
+}
+
+.verdict.ng {
+  color: var(--ng);
+  background: var(--ng-soft);
+}
+
+.explanation {
+  white-space: pre-wrap;
+}
+
+/* 영·한 구절 매핑: 둥근 표, 행 구분선. */
+.segments {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.segments td {
+  padding: var(--space-3) var(--space-4);
+  vertical-align: top;
+  width: 50%;
+  border-top: 1px solid var(--line);
+}
+
+.segments tr:first-child td {
+  border-top: none;
+}
+
+.segments td.ko {
+  color: var(--muted);
+  background: var(--quote-bg);
+}
+
+/* 근거 인용: 옅은 바탕과 왼쪽 남색 띠. */
+.grounding {
+  margin-bottom: var(--space-4);
+}
+
+.grounding > a {
+  font-size: 0.88rem;
+  word-break: break-all;
+}
+
+blockquote {
+  margin: var(--space-2) 0;
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--quote-bg);
+  color: var(--fg);
+  white-space: pre-wrap;
+}
+
+.doc-link a {
+  display: inline-block;
+  font-weight: 700;
+  padding: var(--space-1) var(--space-3);
+  border-radius: 999px;
+  background: var(--accent-soft);
+}
+
+.notice,
+.error {
+  font-size: 0.92rem;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+}
+
+.notice {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.error {
+  color: var(--ng);
+  background: var(--ng-soft);
+}
+
+.set-actions {
+  text-align: center;
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: var(--space-7) var(--space-5);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+/* 문제 번호: 둥근 사각. 정답은 녹색, 오답은 적색, 지금 문제는 남색으로 채운다. */
+.qnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 var(--space-5);
+}
+
+.qnav-item {
+  margin: 0;
+  padding: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  background: var(--card);
+  color: var(--muted);
+  border: 1.5px solid transparent;
+  box-shadow: 0 1px 2px rgba(31, 35, 48, 0.06);
+}
+
+.qnav-item:hover:not(:disabled) {
+  background: var(--card);
+  border-color: var(--line-hover);
+}
+
+.qnav-item.ok,
+.qnav-item.ok:hover:not(:disabled) {
+  color: var(--ok);
+  background: var(--ok-soft);
+}
+
+.qnav-item.ng,
+.qnav-item.untagged,
+.qnav-item.ng:hover:not(:disabled),
+.qnav-item.untagged:hover:not(:disabled) {
+  color: var(--ng);
+  background: var(--ng-soft);
+}
+
+.qnav-item.untagged {
+  border: 1.5px dashed var(--ng);
+}
+
+.qnav-item.current,
+.qnav-item.current:hover:not(:disabled) {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.qnav-item:disabled {
+  background: transparent;
+  box-shadow: none;
+  color: #b4bacb;
+}
+
+/* 오답 태그: 옅은 적색 상자. */
+.tag-form {
+  margin-top: var(--space-5);
+  padding: var(--space-5);
+  background: var(--ng-soft);
+  border-radius: var(--radius);
+}
+
+.tag-form h3 {
+  margin-top: 0;
+  color: var(--ng);
+}
+
+.tag-form .hint {
+  color: var(--muted);
+  margin-top: 0;
+}
+
+.tag-choices {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.tag-choices label,
+.segment-pick label {
+  display: block;
+  padding: var(--space-2) var(--space-4);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.tag-choices label:hover,
+.segment-pick label:hover {
+  border-color: var(--line-hover);
+}
+
+.tag-choices label.chosen,
+.segment-pick label.chosen {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.tag-choices input,
+.segment-pick input {
+  accent-color: var(--accent);
+  margin-right: var(--space-1);
+}
+
+.segment-pick {
+  margin-top: var(--space-3);
+  border: none;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.segment-pick legend {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: var(--space-2);
+}
+
+.segment-pick .en {
+  margin-left: var(--space-1);
+}
+
+.segment-pick .ko {
+  display: block;
+  margin-left: 22px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* T4.7 코드 표시. 보기 문장은 번호 옆에 이어 붙이고, 문제 문장의 굵기는 코드 블록에 넘기지 않는다. */
+.choice-text {
+  display: inline;
+}
+
+.stem .code-block {
+  font-weight: normal;
+  letter-spacing: 0;
+  margin: var(--space-3) 0 var(--space-4);
+}
+
+.inline-code {
+  padding: 1px 6px;
+  background: var(--code-bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 0.86em;
+}
+
+/* T5.3 감사 화면. 정답 보기를 표시하고 세 판정을 체크박스로 받는다. */
+.audit-choices li {
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.audit-choices li.answer {
+  border-color: var(--ok);
+  background: var(--ok-soft);
+}
+
+.audit-question .verdict {
+  margin-top: var(--space-5);
+}
+
+.audit-form {
+  margin-top: var(--space-5);
+  padding: var(--space-5);
+  background: var(--accent-soft);
+  border-radius: var(--radius);
+  display: grid;
+  gap: var(--space-2);
+}
+
+.audit-form h3 {
+  margin-top: 0;
+}
+
+.audit-form label {
+  display: block;
+  padding: var(--space-2) var(--space-4);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  cursor: pointer;
+}
+
+.audit-form label.flagged {
+  border-color: var(--ng);
+  background: var(--ng-soft);
+}
+
+.audit-form input {
+  accent-color: var(--accent);
+  margin-right: var(--space-1);
+}
+
+.audit-form textarea {
+  font: inherit;
+  padding: var(--space-2) var(--space-3);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  color: var(--fg);
+}
+
+.audit-form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px #fff;
+}
+
+.audit-form button {
+  justify-self: start;
+}
+
+/* T4.8 문제 메타. 주제 · 형식 · 복습을 알약 배지로 보인다. */
+.qmeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 var(--space-3);
+}
+
+.qmeta span {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+  background: var(--code-bg);
+  border-radius: 999px;
+  padding: 3px var(--space-3);
+}
+
+.qmeta-review {
+  color: var(--accent) !important;
+  background: var(--accent-soft) !important;
+}
+
+@media (max-width: 600px) {
+  main {
+    padding: var(--space-5) var(--space-3) var(--space-7);
+  }
+
+  .question {
+    padding: var(--space-5) var(--space-4);
+    border-radius: var(--radius);
+  }
+
+  .stem {
+    font-size: 1.08rem;
+  }
+
+  .qnav-item {
+    width: 30px;
+    height: 30px;
+    font-size: 0.78rem;
+  }
+
+  .segments td {
+    display: block;
+    width: auto;
+  }
+
+  .segments td.ko {
+    border-top: none;
+  }
+}

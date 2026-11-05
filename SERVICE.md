@@ -5,10 +5,10 @@
 | 프로젝트 이름 | `agent-dev-quiz` (LLM Agent Dev Quiz) |
 | 제품 | LangChain 예상 문제 풀이 웹앱. MVP는 LangChain 팩 하나다 |
 | 문서 상태 | 초안 |
-| 버전 | 0.3 |
+| 버전 | 0.6 |
 | 작성일 | 2026-11-04 |
-| 마감 | 2026-11-07 (AX 미니과제 마감) |
-| 원본 | [requirements.md](docs/01-requirements/output/requirements.md) 1.1, [design.md](docs/02-spec-design/output/design.md) 1.3, [seed.yaml](docs/02-spec-design/output/seed.yaml) 1.0.1 |
+| 마감 | 2026-11-06 17:00 (AX 미니과제 제출 마감) |
+| 원본 | [requirements.md](docs/01-requirements/output/requirements.md) 3.0, [design.md](docs/02-spec-design/output/design.md) 12.0, [seed.yaml](docs/02-spec-design/output/seed.yaml) 1.1.0 |
 
 이 문서는 요구사항 정의서와 설계서를 애자일 작업 단위(에픽, 사용자 스토리, 수용 기준, 마일스톤)로 다시 묶은 것이다. 새 요구사항을 더하지 않는다. 이 문서와 원본이 다르면 요구사항 정의서를 따르고, 구현 값은 설계서를 따른다. 용어는 [요구사항 정의서 1.4](docs/01-requirements/output/requirements.md)와 [설계서 1.3](docs/02-spec-design/output/design.md)을 따른다.
 
@@ -67,7 +67,7 @@ flowchart TD
 
 ### 1.3 제품 목표
 
-> LangChain·LangGraph로 LLM 앱을 만드는 한국인 개발자(본인)가, 공식 문서 원문 인용으로 검증된 영어 예상 문제(day2~day7, 4개 형식)를 10문제 세트 단위로 원할 때마다 풀고, 영·한 구절 매핑 해설과 독해 실수/개념 실수 태그에 따른 복습까지 이어가는 로컬 웹앱(FastAPI + SQLite + React, Bedrock 모델 호출)을 2026-11-07까지 완성한다. 완료 기준은 검증 통과 문제 60개, 본인 20문항 감사 통과, 3세트 풀이다.
+> LangChain·LangGraph로 LLM 앱을 만드는 한국인 개발자(본인)가, 공식 문서 원문 인용으로 검증된 영어 예상 문제(day2~day7, 4개 형식)를 10문제 세트 단위로 원할 때마다 풀고, 영·한 구절 매핑 해설과 독해 실수/개념 실수 태그에 따른 복습까지 이어가는 로컬 웹앱(FastAPI + SQLite + React, Bedrock 모델 호출)을 2026-11-06 17:00까지 완성한다. 완료 기준은 검증 통과 문제 60개, 본인 20문항 감사 통과, 3세트 풀이다.
 
 (요구사항 정의서 1.2 원문)
 
@@ -166,7 +166,7 @@ flowchart LR
 
 1. `quiz allowlist build`로 허용 목록과 페이지 스냅샷을 고정한다.
 2. `quiz generate --plan pilot`으로 버킷당 1문제를 만들어 시간과 비용을 잰다.
-3. `quiz generate --plan pool`로 60문제를 채운다. 중단되면 `--resume`으로 잇는다.
+3. `quiz generate --plan pool`로 60문제를 채운다. 중단되면 `--resume`으로 잇는다. 모자란 버킷·형식은 `quiz generate --plan fill`로 보충한다.
 4. `quiz pool freeze`로 풀 스냅샷을 고정한다.
 5. 감사자 역할로 20문항을 감사한다. 미달이면 실패 문제를 빼고 다시 채워 재감사한다.
 6. `quiz metrics`로 기준선 지표를 남긴다.
@@ -187,7 +187,7 @@ flowchart LR
 - 문제 형식 4개(단일 선택, 복수 선택, 단답, 코드 선택), 문제 유형 4개(개념 구분, 코드 동작 예측, 에러 원인 찾기, 설계 판단)(CR-3, CR-4)
 - 문제 생성 배치 파이프라인과 검증 게이트(FR-7, GR-1~GR-7)
 - 세트 출제, 풀이 화면, 채점, 오답 태그, 복습 큐(FR-1~FR-5)
-- 개념 실수 변형 문제(FR-6, 축소 대상)
+- 개념 실수 변형 문제(FR-6, 축소 대상). 2026-11-05에 면제했다(7.2)
 - 감사 지원(FR-9)
 - 기준선 지표와 Langfuse 관측(NFR-5, 요구사항 7.3)
 
@@ -222,7 +222,7 @@ flowchart LR
 
 ### 4.1 MVP 완료 조건
 
-다음 네 가지를 2026-11-07까지 모두 만족하면 완료다(요구사항 7.1).
+다음 네 가지를 2026-11-06 17:00까지 모두 만족하면 완료다(요구사항 7.1).
 
 | # | 조건 | 측정 |
 | --- | --- | --- |
@@ -262,7 +262,7 @@ flowchart LR
 | E3 | 풀 고정과 감사 | 사람이 품질을 확인한다 | 필수 | FR-9, 요구사항 7.2 |
 | E4 | 세트 풀이 | 학습자가 문제를 푼다 | 필수 | FR-1, FR-2, FR-3, FR-8 |
 | E5 | 오답 태그와 복습 | 틀린 문제를 다시 본다 | 필수 | FR-4, FR-5 |
-| E6 | 변형 문제 | 개념 실수를 다른 질문으로 다시 확인한다 | 축소 대상 | FR-6 |
+| E6 | 변형 문제 | 개념 실수를 다른 질문으로 다시 확인한다 | 축소 대상. 2026-11-05 면제 | FR-6 |
 | E7 | 관측과 지표 | 생성 품질과 비용을 기록한다 | 필수(일부 축소 대상) | NFR-5, 요구사항 7.3 |
 
 ### E0 개발 기반
@@ -274,7 +274,7 @@ flowchart LR
 - [ ] `app/`, `sandbox/`는 각자 uv 프로젝트이고 각자 `uv.lock`을 커밋한다(설계서 3.1, 4.1)
 - [ ] 앱 Python 버전과 `langchain`, `langgraph` 버전은 교안 `sds-ax-practice` 코드가 도는 버전으로 `.python-version`, `requires-python`, `uv.lock`에 고정한다(NFR-3.1)
 - [ ] 앱에 FastAPI, uvicorn, `langchain-aws`, `langfuse`, pytest(dev)가 있다(NFR-2)
-- [ ] 샌드박스는 `langchain`, `langgraph`, `langchain-core`를 lock 시점 최신으로, `mcp==1.30.0`, `fastmcp==2.13.0`, `langchain-mcp-adapters==0.3.2`, `mcp-server-time==2026.10.10`을 고정으로 둔다(GR-7.2)
+- [ ] 샌드박스는 `langchain`, `langgraph`, `langchain-core`를 lock 시점 최신으로, `mcp==1.30.0`, `fastmcp==2.13.0`, `langchain-mcp-adapters==0.3.2`, `mcp-server-time==2026.10.10`을 고정으로 둔다. 문서 예시 코드용 `langchain-text-splitters`, `numpy`는 lock 시점 최신으로 둔다(GR-7.2)
 - [ ] `web/`은 React + Vite(`react-ts`)이고 `/api`를 `localhost:8000`으로 프록시한다. CORS 설정은 없다(D-7)
 - [ ] 코드는 `docs/` 밖에 둔다
 
@@ -293,10 +293,11 @@ flowchart LR
 
 출제 운영자로서 인용해도 되는 공식 문서 페이지와 그 원문을 저장소 파일로 고정하기를 원한다. 인용을 코드로 대조하고 나중에 같은 근거로 재현하기 때문이다.
 
-- [ ] 스냅샷 수집 방법을 정한다. 후보는 Python MCP 클라이언트 스크립트, 에이전트 세션에서 MCP로 받아 쓰기다. 큰 페이지의 30KB 출력 한도 처리도 확인한다(설계서 1.4, 4.3)
-- [ ] 스냅샷은 `packs/langchain/snapshots/`에 둔다. 파일 이름은 경로의 `/`를 `__`로 바꾼 값이다. 문서는 `.mdx`, API 레퍼런스는 `get_symbol` 출력 텍스트다
+- [ ] `quiz snapshot fetch`가 Python MCP 클라이언트로 문서를 줄 범위로 나눠 받아 합치고, 서버 `sha256sum`과 대조한다. 30KB 출력 한도를 넘는 페이지도 이렇게 받는다. `<경로>.mdx`가 없으면 `<경로>/index.mdx`를 읽는다(설계서 4.3, D-14)
+- [ ] 스냅샷은 `packs/langchain/snapshots/`에 둔다. 파일 이름은 경로의 `/`를 `__`로 바꾼 값이다. 문서는 `.mdx`, API 레퍼런스는 `quiz snapshot fetch-ref`가 받은 `get_symbol` 출력 텍스트(`reference__<경로>.md`)다
+- [ ] 기대 해시는 수집 명령이 쓰는 `packs/langchain/snapshot-manifest.yaml`에 둔다(D-15)
 - [ ] `quiz allowlist build`가 [page-allowlist.md](docs/02-spec-design/output/page-allowlist.md) 표를 읽어 `packs/langchain/allowlist.yaml`을 만든다. 행마다 `snapshot`, `sha256`, `fetched_at`이 있다(GR-2.2)
-- [ ] 스냅샷 해시가 `allowlist.yaml`과 다르면 오류로 멈춘다
+- [ ] 스냅샷 파일 해시가 manifest와 다르면 오류로 멈춘다
 - [ ] MCP 결과와 스냅샷 안의 지시문처럼 보이는 텍스트는 데이터로만 다룬다(GR-1.5)
 
 ### E2 문제 생성 파이프라인
@@ -306,10 +307,10 @@ flowchart LR
 출제 운영자로서 모델 없이 코드로 인용, 매핑, 단답 답안, 중복을 판정하기를 원한다. 모델 판단만으로는 근거를 믿을 수 없기 때문이다.
 
 - [ ] 인용 정규화: `quote`와 스냅샷 양쪽에 NFKC와 연속 공백 1칸 축약만 적용한다. 대소문자를 구분하고 마크다운 기호는 그대로 둔다(D-2)
-- [ ] 정규화한 `quote`가 정규화한 스냅샷 안에 그대로 있어야 한다. `quote`는 정규화 후 30자 이상이다(GR-4.1)
+- [ ] 정규화한 `quote`가 정규화한 스냅샷 안에 그대로 있어야 한다. `quote`는 정규화 후 30자 이상이다. 어기면 `quote_mismatch`, `quote_too_short`다. 근거 레코드가 없으면 `grounding_missing`이다(GR-4.1)
 - [ ] `page`가 `allowlist.yaml`에 없으면 `page_not_allowed`로 실패한다(GR-2.3, GR-3.2)
 - [ ] `segments`가 없으면 `mapping_missing`으로 실패한다(GR-5)
-- [ ] 단답 허용 답안이 1~5개가 아니면 실패한다(D-3)
+- [ ] 단답 허용 답안이 1~5개가 아니면 `accepted_answers_count`로 실패한다(D-3)
 - [ ] 같은 버킷 `passed` 문제와 같은 `quote`를 쓰거나 정규화한 본문 토큰 Jaccard가 0.6 이상이면 `duplicate`다(D-4)
 - [ ] `gates.py`는 표준 라이브러리만 쓰고 모델 호출과 DB 쓰기를 하지 않는다
 - [ ] 각 규칙에 pytest가 있다
@@ -323,8 +324,9 @@ flowchart LR
 - [ ] 문제는 영어, 해설은 한국어이고 API·클래스 이름은 원문 그대로다(CR-6)
 - [ ] 문제마다 버킷, 형식, 유형, CCA-F 도메인 태그(`n/a` 허용), 근거 레코드 1개 이상, 문서 조회 날짜를 가진다(FR-10)
 - [ ] `judge` 노드는 생성과 다른 모델(`global.anthropic.claude-sonnet-4-5-20250929-v1:0`)로 정답, 근거의 정답 지지, 오답 보기, 매핑 충실도, 빠진 단답 변형을 확인한다(GR-6, NFR-4)
+- [ ] 생성·Judge 모델이 일일 토큰 한도(`Too many tokens per day`)에 걸리면 같은 모델의 다른 추론 프로필과 다른 허용 리전으로 넘어간다(설계서 3.1)
 - [ ] 노드 순서는 생성 → Judge → 실행(코드형만) → 게이트 → 중복 검사다(FR-7.1, D-10)
-- [ ] 실패하면 이유를 다음 생성 입력에 넣어 재생성한다. 문제당 최대 3회다. 넘기면 `regen_exhausted`로 버린다(FR-7.2)
+- [ ] 실패하면 이유를 다음 생성 입력에 넣어 재생성한다. 문제당 최대 3회다. 넘기면 `regen_exhausted`로 버린다(FR-7.2). `quote_mismatch`면 실패한 인용과 맞는 스냅샷 원문 구간을 함께 넣는다(설계서 6.1)
 - [ ] 시도마다 `verification_results`에 한 행을 쓴다. 마지막 판정만 `questions.status`에 반영한다
 - [ ] `dropped` 문제에는 `drop_reason`이 반드시 있다
 
@@ -338,6 +340,7 @@ flowchart LR
 - [ ] 보기 1개당 30초 타임아웃이다. 넘기면 `timeout`이다
 - [ ] 실행 결과와 Judge 예측이 다르면 `judge_exec_mismatch`로 재생성한다(GR-7.4)
 - [ ] 실행 결과가 정답 키와 다르고 Judge도 정답 키에 동의하면 `version_conflict`로 재생성 없이 버리고 개수를 센다(GR-7.5, D-11)
+- [ ] 실행이 `ModuleNotFoundError`이고 기대값은 그 오류가 아니면 `sandbox_module_missing`으로 재생성한다. 피드백에 샌드박스 패키지 목록을 넣는다(설계서 6.1)
 - [ ] 코드형 문제는 lock 해시와 "코드 보기"용 `doc_url`을 가진다(GR-7.6, FR-2.4)
 
 **US-2.4 슬롯 계획** · 필수 · 의존: US-1.1
@@ -355,12 +358,12 @@ flowchart LR
 
 출제 운영자로서 배치를 한 명령으로 돌리고, 중단되면 이어서 돌리기를 원한다. 60문제 생성은 오래 걸리고 중간에 끊길 수 있기 때문이다.
 
-- [ ] `quiz generate --plan pilot|pool [--count N]`이 슬롯을 `batch_slots`에 먼저 쓰고 그래프를 돈다. `pilot`은 버킷당 1문제다(FR-7.3, 설계서 6.2)
+- [ ] `quiz generate --plan pilot|pool|fill [--count N]`이 슬롯을 `batch_slots`에 먼저 쓰고 그래프를 돈다. `pilot`은 버킷당 1문제다. `fill`은 버킷당 10개, 형식마다 10개에 모자란 만큼 슬롯을 만든다(FR-7.3, 설계서 6.1, 6.2, 7.2)
 - [ ] `question_id`는 `{batch_id}-{slot_no:03d}`이다. 쓰기는 upsert다(D-13)
 - [ ] `quiz generate --resume <batch_id>`는 `passed`·`dropped`가 아닌 슬롯만 처음부터 다시 돈다
 - [ ] Bedrock은 `ChatBedrockConverse`로 부른다. adaptive 재시도 5회, 배치 동시 호출 2, 비용 상한 없음이다(D-8)
-- [ ] `AWS_REGION`이 `us-east-1`, `us-west-2`, `ap-northeast-2` 밖이면 시작 시 오류로 멈춘다(D-12)
-- [ ] 호출별 입력·출력 토큰을 `verification_results`와 `batches`에 쌓고, 단가표가 있으면 `cost_usd`를 계산한다. 없으면 NULL이다(NFR-4.4)
+- [ ] 리전은 `AWS_REGION`, 없으면 `AWS_DEFAULT_REGION`이다. `us-east-1`, `us-west-2`, `ap-northeast-2` 밖이면 시작 시 오류로 멈춘다(D-12)
+- [ ] 호출별 입력·출력 토큰과 `cost_usd`를 시도 행(`verification_results`)과 `batches`에 쌓는다. 단가표가 없는 모델이 섞이면 `cost_usd`는 NULL이다(NFR-4.4)
 - [ ] Anthropic API를 직접 호출하지 않는다(C-2)
 
 **US-2.6 파일럿 배치** · 필수 · 의존: US-2.5
@@ -386,7 +389,7 @@ flowchart LR
 감사자로서 고정한 풀에서 무작위 20문항을 받아 문항별로 판정을 기록하기를 원한다. 생성 품질을 사람이 표본으로 확인해야 하기 때문이다.
 
 - [ ] 시드는 `int(sha256(pool_snapshot_id)[:16], 16)`, 표본은 `random.Random(seed).sample(sorted(question_ids), 20)`이다(D-5)
-- [ ] 같은 스냅샷이면 `POST /api/audits`가 기존 감사를 돌려준다
+- [ ] 같은 스냅샷이면 `POST /api/audits`가 기존 감사를 돌려준다. 풀이 20문항보다 작으면 409 `pool_too_small`, 풀이 없으면 409 `no_pool`이다(설계서 6.6)
 - [ ] 감사 화면은 문항마다 정답 키, 근거, 매핑을 보여준다
 - [ ] 문항별로 정답 키 오류, 근거 미지지, 매핑 오류를 저장한다(FR-9.2)
 - [ ] 20개가 모두 차면 통과 기준(정답 키 오류 ≤ 1, 근거 미지지 ≤ 2, 매핑 불충실 ≤ 2)으로 `result`를 계산한다
@@ -398,7 +401,7 @@ flowchart LR
 
 - [ ] 감사 실패 문제는 `audit_failed`로 바꾸고 풀에서 뺀다
 - [ ] 60개로 다시 채운 뒤 새 풀 스냅샷에서 시드를 다시 만들어 20문항을 새로 뽑는다(요구사항 7.2)
-- [ ] 2026-11-07까지 미달이면 미달 목록과 함께 `data/waivers.yaml`에 사용자 면제로 기록한다
+- [ ] 2026-11-06 17:00까지 미달이면 미달 목록과 함께 `data/waivers.yaml`에 사용자 면제로 기록한다
 
 ### E4 세트 풀이
 
@@ -406,7 +409,7 @@ flowchart LR
 
 학습자로서 원할 때마다 10문제 세트를 받기를 원한다. 정해진 시간 없이 틈날 때 풀기 때문이다.
 
-- [ ] `POST /api/sets`는 항상 10문제를 낸다. 하루 중 언제든, 횟수 제한 없이 만들 수 있다(FR-1.1, FR-1.2)
+- [ ] `POST /api/sets`는 항상 10문제를 낸다. 하루 중 언제든, 횟수 제한 없이 만들 수 있다(FR-1.1, FR-1.2). 10문제를 채우지 못하면 409 `pool_too_small`이고 아무것도 저장하지 않는다(설계서 6.3)
 - [ ] 문제는 고정한 풀에서만 낸다. 풀이 시점에 생성하지 않는다(FR-1.3)
 - [ ] 채우는 순서: 기한이 된 복습 문제 최대 3개 → 새 문제(무작위) → 새 문제가 소진되면 맞힌 적이 있고 복습 큐에 없는 문제 중 마지막 풀이가 오래된 순(FR-1.4, FR-1.5, D-6)
 - [ ] 첫 세트는 새 문제 10개다
@@ -474,7 +477,7 @@ flowchart LR
 - [ ] 개념 실수는 `variant_of`가 원래 문제이고 `passed`인 변형 문제가 있으면 그것을 내고, 없으면 원래 문제를 낸다(FR-5.6)
 - [ ] 변형 문제 풀이 결과는 원래 문제의 큐 항목에 반영한다
 
-### E6 변형 문제 (축소 대상)
+### E6 변형 문제 (축소 대상, 2026-11-05 면제)
 
 **US-6.1 개념 실수 변형 문제 생성** · 축소 대상 · 의존: US-2.5, US-5.1
 
@@ -492,7 +495,7 @@ flowchart LR
 
 출제 운영자로서 Langfuse가 있으면 배치 trace를 보고, 없어도 배치가 돌기를 원한다. 관측 서비스 장애가 생성을 막으면 안 되기 때문이다.
 
-- [ ] `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST`가 모두 있을 때만 LangChain 콜백 핸들러를 붙인다(설계서 8.3)
+- [ ] `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`와 호스트 키(`LANGFUSE_BASE_URL` 또는 `LANGFUSE_HOST`)가 모두 있을 때만 LangChain 콜백 핸들러를 붙인다(설계서 8.3)
 - [ ] 환경 변수가 없어도 생성 배치와 앱이 오류 없이 돈다(NFR-5.4)
 - [ ] 환경 변수가 있으면 배치 1회 뒤 Langfuse에 그 배치의 trace가 1개 이상 있다. `batch_id`를 세션 ID와 태그로 단다
 - [ ] Langfuse Cloud Hobby(월 5만 units, 보관 30일)를 쓴다(NFR-5.1)
@@ -503,7 +506,7 @@ flowchart LR
 
 - [ ] `quiz metrics`가 SQLite에서 `data/metrics/baseline.json`을 다시 만든다(NFR-5.3)
 - [ ] 파일에 Judge 통과율, 버린 문제 수와 이유별 개수, 세트별 정답률, 배치별 토큰·비용·소요 시간이 있다(설계서 5.4)
-- [ ] 단가표 `data/pricing/bedrock.yaml`에 모델 ID별 입력·출력 1K 토큰당 USD, 출처 URL, 확인 날짜를 둔다
+- [ ] 단가표 `data/pricing/bedrock.yaml`에 모델 ID별 입력·출력 1M 토큰당 USD(AWS Price List 단위), 출처 URL, 공표일, 확인 날짜를 둔다(설계서 5.4)
 
 **US-7.3 Langfuse trace 내보내기** · 축소 대상 · 의존: US-7.1
 
@@ -524,7 +527,7 @@ flowchart LR
 | 5 | 풀 배치(US-2.5 실행), US-4.1, US-4.2, US-4.4, US-5.1~US-5.3 | 배치가 도는 동안 서버·UI를 만든다 |
 | 6 | US-3.1, US-3.2, US-3.3 | 풀 고정과 감사 |
 | 7 | 3세트 풀이, US-7.2 | 완료 조건 4, 기준선 지표 |
-| 8 | US-6.1, US-7.3 | 축소 대상 |
+| 8 | US-7.3 | 축소 대상. US-6.1은 면제(7.2) |
 
 ## 7. 릴리스 계획
 
@@ -533,15 +536,16 @@ flowchart LR
 | 날짜 | 마일스톤 | 판정 | 출처 |
 | --- | --- | --- | --- |
 | 2026-11-04 | 요구사항·설계·Seed 확정 | 완료 | 원본 문서 |
-| 2026-11-05 오전 (제안) | 파일럿 배치 완료, 60문제 소요 추정 | US-2.6 | 제안 |
-| 2026-11-05 저녁 | 축소 판단 체크포인트 | 통과 문제 30개 이상이면 그대로 진행. 미만이면 7.2 적용 | 05-output A.3 |
-| 2026-11-06 | Langfuse UI trace 1회 내보내기 | US-7.3 | NFR-5.2 |
-| 2026-11-06 (제안) | 풀 60개 고정, 감사 시작 | US-3.1, US-3.2 | 제안 |
-| 2026-11-07 | MVP 완료 | 4.1의 네 조건 | C-1 |
+| 2026-11-05 17:00 (제안) | 최소 경로 완료 | 빈 DB에서 생성부터 풀이 결과 화면까지 돈다([TASKS.md](TASKS.md) M0) | 제안 |
+| 2026-11-05 24:00 (제안) | 파일럿 배치 완료, 60문제 소요 추정, 풀 배치 시작 | US-2.6 | 제안 |
+| 2026-11-06 09:00 | 축소 판단 체크포인트 | 통과 문제 30개 이상이면 그대로 진행. 미만이면 7.2의 남은 항목 적용 | 05-output A.3 |
+| 2026-11-06 12:00 (제안) | 풀 60개 고정, 감사 시작 | US-3.1, US-3.2 | 제안 |
+| 2026-11-06 17:00 전 | Langfuse UI trace 1회 내보내기 | US-7.3 | NFR-5.2 |
+| 2026-11-06 17:00 | MVP 완료, 제출 | 4.1의 네 조건 | C-1 |
 
 ### 7.2 축소 기준
 
-2026-11-05 저녁까지 통과 문제가 30개 미만이면 아래 순서로 줄인다. React UI는 유지한다([05-output.md](docs/dev-process/01-requirements/05-output.md) A.3).
+1번은 2026-11-05에 체크포인트를 기다리지 않고 적용했다(사용자 결정, 마감 단축). 2026-11-06 09:00까지 통과 문제가 30개 미만이면 2, 3번을 순서대로 적용한다. React UI는 유지한다([05-output.md](docs/dev-process/01-requirements/05-output.md) A.3).
 
 1. 변형 문제 생성을 뺀다(E6). 복습 큐는 원래 문제로 충족한다.
 2. Langfuse 내보내기를 뺀다(US-7.3).
@@ -556,7 +560,7 @@ flowchart LR
 | 실행 환경 | 로컬에서만 돈다. 이후 서버 배포를 막지 않는다 | NFR-1.1 |
 | 확장 | 문제 형식과 유형을 고정 목록으로 박지 않는다. 형식 추가는 채점 함수 등록과 UI 컴포넌트 추가로 한다 | NFR-1.2, 설계서 5.2 |
 | 스택 | FastAPI + uvicorn, SQLite(`sqlite3`), React + Vite, LangChain·LangGraph, `ChatBedrockConverse`, Langfuse | NFR-2 |
-| 모델 | 생성 `global.anthropic.claude-sonnet-4-6`, Judge `global.anthropic.claude-sonnet-4-5-20250929-v1:0`, 예비 `global.anthropic.claude-haiku-4-5-20251001-v1:0` | NFR-4 |
+| 모델 | 생성 `global.anthropic.claude-sonnet-4-6`, Judge `global.anthropic.claude-sonnet-4-5-20250929-v1:0`, 예비 `global.anthropic.claude-haiku-4-5-20251001-v1:0`. 일일 토큰 한도 때 전환 프로필 `us.anthropic.claude-sonnet-4-6`, `us.anthropic.claude-sonnet-4-5-20250929-v1:0`과 다른 허용 리전을 쓴다 | NFR-4, 설계서 3.1 |
 | 비용 | 상한 없음. 배치별 비용을 기록한다 | NFR-4.4 |
 | 보안 | 서버와 샌드박스에 AWS 자격 증명을 넘기지 않는다. UI는 답 제출 전 정답 키·해설·매핑·근거를 받지 않는다. MVP는 인증이 없다 | 설계서 8.5 |
 | 신뢰성 | 배치는 중단 뒤 재개할 수 있다. 마이그레이션과 배치 전에 백업한다 | 설계서 6.2, 8.4 |
@@ -568,7 +572,7 @@ flowchart LR
 
 | ID | 제약 |
 | --- | --- |
-| C-1 | 마감은 2026-11-07이다 |
+| C-1 | 마감은 2026-11-06 17:00이다 |
 | C-2 | 모델은 AWS Bedrock으로만 부른다. Anthropic API를 직접 호출하지 않는다 |
 | C-3 | 정답·해설 근거는 공식 문서 원문 인용만 인정한다 |
 
@@ -585,14 +589,14 @@ flowchart LR
 
 | ID | 리스크 | 영향 | 대응 |
 | --- | --- | --- | --- |
-| R-1 | 문제당 생성 시간과 비용을 아직 모른다 | 60문제가 마감 안에 안 나온다 | 파일럿 배치로 측정(US-2.6). 11-05 저녁 체크포인트와 축소 기준(7.2) |
-| R-2 | Bedrock 요청 제한 | 배치가 느려지거나 실패한다 | adaptive 재시도 5회, 동시 호출 2. 첫 배치에서 확인. `--resume`으로 재개 |
+| R-1 | 문제당 생성 시간과 비용을 아직 모른다 | 60문제가 마감 안에 안 나온다 | 파일럿 배치로 측정(US-2.6). 11-06 09:00 체크포인트와 축소 기준(7.2) |
+| R-2 | Bedrock 요청 제한 | 배치가 느려지거나 실패한다 | adaptive 재시도 5회, 동시 호출 2. 일일 토큰 한도는 소스 리전과 추론 프로필마다 따로 걸리므로 프로필·리전 전환으로 넘어간다(설계서 3.1). 모두 걸리면 `--resume`으로 재개 |
 | R-3 | 코드 선택 형식 10개 확보가 어렵다 | 완료 조건 1 미달 | MCP 주제와 `없음` 주제는 코드 선택에서 빠지므로 나머지 주제에 코드 선택 슬롯을 먼저 배정한다(D-9) |
-| R-4 | 모델이 `quote`를 원문 그대로 복사하지 못한다 | `quote_mismatch` 재생성이 늘고 소진으로 버려진다 | 프롬프트에 스냅샷 원문을 주고 그대로 복사하게 한다. 실패 이유를 다음 생성에 넣는다 |
+| R-4 | 모델이 `quote`를 원문 그대로 복사하지 못한다 | `quote_mismatch` 재생성이 늘고 소진으로 버려진다 | 프롬프트에 스냅샷 원문을 주고 그대로 복사하게 한다. 실패한 인용과 맞는 원문 구간을 다음 생성에 넣는다 |
 | R-5 | 문서와 고정 버전의 동작이 다르다 | 코드형 문제가 `version_conflict`로 버려진다 | 재생성 없이 버리고 개수를 기록한다(GR-7.5). MCP 코드형은 처음부터 내지 않는다 |
 | R-6 | `근접` 주제는 근거가 약하다 | 감사에서 근거 미지지가 나온다 | 문서가 그 이름으로 패턴을 정의한다고 쓰지 않게 프롬프트로 막는다 |
 | R-7 | 단답 허용 답안에 동의어가 빠진다 | 맞는 답이 오답 처리된다 | 답을 식별자·단일 용어로 제한하고 Judge가 빠진 변형을 보탠다(D-3) |
-| R-8 | 스냅샷 수집 방법이 정해지지 않았다. 큰 페이지는 MCP 출력 한도(30KB)에 걸린다 | 허용 목록 고정이 늦어지고 이후 작업이 모두 밀린다 | 첫 작업으로 정한다(US-1.1) |
+| R-8 | 스냅샷 수집 방법이 정해지지 않았다. 큰 페이지는 MCP 출력 한도(30KB)에 걸린다 | 허용 목록 고정이 늦어지고 이후 작업이 모두 밀린다 | 정했다. 줄 범위 분할과 서버 sha256 대조(US-1.1, D-14) |
 | R-9 | 감사 미달 | 재생성과 재감사로 시간이 든다 | 미달 처리 절차(US-3.3). 마감까지 미달이면 면제로 기록한다 |
 
 ## 11. 구현 단계에서 확인할 항목
@@ -601,14 +605,14 @@ flowchart LR
 
 | 항목 | 확인 방법 | 관련 스토리 |
 | --- | --- | --- |
-| 앱 Python 버전 | 교안 확인 뒤 `.python-version`, `requires-python`에 고정 | US-0.1 |
-| 앱 `langchain`, `langgraph` 버전 | 앱 `uv.lock`에 고정 | US-0.1 |
-| Langfuse SDK 설정 키 이름 | Langfuse 문서로 확인 | US-7.1 |
-| Bedrock 비용 단가 | AWS 가격 페이지로 `data/pricing/bedrock.yaml`을 채운다 | US-7.2 |
-| 페이지 스냅샷 수집 방법 | 후보 2개 중 선택. MCP 서버 URL과 30KB 출력 한도 처리 확인 | US-1.1 |
-| Bedrock 요청 제한과 비용 | 첫 배치에서 확인 | US-2.6 |
-| 생성 시간 | 파일럿 배치로 측정 | US-2.6 |
-| 백업 보관 개수 | 구현 시 정한다 | US-0.2 |
+| 앱 Python 버전 | 확인함(2026-11-05): 3.14.8. 교안 `.venv` 기준 | US-0.1 |
+| 앱 `langchain`, `langgraph` 버전 | 확인함(2026-11-05): `langchain` 1.4.7, `langgraph` 1.2.17. 앱 `uv.lock`에 고정 | US-0.1 |
+| Langfuse SDK 설정 키 이름 | 확인함(2026-11-05): `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, 호스트 `LANGFUSE_BASE_URL`(deprecated `LANGFUSE_HOST`도 읽음) | US-7.1 |
+| Bedrock 비용 단가 | 확인함(2026-11-05): 생성·Judge Global 입력 3.00, 출력 15.00 USD/1M 토큰. AWS Price List API(공표 2026-10-12) | US-7.2 |
+| 페이지 스냅샷 수집 방법 | 확인함(2026-11-05): Python MCP 클라이언트, 줄 범위 분할, sha256 서버 대조(설계서 4.3, D-14) | US-1.1 |
+| Bedrock 요청 제한과 비용 | 확인함(2026-11-05): 일일 토큰 한도가 발생해 프로필·리전 전환으로 이어 갔다. 파일럿 슬롯당 0.286 USD, 풀 배치 60슬롯 18.60 USD. 한도 값은 미확인 | US-2.6 |
+| 생성 시간 | 확인함(2026-11-05): 파일럿 문제당 약 72초(동시 2), 풀 배치 60슬롯 1,334초 | US-2.6 |
+| 백업 보관 개수 | 확인함(2026-11-05): 최근 10개(설계서 8.4) | US-0.2 |
 
 ## 12. 완료 정의 (Definition of Done)
 
@@ -662,3 +666,6 @@ Seed 수용 기준 번호: 1 풀, 2 감사, 3 3세트 풀이, 4 세트 출제, 5
 | 0.1 | 2026-11-04 | requirements.md 1.1, design.md 1.1, seed.yaml 1.0.1에서 작성 |
 | 0.2 | 2026-11-04 | 1.5 시스템 구성도를 설계서 2.1 도식 형식(경로별 색, 외부 서비스 묶음)으로 다시 그렸다. 원본을 design.md 1.3으로 맞추고 US-1.1 스냅샷 수집 후보 문구를 설계서 4.3과 같게 고쳤다 |
 | 0.3 | 2026-11-04 | 프로젝트 이름을 `agent-dev-quiz`로 정하고 제목과 머리 표에 반영했다 |
+| 0.4 | 2026-11-05 | 마감을 2026-11-06 17:00으로 당겼다(requirements 2.0, seed 1.1.0). 7.1 마일스톤을 다시 잡고 체크포인트를 2026-11-06 09:00으로 옮겼다. 변형 문제(E6)를 면제했다 |
+| 0.5 | 2026-11-05 | 11장 확인 항목 3개(앱 Python, `langchain`·`langgraph` 버전, 스냅샷 수집 방법)를 구현 M0 결과로 채웠다. 원본을 design.md 2.0으로 맞췄다 |
+| 0.6 | 2026-11-05 | 원본을 requirements.md 3.0, design.md 12.0으로 맞췄다. 설계 값만 반영했다: 샌드박스 보조 패키지(US-0.1), 스냅샷 수집 방법·manifest(US-1.1), 게이트 실패 이유(US-2.1), 프로필·리전 전환과 `quote_mismatch` 피드백(US-2.2), `sandbox_module_missing`(US-2.3), `--plan fill`·리전 대체 변수·시도 비용(US-2.5), 409 `pool_too_small`·`no_pool`(US-3.2, US-4.1), Langfuse 호스트 키(US-7.1), 단가 단위(US-7.2), 8장 모델 행, R-2·R-4·R-8, 11장 확인 항목. 진행 상황(체크박스, 마일스톤 판정)은 넣지 않았다 |

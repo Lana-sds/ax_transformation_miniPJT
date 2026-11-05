@@ -1,7 +1,7 @@
 # 공식 문서 페이지 허용 목록 (GR-2)
 
-상태: 확정(2026-11-04, 사용자 검토 완료)
-조회 날짜: 2026-11-04. 모든 행을 이 날짜에 조회했다.
+상태: 확정(2026-11-04, 사용자 검토 완료). 2026-11-05 학습 노트 참조 링크 27행 추가(사용자 승인 "전부 반영")
+조회 날짜: 2026-11-04. 2026-11-05 추가 행은 확인 열 끝에 `(노트, 2026-11-05)`를 붙였고 그날 조회했다. 추가 후보와 제외 이유는 [notes-link-allowlist-candidates.md](../../03-implementation/output/notes-link-allowlist-candidates.md)에 있다.
 조회 수단: `docs-langchain` MCP(`.mdx` 원문을 `head`, `rg`로 열어 확인), `reference-langchain` MCP(`search_api`, `get_symbol`)
 기록: [02-docs-mcp.md](../../dev-process/02-spec-design/02-docs-mcp.md)
 요구사항: [requirements.md](../../01-requirements/output/requirements.md) CR-1, GR-1~GR-4
@@ -43,15 +43,21 @@
 | --- | --- | --- | --- | --- | --- |
 | 1 | State·노드·엣지 | `/oss/python/langgraph/graph-api` | docs | 확인 | "### StateGraph", "## State", "## Nodes", "## Edges" |
 | 1 | State·노드·엣지 | `/oss/python/langgraph/graph-api-state` | docs | 확인 | "## Define state" |
+| 1 | State·노드·엣지 | https://reference.langchain.com/python/langgraph/graph/state/StateGraph | api-ref | 확인 | `get_symbol` 결과. "A graph whose nodes communicate by reading and writing to a shared state" (노트, 2026-11-05) |
+| 1 | State·노드·엣지 | https://reference.langchain.com/python/langgraph/graph/state/CompiledStateGraph | api-ref | 확인 | `get_symbol` 결과. 클래스 시그니처만 있다 (노트, 2026-11-05) |
 | 2 | 조건부 엣지 | `/oss/python/langgraph/graph-api` | docs | 확인 | "### Conditional edges"(334행) |
 | 2 | 조건부 엣지 | `/oss/python/langgraph/graph-api-control-flow` | docs | 확인 | "### Conditional branching", `add_conditional_edges` |
 | 3 | 사이클 | `/oss/python/langgraph/graph-api-control-flow` | docs | 확인 | "## Create and control loops", "### Impose a recursion limit" |
 | 3 | 사이클 | `/oss/python/langgraph/graph-api` | docs | 확인 | "### Recursion limit"(549행) |
 | 4 | `add_messages` 리듀서 | `/oss/python/langgraph/graph-api-state` | docs | 확인 | "## Process state updates with reducers", "### MessagesState" |
 | 4 | `add_messages` 리듀서 | `/oss/python/langgraph/graph-api` | docs | 확인 | "### Reducers", "#### MessagesState" |
+| 4 | `add_messages` 리듀서 | https://reference.langchain.com/python/langgraph/graph/message/add_messages | api-ref | 확인 | `get_symbol` 결과. "Merges two lists of messages, updating existing messages by ID" (노트, 2026-11-05) |
+| 4 | `add_messages` 리듀서 | `/oss/python/langchain/messages` | docs | 근접 | "## Message types"(85행). 메시지 타입 문서이고 `add_messages`·리듀서는 언급하지 않는다 (노트, 2026-11-05) |
 | 5 | ReAct | `/oss/python/langchain/agents` | docs | 근접 | "a model calling tools in a loop". "ReAct"라는 이름은 쓰지 않는다 |
+| 5 | ReAct | https://reference.langchain.com/python/langchain/agents/factory/create_agent | api-ref | 근접 | `get_symbol` 결과. "calls tools in a loop until a stopping condition is met". "ReAct"라는 이름은 없다 (노트, 2026-11-05) |
 | 6 | LangSmith Studio | `/langsmith/studio` | docs | 확인 | "# LangSmith Studio" |
 | 6 | LangSmith Studio | `/oss/python/langgraph/studio` | docs | 확인 | "# LangSmith Studio", 로컬 에이전트 시각화 |
+| 6 | LangSmith Studio | `/langsmith/application-structure` | docs | 근접 | "## Configuration file"(83행), `langgraph.json`. Studio는 언급하지 않는다 (노트, 2026-11-05) |
 
 ## Tool · MCP (day4)
 
@@ -83,8 +89,13 @@ MCP 행(#4, #5, #6의 `mcp/tools`)은 개념·설계 문제에만 쓴다. MCP �
 | 2 | 로깅·마스킹·요약 미들웨어 | `/oss/python/langchain/middleware/custom` | docs | 확인 | 로깅 용도 커스텀 훅 예시 |
 | 3 | checkpointer·`thread_id` | `/oss/python/langchain/short-term-memory` | docs | 확인 | `checkpointer` 지정, `thread_id` 설정 예시 |
 | 3 | checkpointer·`thread_id` | `/oss/python/langgraph/persistence` | docs | 확인 | "Checkpointer vs. store" |
+| 3 | checkpointer·`thread_id` | `/oss/python/langgraph/checkpointers` | docs | 확인 | "you **must** specify a `thread_id`"(35행), "### Threads"(31행) (노트, 2026-11-05) |
+| 3 | checkpointer·`thread_id` | `/oss/python/langgraph/use-time-travel` | docs | 확인 | "## Replay"(14행), "## Fork"(72행), `thread_id`·`checkpoint_id` 예시 (노트, 2026-11-05) |
 | 4 | `interrupt()`·`Command(resume)` | `/oss/python/langgraph/interrupts` | docs | 확인 | "## Pause using `interrupt`", "## Resuming interrupts" |
 | 4 | `interrupt()`·`Command(resume)` | `/oss/python/langchain/human-in-the-loop` | docs | 확인 | "Interrupt decision types", "Responding to interrupts" |
+| 4 | `interrupt()`·`Command(resume)` | https://reference.langchain.com/python/langgraph/types/Command | api-ref | 확인 | `get_symbol` 결과. `resume` 파라미터 "To be used together with `interrupt()`"(28행) (노트, 2026-11-05) |
+| 4 | `interrupt()`·`Command(resume)` | https://reference.langchain.com/python/langgraph/types/Interrupt | api-ref | 확인 | `get_symbol` 결과. "Information about an interrupt that occurred in a node" (노트, 2026-11-05) |
+| 4 | `interrupt()`·`Command(resume)` | `/oss/python/deepagents/human-in-the-loop` | docs | 확인 | `interrupt_on`(34행), `Command(resume={"decisions": ...})`(577행) (노트, 2026-11-05) |
 | 5 | 가드레일 | `/oss/python/langchain/guardrails` | docs | 확인 | "### PII detection", "## Custom guardrails" |
 
 ## 멀티 에이전트 (day6)
@@ -99,6 +110,8 @@ MCP 행(#4, #5, #6의 `mcp/tools`)은 개념·설계 문제에만 쓴다. MCP �
 | 3 | 계층 구조 | `/oss/python/langgraph/use-subgraphs` | docs | 근접 | 부모 그래프와 서브그래프. "hierarchical"이라는 표현은 멀티 에이전트 문서에 없다 |
 | 4 | 서브 Agent 설계 | `/oss/python/langchain/multi-agent/subagents` | docs | 확인 | "provides context isolation" |
 | 4 | 서브 Agent 설계 | `/oss/python/langchain/multi-agent/index` | docs | 확인 | "strong context isolation but... repeated model calls"(209행) |
+| 4 | 서브 Agent 설계 | `/oss/python/deepagents/subagents` | docs | 확인 | "Subagents solve the **context bloat problem**"(26행), "## Custom subagents" (노트, 2026-11-05) |
+| 4 | 서브 Agent 설계 | `/oss/python/deepagents/dynamic-subagents` | docs | 확인 | "dispatch subagents from interpreter code"(5행), "## Patterns"(191행) (노트, 2026-11-05) |
 | 5 | 라우팅 검증 | `/oss/python/langchain/multi-agent/router` | docs | 확인 | "# Router", "Stateless vs. stateful" |
 | 5 | 라우팅 검증 | `/oss/python/langchain/multi-agent/router-knowledge-base` | docs | 확인 | "Build the router workflow" |
 | 5 | 라우팅 검증 | `/oss/python/langchain/test/evals` | docs | 근접 | 궤적 매칭 평가. 라우팅 검증 전용 문서는 없다 |
@@ -109,16 +122,30 @@ MCP 행(#4, #5, #6의 `mcp/tools`)은 개념·설계 문제에만 쓴다. MCP �
 | --- | --- | --- | --- | --- | --- |
 | 1 | Plan-and-Execute | `/oss/python/langgraph/workflows-agents` | docs | 근접 | "## Orchestrator-worker"(550행), planner. "Plan-and-Execute"라는 이름은 Python 문서에 없다 |
 | 1 | Plan-and-Execute | `/oss/python/deepagents/overview` | docs | 근접 | "### Task planning", `write_todos` |
+| 1 | Plan-and-Execute | https://reference.langchain.com/python/langchain/agents/middleware/todo | api-ref | 근접 | `get_symbol` 결과. "Planning and task management middleware for agents". "Plan-and-Execute"라는 이름은 없다 (노트, 2026-11-05) |
+| 1 | Plan-and-Execute | https://reference.langchain.com/python/langchain/agents/middleware/todo/PlanningState | api-ref | 근접 | `get_symbol` 결과. "State schema for the todo middleware" (노트, 2026-11-05) |
 | 2 | 단기·장기 기억 | `/oss/python/langchain/short-term-memory` | docs | 확인 | "# Short-term memory" |
 | 2 | 단기·장기 기억 | `/oss/python/langchain/long-term-memory` | docs | 확인 | "# Long-term memory", "Memory storage" |
 | 2 | 단기·장기 기억 | `/oss/python/concepts/memory` | docs | 확인 | thread 범위와 cross-thread namespace |
+| 2 | 단기·장기 기억 | `/oss/python/langgraph/checkpointers` | docs | 확인 | "### Threads"(31행), `thread_id`로 체크포인트 저장 (노트, 2026-11-05) |
+| 2 | 단기·장기 기억 | `/oss/python/langgraph/stores` | docs | 확인 | "LangGraph stores provide cross-thread long-term memory, complementing per-thread checkpointer persistence"(3행) (노트, 2026-11-05) |
+| 2 | 단기·장기 기억 | `/oss/python/deepagents/memory` | docs | 확인 | "**long-term memory**: memory that persists across conversations"(12행) (노트, 2026-11-05) |
+| 2 | 단기·장기 기억 | `/oss/python/concepts/context` | docs | 확인 | "**Cross-conversation context**"(10행), "## Dynamic cross-conversation context"(178행) (노트, 2026-11-05) |
+| 2 | 단기·장기 기억 | `/oss/python/deepagents/context-engineering` | docs | 확인 | "Long-term memory" 표(25행), "### Memory"(150행) (노트, 2026-11-05) |
+| 2 | 단기·장기 기억 | `/oss/python/langchain/context-engineering` | docs | 확인 | State = "Short-term memory", Store = "Long-term memory"(62~63행). 노트는 JavaScript판을 걸었고 Python판으로 바꿨다 (노트, 2026-11-05) |
 | 3 | 콜백 관측 | `/oss/python/langgraph/observability` | docs | 확인 | `.with_config({'callbacks': [tracer]})`(119행) |
 | 3 | 콜백 관측 | `/langsmith/trace-with-langchain` | docs | 확인 | `LangChainTracer`를 callback으로(176행) |
 | 3 | 콜백 관측 | `/oss/python/langchain/observability` | docs | 확인 | "LangSmith Observability" |
 | 3 | 콜백 관측 | https://reference.langchain.com/python/langchain-core/callbacks/base/BaseCallbackHandler | api-ref | 확인 | `search_api` 결과 |
+| 3 | 콜백 관측 | `/oss/python/langchain/models` | docs | 확인 | "Callback handler" 탭, `UsageMetadataCallbackHandler`(1358~1366행) (노트, 2026-11-05) |
+| 3 | 콜백 관측 | https://reference.langchain.com/python/langchain-core/callbacks | api-ref | 확인 | `get_symbol` 결과(모듈). "Callback handlers allow listening to events in LangChain" (노트, 2026-11-05) |
 | 4 | LLM-as-judge | `/langsmith/evaluation-concepts` | docs | 확인 | "#### LLM-as-judge"(212행) |
 | 4 | LLM-as-judge | `/langsmith/llm-as-judge` | docs | 확인 | "How to define an LLM-as-a-judge evaluator" |
 | 4 | LLM-as-judge | `/oss/python/langchain/test/evals` | docs | 확인 | "## LLM-as-judge evaluator"(182행) |
+| 4 | LLM-as-judge | `/langsmith/llm-as-judge-sdk` | docs | 확인 | "## Create your own LLM-as-a-judge evaluator"(15행). 제목이 `/langsmith/llm-as-judge`와 같다 (노트, 2026-11-05) |
+| 4 | LLM-as-judge | `/langsmith/trajectory-evals` | docs | 확인 | "## LLM-as-judge evaluator"(428행) (노트, 2026-11-05) |
+| 4 | LLM-as-judge | `/langsmith/create-few-shot-evaluators` | docs | 확인 | "few-shot examples as part of your LLM-as-a-judge evaluator"(7행) (노트, 2026-11-05) |
+| 4 | LLM-as-judge | `/langsmith/improve-judge-evaluator-feedback` | docs | 확인 | "# Improve LLM-as-judge evaluators using human feedback" (노트, 2026-11-05) |
 | 5 | 통합 점검 | `/oss/python/langchain/test/integration-testing` | docs | 확인 | "# Integration testing", `@pytest.mark.integration` |
 | 5 | 통합 점검 | `/oss/python/langchain/test/evals` | docs | 확인 | "# Agent Evals" |
 
@@ -136,4 +163,5 @@ MCP 행(#4, #5, #6의 `mcp/tools`)은 개념·설계 문제에만 쓴다. MCP �
 
 - 재랭킹은 api-ref로 확인했다. 문서 페이지는 목록만 있어 근접이다.
 - api-ref로만 확인한 주제는 없다. 하이브리드 검색과 재랭킹은 문서 페이지도 있다.
-- 쓰지 않기로 한 경로: `create_react_agent`(langgraph.prebuilt, deprecated), `create_supervisor` 레퍼런스(패키지 관리 중단), `@tool` 레퍼런스(`search_api`로 확인 안 됨), `/oss/python/integrations/retrievers/cohere-reranker`(파일 없음), `/oss/python/deepagents/retrieval`의 Hybrid RAG(BM25+벡터 검색이 아님)
+- 쓰지 않기로 한 경로: `create_react_agent`(langgraph.prebuilt, deprecated), `create_supervisor` 레퍼런스(패키지 관리 중단), `@tool` 레퍼런스(`search_api`로 확인 안 됨), `/oss/python/integrations/retrievers/cohere-reranker`(파일 없음), `/oss/python/deepagents/retrieval`의 Hybrid RAG(BM25+벡터 검색이 아님), https://reference.langchain.com/python/langgraph/graph/message(`get_symbol`이 다른 심볼 `LangGraphDeprecationWarning.message`를 돌려준다, 2026-11-05)
+- 2026-11-05 추가로 주제별 상태는 바뀌지 않았다. ReAct와 Plan-and-Execute에 더한 행도 `근접`이다.

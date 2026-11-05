@@ -1,9 +1,10 @@
 # 상태: 확정(2026-11-04, 사용자가 수용 기준 9개 확인). 남은 QA 지적은 03-seed.md에 있다. ouroboros_generate_seed(session_context) 출력을 QA 자문(REVISE 0.50) 뒤 사용자 선택으로 직접 편집했다.
 # 편집 내역: docs/dev-process/02-spec-design/03-seed.md "직접 편집". 생성 원문과의 차이도 그 기록에 있다.
+# 수정(2026-11-05, v1.1.0): 사용자 지시로 마감을 2026-11-06 17:00으로 당겼다(goal). scope_cut_waiver에 변형 문제 선면제와 체크포인트 2026-11-06 09:00을 반영했다. 기록: docs/dev-process/02-spec-design/03-seed.md "직접 편집 (v1.0.1 → v1.1.0)".
 # 이 파일과 requirements.md가 다르면 requirements.md와 design.md 9장(설계 결정)을 따르고 이 파일을 고친다.
 goal: LangChain·LangGraph로 LLM 앱을 만드는 한국인 개발자(본인)가, 공식 문서 원문 인용으로 검증된 영어 예상 문제(day2~day7,
   4개 형식)를 10문제 세트 단위로 원할 때마다 풀고, 영·한 구절 매핑 해설과 독해 실수/개념 실수 태그에 따른 복습까지 이어가는 로컬 웹앱(FastAPI
-  + SQLite + React, Bedrock 모델 호출)을 2026-11-07까지 완성한다. 완료 기준은 검증 통과 문제 60개, 본인 20문항
+  + SQLite + React, Bedrock 모델 호출)을 2026-11-06 17:00까지 완성한다. 완료 기준은 검증 통과 문제 60개, 본인 20문항
   감사 통과, 3세트 풀이다.
 task_type: code
 brownfield_context:
@@ -138,12 +139,12 @@ exit_conditions:
   criteria: 위 수용 기준이 모두 통과한다.
 - name: scope_cut_waiver
   description: 일정 축소(dev-process/01-requirements/05-output.md A.3)
-  criteria: 2026-11-05 저녁 passed 문제가 30개 미만이면 개념 실수 변형 문제를 면제한다(복습 큐 기준은 원래 문제로 충족).
-    그래도 부족하면 풀 기준을 30개(버킷당 5개)로 낮추고 형식별 개수와 함께 사용자 면제로 기록한다. 면제 기록이 없으면 이 조건으로 끝낼 수
-    없다.
+  criteria: 개념 실수 변형 문제는 2026-11-05 사용자 결정(마감 단축)으로 면제한다(복습 큐 기준은 원래 문제로 충족, data/waivers.yaml).
+    2026-11-06 09:00 passed 문제가 30개 미만이면 Langfuse 내보내기를 빼고, 풀 기준을 30개(버킷당 5개)로 낮추고 형식별 개수와 함께
+    사용자 면제로 기록한다. 면제 기록이 없으면 이 조건으로 끝낼 수 없다.
 metadata:
   seed_id: seed_2628c03dc62f
-  version: 1.0.1
+  version: 1.1.0
   created_at: '2026-11-04T05:55:57.934270Z'
   ambiguity_score: 0.2
   interview_id: session-context

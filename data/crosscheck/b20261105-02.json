@@ -1,0 +1,133 @@
+{
+  "target": "b20261105-02",
+  "kind": "batch",
+  "models": [
+    "us.amazon.nova-pro-v1:0",
+    "openai.gpt-oss-120b-1:0"
+  ],
+  "created_at": "2026-11-05T02:51:31Z",
+  "review_values": [
+    "ok",
+    "key_error",
+    "weak_grounding",
+    "ambiguous"
+  ],
+  "summary": {
+    "questions": 4,
+    "flagged": [],
+    "priority_1": [],
+    "priority_2": [],
+    "weak_grounding": [],
+    "errors": []
+  },
+  "items": [
+    {
+      "question_id": "b20261105-02-001",
+      "format": "single",
+      "answer_key": [
+        "A"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "* `lazy_load()`: Streams documents lazily, useful for large datasets.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "`lazy_load()`: Streams documents lazily, useful for large datasets.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-02-002",
+      "format": "multi",
+      "answer_key": [
+        "A",
+        "C"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "To clear the field while keeping a merging reducer, wrap the update with `Overwrite`.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "When a node returns a value wrapped with `Overwrite`, the reducer is bypassed and the channel is set directly to that value.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-02-003",
+      "format": "short",
+      "answer_key": [
+        "return_direct"
+      ],
+      "accepted_answers": [
+        "return_direct"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "return_direct",
+          "supporting_sentence": "Set return direct on a tool to short-circuit the agent loop: the agent returns the tool's output to the caller immediately, without sending it back through the model for further processing.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "return_direct",
+          "supporting_sentence": "Set return direct on a tool to short-circuit the agent loop: the agent returns the tool's output to the caller immediately, without sending it back through the model for further processing.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-02-006",
+      "format": "multi",
+      "answer_key": [
+        "A",
+        "C"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "The `Send` API lets you dynamically create worker nodes and send them specific inputs. Each worker has its own state, and all worker outputs are written to a shared state key that is accessible to the orchestrator graph. This gives the orchestrator access to all worker output and allows it to synthesize them into a final output.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A, C",
+          "supporting_sentence": "The `Send` API lets you dynamically create worker nodes and send them specific inputs.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    }
+  ]
+}

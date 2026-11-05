@@ -3,7 +3,7 @@
 | 항목 | 내용 |
 | --- | --- |
 | 문서 상태 | 확정 |
-| 버전 | 1.3 (부록 A) |
+| 버전 | 12.0 (부록 A) |
 | 작성일 | 2026-11-04 |
 | 요구사항 | [requirements.md](../../01-requirements/output/requirements.md) |
 | 관련 산출물 | [page-allowlist.md](page-allowlist.md), [seed.yaml](seed.yaml) |
@@ -41,14 +41,14 @@
 
 | 항목 | 현재 값 | 확인 방법 |
 | --- | --- | --- |
-| 앱 Python 버전 | 교안 `sds-ax-practice` 기준(미확인). 로컬 설치는 3.14.8 | 교안 확인 뒤 `.python-version`, `requires-python`에 고정 |
-| 앱 `langchain`, `langgraph` 버전 | 교안 코드가 도는 버전(미확인) | 앱 `uv.lock`에 고정 |
-| Langfuse SDK 설정 키 이름 | 미확인 | Langfuse 문서로 확인 |
-| Bedrock 비용 단가 | 미확인 | AWS 가격 페이지로 `data/pricing/bedrock.yaml`을 채운다 |
-| 페이지 스냅샷 수집 방법 | 후보 2개(4.3) | 구현 첫 작업에서 정한다. MCP 서버 URL과 큰 페이지의 30KB 출력 한도 처리도 확인한다 |
-| Bedrock 요청 제한과 비용 | 기본값(8.1) | 첫 배치에서 요청 제한 발생 여부와 비용을 확인한다 |
-| 생성 시간 | 없음 | 파일럿 배치로 측정한다(6.2) |
-| 백업 보관 개수 | 없음 | 구현 시 정한다. 위치는 `data/backups/` |
+| 앱 Python 버전 | 3.14.8. 교안 `.venv`에서 확인(2026-11-05) | 확인함 |
+| 앱 `langchain`, `langgraph` 버전 | `langchain` 1.4.7, `langgraph` 1.2.17. 교안 `.venv`에서 확인(2026-11-05) | 확인함 |
+| Langfuse SDK 설정 키 이름 | `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, 호스트 `LANGFUSE_BASE_URL`(deprecated `LANGFUSE_HOST`도 읽음). `langfuse` 5.1.0 소스와 Langfuse LangChain 통합 문서에서 확인(2026-11-05) | 확인함 |
+| Bedrock 비용 단가 | 생성·Judge 모델 모두 Global 입력 3.00, 출력 15.00 USD/1M 토큰. AWS Price List API `AmazonBedrockFoundationModels`(공표 2026-10-12)에서 확인(2026-11-05) | 확인함 |
+| 페이지 스냅샷 수집 방법 | Python MCP 클라이언트(4.3). 서버 URL `https://docs.langchain.com/mcp` | 확인함(2026-11-05) |
+| Bedrock 요청 제한과 비용 | 파일럿에서 일일 토큰 한도(`ThrottlingException` "Too many tokens per day")가 발생했다. 프로필·리전 전환(3.1)으로 이어 갔다. 파일럿 슬롯당 0.286 USD, 풀 배치 60슬롯 18.60 USD(2026-11-05) | 확인함. 한도 값은 미확인([구현 결과서](../../03-implementation/output/implementation.md) 1.7) |
+| 생성 시간 | 파일럿 문제당 약 72초(동시 2). 풀 배치 60슬롯 1,334초(2026-11-05) | 확인함 |
+| 백업 보관 개수 | 최근 10개(8.4) | 확인함(2026-11-05) |
 
 ## 2. 아키텍처
 
@@ -97,7 +97,7 @@ flowchart LR
         LF[("<b>Langfuse Cloud</b><br/>선택")]
     end
 
-    MCP -. "allowlist build<br/>수집 방법 미확인(1.4)" .-> PACK
+    MCP -. "snapshot fetch<br/>allowlist build(4.3)" .-> PACK
     PACK --> PIPE
     LLM --> BR
     LLM -. "콜백<br/>환경 변수 있을 때만" .-> LF
@@ -143,20 +143,24 @@ flowchart LR
 
 | 구성 요소 | 선택 | 버전·고정 방식 | 근거 |
 | --- | --- | --- | --- |
-| 앱 Python | CPython | 교안 `sds-ax-practice` 기준 버전(미확인). 로컬 설치는 3.14.8. `.python-version`과 `requires-python`에 고정 | NFR-3.1 |
+| 앱 Python | CPython | 3.14.8. 교안 `.venv`와 같다. `.python-version`과 `requires-python`(`>=3.14,<3.15`)에 고정 | NFR-3.1 |
 | 패키지 관리 | uv | 로컬 0.13.7. `app/`, `sandbox/` 각자 `uv.lock`을 커밋 | 4.1 |
-| 파이프라인 | `langchain`, `langgraph` | 교안 코드가 도는 버전(미확인). 앱 `uv.lock`에 고정 | NFR-2.4, NFR-3.1 |
-| 모델 클래스 | `langchain-aws`의 `ChatBedrockConverse` | 앱 `uv.lock`에 고정 | NFR-2.5 |
+| 파이프라인 | `langchain`, `langgraph` | `langchain==1.4.7`, `langchain-core==1.7.0`, `langgraph==1.2.17`. 교안 `.venv`와 같다 | NFR-2.4, NFR-3.1 |
+| 모델 클래스 | `langchain-aws`의 `ChatBedrockConverse` | `langchain-aws==1.9.0`. 교안 `.venv`와 같다 | NFR-2.5 |
+| 스냅샷 수집 | `mcp` Python 클라이언트 | `mcp==1.30.0`(샌드박스 고정 버전과 같다) | GR-1.4 |
+| 앱 보조 | `python-dotenv`(CLI `.env` 로드), `pyyaml`(허용 목록) | 앱 `uv.lock`에 고정 | - |
 | 백엔드 | FastAPI + uvicorn | 구현 시점 최신. 앱 `uv.lock`에 고정 | NFR-2.1 |
 | 저장소 | SQLite, Python 표준 `sqlite3` | 별도 설치 없음. 스키마는 `schema_version`과 `migrations/`로 관리 | NFR-2.2, 8.4 |
-| 관측 | `langfuse` SDK, Langfuse Cloud Hobby | 앱 `uv.lock`에 고정. 환경 변수가 없으면 붙이지 않음 | NFR-5, 8.3 |
+| 관측 | `langfuse` SDK, Langfuse Cloud Hobby | `langfuse` 5.1.0. 앱 `uv.lock`에 고정. 환경 변수가 없으면 붙이지 않음 | NFR-5, 8.3 |
 | 샌드박스 Python | CPython, 별도 uv 프로젝트 | 버전은 앱과 같게 둔다(기본값) | GR-7.1 |
-| 샌드박스 패키지 | `langchain`, `langgraph`, `langchain-core` | lock 시점 최신(문서 최신 버전 기준) | GR-7.2 |
+| 샌드박스 패키지 | `langchain`, `langgraph`, `langchain-core`, `langchain-text-splitters`, `numpy` | lock 시점 최신(문서 최신 버전 기준) | GR-7.2 |
 | 샌드박스 MCP 고정 | `mcp==1.30.0`, `fastmcp==2.13.0`, `langchain-mcp-adapters==0.3.2`, `mcp-server-time==2026.10.10` | 고정 | GR-7.2 |
-| 프론트엔드 | React + Vite, TypeScript(기본값, `react-ts` 템플릿) | 구현 시점 최신. `package-lock.json`을 커밋 | NFR-2.3 |
+| 프론트엔드 | React + Vite, TypeScript(기본값, `react-ts` 템플릿) | React 19.3, Vite 8.3, TypeScript 7.0(2026-11-05 설치). `package-lock.json`을 커밋 | NFR-2.3 |
 | JS 런타임·패키지 | Node, npm | 로컬 Node v26.13.0, npm 11.20.0. Bun 1.4.4도 있으나 쓰지 않음(기본값) | NFR-2.3 |
-| 테스트 | pytest(기본값) | 앱 dev 의존성 | - |
+| 테스트 | pytest(기본값), httpx(FastAPI TestClient) | 앱 dev 의존성 | - |
 | 생성 모델 | `global.anthropic.claude-sonnet-4-6` | Bedrock 모델 ID | NFR-4.1 |
+| 생성 모델 전환 프로필 | `us.anthropic.claude-sonnet-4-6` | 일일 토큰 한도(`ThrottlingException`, "per day")에 걸리면 다음 순서로 넘어간다: 환경 변수 리전의 global → us 프로필, 이어서 나머지 허용 리전의 global → us 프로필(ap-northeast-2는 global만). 넘어간 뒤에는 그대로 쓴다. 단가는 실제로 부른 프로필로 매긴다 | NFR-4.1 |
+| Judge 모델 전환 프로필 | `us.anthropic.claude-sonnet-4-5-20250929-v1:0` | 생성 모델 전환과 같은 규칙이다 | NFR-4.2 |
 | Judge 모델 | `global.anthropic.claude-sonnet-4-5-20250929-v1:0` | Bedrock 모델 ID | NFR-4.2 |
 | 예비 모델 | `global.anthropic.claude-haiku-4-5-20251001-v1:0` | Bedrock 모델 ID | NFR-4.3 |
 
@@ -164,9 +168,10 @@ flowchart LR
 
 | 항목 | 값 | 쓰는 곳 |
 | --- | --- | --- |
-| Bedrock 리전 | `AWS_REGION`. `us-east-1`, `us-west-2`, `ap-northeast-2` 중 하나. `llm.py`가 `ChatBedrockConverse(region_name=os.environ["AWS_REGION"])`로 직접 넘긴다(D-12). 세 값 밖이면 시작 시 오류로 멈춘다 | CLI |
+| Bedrock 리전 | `AWS_REGION`, 없으면 `AWS_DEFAULT_REGION`. `us-east-1`, `us-west-2`, `ap-northeast-2` 중 하나. `llm.py`가 `region_name`으로 직접 넘긴다(D-12). 세 값 밖이면 시작 시 오류로 멈춘다 | CLI |
+| `.env` | 저장소 루트 `.env`. CLI만 읽는다(`quiz.env`). 서버는 읽지 않는다 | CLI |
 | AWS 자격 증명 | AWS SDK 기본 체인(환경 변수, 프로필) | CLI만. 서버와 샌드박스에는 넘기지 않음 |
-| Langfuse | `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST`. SDK 키 이름은 미확인(1.4) | CLI만 |
+| Langfuse | `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, 호스트 `LANGFUSE_BASE_URL` 또는 `LANGFUSE_HOST` | CLI만 |
 | FastAPI 포트 | `localhost:8000` | 서버, Vite 프록시 |
 | Vite 포트 | 5173(Vite 기본값) | 브라우저 |
 | DB 파일 | `data/quiz.db`, 백업 `data/backups/` | CLI, 서버 |
@@ -183,38 +188,61 @@ ax_transformation_miniPJT/
 │   ├── pyproject.toml              # langchain·langgraph는 교안 코드가 도는 버전으로 고정(NFR-3.1)
 │   ├── uv.lock
 │   ├── quiz/
-│   │   ├── db.py                   # sqlite3 연결, backup API
+│   │   ├── db.py                   # sqlite3 연결, DB 경로(`QUIZ_DB`)
+│   │   ├── backup.py               # sqlite3 backup API, 최근 10개(8.4)
 │   │   ├── migrate.py              # 마이그레이션 적용
 │   │   ├── gates.py                # 결정적 검사: 인용 정규화·대조, 매핑 존재, 유사 중복, 단답 정규화
 │   │   ├── grading.py              # 채점(FR-3)
+│   │   ├── slots.py                # 슬롯 계획 pilot·pool·fill(6.1)
 │   │   ├── sets.py                 # 세트 구성(FR-1)
 │   │   ├── review.py               # 복습 큐(FR-5)
 │   │   ├── audit.py                # 감사 표본(FR-9)
 │   │   ├── metrics.py              # 기준선 지표(요구사항 7.3)
-│   │   ├── llm.py                  # ChatBedrockConverse 생성, 토큰·비용 기록, Langfuse 콜백
-│   │   ├── pipeline/               # LangGraph 그래프(6.1), 노드, 프롬프트 로더
+│   │   ├── llm.py                  # ChatBedrockConverse 생성, 프로필 전환, 토큰 기록, Langfuse 콜백
+│   │   ├── pricing.py              # 단가표 읽기, 비용 계산(5.4)
+│   │   ├── allowlist.py            # allowlist.yaml 읽기, 스냅샷 해시 검사
+│   │   ├── snapshots.py            # docs-langchain MCP 스냅샷 수집
+│   │   ├── store.py                # 배치 결과 upsert
+│   │   ├── batch.py                # 배치 실행
+│   │   ├── pool.py                 # 풀 스냅샷 고정
+│   │   ├── env.py                  # CLI 전용 .env 로드
+│   │   ├── crosscheck.py           # 교차 풀이 점검. 요구사항 밖 보조 점검이다
+│   │   ├── pipeline/               # LangGraph 그래프(6.1)
+│   │   │   ├── graph.py            # 그래프 구성
+│   │   │   ├── nodes.py            # 노드와 판정
+│   │   │   ├── prompts.py          # 프롬프트 로더
+│   │   │   └── schemas.py          # 형식별 생성 스키마, Judge 판정 스키마
 │   │   ├── sandbox_client.py       # 샌드박스 subprocess 호출
 │   │   ├── server.py               # FastAPI 앱(7.1)
 │   │   └── cli.py                  # `quiz` 명령(7.2)
 │   ├── migrations/
-│   │   └── 0001_init.sql
+│   │   ├── 0001_init.sql
+│   │   └── 0002_attempt_cost.sql   # verification_results.cost_usd
 │   └── tests/
 ├── sandbox/                        # 코드형 실행 환경(별도 uv 프로젝트, 앱과 의존성 공유 안 함)
-│   ├── pyproject.toml              # langchain·langgraph lock 시점 최신 + MCP 4개 고정(GR-7.2)
+│   ├── pyproject.toml              # langchain·langgraph 등 lock 시점 최신 + MCP 4개 고정(GR-7.2)
 │   ├── uv.lock
 │   ├── runner.py                   # stdin JSON 하나를 받아 실행하고 stdout JSON 하나를 낸다
-│   └── fakes.py                    # GenericFakeChatModel, bind_tools 하위 클래스
+│   ├── fakes.py                    # GenericFakeChatModel, bind_tools 하위 클래스
+│   ├── examples/                   # runner 확인 입력
+│   └── tests/
 ├── web/                            # React + Vite. `/api`를 localhost:8000으로 프록시
 ├── packs/
 │   └── langchain/
 │       ├── allowlist.yaml          # page-allowlist.md에서 만든 데이터
+│       ├── snapshot-manifest.yaml  # 스냅샷 기대 해시(4.3)
 │       ├── snapshots/              # 허용 목록 페이지 원문. 문서는 .mdx, API 레퍼런스는 get_symbol 출력 텍스트
-│       └── prompts/                # 생성, Judge, 변형 프롬프트
+│       └── prompts/                # 생성, Judge, 교차 풀이 프롬프트
+│           ├── formats/            # 형식별 생성 규칙
+│           ├── judge/              # 선택형·단답·코드형 Judge 규칙
+│           └── quality/            # 출제 품질 규칙
 ├── data/
 │   ├── metrics/
-│   │   └── baseline.json           # 기준선 지표(커밋)
+│   │   ├── baseline.json           # 기준선 지표(커밋)
+│   │   └── trace-<trace_id>.json   # Langfuse trace 내보내기(커밋)
 │   ├── pricing/
 │   │   └── bedrock.yaml            # 단가표(커밋)
+│   ├── crosscheck/                 # 교차 풀이 결과 .json, .md(커밋)
 │   ├── waivers.yaml                # 사용자 면제(커밋)
 │   ├── quiz.db                     # SQLite. `.gitignore`의 `*.db`로 커밋 안 함
 │   └── backups/                    # SQLite 백업(8.4). 커밋 안 함
@@ -237,9 +265,17 @@ ax_transformation_miniPJT/
 - `allowlist.yaml`은 page-allowlist.md 표에서 만든다. 행마다 `snapshot`(파일 이름), `sha256`, `fetched_at`을 둔다.
 - 파이프라인은 `allowlist.yaml`에 있는 스냅샷만 읽는다(GR-2.3).
 - 스냅샷 파일 이름은 경로의 `/`를 `__`로 바꾼 값이다. 예: `oss__python__langchain__knowledge-base.mdx`
-- 스냅샷 수집 방법은 구현 첫 작업에서 정한다(1.4). 후보는 둘이다.
-  - `docs-langchain` MCP를 Python MCP 클라이언트로 부르는 스크립트
-  - 에이전트 세션에서 MCP로 받아 쓰기
+- 스냅샷은 `quiz snapshot fetch <page...>`가 `docs-langchain` MCP를 Python MCP 클라이언트로 불러 받는다(D-14).
+- 호출당 출력이 30KB에서 잘리므로 `sed -n 'a,bp'` 줄 범위로 나눠 받는다. 한 범위가 25,000자를 넘으면 범위를 줄인다.
+- 합친 바이트의 sha256을 서버 `sha256sum` 값과 대조한다. 다르면 멈춘다.
+- 스냅샷은 줄바꿈 변환 없이 저장한다(`.gitattributes` `-text`).
+- URL 경로 `<p>`의 원문 파일은 `<p>.mdx`다. 없으면 `<p>/index.mdx`다. 스냅샷 이름은 URL 경로 기준이다.
+- 수집 호출은 호출마다 60초 제한이다. 실패하면 3번까지 다시 부른다.
+- 기대 해시는 `packs/langchain/snapshot-manifest.yaml`에 둔다. 스냅샷 이름마다 `sha256`, `fetched_at`이다. 수집 명령이 서버 대조 뒤 쓴다(D-15).
+- `allowlist build`는 스냅샷 파일 해시를 manifest와 대조한다. 다르면 멈춘다.
+- `allowlist.yaml`은 표 한 행이 한 행이다. 필드는 `bucket`, `topic_no`, `topic`, `path`, `kind`, `status`, `snapshot`, `sha256`, `fetched_at`이다. `없음` 행은 뺀다.
+- API 레퍼런스 스냅샷은 `reference-langchain` MCP `get_symbol(package, symbol, language="python")` 출력이다. package는 URL `/python/` 다음 마디, symbol은 마지막 마디다.
+- API 레퍼런스 스냅샷 이름은 `reference__<URL 경로의 /를 __로>.md`다. 서버 해시가 없다. 출력 첫 줄이 `# <symbol>`인지 확인하고 로컬 sha256을 manifest에 적는다.
 
 ### 4.4 결정적 검사 규칙 (`gates.py`)
 
@@ -248,9 +284,9 @@ ax_transformation_miniPJT/
 | 인용 정규화 | `quote`와 페이지 스냅샷 양쪽에 Unicode NFKC 정규화와 연속 공백(줄바꿈 포함)을 공백 1칸으로 줄이는 것만 적용한다. 마크다운과 코드 블록 기호는 그대로 둔다. 대소문자를 구분한다 |
 | 인용 대조 | 정규화한 `quote`가 정규화한 스냅샷 안에 그대로 있어야 한다. `quote`는 정규화 후 30자 이상이다. `page`는 `allowlist.yaml`에 있어야 한다 |
 | 매핑 존재 | 문제마다 `segments`가 있어야 한다 |
-| 단답 허용 답안 | 1~5개여야 한다 |
-| 단답 채점 정규화 | 대소문자, 공백, 백틱, 끝의 `()` 제거 |
-| 유사 중복 | 같은 버킷 안에서 (1) 같은 `quote`를 쓰거나 (2) 정규화한 문제 본문의 토큰 Jaccard가 0.6 이상이면 `duplicate`다. 모델 호출과 임베딩은 쓰지 않는다 |
+| 단답 허용 답안 | 1~5개여야 한다. 어기면 `accepted_answers_count`다 |
+| 단답 채점 정규화 | NFKC, casefold, 백틱 제거, 공백 모두 제거, 끝의 `()` 1개 제거 순서다. `_`와 `.`은 둔다. 게이트와 채점이 같은 함수를 쓴다 |
+| 유사 중복 | 같은 버킷 안에서 (1) 같은 `quote`를 쓰거나 (2) 정규화한 문제 본문의 토큰 Jaccard가 0.6 이상이면 `duplicate`다. 모델 호출과 임베딩은 쓰지 않는다. `quote`는 인용 정규화 뒤 비교한다. 본문 토큰은 NFKC·casefold 뒤 `\w+`다. 0.6 비교는 정수 연산이다. 같은 `question_id`는 비교에서 뺀다 |
 
 생성 프롬프트에는 스냅샷 원문을 주고 `quote`를 그대로 복사하게 한다.
 
@@ -317,6 +353,7 @@ CREATE TABLE verification_results (
   duplicate_of TEXT,
   judge_verdict_json TEXT, exec_result_json TEXT, fail_reasons_json TEXT,
   input_tokens INTEGER, output_tokens INTEGER, created_at TEXT NOT NULL,
+  cost_usd REAL,                            -- 0002. 이 시도의 생성·Judge 호출 비용 합. 단가 없는 모델을 쓰면 NULL
   PRIMARY KEY (question_id, attempt_no)
 );
 
@@ -370,6 +407,8 @@ CREATE TABLE audit_records (
 | --- | --- |
 | `question_id` | `f"{batch_id}-{slot_no:03d}"`. 같은 슬롯은 항상 같은 ID다(6.2) |
 | `pool_snapshot_id` | `"ps_" + sha256("\n".join(sorted(question_ids)))[:12]`. 같은 문제 집합이면 같은 ID라 감사 시드가 재현된다(6.6) |
+| `audit_id` | `"au_"` + `pool_snapshot_id`의 `ps_` 뒤 12자. 풀 스냅샷당 감사는 하나다(6.6) |
+| `bucket` | `rag`, `langgraph_basics`, `tool_mcp`, `middleware_hitl_guardrails`, `multi_agent`, `ops_quality`(day2~day7 순) |
 | `format`, `question_type` | `CHECK`를 두지 않는다. 형식 추가는 채점 함수 등록과 UI 컴포넌트 추가로 한다(NFR-1.2) |
 | `attempts.answer` | JSON 문자열. 복수 선택은 정렬한 보기 ID 배열이다 |
 | `attempts.mistake_tag` | 정답 행에서만 빈 값을 허용한다. 답 제출 때 행이 생기고 태그는 뒤에 붙으므로 빈 값은 DB 제약 대신 API가 막는다(8.6). 값과 `confused_segment_id`는 DB `CHECK`로 막는다 |
@@ -394,7 +433,7 @@ stateDiagram-v2
 | --- | --- | --- |
 | `packs/langchain/allowlist.yaml` | 허용 목록 행, 스냅샷 파일 이름, `sha256`, `fetched_at` | `quiz allowlist build` |
 | `data/metrics/baseline.json` | 기준선 지표(아래 형식) | `quiz metrics`가 SQLite에서 다시 만든다 |
-| `data/pricing/bedrock.yaml` | 모델 ID별 입력·출력 1K 토큰당 USD, 출처 URL, 확인 날짜. 값은 미확인(1.4) | 수동 |
+| `data/pricing/bedrock.yaml` | 모델 ID별 입력·출력 1M 토큰당 USD(AWS Price List 단위), 출처 URL, 공표일, 확인 날짜 | 수동 |
 | `data/waivers.yaml` | 사용자 면제. 항목마다 `date`, `exit_condition`(seed의 `scope_cut_waiver`), `reason`, `passed_count`, 버킷·형식별 개수, `audit_failures`(감사 미달 시). 파일이 없거나 비면 면제 없음이다 | 수동 |
 
 `baseline.json` 형식:
@@ -410,8 +449,11 @@ stateDiagram-v2
 }
 ```
 
-- `judge_pass_rate`는 Judge를 거친 시도 중 `judge_pass=1`인 비율이다.
-- `seconds`는 생성 시간 측정(6.2)에 쓴다.
+- `judge_pass_rate`는 Judge를 거친 시도 중 `judge_pass=1`인 비율이다. 분모는 `judge_pass`가 기록된 `verification_results` 행 전체(모든 배치, 모든 시도)다.
+- `drops`는 `questions.status='dropped'` 전체다. `audit_failed`는 넣지 않는다.
+- `sets`는 현재 풀 스냅샷(`pool_snapshot_id`)에서 낸 세트만 담는다.
+- `seconds`는 `finished_at - started_at`(정수 초)이다. 끝나지 않은 배치는 `null`이다. 생성 시간 측정(6.2)에 쓴다.
+- `rate`는 소수 넷째 자리로 반올림한다.
 
 ## 6. 주요 흐름
 
@@ -439,16 +481,18 @@ flowchart TD
 | 노드 | 입력 | 출력 | 실패 이유 |
 | --- | --- | --- | --- |
 | `generate` | 슬롯, 그 주제의 허용 목록 스냅샷 원문, 직전 실패 이유 | 구조화 출력(`with_structured_output`): 문제, 보기, 정답 키, 허용 답안, 해설, segments, grounding_records, 코드형 `exec_spec` | `schema_invalid` |
-| `judge` | 문제 전체, 인용한 스냅샷 원문 | 정답 확인, 근거가 정답을 뒷받침하는지, 오답 보기가 실제로 틀렸는지, 매핑 충실도, 빠진 단답 변형(합쳐서 최대 5개), 코드형 보기별 예측 `{ok, stdout, error_type}` | `judge_fail:<항목>` |
-| `execute` | `exec_spec`, lock 해시 | 보기별 실제 `{ok, stdout, error_type}` | `judge_exec_mismatch`, `version_conflict` |
-| `gates` | 문제, 스냅샷 | `quote_match`, `mapping_present`, 단답 허용 답안 1~5개, quote 30자 이상, `page`가 `allowlist.yaml`에 있음(4.4) | `quote_mismatch`, `mapping_missing`, `page_not_allowed` |
+| `judge` | 문제 전체, 인용한 스냅샷 원문 | 정답 확인, 근거가 정답을 뒷받침하는지, 오답 보기가 실제로 틀렸는지, 매핑 충실도, 선택형(`single`, `multi`, `code`) 오답 보기의 그럴듯함(`distractors_plausible`), 단서 없음(`no_cue`), 빠진 단답 변형(합쳐서 최대 5개), 코드형 보기별 예측 `{ok, stdout, error_type}` | `judge_fail:<항목>` |
+| `execute` | `exec_spec`, lock 해시 | 보기별 실제 `{ok, stdout, error_type}` | `judge_exec_mismatch`, `version_conflict`, `sandbox_module_missing` |
+| `gates` | 문제, 스냅샷 | `quote_match`, `mapping_present`, 단답 허용 답안 1~5개, quote 30자 이상, `page`가 `allowlist.yaml`에 있음(4.4) | `quote_mismatch`, `quote_too_short`, `grounding_missing`, `mapping_missing`, `page_not_allowed`, `accepted_answers_count` |
 | `dedupe` | 문제, 같은 버킷 `passed` 문제 | 같은 quote 또는 Jaccard ≥ 0.6이면 `duplicate_of`(4.4) | `duplicate` |
 
 판정 규칙:
 
 - 노드 순서는 FR-7.1을 따른다(D-10).
 - `version_conflict`: 실행 결과가 정답 키(인용 원문 기준)와 다르고 Judge도 정답 키에 동의한 경우다. 문서와 고정 버전의 동작 충돌로 보고 재생성 없이 버리고 개수를 센다(GR-7.5). 그 밖의 실행-예측 차이는 `judge_exec_mismatch`이며 재생성한다.
-- `duplicate`는 재생성 없이 버린다. 슬롯은 다음 배치에서 다시 채운다.
+- `sandbox_module_missing`: 실행이 `ModuleNotFoundError`이고 정답 키 기준 기대값은 그 오류가 아닌 경우다. 샌드박스에 없는 패키지를 쓴 코드로 보고 재생성한다. 피드백에 샌드박스 패키지 목록을 넣는다. `version_conflict`보다 먼저 판정한다.
+- `quote_mismatch` 피드백: 대조에 실패한 근거마다 페이지, 쓴 인용, 인용 앞부분(30자 이상)이 맞는 스냅샷 원문 구간(공백 축약, 인용 길이 + 120자)을 넣는다. 마크다운 링크와 코드 펜스 줄을 원문 그대로 복사하거나 링크·코드 없는 문장을 고르라는 안내를 더한다. 판정(D-2)은 바꾸지 않는다.
+- `duplicate`는 재생성 없이 버린다. 슬롯은 다음 배치(`generate --plan fill`)에서 다시 채운다.
 - 시도마다 `verification_results`에 한 행을 쓴다. 마지막 판정만 `questions.status`에 반영한다.
 
 생성 규칙:
@@ -463,6 +507,12 @@ flowchart TD
 - MCP 주제(MCP 클라이언트, `langchain-mcp-adapters`, MCP 도구 에러)는 개념·설계 문제만 현재 문서 기준으로 낸다. 코드형 문제는 내지 않는다(D-9). Tool·MCP 버킷의 코드형은 `@tool`, ToolNode, 재시도·장애 처리에서만 낸다. GR-7.2의 MCP 고정 4개는 그대로 둔다.
 - 코드 선택은 MCP 주제와 허용 목록 상태가 `없음`인 주제에 배정하지 않는다.
 - 허용 목록 상태가 `근접`인 주제는 프롬프트에 "문서가 그 이름으로 패턴을 정의한다고 쓰지 말 것"을 넣는다.
+- 주제 상태는 행 중 하나라도 `확인`이면 확인이다. 아니면 `근접`이 있으면 근접, 아니면 없음이다.
+- 경로에 `mcp`가 든 행이 MCP 행이다. 모든 행이 MCP인 주제가 MCP 주제다. 장애 주입 주제는 코드 슬롯을 받되 `mcp/tools` 페이지를 근거 페이지에서 뺀다.
+- 형식은 버킷 순서대로 단일, 복수, 단답, 코드 선택을 돌려 배정한다. 60슬롯이면 형식마다 15개다.
+- 버킷 안에서 코드 선택 슬롯을 먼저 두고, 가장 덜 쓴 주제에 준다.
+- 슬롯의 `near`는 주제 전체가 근접일 때 참이다. `near_pages`는 슬롯 근거 페이지 중 근접 행이다.
+- 문제 유형: 코드 선택은 `code_behavior`와 `error_cause`를 번갈아 쓴다. MCP 주제는 `concept`와 `design`이다. 단답은 `concept`, `error_cause`, `design`이다. 나머지는 네 유형을 돌린다.
 
 ### 6.2 배치 실행과 재개
 
@@ -481,6 +531,9 @@ flowchart TD
   2. 남은 새 문제
   3. 새 문제가 소진되면, 맞힌 적이 있고 복습 큐에 없는 문제 중 마지막 풀이가 오래된 순서. 같은 시각이면 무작위다.
 - 복습에서 두 번 틀려 빠진 문제(`retired`)는 다시 내지 않는다.
+- 복습 문제와 채우는 문제는 현재 풀 스냅샷에서만 낸다. 감사 뒤 풀에서 빠진 문제는 기한이 되어도 내지 않는다.
+- 10문제를 채우지 못하면 409 `pool_too_small`로 거절하고 아무것도 저장하지 않는다. 기한 전 복습 항목은 채우는 데 쓰지 않는다.
+- 현재 풀 스냅샷이 없으면 409 `no_pool`이다.
 
 ### 6.4 풀이와 채점 (FR-2, FR-3, FR-4)
 
@@ -508,16 +561,22 @@ sequenceDiagram
 
 - `set_no = n`에서 틀리면 `review_round=1, due_set_no=n+2`로 넣는다.
 - 복습에서 맞히면 `cleared`. 1회차에서 틀리면 `review_round=2, due_set_no=m+5`(m은 그 세트 번호). 2회차에서 틀리면 `retired`.
-- 기한이 된 항목이 3개를 넘으면 `due_set_no`가 이른 순으로 3개만 내고 나머지는 다음 세트로 넘긴다.
-- `concept`이면 `variant_of = question_id`이고 `passed`인 변형 문제가 있으면 그것을 내고, 없으면 원래 문제를 낸다. 변형 문제 풀이 결과는 원래 문제의 큐 항목에 반영한다.
+- 기한이 된 항목이 3개를 넘으면 `due_set_no`가 이른 순으로 3개만 내고 나머지는 다음 세트로 넘긴다. `due_set_no`가 같으면 `question_id`가 작은 것이 먼저다.
+- 넘긴 항목의 m+5는 실제로 나온 세트 번호부터 센다.
+- 큐 갱신 시점: 정답은 답 제출 때 `cleared`가 된다. 오답은 첫 태그 때 큐에 넣거나 갱신한다(`review_items.mistake_tag` NOT NULL). 다시 태그하면 태그만 바꾼다.
+- `cleared` 뒤 다시 틀리면 1회차(n+2)부터 다시 센다. `retired`는 그대로 둔다.
+- `concept`이면 `variant_of = question_id`이고 `passed`인 변형 문제가 있으면 그것을 내고, 없으면 원래 문제를 낸다. 변형 문제가 여럿이면 `question_id`가 가장 작은 것을 낸다. 변형 문제 풀이 결과는 원래 문제의 큐 항목에 반영한다.
 - 복습에서 다시 틀린 문제의 태그는 새로 받는다. 큐 항목의 `mistake_tag`는 마지막 태그로 바꾼다.
 
 ### 6.6 감사 (FR-9)
 
 - 시드: `seed = int(sha256(pool_snapshot_id)[:16], 16)`
 - 표본: `random.Random(seed).sample(sorted(question_ids), 20)`
-- 시드와 표본 ID를 `audits`에 저장한다. 같은 스냅샷이면 기존 감사를 돌려준다.
+- 시드와 표본 ID를 `audits`에 저장한다. 같은 스냅샷이면 기존 감사를 돌려준다. `audit_id` 규칙은 5.2에 있다.
+- 풀 스냅샷이 20문항보다 작으면 409 `pool_too_small`, 풀 스냅샷이 없으면 409 `no_pool`이다. 아무것도 저장하지 않는다.
 - 문항별 결과 20개가 모두 차면 요구사항 7.2 기준으로 `result`를 계산한다.
+- 같은 문항을 다시 저장하면 행을 바꾸고 `result`를 다시 계산한다. 표본 밖 문항은 400, 없는 감사는 404다.
+- 현재 풀 스냅샷의 감사가 없으면 `GET /api/audits/current`는 404다.
 - 재감사는 실패 문제를 뺀 새 풀 스냅샷 ID에서 시드를 다시 만든다.
 
 ## 7. 인터페이스
@@ -527,8 +586,8 @@ sequenceDiagram
 | 메서드 | 경로 | 동작 | 요구사항 |
 | --- | --- | --- | --- |
 | GET | `/api/health` | DB 연결, `schema_version`, 현재 풀 스냅샷 ID | - |
-| POST | `/api/sets` | 새 세트 생성. 직전 세트에 태그 없는 오답이 있으면 409. 응답은 문제 10개(정답 키, 해설, 매핑, 근거 없음) | FR-1, FR-2.1 |
-| GET | `/api/sets/{set_id}` | 세트와 이미 푼 문제의 결과. 새로고침 뒤 이어 풀기 | FR-8.1 |
+| POST | `/api/sets` | 새 세트 생성. 직전 세트에 태그 없는 오답이 있으면 409. 응답은 문제 10개(정답 키, 해설, 매핑, 근거, `topic` 없음). 문제마다 `review`: 이 세트보다 앞 `set_no`의 풀이 기록을 원래 문제(`variant_of`) 기준으로 모아 오답이 있으면 `"wrong"`, 정답만 있으면 `"seen"`, 없으면 `null` | FR-1, FR-2.1 |
+| GET | `/api/sets/{set_id}` | 세트와 이미 푼 문제의 결과. 새로고침 뒤 이어 풀기. 문제의 `review`는 `POST /api/sets`와 같다 | FR-8.1 |
 | POST | `/api/sets/{set_id}/answers` | `{question_id, answer}`. 채점하고 `attempts`에 쓴다. 응답에 정답 여부, 정답 키, 해설, segments, 근거(문서 URL, quote), 코드형 `doc_url` | FR-2.2~FR-2.4, FR-3 |
 | PUT | `/api/attempts/{attempt_id}/tag` | `{mistake_tag, confused_segment_id?}`. 오답 행만. 복습 큐 갱신 | FR-4, FR-5 |
 | GET | `/api/audits/current` | 현재 풀 스냅샷의 감사, 표본 20문항(정답 키, 근거, 매핑 포함) | FR-9 |
@@ -536,14 +595,20 @@ sequenceDiagram
 | PUT | `/api/audits/{audit_id}/records/{question_id}` | 문항별 감사 결과 저장. 20개가 모두 차면 `result` 계산 | FR-9.2 |
 
 - 근거의 문서 URL은 `https://docs.langchain.com` + `page`다. API 레퍼런스는 `page`가 전체 URL이다.
+- `GET /api/sets/{set_id}` 응답은 `{set_id, set_no, created_at, completed, questions, results, untagged_attempt_ids}`다. 없는 세트는 404다.
+- 답 제출 응답에는 `confused_segment_id`가 있다. 세트 문제가 아닌 `question_id`는 400이다. 10문제를 다 풀면 `quiz_sets.completed_at`을 채운다.
+- 태그 응답에는 복습 큐 상태 `review`가 있다. `reading` 태그는 그 문제 segments에 있는 `confused_segment_id`가 필요하다. 없거나 다른 태그 값이면 422다. `concept` 태그는 segment를 NULL로 저장한다. 없는 풀이 기록은 404다.
+- 409 응답의 `detail`은 `{"reason": <이유>, ...}` 객체다. 이유 값은 8.6에 있다.
 
 ### 7.2 CLI (`uv run quiz ...`, `app/`에서)
 
 | 명령 | 동작 |
 | --- | --- |
 | `migrate` | 백업 뒤 마이그레이션 적용 |
-| `allowlist build` | `docs/02-spec-design/output/page-allowlist.md` 표를 읽어 `packs/langchain/allowlist.yaml`을 만들고 스냅샷 해시를 검사 |
-| `generate --plan pilot\|pool [--count N]` / `generate --resume <batch_id>` | 슬롯 계획을 쓰고 그래프를 돈다. 시작 전에 백업. `pilot`은 버킷당 1문제 |
+| `snapshot fetch <page...>` | 문서 페이지 스냅샷을 받아 `packs/langchain/snapshots/`에 쓰고 sha256을 출력 |
+| `snapshot fetch-ref <url...>` | API 레퍼런스 스냅샷을 받아 `packs/langchain/snapshots/`에 쓰고 sha256을 출력 |
+| `allowlist build [--allow-missing]` | `docs/02-spec-design/output/page-allowlist.md` 표를 읽어 `packs/langchain/allowlist.yaml`을 만들고 스냅샷 해시를 검사. 스냅샷이 없는 행이 있으면 멈춘다. `--allow-missing`이면 그 행을 `snapshot: null`로 둔다 |
+| `generate --plan pilot\|pool\|fill [--count N]` / `generate --resume <batch_id>` | 슬롯 계획을 쓰고 그래프를 돈다. 시작 전에 백업. `pilot`은 버킷당 1문제. `fill`은 passed 문제(변형 제외)를 세어 버킷당 10개, 형식마다 10개에 모자란 만큼만 슬롯을 만든다. 형식 부족분(code 먼저)을 부족분이 큰 버킷에 먼저 주고, 나머지는 그 버킷에서 버린 문제가 적은 형식, 그다음 passed가 적은 형식에 준다. 주제는 passed 문제와 버린 문제(`dropped`)를 모두 세어 덜 쓴 주제를 고른다. 버린 조합을 다시 내면 같은 이유로 또 버려지기 때문이다 |
 | `generate --variants` | 변형 문제가 없는 `concept` 큐 항목으로 변형 배치를 돈다 |
 | `pool freeze` | 현재 `passed`(변형 제외) 문제로 풀 스냅샷을 만든다 |
 | `metrics` | `data/metrics/baseline.json`을 다시 쓴다 |
@@ -565,14 +630,16 @@ sequenceDiagram
 
 ### 8.3 관측
 
-- 환경 변수 `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST`가 모두 있을 때만 LangChain 콜백 핸들러를 붙인다. 없으면 붙이지 않고 그대로 돈다(NFR-5.4).
-- 배치 trace에 `batch_id`를 세션 ID와 태그로 단다. SDK의 설정 키 이름은 미확인이다(1.4).
+- 환경 변수 `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`와 호스트 키(`LANGFUSE_BASE_URL` 또는 `LANGFUSE_HOST`)가 모두 있을 때만 LangChain 콜백 핸들러(`langfuse.langchain.CallbackHandler`)를 붙인다. 없으면 붙이지 않고 그대로 돈다(NFR-5.4).
+- 슬롯 실행 config `metadata`의 `langfuse_session_id`와 `langfuse_tags`에 `batch_id`를 단다. 배치가 끝나면 전송 대기열을 비운다.
+- 배치 비용은 시도 행 비용(`verification_results.cost_usd`)의 합이다. 시도 행 비용이 하나라도 NULL이면 `batches.cost_usd`도 NULL이다.
 - 지표는 `data/metrics/baseline.json`에도 남긴다(5.4).
 
 ### 8.4 DB 마이그레이션과 백업
 
 - `schema_version` 테이블과 번호 붙은 SQL 마이그레이션 파일(`migrations/`)을 서버 시작 시 적용한다.
-- 마이그레이션과 배치 전에 `sqlite3` backup API로 `data/backups/`에 백업한다. 보관 개수는 미정이다(1.4).
+- 마이그레이션과 배치 전에 `sqlite3` backup API로 `data/backups/`에 백업한다. DB 파일 옆 `backups/`다.
+- 파일 이름은 `quiz-<UTC 시각>-<migrate|batch>.db`다. 최근 10개만 남긴다. DB 파일이 없으면 백업하지 않는다.
 
 ### 8.5 보안
 
@@ -585,6 +652,16 @@ sequenceDiagram
 
 - 틀린 행에 `mistake_tag`가 없으면 다음 문제와 다음 세트 요청을 409로 거절한다.
 - 태그는 오답 행에만 붙일 수 있다.
+- 409 이유 값은 다음과 같다.
+
+| `reason` | 경우 | 더하는 필드 |
+| --- | --- | --- |
+| `untagged_wrong` | 태그 없는 오답이 있는데 다음 문제나 새 세트를 요청함 | `set_id`, `attempt_ids` |
+| `set_closed` | 가장 최근 세트가 아닌 세트에 답을 내거나 태그를 바꿈 | `set_id` |
+| `correct_row` | 정답 행에 태그를 붙임 | - |
+| `already_answered` | 같은 세트에서 이미 푼 문제에 다시 답함 | - |
+| `pool_too_small` | 세트 10문제나 감사 표본 20문항을 채우지 못함 | `message` |
+| `no_pool` | 현재 풀 스냅샷이 없음 | `message`(세트) |
 
 ## 9. 설계 결정
 
@@ -601,8 +678,10 @@ sequenceDiagram
 | D-9 | MCP 주제는 개념·설계 문제만 낸다. 코드형은 내지 않는다 | - | 현재 문서는 MCP를 `langchain.mcp.MCPAdapter`로 설명하고, GR-7.2 고정 버전과 교안 코드는 `langchain-mcp-adapters`의 `MultiServerMCPClient`를 쓴다 | 6.1 |
 | D-10 | 파이프라인 노드 순서는 FR-7.1을 따른다 | 결정적 검사를 Judge 앞에 둔다(비용 감소) | 요구사항 순서를 바꾸지 않는다. 비용이 문제가 되면 파일럿 측정 뒤 요구사항과 함께 고친다 | 6.1 |
 | D-11 | `version_conflict`와 `duplicate`는 재생성 없이 버린다 | - | `version_conflict`는 문서와 고정 버전의 동작 충돌이다(GR-7.5) | 6.1 |
-| D-12 | 리전을 `region_name`으로 직접 넘긴다 | botocore가 `AWS_REGION`을 읽게 둔다 | botocore가 이 변수를 리전으로 읽는지 확인하지 못했다 | 3.2 |
+| D-12 | 리전을 `region_name`으로 직접 넘긴다. `AWS_REGION`이 없으면 `AWS_DEFAULT_REGION`을 쓴다 | botocore가 `AWS_REGION`을 읽게 둔다 | botocore가 이 변수를 리전으로 읽는지 확인하지 못했다. 자격 증명 `.env`에는 `AWS_DEFAULT_REGION`만 있다 | 3.2 |
 | D-13 | 배치는 슬롯을 먼저 기록하고 결정적 `question_id`와 upsert로 재개한다 | - | - | 6.2 |
+| D-14 | 스냅샷은 Python MCP 클라이언트로 줄 범위를 나눠 받고 sha256을 서버와 대조한다 | 에이전트 세션에서 MCP로 받아 쓰기 | 30KB 한도를 넘는 페이지(31~74KB)를 바이트 그대로 재현하고 검증할 수 있다 | 4.3 |
+| D-15 | 스냅샷 기대 해시는 수집 명령이 쓰는 manifest 파일에 둔다 | 기존 `allowlist.yaml`의 해시와 대조 | `allowlist.yaml`은 표에서 다시 만드는 산출물이라 기대 값의 출처가 될 수 없다 | 4.3 |
 
 ## 10. 요구사항 추적표
 
@@ -644,3 +723,14 @@ Seed 수용 기준 번호는 [seed.yaml](seed.yaml) `acceptance_criteria` 순서
 | 1.1 | 2026-11-04 | 문서 형식 정리. 결정 시점별 1장을 해체해 주제별 절로 옮기고, 설계 결정 표(9장)와 요구사항 추적표(10장)를 더했다. 구현 작업 단위와 모델 등급 권고는 [06-output.md](../../dev-process/02-spec-design/06-output.md)로 옮겼다. 설계 내용은 바꾸지 않았다 |
 | 1.2 | 2026-11-04 | 4.3 스냅샷 수집 후보에서 개발 도구 이름을 뺐다. 설계 내용은 바꾸지 않았다 |
 | 1.3 | 2026-11-04 | 2.1 아키텍처 도식을 다시 그렸다(경로별 색 구분, 외부 서비스 묶음, SQLite를 두 경로 사이에 배치). 4.1 코드 구조를 디렉터리 트리 형식으로 바꿨다. 설계 내용은 바꾸지 않았다 |
+| 2.0 | 2026-11-05 | 구현 M0 결과를 반영했다. 1.4 확인 항목 3개를 닫았다. 3.1 버전 고정, 3.2 리전 대체 변수, 4.1 모듈, 4.3 수집 방법, 5.2 버킷 식별자, 6.1 게이트 실패 이유, 7.2 `snapshot fetch`, D-12 수정, D-14 추가. 기록은 [01-m0.md](../../dev-process/03-implementation/01-m0.md)에 있다 |
+| 3.0 | 2026-11-05 | 구현 M1 결과를 반영했다. 1.4 백업 보관 개수를 닫았다. 4.3 index 페이지·manifest·`allowlist.yaml` 필드·API 레퍼런스 스냅샷·호출 제한, 4.4 단답 실패 이유·정규화 순서·유사 중복 세부, 6.1 `accepted_answers_count`와 슬롯 계획 세부, 7.2 `snapshot fetch-ref`·`--allow-missing`, 8.4 백업 규칙, D-15 추가. 기록은 [02-m1.md](../../dev-process/03-implementation/02-m1.md)에 있다 |
+| 4.0 | 2026-11-05 | 구현 M2 중 사용자 승인을 반영했다. 1.4 Langfuse 키 이름과 Bedrock 단가를 닫았다. 3.1 `langfuse` 버전, 3.2 Langfuse 호스트 키, 5.1 `verification_results.cost_usd`(마이그레이션 0002), 5.4 단가 단위 1M 토큰, 8.3 콜백·세션·비용 규칙. 기록은 [03-m2.md](../../dev-process/03-implementation/03-m2.md)에 있다 |
+| 5.0 | 2026-11-05 | 출제 품질 기준(T2.11) 사용자 승인을 반영했다. 6.1 `judge` 출력에 선택형 항목 `distractors_plausible`, `no_cue`를 더했다. 기록은 [03-m2.md](../../dev-process/03-implementation/03-m2.md)에 있다 |
+| 6.0 | 2026-11-05 | 생성 모델 전환 프로필 사용자 승인을 반영했다. 3.1에 `us.anthropic.claude-sonnet-4-6` 행을 더했다. 기록은 [03-m2.md](../../dev-process/03-implementation/03-m2.md)에 있다 |
+| 7.0 | 2026-11-05 | 리전 전환과 Judge 전환 사용자 승인을 반영했다. 3.1 생성 모델 전환 행에 리전 순서를 더하고 Judge 모델 전환 행을 더했다. 기록은 [03-m2.md](../../dev-process/03-implementation/03-m2.md)에 있다 |
+| 8.0 | 2026-11-05 | 구현 M4 중 사용자 승인을 반영했다. 3.1 샌드박스 패키지에 `langchain-text-splitters`, `numpy`(requirements 3.0 GR-7.2), 6.1 `sandbox_module_missing` 판정, 7.2 `generate --plan fill`. 기록은 [05-m4.md](../../dev-process/03-implementation/05-m4.md)에 있다 |
+| 9.0 | 2026-11-05 | 사용자 승인으로 7.2 `generate --plan fill`이 버린 문제도 센다. 기록은 [05-m4.md](../../dev-process/03-implementation/05-m4.md)에 있다 |
+| 10.0 | 2026-11-05 | 사용자 승인으로 6.1 판정 규칙에 `quote_mismatch` 재생성 피드백 내용을 더했다. 기록은 [05-m4.md](../../dev-process/03-implementation/05-m4.md)에 있다 |
+| 11.0 | 2026-11-05 | 사용자 승인으로 7.1 세트 응답에 문제별 `review`를 더했다(T4.8). 기록은 [05-m4.md](../../dev-process/03-implementation/05-m4.md)에 있다 |
+| 12.0 | 2026-11-05 | 구현 결과서 정리 중 사용자 승인을 반영했다. 1.4 요청 제한·비용과 생성 시간을 측정값으로 닫았다. 2.1 도식의 수집 방법 표기, 4.1 코드 구조(모듈, 마이그레이션 0002, 프롬프트 하위 디렉토리, `data/crosscheck/`), 5.2 `audit_id`, 5.4 `baseline.json` 범위 규칙, 6.3 풀 부족·풀 소속, 6.5 동순위·이월·큐 갱신 시점·`cleared` 뒤 오답·변형 선택, 6.6 감사 거절과 다시 기록, 7.1 응답 필드와 422, 8.6 409 이유 값. 8.4는 바꾸지 않았다. 서버 시작 마이그레이션 백업은 구현을 고쳤다. 기록은 [09-output.md](../../dev-process/03-implementation/09-output.md), 근거 결정은 [05-m4.md](../../dev-process/03-implementation/05-m4.md), [06-m5.md](../../dev-process/03-implementation/06-m5.md), [07-m6.md](../../dev-process/03-implementation/07-m6.md)의 결정 표에 있다 |
