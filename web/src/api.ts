@@ -48,6 +48,44 @@ export type TagResult = {
   confused_segment_id: string | null
 }
 
+// 감사(design.md 6.6, 7.1, FR-9). 세 판정은 requirements 7.2 기준이다.
+export type AuditFlags = {
+  answer_key_error: boolean
+  quote_unsupported: boolean
+  mapping_unfaithful: boolean
+}
+
+export type AuditRecord = AuditFlags & { note: string | null; recorded_at: string }
+
+export type AuditQuestion = PublicQuestion & {
+  answer_key: string[]
+  accepted_answers: string[] | null
+  explanation_ko: string
+  segments: Segment[]
+  grounding: Grounding[]
+  doc_url: string | null
+}
+
+export type Audit = {
+  audit_id: string
+  pool_snapshot_id: string
+  seed: string
+  sample: string[]
+  created_at: string
+  result: 'pass' | 'fail' | null
+  records: Record<string, AuditRecord>
+  questions: AuditQuestion[]
+}
+
+export type AuditRecordResult = {
+  audit_id: string
+  question_id: string
+  record: AuditRecord
+  recorded: number
+  sample_size: number
+  result: 'pass' | 'fail' | null
+}
+
 // 409 본문의 detail(D-h). reason으로 경우를 나눈다.
 export type ConflictDetail = {
   reason: string
@@ -104,5 +142,12 @@ export const api = {
     request<TagResult>(`/api/attempts/${attemptId}/tag`, {
       method: 'PUT',
       body: JSON.stringify({ mistake_tag: tag, confused_segment_id: tag === 'reading' ? segmentId : null }),
+    }),
+  currentAudit: () => request<Audit>('/api/audits/current'),
+  createAudit: () => request<Audit>('/api/audits', { method: 'POST' }),
+  recordAudit: (auditId: string, questionId: string, flags: AuditFlags, note: string | null) =>
+    request<AuditRecordResult>(`/api/audits/${auditId}/records/${questionId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ ...flags, note }),
     }),
 }

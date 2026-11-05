@@ -285,3 +285,49 @@ code {
   border-radius: 4px;
   font-size: 0.9em;
 }
+
+/* T5.3 감사 화면. 정답 보기를 표시하고 세 판정을 체크박스로 받는다. */
+.audit-choices li {
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.audit-choices li.answer {
+  border-color: var(--ok);
+  background: #dafbe1;
+}
+
+.audit-form {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+}
+
+.audit-form label {
+  display: block;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.audit-form label.flagged {
+  border-color: var(--ng);
+  background: #ffebe9;
+}
+
+.audit-form textarea {
+  font: inherit;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.audit-form button {
+  justify-self: start;
+}

@@ -150,11 +150,14 @@ export default function App() {
     <main>
       <header>
         <h1>agent-dev-quiz</h1>
-        {quizSet && (
-          <span className="progress">
-            세트 {quizSet.set_no} · {answeredCount}/{questions.length}
-          </span>
-        )}
+        <span className="progress">
+          {quizSet && (
+            <>
+              세트 {quizSet.set_no} · {answeredCount}/{questions.length} ·{' '}
+            </>
+          )}
+          <a href="#audit">감사</a>
+        </span>
       </header>
 
       {quizSet && (
