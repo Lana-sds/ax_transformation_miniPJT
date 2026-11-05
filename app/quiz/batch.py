@@ -35,7 +35,7 @@ def process_slot(graph, batch_id: str, slot_no: int, slot: dict, snapshots: dict
     state = slot_graph.run(graph, {
         "slot": slot, "snapshots": snapshots, "fetched": fetched, "allowed_pages": allowed_pages,
         "peers": peers, "regen_count": 0, "attempts": [],
-    })
+    }, llm.trace_config(batch_id))
     question = state.get("question")
     fetched_at = (question or {}).get("fetched_at") or min(fetched.values())
     with db.connect() as conn:
@@ -99,4 +99,5 @@ def run_batch(plan: str | None = None, count: int | None = None, resume: str | N
 
     with db.connect() as conn:
         store.finish_batch(conn, batch_id, done=unfinished(batch_id) == 0)
+    llm.flush_traces()
     return batch_id

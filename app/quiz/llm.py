@@ -50,3 +50,37 @@ def usage(message) -> tuple[int, int]:
     """AIMessage에서 (입력 토큰, 출력 토큰)을 꺼낸다."""
     meta = getattr(message, "usage_metadata", None) or {}
     return int(meta.get("input_tokens", 0)), int(meta.get("output_tokens", 0))
+
+
+# --- Langfuse(design.md 8.3, NFR-5.4) ---
+# SDK 5.1.0은 호스트를 `LANGFUSE_BASE_URL`로 읽고, 없으면 deprecated 키 `LANGFUSE_HOST`를 읽는다.
+LANGFUSE_KEYS = ("LANGFUSE_PUBLIC_KEY", "LANGFUSE_SECRET_KEY")
+LANGFUSE_HOST_KEYS = ("LANGFUSE_BASE_URL", "LANGFUSE_HOST")
+
+
+def langfuse_enabled() -> bool:
+    """키 2개와 호스트 키가 모두 있을 때만 켠다."""
+    return all(os.environ.get(k) for k in LANGFUSE_KEYS) and any(os.environ.get(k) for k in LANGFUSE_HOST_KEYS)
+
+
+def _langfuse_handler():
+    from langfuse.langchain import CallbackHandler
+
+    return CallbackHandler()
+
+
+def trace_config(batch_id: str) -> dict:
+    """그래프 실행 config. Langfuse가 꺼져 있으면 빈 dict다. `batch_id`를 세션 ID와 태그로 단다."""
+    if not langfuse_enabled():
+        return {}
+    return {
+        "callbacks": [_langfuse_handler()],
+        "metadata": {"langfuse_session_id": batch_id, "langfuse_tags": [batch_id]},
+    }
+
+
+def flush_traces() -> None:
+    if langfuse_enabled():
+        from langfuse import get_client
+
+        get_client().flush()

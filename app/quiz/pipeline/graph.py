@@ -42,5 +42,6 @@ def build_graph(gen_model=None, judge_model=None, gate_fn=None, run=None):
     return g.compile()
 
 
-def run(graph, state: SlotState) -> SlotState:
-    return graph.invoke(state, {"recursion_limit": RECURSION_LIMIT})
+def run(graph, state: SlotState, config: dict | None = None) -> SlotState:
+    """config: Langfuse 콜백과 메타데이터(`llm.trace_config`). 없으면 콜백 없이 돈다."""
+    return graph.invoke(state, {**(config or {}), "recursion_limit": RECURSION_LIMIT})
