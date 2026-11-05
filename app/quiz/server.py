@@ -17,6 +17,7 @@ from contextlib import asynccontextmanager
 from typing import Literal
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, ConfigDict, Field
 
 from quiz import audit, db, grading, review, sets
@@ -258,6 +259,28 @@ def _questions(conn: sqlite3.Connection, ids: list[str]) -> dict[str, sqlite3.Ro
     return {r["question_id"]: r for r in conn.execute(
         f"SELECT * FROM questions WHERE question_id IN ({','.join('?' * len(ids))})", ids
     )}
+
+
+# API 문서 화면(Scalar). 패키지 없이 CDN 스크립트로 `/openapi.json`을 그린다.
+# 버전을 고정해 CDN 쪽 변경이 화면을 바꾸지 않게 한다. 인터넷이 없으면 빈 화면이다.
+SCALAR_HTML = """<!doctype html>
+<html>
+  <head>
+    <title>agent-dev-quiz - API Reference</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <script id="api-reference" data-url="/openapi.json"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference@1.76.4/dist/browser/standalone.js"></script>
+  </body>
+</html>
+"""
+
+
+@app.get("/scalar", response_class=HTMLResponse, include_in_schema=False)
+def scalar_docs() -> str:
+    return SCALAR_HTML
 
 
 @app.get("/api/health", response_model=HealthOut)
