@@ -102,6 +102,9 @@
   - 확인: 배치 1회 뒤 `batches.input_tokens`가 시도 행 합과 같고 단가가 있으면 `cost_usd`가 NULL이 아니다.
 - [ ] T2.9 Langfuse 선택 적용: SDK 키 이름 확인, 환경 변수 3개가 모두 있을 때만 콜백, `batch_id`를 세션 ID·태그로 (US-7.1, W4)
   - 확인: 환경 변수 없이 배치가 성공하고, 있으면 Langfuse UI에 그 `batch_id` trace가 1개 이상 있다.
+- [ ] T2.10 `quiz crosscheck --pool <pool_snapshot_id> | --batch <batch_id>`: Claude 계열이 아닌 모델 2개(`us.amazon.nova-pro-v1:0`, `openai.gpt-oss-120b-1:0`)가 정답 키를 보지 않고 `passed` 문제를 풀어 정답 키 오류 후보를 찾는다. 요구사항 밖 보조 점검(사용자 승인 2026-11-05). 모델에는 `stem_en`, 보기, 형식, `select_count`, 근거 페이지 스냅샷 원문만 준다. 정답 키, 허용 답안, 해설, 매핑, quote, `answer_basis`는 주지 않는다. 코드형은 기본으로 건너뛴다. 리전이 `us-east-1`이 아니면 오류로 멈춘다. `grading.py`로 채점해 `data/crosscheck/<대상 ID>.json`에 문항별 두 모델의 답·일치 여부·근거 문장을 쓰고 불일치 요약 표를 낸다. DB, migrations, `status`는 바꾸지 않는다. 첫 실행은 T3.1 직후다
+  - 확인: 파일럿 배치에 돌리면 문항마다 모델 2개의 결과가 파일에 있다.
+  - 판정: 두 모델 모두 정답 키와 다르면 감사 1순위, 한 모델만 다르면 2순위, 둘 다 `unanswerable`이면 근거 약함 신호다. 걸린 문항은 D-5 감사 표본과 별도로 사용자가 T5.1 전에 검토하고 파일의 `reviewed`(`ok`, `key_error`, `weak_grounding`, `ambiguous` 중 하나)에 적는다\| `key_error` \| `weak_grounding` \| `ambiguous`)에 적는다. `audit_records`에는 쓰지 않는다. 오류로 확인한 문항은 `audit_failed`로 바꾸고 다시 채운 뒤 freeze한다
 
 ## M3 파일럿과 축소 판단
 
@@ -127,7 +130,7 @@
 
 ## M5 풀 고정과 감사
 
-- [ ] T5.1 `pool freeze` 최종: 변형 제외, 60개 확인 (US-3.1, W7)
+- [ ] T5.1 `pool freeze` 최종: 변형 제외, 60개 확인. 그 전에 T2.10 걸린 문항 검토를 끝낸다 (US-3.1, W7)
   - 확인: `pool_snapshot_items`가 60행이고 변형 문제가 없다.
 - [ ] T5.2 `audit.py`와 감사 API: 시드·표본(D-5), 같은 스냅샷이면 기존 감사, 문항별 기록, 20개 차면 `result` 계산 (US-3.2, W11)
   - 확인: `uv run pytest tests/test_audit.py`가 같은 스냅샷 같은 표본, 기준 경계값(오류 1/2개)을 통과한다.

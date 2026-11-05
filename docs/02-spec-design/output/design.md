@@ -3,7 +3,7 @@
 | 항목 | 내용 |
 | --- | --- |
 | 문서 상태 | 확정 |
-| 버전 | 3.0 (부록 A) |
+| 버전 | 4.0 (부록 A) |
 | 작성일 | 2026-11-04 |
 | 요구사항 | [requirements.md](../../01-requirements/output/requirements.md) |
 | 관련 산출물 | [page-allowlist.md](page-allowlist.md), [seed.yaml](seed.yaml) |
@@ -43,8 +43,8 @@
 | --- | --- | --- |
 | 앱 Python 버전 | 3.14.8. 교안 `.venv`에서 확인(2026-11-05) | 확인함 |
 | 앱 `langchain`, `langgraph` 버전 | `langchain` 1.4.7, `langgraph` 1.2.17. 교안 `.venv`에서 확인(2026-11-05) | 확인함 |
-| Langfuse SDK 설정 키 이름 | 미확인 | Langfuse 문서로 확인 |
-| Bedrock 비용 단가 | 미확인 | AWS 가격 페이지로 `data/pricing/bedrock.yaml`을 채운다 |
+| Langfuse SDK 설정 키 이름 | `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, 호스트 `LANGFUSE_BASE_URL`(deprecated `LANGFUSE_HOST`도 읽음). `langfuse` 5.1.0 소스와 Langfuse LangChain 통합 문서에서 확인(2026-11-05) | 확인함 |
+| Bedrock 비용 단가 | 생성·Judge 모델 모두 Global 입력 3.00, 출력 15.00 USD/1M 토큰. AWS Price List API `AmazonBedrockFoundationModels`(공표 2026-10-12)에서 확인(2026-11-05) | 확인함 |
 | 페이지 스냅샷 수집 방법 | Python MCP 클라이언트(4.3). 서버 URL `https://docs.langchain.com/mcp` | 확인함(2026-11-05) |
 | Bedrock 요청 제한과 비용 | 기본값(8.1) | 첫 배치에서 요청 제한 발생 여부와 비용을 확인한다 |
 | 생성 시간 | 없음 | 파일럿 배치로 측정한다(6.2) |
@@ -151,7 +151,7 @@ flowchart LR
 | 앱 보조 | `python-dotenv`(CLI `.env` 로드), `pyyaml`(허용 목록) | 앱 `uv.lock`에 고정 | - |
 | 백엔드 | FastAPI + uvicorn | 구현 시점 최신. 앱 `uv.lock`에 고정 | NFR-2.1 |
 | 저장소 | SQLite, Python 표준 `sqlite3` | 별도 설치 없음. 스키마는 `schema_version`과 `migrations/`로 관리 | NFR-2.2, 8.4 |
-| 관측 | `langfuse` SDK, Langfuse Cloud Hobby | 앱 `uv.lock`에 고정. 환경 변수가 없으면 붙이지 않음 | NFR-5, 8.3 |
+| 관측 | `langfuse` SDK, Langfuse Cloud Hobby | `langfuse` 5.1.0. 앱 `uv.lock`에 고정. 환경 변수가 없으면 붙이지 않음 | NFR-5, 8.3 |
 | 샌드박스 Python | CPython, 별도 uv 프로젝트 | 버전은 앱과 같게 둔다(기본값) | GR-7.1 |
 | 샌드박스 패키지 | `langchain`, `langgraph`, `langchain-core` | lock 시점 최신(문서 최신 버전 기준) | GR-7.2 |
 | 샌드박스 MCP 고정 | `mcp==1.30.0`, `fastmcp==2.13.0`, `langchain-mcp-adapters==0.3.2`, `mcp-server-time==2026.10.10` | 고정 | GR-7.2 |
@@ -169,7 +169,7 @@ flowchart LR
 | Bedrock 리전 | `AWS_REGION`, 없으면 `AWS_DEFAULT_REGION`. `us-east-1`, `us-west-2`, `ap-northeast-2` 중 하나. `llm.py`가 `region_name`으로 직접 넘긴다(D-12). 세 값 밖이면 시작 시 오류로 멈춘다 | CLI |
 | `.env` | 저장소 루트 `.env`. CLI만 읽는다(`quiz.env`). 서버는 읽지 않는다 | CLI |
 | AWS 자격 증명 | AWS SDK 기본 체인(환경 변수, 프로필) | CLI만. 서버와 샌드박스에는 넘기지 않음 |
-| Langfuse | `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST`. SDK 키 이름은 미확인(1.4) | CLI만 |
+| Langfuse | `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, 호스트 `LANGFUSE_BASE_URL` 또는 `LANGFUSE_HOST` | CLI만 |
 | FastAPI 포트 | `localhost:8000` | 서버, Vite 프록시 |
 | Vite 포트 | 5173(Vite 기본값) | 브라우저 |
 | DB 파일 | `data/quiz.db`, 백업 `data/backups/` | CLI, 서버 |
@@ -334,6 +334,7 @@ CREATE TABLE verification_results (
   duplicate_of TEXT,
   judge_verdict_json TEXT, exec_result_json TEXT, fail_reasons_json TEXT,
   input_tokens INTEGER, output_tokens INTEGER, created_at TEXT NOT NULL,
+  cost_usd REAL,                            -- 0002. 이 시도의 생성·Judge 호출 비용 합. 단가 없는 모델을 쓰면 NULL
   PRIMARY KEY (question_id, attempt_no)
 );
 
@@ -412,7 +413,7 @@ stateDiagram-v2
 | --- | --- | --- |
 | `packs/langchain/allowlist.yaml` | 허용 목록 행, 스냅샷 파일 이름, `sha256`, `fetched_at` | `quiz allowlist build` |
 | `data/metrics/baseline.json` | 기준선 지표(아래 형식) | `quiz metrics`가 SQLite에서 다시 만든다 |
-| `data/pricing/bedrock.yaml` | 모델 ID별 입력·출력 1K 토큰당 USD, 출처 URL, 확인 날짜. 값은 미확인(1.4) | 수동 |
+| `data/pricing/bedrock.yaml` | 모델 ID별 입력·출력 1M 토큰당 USD(AWS Price List 단위), 출처 URL, 공표일, 확인 날짜 | 수동 |
 | `data/waivers.yaml` | 사용자 면제. 항목마다 `date`, `exit_condition`(seed의 `scope_cut_waiver`), `reason`, `passed_count`, 버킷·형식별 개수, `audit_failures`(감사 미달 시). 파일이 없거나 비면 면제 없음이다 | 수동 |
 
 `baseline.json` 형식:
@@ -591,8 +592,9 @@ sequenceDiagram
 
 ### 8.3 관측
 
-- 환경 변수 `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST`가 모두 있을 때만 LangChain 콜백 핸들러를 붙인다. 없으면 붙이지 않고 그대로 돈다(NFR-5.4).
-- 배치 trace에 `batch_id`를 세션 ID와 태그로 단다. SDK의 설정 키 이름은 미확인이다(1.4).
+- 환경 변수 `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`와 호스트 키(`LANGFUSE_BASE_URL` 또는 `LANGFUSE_HOST`)가 모두 있을 때만 LangChain 콜백 핸들러(`langfuse.langchain.CallbackHandler`)를 붙인다. 없으면 붙이지 않고 그대로 돈다(NFR-5.4).
+- 슬롯 실행 config `metadata`의 `langfuse_session_id`와 `langfuse_tags`에 `batch_id`를 단다. 배치가 끝나면 전송 대기열을 비운다.
+- 배치 비용은 시도 행 비용(`verification_results.cost_usd`)의 합이다. 시도 행 비용이 하나라도 NULL이면 `batches.cost_usd`도 NULL이다.
 - 지표는 `data/metrics/baseline.json`에도 남긴다(5.4).
 
 ### 8.4 DB 마이그레이션과 백업
@@ -675,3 +677,4 @@ Seed 수용 기준 번호는 [seed.yaml](seed.yaml) `acceptance_criteria` 순서
 | 1.3 | 2026-11-04 | 2.1 아키텍처 도식을 다시 그렸다(경로별 색 구분, 외부 서비스 묶음, SQLite를 두 경로 사이에 배치). 4.1 코드 구조를 디렉터리 트리 형식으로 바꿨다. 설계 내용은 바꾸지 않았다 |
 | 2.0 | 2026-11-05 | 구현 M0 결과를 반영했다. 1.4 확인 항목 3개를 닫았다. 3.1 버전 고정, 3.2 리전 대체 변수, 4.1 모듈, 4.3 수집 방법, 5.2 버킷 식별자, 6.1 게이트 실패 이유, 7.2 `snapshot fetch`, D-12 수정, D-14 추가. 기록은 [01-m0.md](../../dev-process/03-implementation/01-m0.md)에 있다 |
 | 3.0 | 2026-11-05 | 구현 M1 결과를 반영했다. 1.4 백업 보관 개수를 닫았다. 4.3 index 페이지·manifest·`allowlist.yaml` 필드·API 레퍼런스 스냅샷·호출 제한, 4.4 단답 실패 이유·정규화 순서·유사 중복 세부, 6.1 `accepted_answers_count`와 슬롯 계획 세부, 7.2 `snapshot fetch-ref`·`--allow-missing`, 8.4 백업 규칙, D-15 추가. 기록은 [02-m1.md](../../dev-process/03-implementation/02-m1.md)에 있다 |
+| 4.0 | 2026-11-05 | 구현 M2 중 사용자 승인을 반영했다. 1.4 Langfuse 키 이름과 Bedrock 단가를 닫았다. 3.1 `langfuse` 버전, 3.2 Langfuse 호스트 키, 5.1 `verification_results.cost_usd`(마이그레이션 0002), 5.4 단가 단위 1M 토큰, 8.3 콜백·세션·비용 규칙. 기록은 [03-m2.md](../../dev-process/03-implementation/03-m2.md)에 있다 |

@@ -32,6 +32,7 @@ LLM 학습 문제 풀이 웹앱 과제(agent-dev-quiz). LangChain 팩을 먼저 
 | `app/` | `uv run quiz migrate` | 스키마 적용 |
 | `app/` | `MSYS_NO_PATHCONV=1 uv run quiz snapshot fetch <page...>` | 문서 스냅샷 수집 |
 | `app/` | `uv run quiz generate --plan pilot\|pool [--count N]`, `--resume <batch_id>` | 문제 생성(Bedrock 호출) |
+| `app/` | `uv run quiz crosscheck --batch <batch_id>` 또는 `--pool <id>` | 교차 풀이 점검(T2.10, Bedrock 호출, us-east-1만) |
 | `app/` | `uv run quiz pool freeze` | 풀 스냅샷 |
 | `app/` | `uv run uvicorn quiz.server:app --port 8000` | API 서버 |
 | `web/` | `npm run dev` | `http://localhost:5173`, `/api`를 8000으로 넘긴다 |
@@ -52,7 +53,7 @@ LLM 학습 문제 풀이 웹앱 과제(agent-dev-quiz). LangChain 팩을 먼저 
 
 ## 비밀과 환경
 - 자격 증명은 저장소 루트 `.env`에 있다. 값은 기록 파일, 로그, 커밋 어디에도 쓰지 않는다.
-- `.env`는 `quiz generate` CLI만 읽는다. 서버와 샌드박스에는 `AWS_*`, `LANGFUSE_*`를 넘기지 않는다.
+- `.env`는 `quiz generate`, `quiz crosscheck` CLI만 읽는다. 서버와 샌드박스에는 `AWS_*`, `LANGFUSE_*`를 넘기지 않는다.
 - Git Bash는 `/oss/...` 인자를 Windows 경로로 바꾼다. 문서 경로를 넘길 때는 `MSYS_NO_PATHCONV=1`을 붙인다.
 - `packs/langchain/snapshots/`는 줄바꿈 변환을 하지 않는다(`.gitattributes`). 손으로 고치지 않는다. 바이트가 바뀌면 sha256 검사에서 실패한다.
 - 백틱이 든 파일은 셸 heredoc으로 쓰지 않는다. 파일 쓰기 도구로 쓴다.
