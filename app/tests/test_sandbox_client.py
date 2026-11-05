@@ -148,3 +148,32 @@ def test_execute_keeps_prior_fail_reasons(prior):
     st = code_state(preds) | {"fail_reasons": prior}
     out = nodes.execute(st, fake_run({"print('A')": OK_2, "print('B')": OK_2}))
     assert out["fail_reasons"] == prior
+
+
+# --- 샌드박스에 없는 모듈(2026-11-05 승인): 버전 충돌이 아니라 재생성 피드백 ---
+
+MISSING = {"ok": False, "stdout": "", "error_type": "ModuleNotFoundError"}
+
+
+def test_compare_module_not_found_is_sandbox_missing_not_version_conflict():
+    assert sandbox_client.compare(MISSING, OK_2, OK_2) == "sandbox_module_missing"
+    assert sandbox_client.compare(MISSING, OK_2, None) == "sandbox_module_missing"
+
+
+def test_compare_module_not_found_expected_by_document_still_matches():
+    assert sandbox_client.compare(MISSING, MISSING, MISSING) is None
+
+
+def test_execute_module_missing_goes_to_regen():
+    preds = [{"choice_id": c, **OK_2} for c in "AB"]
+    out = nodes.execute(code_state(preds), fake_run({"print('A')": OK_2, "print('B')": MISSING}))
+    assert out["fail_reasons"] == ["sandbox_module_missing"]
+    assert nodes.decide({"fail_reasons": out["fail_reasons"], "regen_count": 0}) == ("regen", None)
+
+
+def test_feedback_explains_sandbox_packages():
+    out = nodes.feedback({"fail_reasons": ["sandbox_module_missing"], "judge": None, "regen_count": 0})
+    assert out["feedback"][0] == "sandbox_module_missing"
+    hint = " ".join(out["feedback"])
+    for pkg in ("langchain", "langgraph", "langchain-core", "langchain-text-splitters", "numpy"):
+        assert pkg in hint

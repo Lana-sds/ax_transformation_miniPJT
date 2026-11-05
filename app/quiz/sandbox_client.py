@@ -63,6 +63,9 @@ def run(code: str, timeout: float = TIMEOUT_SEC) -> dict:
         return {"ok": False, "stdout": "", "error_type": "SandboxError"}
 
 
+MODULE_MISSING = "ModuleNotFoundError"
+
+
 def same(a: dict, b: dict) -> bool:
     """두 실행 결과가 같은지. stdout 끝 공백은 무시한다."""
     return (bool(a.get("ok")) == bool(b.get("ok"))
@@ -76,9 +79,13 @@ def compare(actual: dict, expected: dict, predicted: dict | None) -> str | None:
     - 실행 = Judge 예측 = 문서 기준 기대값이면 일치다.
     - 실행만 문서 기준과 다르고 Judge 예측은 문서 기준과 같으면 `version_conflict`다(GR-7.5).
     - 그 밖의 차이(예측 없음 포함)는 `judge_exec_mismatch`다.
+    - 실행이 `ModuleNotFoundError`이고 문서 기준이 그 오류가 아니면 `sandbox_module_missing`이다.
+      샌드박스에 없는 패키지를 쓴 코드다. 버리지 않고 재생성한다(2026-11-05 승인).
     """
     if predicted is not None and same(actual, predicted) and same(actual, expected):
         return None
+    if actual.get("error_type") == MODULE_MISSING and expected.get("error_type") != MODULE_MISSING:
+        return "sandbox_module_missing"
     if predicted is not None and same(predicted, expected) and not same(actual, expected):
         return "version_conflict"
     return "judge_exec_mismatch"

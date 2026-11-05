@@ -169,7 +169,7 @@ def judge(state: SlotState, model=None) -> dict[str, Any]:
     return result
 
 
-EXEC_FAIL_ORDER = ("version_conflict", "judge_exec_mismatch")
+EXEC_FAIL_ORDER = ("version_conflict", "sandbox_module_missing", "judge_exec_mismatch")
 
 
 def execute(state: SlotState, run=None) -> dict[str, Any]:
@@ -244,9 +244,17 @@ def record(state: SlotState) -> dict[str, Any]:
     return out
 
 
+# sandbox/pyproject.toml 의존성과 맞춘다.
+SANDBOX_HINT = ("A code choice imported a module that is not installed in the sandbox. Use only the Python "
+                "standard library and these packages: langchain, langgraph, langchain-core, "
+                "langchain-text-splitters, numpy, mcp, fastmcp, langchain-mcp-adapters.")
+
+
 def feedback(state: SlotState) -> dict[str, Any]:
     """실패 이유(Judge 사유 포함)를 다음 생성 입력에 넣고 시도별 값을 비운다."""
     reasons = list(state.get("fail_reasons") or [])
+    if "sandbox_module_missing" in reasons:
+        reasons.append(SANDBOX_HINT)
     reasons += [f"judge: {r}" for r in (state.get("judge") or {}).get("reasons") or []]
     return {
         "feedback": reasons, "regen_count": (state.get("regen_count") or 0) + 1,

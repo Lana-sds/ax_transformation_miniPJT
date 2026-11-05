@@ -9,6 +9,10 @@ dependencies = [
     "langchain",
     "langgraph",
     "langchain-core",
+    # 문서 예시가 쓰는 보조 패키지. lock 시점 최신이다(2026-11-05 승인, GR-7.2 개정).
+    # numpy: langchain_core DeterministicFakeEmbedding이 지연 import한다.
+    "langchain-text-splitters",
+    "numpy",
     "mcp==1.30.0",
     "fastmcp==2.13.0",
     "langchain-mcp-adapters==0.3.2",

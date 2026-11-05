@@ -1,6 +1,6 @@
 ### Sandbox fakes
 
-The sandbox runs each program offline with `langchain`, `langchain-core` and `langgraph` installed. Network access raises `NetworkBlockedError`. The module `fakes` exports two models:
+The sandbox runs each program offline with only these packages installed: `langchain`, `langchain-core`, `langgraph`, `langchain-text-splitters`, `numpy`, `mcp`, `fastmcp`, `langchain-mcp-adapters`. Do not import anything else outside the standard library. Network access raises `NetworkBlockedError`. The module `fakes` exports two models:
 
 - `GenericFakeChatModel`: replies with scripted messages in order.
 - `ToolCallingFakeChatModel`: same, plus `bind_tools(...)` that returns the same model, so it works with `create_agent` and `ToolNode`. Scripted tool calls need an `id`.
