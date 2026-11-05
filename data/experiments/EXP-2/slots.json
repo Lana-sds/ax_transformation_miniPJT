@@ -1,0 +1,196 @@
+{
+  "seed": 20261105,
+  "exclude_page_parts": [
+    "langsmith/studio",
+    "graph-api-control-flow"
+  ],
+  "slots": [
+    {
+      "bucket": "rag",
+      "topic_no": 4,
+      "topic": "Chroma",
+      "format": "single",
+      "question_type": "error_cause",
+      "status": "확인",
+      "near": false,
+      "near_pages": [],
+      "pages": [
+        "/oss/python/integrations/vectorstores",
+        "/oss/python/langchain/knowledge-base",
+        "https://reference.langchain.com/python/langchain-chroma/vectorstores/Chroma"
+      ]
+    },
+    {
+      "bucket": "rag",
+      "topic_no": 2,
+      "topic": "청킹·메타데이터",
+      "format": "multi",
+      "question_type": "code_behavior",
+      "status": "확인",
+      "near": false,
+      "near_pages": [],
+      "pages": [
+        "/oss/python/integrations/splitters",
+        "/oss/python/langchain/knowledge-base",
+        "https://reference.langchain.com/python/langchain-text-splitters/character/RecursiveCharacterTextSplitter"
+      ]
+    },
+    {
+      "bucket": "langgraph_basics",
+      "topic_no": 5,
+      "topic": "ReAct",
+      "format": "short",
+      "question_type": "error_cause",
+      "status": "근접",
+      "near": true,
+      "near_pages": [
+        "/oss/python/langchain/agents",
+        "https://reference.langchain.com/python/langchain/agents/factory/create_agent"
+      ],
+      "pages": [
+        "/oss/python/langchain/agents",
+        "https://reference.langchain.com/python/langchain/agents/factory/create_agent"
+      ]
+    },
+    {
+      "bucket": "langgraph_basics",
+      "topic_no": 1,
+      "topic": "State·노드·엣지",
+      "format": "code",
+      "question_type": "code_behavior",
+      "status": "확인",
+      "near": false,
+      "near_pages": [],
+      "pages": [
+        "/oss/python/langgraph/graph-api",
+        "/oss/python/langgraph/graph-api-state",
+        "https://reference.langchain.com/python/langgraph/graph/state/CompiledStateGraph",
+        "https://reference.langchain.com/python/langgraph/graph/state/StateGraph"
+      ]
+    },
+    {
+      "bucket": "tool_mcp",
+      "topic_no": 1,
+      "topic": "`@tool`",
+      "format": "single",
+      "question_type": "error_cause",
+      "status": "확인",
+      "near": false,
+      "near_pages": [],
+      "pages": [
+        "/oss/python/langchain/tools"
+      ]
+    },
+    {
+      "bucket": "tool_mcp",
+      "topic_no": 5,
+      "topic": "`langchain-mcp-adapters`",
+      "format": "multi",
+      "question_type": "design",
+      "status": "확인",
+      "near": false,
+      "near_pages": [],
+      "pages": [
+        "/oss/python/migrate/langchain-mcp-adapters",
+        "https://reference.langchain.com/python/langchain-mcp-adapters/client/MultiServerMCPClient",
+        "https://reference.langchain.com/python/langchain-mcp-adapters/langchain_mcp_adapters/tools/load_mcp_tools"
+      ]
+    },
+    {
+      "bucket": "middleware_hitl_guardrails",
+      "topic_no": 1,
+      "topic": "훅 호출 순서",
+      "format": "single",
+      "question_type": "code_behavior",
+      "status": "확인",
+      "near": false,
+      "near_pages": [],
+      "pages": [
+        "/oss/python/langchain/middleware/custom",
+        "/oss/python/langchain/middleware/overview"
+      ]
+    },
+    {
+      "bucket": "middleware_hitl_guardrails",
+      "topic_no": 2,
+      "topic": "로깅·마스킹·요약 미들웨어",
+      "format": "multi",
+      "question_type": "code_behavior",
+      "status": "확인",
+      "near": false,
+      "near_pages": [],
+      "pages": [
+        "/oss/python/langchain/middleware/built-in",
+        "/oss/python/langchain/middleware/custom"
+      ]
+    },
+    {
+      "bucket": "multi_agent",
+      "topic_no": 5,
+      "topic": "라우팅 검증",
+      "format": "short",
+      "question_type": "concept",
+      "status": "확인",
+      "near": false,
+      "near_pages": [
+        "/oss/python/langchain/test/evals"
+      ],
+      "pages": [
+        "/oss/python/langchain/multi-agent/router",
+        "/oss/python/langchain/multi-agent/router-knowledge-base",
+        "/oss/python/langchain/test/evals"
+      ]
+    },
+    {
+      "bucket": "multi_agent",
+      "topic_no": 4,
+      "topic": "서브 Agent 설계",
+      "format": "code",
+      "question_type": "code_behavior",
+      "status": "확인",
+      "near": false,
+      "near_pages": [],
+      "pages": [
+        "/oss/python/deepagents/dynamic-subagents",
+        "/oss/python/deepagents/subagents",
+        "/oss/python/langchain/multi-agent/index",
+        "/oss/python/langchain/multi-agent/subagents"
+      ]
+    },
+    {
+      "bucket": "ops_quality",
+      "topic_no": 5,
+      "topic": "통합 점검",
+      "format": "short",
+      "question_type": "error_cause",
+      "status": "확인",
+      "near": false,
+      "near_pages": [],
+      "pages": [
+        "/oss/python/langchain/test/evals",
+        "/oss/python/langchain/test/integration-testing"
+      ]
+    },
+    {
+      "bucket": "ops_quality",
+      "topic_no": 1,
+      "topic": "Plan-and-Execute",
+      "format": "code",
+      "question_type": "error_cause",
+      "status": "근접",
+      "near": true,
+      "near_pages": [
+        "/oss/python/deepagents/overview",
+        "/oss/python/langgraph/workflows-agents",
+        "https://reference.langchain.com/python/langchain/agents/middleware/todo",
+        "https://reference.langchain.com/python/langchain/agents/middleware/todo/PlanningState"
+      ],
+      "pages": [
+        "/oss/python/deepagents/overview",
+        "/oss/python/langgraph/workflows-agents",
+        "https://reference.langchain.com/python/langchain/agents/middleware/todo",
+        "https://reference.langchain.com/python/langchain/agents/middleware/todo/PlanningState"
+      ]
+    }
+  ]
+}
