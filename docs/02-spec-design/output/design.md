@@ -3,7 +3,7 @@
 | 항목 | 내용 |
 | --- | --- |
 | 문서 상태 | 확정 |
-| 버전 | 12.1 (부록 A) |
+| 버전 | 13.0 (부록 A) |
 | 작성일 | 2026-11-04 |
 | 요구사항 | [requirements.md](../../01-requirements/output/requirements.md) |
 | 관련 산출물 | [page-allowlist.md](page-allowlist.md), [seed.yaml](seed.yaml) |
@@ -175,6 +175,8 @@ flowchart LR
 | FastAPI 포트 | `localhost:8000` | 서버, Vite 프록시 |
 | Vite 포트 | 5173(Vite 기본값) | 브라우저 |
 | DB 파일 | `data/quiz.db`, 백업 `data/backups/` | CLI, 서버 |
+| 프롬프트 디렉토리 | `QUIZ_PROMPTS_DIR`. 없으면 `packs/langchain/prompts/`다. 호출할 때마다 읽는다. 상대 경로는 현재 디렉토리 기준이다. 실험 arm마다 프롬프트 전체 사본을 가리킨다 | CLI |
+| Judge 항목 추가 | 프롬프트 디렉토리의 `judge_items.json`(`extra_items[]`: `name`, `description`, `formats`). 거짓이면 실패 이유는 `judge_fail:<name>`이다. 운영 디렉토리에는 이 파일이 없다. 그래서 Judge 항목은 6.1 그대로다 | CLI |
 
 ## 4. 모듈 설계
 
@@ -207,6 +209,7 @@ ax_transformation_miniPJT/
 │   │   ├── pool.py                 # 출제할 문제 목록 고정(풀 스냅샷)
 │   │   ├── env.py                  # CLI 전용 .env 로드
 │   │   ├── crosscheck.py           # 교차 풀이: 다른 모델이 정답을 모른 채 풀어 정답 키와 맞는지 본다. 요구사항 밖 보조 점검이다
+│   │   ├── experiments.py          # 프롬프트·모델 실험: Judge만 문항마다 돌리기, arm별 지표 표. 요구사항 밖 보조 도구다
 │   │   ├── pipeline/               # 문제 생성·검사 단계를 잇는 LangGraph 그래프(6.1)
 │   │   │   ├── graph.py            # 그래프 구성
 │   │   │   ├── nodes.py            # 단계(노드)별 함수와 통과·실패 판정
@@ -243,6 +246,7 @@ ax_transformation_miniPJT/
 │   ├── pricing/
 │   │   └── bedrock.yaml            # 단가표(커밋)
 │   ├── crosscheck/                 # 교차 풀이 결과 .json, .md(커밋)
+│   ├── experiments/                # 실험별(<EXP-n>/) 프롬프트 사본, 문항·슬롯 목록, 결과 .json(커밋). arm별 실험 DB는 `*.db`로 커밋 안 함
 │   ├── waivers.yaml                # 완료 기준을 못 채웠을 때 사용자가 승인한 예외(커밋)
 │   ├── quiz.db                     # SQLite. `.gitignore`의 `*.db`로 커밋 안 함
 │   └── backups/                    # SQLite 백업(8.4). 커밋 안 함
@@ -613,6 +617,10 @@ sequenceDiagram
 | `allowlist build [--allow-missing]` | `docs/02-spec-design/output/page-allowlist.md` 표를 읽어 `packs/langchain/allowlist.yaml`을 만들고 스냅샷 해시를 검사. 스냅샷이 없는 행이 있으면 멈춘다. `--allow-missing`이면 그 행을 `snapshot: null`로 둔다 |
 | `generate --plan pilot\|pool\|fill [--count N]` / `generate --resume <batch_id>` | 슬롯 계획을 쓰고 그래프를 돈다. 시작 전에 백업. `pilot`은 시험 생성으로 버킷당 1문제. `pool`은 본 생성으로 버킷당 10문제(60슬롯). `fill`은 passed 문제(변형 제외)를 세어 버킷당 10개, 형식마다 10개에 모자란 만큼만 슬롯을 만든다. 형식 부족분(code 먼저)을 부족분이 큰 버킷에 먼저 주고, 나머지는 그 버킷에서 버린 문제가 적은 형식, 그다음 passed가 적은 형식에 준다. 주제는 passed 문제와 버린 문제(`dropped`)를 모두 세어 덜 쓴 주제를 고른다. 버린 조합을 다시 내면 같은 이유로 또 버려지기 때문이다 |
 | `generate --variants` | 변형 문제가 없는 `concept` 큐 항목으로 변형 배치를 돈다 |
+| `generate --slots <json> [--count N]` | 고정 슬롯 목록으로 배치를 돈다. 슬롯마다 `slot_for`로 다시 만든다. `--count N`은 앞 N개만 쓴다. 모든 실험 arm에 같은 슬롯을 주는 데 쓴다 |
+| `experiment judge --items <json> --arm <이름> [--model <id>] [--exp <EXP-n>]` | 생성 없이 Judge 노드만 문항마다 돌려 `data/experiments/<EXP-n>/<arm>.json`에 쓴다. `--exp` 기본값은 `EXP-1`, `--model` 기본값은 NFR-4.2 Judge 모델이다. 코드형 샌드박스 대조는 하지 않는다. `data/quiz.db`는 읽기 전용으로 연다 |
+| `experiment summary --exp <EXP-n> [--compare A,B]` | arm마다 지표 표를 낸다. EXP-2 형식(생성 arm)은 `metrics` 집계 함수를 다시 쓴다. `--compare`는 두 Judge arm 사이 판정이 바뀐 문항 수를 낸다 |
+| 운영 DB 보호 | `generate`가 `--slots`나 `QUIZ_PROMPTS_DIR`과 함께 `data/quiz.db`를 쓰려 하면 거부한다(종료 코드 1). 실험은 `QUIZ_DB`로 arm별 실험 DB를 준다(D-16) |
 | `pool freeze` | 현재 `passed`(변형 제외) 문제로 출제할 문제 목록을 고정한다(풀 스냅샷) |
 | `metrics` | `data/metrics/baseline.json`을 다시 쓴다 |
 
@@ -637,6 +645,7 @@ sequenceDiagram
 - 슬롯 실행 config `metadata`의 `langfuse_session_id`와 `langfuse_tags`에 `batch_id`를 단다. 배치가 끝나면 전송 대기열을 비운다.
 - 배치 비용은 시도 행 비용(`verification_results.cost_usd`)의 합이다. 시도 행 비용이 하나라도 NULL이면 `batches.cost_usd`도 NULL이다.
 - 지표는 `data/metrics/baseline.json`에도 남긴다(5.4).
+- `experiment judge`는 콜백 핸들러를 붙이지 않는다. 실험 Judge 호출은 Langfuse에 남지 않는다. 비용은 결과 `.json`에 남는다.
 
 ### 8.4 DB 마이그레이션과 백업
 
@@ -685,6 +694,7 @@ sequenceDiagram
 | D-13 | 배치는 슬롯을 먼저 기록하고 결정적 `question_id`와 upsert로 재개한다 | - | - | 6.2 |
 | D-14 | 스냅샷은 Python MCP 클라이언트로 줄 범위를 나눠 받고 sha256을 서버와 대조한다 | 에이전트 세션에서 MCP로 받아 쓰기 | 30KB 한도를 넘는 페이지(31~74KB)를 바이트 그대로 재현하고 검증할 수 있다 | 4.3 |
 | D-15 | 스냅샷 기대 해시는 수집 명령이 쓰는 manifest 파일에 둔다 | 기존 `allowlist.yaml`의 해시와 대조 | `allowlist.yaml`은 표에서 다시 만드는 산출물이라 기대 값의 출처가 될 수 없다 | 4.3 |
+| D-16 | 프롬프트·모델 실험은 arm마다 빈 실험 DB(`data/experiments/<EXP-n>/<arm>.db`)에서만 돈다. arm은 프롬프트 디렉토리(`QUIZ_PROMPTS_DIR`)와 모델의 조합이다 | 운영 DB에 실험 배치를 함께 쓴다 | 고정 풀과 운영 DB가 실험으로 바뀌지 않는다. arm끼리 결과가 섞이지 않는다 | 3.2, 7.2 |
 
 ## 10. 요구사항 추적표
 
@@ -716,7 +726,7 @@ Seed 수용 기준 번호는 [seed.yaml](seed.yaml) `acceptance_criteria` 순서
 | NFR-4 | 3.1, 8.1 | 8 |
 | NFR-5 | 5.4, 8.3 | 8, 9 |
 | 요구사항 7.1 완료 조건 | 7.2 `pool freeze`, 6.6, 6.3 | 1, 2, 3 |
-| 요구사항 7.3 기준선 지표 | 5.4 `baseline.json`, 7.2 `metrics` | 8 |
+| 요구사항 7.3 기준선 지표 | 5.4 `baseline.json`, 7.2 `metrics`, 7.2 `experiment summary` | 8 |
 
 ## 부록 A. 개정 이력
 
@@ -738,3 +748,4 @@ Seed 수용 기준 번호는 [seed.yaml](seed.yaml) `acceptance_criteria` 순서
 | 11.0 | 2026-11-05 | 사용자 승인으로 7.1 세트 응답에 문제별 `review`를 더했다(T4.8). 기록은 [05-m4.md](../../dev-process/03-implementation/05-m4.md)에 있다 |
 | 12.0 | 2026-11-05 | 구현 결과서 정리 중 사용자 승인을 반영했다. 1.4 요청 제한·비용과 생성 시간을 측정값으로 닫았다. 2.1 도식의 수집 방법 표기, 4.1 코드 구조(모듈, 마이그레이션 0002, 프롬프트 하위 디렉토리, `data/crosscheck/`), 5.2 `audit_id`, 5.4 `baseline.json` 범위 규칙, 6.3 풀 부족·풀 소속, 6.5 동순위·이월·큐 갱신 시점·`cleared` 뒤 오답·변형 선택, 6.6 감사 거절과 다시 기록, 7.1 응답 필드와 422, 8.6 409 이유 값. 8.4는 바꾸지 않았다. 서버 시작 마이그레이션 백업은 구현을 고쳤다. 기록은 [09-output.md](../../dev-process/03-implementation/09-output.md), 근거 결정은 [05-m4.md](../../dev-process/03-implementation/05-m4.md), [06-m5.md](../../dev-process/03-implementation/06-m5.md), [07-m6.md](../../dev-process/03-implementation/07-m6.md)의 결정 표에 있다 |
 | 12.1 | 2026-11-05 | 용어 표를 찾지 않고 읽을 수 있게 내부 용어(팩, 허용 목록, 스냅샷, 시드, 결정적 검사 등)를 쓰인 곳에서 괄호로 풀어 썼다. 4.1 `packs/`, `data/` 주석을 더했다. 설계 내용은 바꾸지 않았다 |
+| 13.0 | 2026-11-05 | 프롬프트·모델 실험(04) 중 사용자 승인을 반영했다. 3.2 프롬프트 디렉토리(`QUIZ_PROMPTS_DIR`)와 Judge 항목 추가 파일, 4.1 `experiments.py`·`data/experiments/`, 7.2 `generate --slots`·`experiment judge`·`experiment summary`·운영 DB 보호, 8.3 실험 Judge의 Langfuse 미기록, D-16, 10장 7.3 행. Judge 항목과 실패 이유 목록은 바꾸지 않았다. 기록은 [05-mandela.md](../../dev-process/04-prompt-model-experiments/05-mandela.md)에 있다 |
