@@ -86,15 +86,15 @@
 
 - [ ] T2.1 `generate` 4형식: 복수 선택(`select_count`), 단답(`accepted_answers`), 코드 선택(`exec_spec`, `doc_url`), 버킷·유형·CCA-F 태그·조회 날짜, `근접` 주제 금지 문구 (US-2.2, US-2.4, W6)
   - 확인: 형식마다 슬롯 1개를 노드 단독 실행하면 스키마 검증을 통과한다.
-- [ ] T2.2 `judge` 완성: 정답, 근거 지지, 오답 보기, 매핑 충실도, 빠진 단답 변형(합쳐 최대 5개), 코드형 보기별 예측 `{ok, stdout, error_type}` (US-2.2, W6)
+- [x] T2.2 `judge` 완성: 정답, 근거 지지, 오답 보기, 매핑 충실도, 빠진 단답 변형(합쳐 최대 5개), 코드형 보기별 예측 `{ok, stdout, error_type}` (US-2.2, W6)
   - 확인: 일부러 정답 키를 틀린 문제를 넣으면 `judge_fail:<항목>`이 나온다.
-- [ ] T2.3 재생성 루프: feedback 노드, 실패 이유를 다음 생성 입력에 넣기, 최대 3회, `regen_exhausted`, 시도마다 `verification_results` 1행 (US-2.2, W6)
+- [x] T2.3 재생성 루프: feedback 노드, 실패 이유를 다음 생성 입력에 넣기, 최대 3회, `regen_exhausted`, 시도마다 `verification_results` 1행 (US-2.2, W6)
   - 확인: 항상 실패하는 가짜 게이트로 돌리면 시도 4행(0~3)과 `dropped`/`regen_exhausted`가 남는다.
 - [x] T2.4 `sandbox/` uv 프로젝트: 고정 버전(GR-7.2), `fakes.py`(`GenericFakeChatModel`, `bind_tools` 하위 클래스), `runner.py`(stdin JSON → stdout JSON) (US-2.3, W5)
   - 확인: 예제 JSON을 `uv run python runner.py`에 넣으면 `{ok, stdout, error_type}` 한 줄이 나온다.
-- [ ] T2.5 `sandbox_client.py`와 `execute` 노드: `AWS_*`·`LANGFUSE_*` 제거, 보기당 30초, lock 해시, `judge_exec_mismatch`·`version_conflict` 판정 (US-2.3, W5)
+- [x] T2.5 `sandbox_client.py`와 `execute` 노드: `AWS_*`·`LANGFUSE_*` 제거, 보기당 30초, lock 해시, `judge_exec_mismatch`·`version_conflict` 판정 (US-2.3, W5)
   - 확인: `uv run pytest tests/test_sandbox_client.py`가 정상, 무한 루프(`timeout`), 환경 변수 미전달, 두 불일치 사례를 통과한다.
-- [ ] T2.6 `dedupe` 노드 연결과 노드 순서 확정(생성 → Judge → 실행 → 게이트 → 중복) (US-2.2, D-10)
+- [x] T2.6 `dedupe` 노드 연결과 노드 순서 확정(생성 → Judge → 실행 → 게이트 → 중복) (US-2.2, D-10)
   - 확인: 같은 quote 문제를 두 번 만들면 두 번째가 `duplicate`로 재생성 없이 버려진다.
 - [ ] T2.7 배치 CLI 완성: `--plan pilot|pool`, `--count N`, 슬롯 선기록, upsert, 동시 호출 2, `--resume <batch_id>` (US-2.5, W6)
   - 확인: 배치를 중간에 끊고 `--resume`하면 `passed`·`dropped`가 아닌 슬롯만 다시 돈다.
