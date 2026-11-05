@@ -1,0 +1,3217 @@
+{
+  "exp": "EXP-1",
+  "arm": "arena-s45",
+  "model": "global.anthropic.claude-sonnet-4-5-20250929-v1:0",
+  "prompts_dir": "..\\data\\experiments\\EXP-1\\variants\\arena",
+  "extra_items": [
+    "explanation_correct"
+  ],
+  "allowlist_sha256": "97c1641992b6eb77a6ade50f607bd558cf068a7ff3ffcc47505bf555b7b474d9",
+  "items_file": "..\\data\\experiments\\EXP-1\\items.json",
+  "items_sha256": "0a0a4f1c410864877c8b0bbcd4b651fd1f22cab38595d190a3f8c79d96f0ff7a",
+  "created_at": "2026-11-05T07:52:48Z",
+  "updated_at": "2026-11-05T07:57:38Z",
+  "results": [
+    {
+      "item_id": "real-03-010",
+      "source": "db",
+      "question_id": "b20261105-03-010",
+      "format": "multi",
+      "pages": [
+        "/oss/python/integrations/retrievers",
+        "https://reference.langchain.com/python/langchain-classic/retrievers/contextual_compression/ContextualCompressionRetriever"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": "key_error",
+        "expected_items": [
+          "answer_key_correct"
+        ]
+      },
+      "verdict": {
+        "answer_key_correct": false,
+        "quote_supports_answer": true,
+        "distractors_wrong": false,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": false,
+        "verdict": "fail",
+        "reasons": [
+          "answer_key_correct: Choice C (WatsonxRerank) is marked correct, but the document shows it with empty Self-host and Cloud offering cells (data-sort-value='0'), meaning its hosting capabilities are unspecified. The question requires 'a self-hostable reranker that does NOT require a cloud offering,' but the document provides no evidence that WatsonxRerank meets this requirement.",
+          "distractors_wrong: Choice E (NVIDIARAGRetriever) is marked wrong, but the explanation's reasoning is flawed. The document marks it as Self-host ✅ and Cloud offering ❌, which literally satisfies 'self-hostable' and 'does NOT require a cloud offering.' The explanation rejects it only because it's 'not classified as a reranker,' but the document is silent on whether it can perform reranking—the question's ambiguous stem allows E to be defended as a self-hostable component that could satisfy the reranking requirement.",
+          "explanation_correct: The explanation for choice C claims WatsonxRerank is 'Self-host 열에 값이 있고 Cloud offering 열에는 별도 표시가 없어' (has a value in Self-host column and no marking in Cloud offering column), but the actual document shows both columns with data-sort-value='0' (empty placeholders), not a checkmark for self-host. This contradicts the document evidence."
+        ],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [
+        "judge_fail:answer_key_correct",
+        "judge_fail:distractors_wrong",
+        "judge_fail:explanation_correct"
+      ],
+      "rejected": true,
+      "input_tokens": 24221,
+      "output_tokens": 561,
+      "cost_usd": 0.08918580000000001,
+      "latency_s": 38.307,
+      "error": null,
+      "judged_at": "2026-11-05T07:52:49Z"
+    },
+    {
+      "item_id": "real-03-008",
+      "source": "db",
+      "question_id": "b20261105-03-008",
+      "format": "short",
+      "pages": [
+        "/oss/python/integrations/retrievers",
+        "/oss/python/langchain/knowledge-base"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": "quote_irrelevant",
+        "expected_items": [
+          "quote_supports_answer"
+        ]
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 33149,
+      "output_tokens": 232,
+      "cost_usd": 0.102927,
+      "latency_s": 67.455,
+      "error": null,
+      "judged_at": "2026-11-05T07:52:49Z"
+    },
+    {
+      "item_id": "real-03-009",
+      "source": "db",
+      "question_id": "b20261105-03-009",
+      "format": "single",
+      "pages": [
+        "/oss/python/integrations/embeddings",
+        "https://reference.langchain.com/python/langchain-classic/retrievers/ensemble/EnsembleRetriever"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ]
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 15085,
+      "output_tokens": 232,
+      "cost_usd": 0.048735,
+      "latency_s": 33.912,
+      "error": null,
+      "judged_at": "2026-11-05T07:53:28Z"
+    },
+    {
+      "item_id": "real-03-021",
+      "source": "db",
+      "question_id": "b20261105-03-021",
+      "format": "single",
+      "pages": [
+        "/oss/python/langchain/tools"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ]
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 17925,
+      "output_tokens": 232,
+      "cost_usd": 0.057255,
+      "latency_s": 4.886,
+      "error": null,
+      "judged_at": "2026-11-05T07:53:57Z"
+    },
+    {
+      "item_id": "real-03-013",
+      "source": "db",
+      "question_id": "b20261105-03-013",
+      "format": "single",
+      "pages": [
+        "/oss/python/langgraph/graph-api",
+        "/oss/python/langgraph/graph-api-control-flow"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ]
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 22016,
+      "output_tokens": 232,
+      "cost_usd": 0.069528,
+      "latency_s": 5.111,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:02Z"
+    },
+    {
+      "item_id": "real-01-002",
+      "source": "db",
+      "question_id": "b20261105-01-002",
+      "format": "single",
+      "pages": [
+        "/oss/python/langgraph/graph-api",
+        "/oss/python/langgraph/graph-api-state",
+        "https://reference.langchain.com/python/langgraph/graph/state/CompiledStateGraph",
+        "https://reference.langchain.com/python/langgraph/graph/state/StateGraph"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ]
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 21847,
+      "output_tokens": 232,
+      "cost_usd": 0.069021,
+      "latency_s": 4.542,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:02Z"
+    },
+    {
+      "item_id": "real-03-040",
+      "source": "db",
+      "question_id": "b20261105-03-040",
+      "format": "short",
+      "pages": [
+        "/oss/python/langchain/guardrails"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ]
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 8398,
+      "output_tokens": 232,
+      "cost_usd": 0.028674,
+      "latency_s": 4.226,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:06Z"
+    },
+    {
+      "item_id": "real-05-007",
+      "source": "db",
+      "question_id": "b20261105-05-007",
+      "format": "short",
+      "pages": [
+        "/oss/python/langchain/multi-agent/router",
+        "/oss/python/langchain/multi-agent/router-knowledge-base",
+        "/oss/python/langchain/test/evals"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ]
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 20115,
+      "output_tokens": 232,
+      "cost_usd": 0.063825,
+      "latency_s": 5.326,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:07Z"
+    },
+    {
+      "item_id": "real-04-017",
+      "source": "db",
+      "question_id": "b20261105-04-017",
+      "format": "short",
+      "pages": [
+        "/langsmith/trace-with-langchain",
+        "/oss/python/langchain/models",
+        "/oss/python/langchain/observability",
+        "/oss/python/langgraph/observability",
+        "https://reference.langchain.com/python/langchain-core/callbacks",
+        "https://reference.langchain.com/python/langchain-core/callbacks/base/BaseCallbackHandler"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ]
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 40408,
+      "output_tokens": 232,
+      "cost_usd": 0.124704,
+      "latency_s": 5.15,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:10Z"
+    },
+    {
+      "item_id": "real-01-001",
+      "source": "db",
+      "question_id": "b20261105-01-001",
+      "format": "single",
+      "pages": [
+        "/oss/python/langgraph/graph-api",
+        "/oss/python/langgraph/graph-api-state",
+        "https://reference.langchain.com/python/langgraph/graph/state/CompiledStateGraph",
+        "https://reference.langchain.com/python/langgraph/graph/state/StateGraph"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ]
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 21688,
+      "output_tokens": 232,
+      "cost_usd": 0.068544,
+      "latency_s": 4.584,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:12Z"
+    },
+    {
+      "item_id": "real-03-044",
+      "source": "db",
+      "question_id": "b20261105-03-044",
+      "format": "code",
+      "pages": [
+        "/oss/python/langchain/multi-agent/handoffs",
+        "/oss/python/langchain/multi-agent/handoffs-customer-support"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ]
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": [
+          {
+            "choice_id": "A",
+            "ok": true,
+            "stdout": "missing AIMessage\n",
+            "error_type": null
+          },
+          {
+            "choice_id": "B",
+            "ok": true,
+            "stdout": "wrong graph scope\n",
+            "error_type": null
+          },
+          {
+            "choice_id": "C",
+            "ok": true,
+            "stdout": "tool_call_id should be omitted\n",
+            "error_type": null
+          },
+          {
+            "choice_id": "D",
+            "ok": true,
+            "stdout": "active_agent conflicts with goto\n",
+            "error_type": null
+          }
+        ]
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 19881,
+      "output_tokens": 415,
+      "cost_usd": 0.065868,
+      "latency_s": 7.016,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:16Z"
+    },
+    {
+      "item_id": "real-03-033",
+      "source": "db",
+      "question_id": "b20261105-03-033",
+      "format": "short",
+      "pages": [
+        "/oss/python/langchain/middleware/built-in",
+        "/oss/python/langchain/middleware/custom"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": "quote_irrelevant",
+        "expected_items": [
+          "quote_supports_answer"
+        ]
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 34217,
+      "output_tokens": 232,
+      "cost_usd": 0.106131,
+      "latency_s": 4.981,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:17Z"
+    },
+    {
+      "item_id": "real-05-001",
+      "source": "db",
+      "question_id": "b20261105-05-001",
+      "format": "code",
+      "pages": [
+        "/oss/python/integrations/document_loaders",
+        "/oss/python/langchain/knowledge-base"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": "quote_irrelevant",
+        "expected_items": [
+          "quote_supports_answer"
+        ]
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": [
+          {
+            "choice_id": "A",
+            "ok": true,
+            "stdout": "list\n1\n",
+            "error_type": null
+          },
+          {
+            "choice_id": "B",
+            "ok": true,
+            "stdout": "Document\n1\n",
+            "error_type": null
+          },
+          {
+            "choice_id": "C",
+            "ok": true,
+            "stdout": "list\n2\n",
+            "error_type": null
+          },
+          {
+            "choice_id": "D",
+            "ok": true,
+            "stdout": "AttributeError\n",
+            "error_type": null
+          }
+        ]
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 29694,
+      "output_tokens": 409,
+      "cost_usd": 0.095217,
+      "latency_s": 6.686,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:22Z"
+    },
+    {
+      "item_id": "real-03-059",
+      "source": "db",
+      "question_id": "b20261105-03-059",
+      "format": "single",
+      "pages": [
+        "/oss/python/langchain/test/evals",
+        "/oss/python/langchain/test/integration-testing"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": "ambiguous",
+        "expected_items": [
+          "answer_key_correct",
+          "distractors_wrong"
+        ]
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 10415,
+      "output_tokens": 232,
+      "cost_usd": 0.034725,
+      "latency_s": 4.275,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:23Z"
+    },
+    {
+      "item_id": "real-03-056",
+      "source": "db",
+      "question_id": "b20261105-03-056",
+      "format": "code",
+      "pages": [
+        "/langsmith/trace-with-langchain",
+        "/oss/python/langchain/models",
+        "/oss/python/langchain/observability",
+        "/oss/python/langgraph/observability",
+        "https://reference.langchain.com/python/langchain-core/callbacks",
+        "https://reference.langchain.com/python/langchain-core/callbacks/base/BaseCallbackHandler"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": "ambiguous",
+        "expected_items": [
+          "answer_key_correct"
+        ]
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": [
+          {
+            "choice_id": "A",
+            "ok": true,
+            "stdout": "on_llm_start called\n",
+            "error_type": null
+          },
+          {
+            "choice_id": "B",
+            "ok": true,
+            "stdout": "",
+            "error_type": null
+          },
+          {
+            "choice_id": "C",
+            "ok": true,
+            "stdout": "",
+            "error_type": null
+          },
+          {
+            "choice_id": "D",
+            "ok": true,
+            "stdout": "",
+            "error_type": null
+          }
+        ]
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 42599,
+      "output_tokens": 392,
+      "cost_usd": 0.133677,
+      "latency_s": 6.773,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:27Z"
+    },
+    {
+      "item_id": "real-04-009",
+      "source": "db",
+      "question_id": "b20261105-04-009",
+      "format": "code",
+      "pages": [
+        "/oss/python/langchain/short-term-memory",
+        "/oss/python/langgraph/checkpointers",
+        "/oss/python/langgraph/persistence",
+        "/oss/python/langgraph/use-time-travel"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": "ambiguous",
+        "expected_items": [
+          "answer_key_correct",
+          "explanation_correct"
+        ]
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": [
+          {
+            "choice_id": "A",
+            "ok": true,
+            "stdout": "Hi Alice!\nYou are Alice.\nHello stranger.\nI don't know your name.\n",
+            "error_type": null
+          },
+          {
+            "choice_id": "B",
+            "ok": true,
+            "stdout": "Hi Alice!\nYou are Alice.\nHello stranger.\nI don't know your name.\nWRONG_EXPECTED\n",
+            "error_type": null
+          },
+          {
+            "choice_id": "C",
+            "ok": true,
+            "stdout": "Hi Alice!\nYou are Alice.\nHello stranger.\nI don't know your name.\nWRONG_EXPECTED\n",
+            "error_type": null
+          },
+          {
+            "choice_id": "D",
+            "ok": true,
+            "stdout": "Hi Alice!\nYou are Alice.\nHello stranger.\nI don't know your name.\nWRONG_EXPECTED\n",
+            "error_type": null
+          }
+        ]
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 40045,
+      "output_tokens": 502,
+      "cost_usd": 0.127665,
+      "latency_s": 8.37,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:28Z"
+    },
+    {
+      "item_id": "real-03-060",
+      "source": "db",
+      "question_id": "b20261105-03-060",
+      "format": "short",
+      "pages": [
+        "/oss/python/langchain/test/evals",
+        "/oss/python/langchain/test/integration-testing"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": "ambiguous",
+        "expected_items": [
+          "answer_key_correct"
+        ]
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 9628,
+      "output_tokens": 232,
+      "cost_usd": 0.032364,
+      "latency_s": 4.222,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:34Z"
+    },
+    {
+      "item_id": "real-03-023",
+      "source": "db",
+      "question_id": "b20261105-03-023",
+      "format": "multi",
+      "pages": [
+        "/oss/python/langgraph/workflows-agents",
+        "https://reference.langchain.com/python/langgraph.prebuilt/tool_node/ToolNode"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": "mapping",
+        "expected_items": [
+          "mapping_faithful"
+        ]
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 23231,
+      "output_tokens": 232,
+      "cost_usd": 0.073173,
+      "latency_s": 4.744,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:37Z"
+    },
+    {
+      "item_id": "norm-03-039",
+      "source": "db",
+      "question_id": "b20261105-03-039",
+      "format": "single",
+      "pages": [
+        "/oss/python/langchain/guardrails"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "audit_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 8878,
+      "output_tokens": 232,
+      "cost_usd": 0.030114,
+      "latency_s": 4.187,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:38Z"
+    },
+    {
+      "item_id": "norm-02-004",
+      "source": "db",
+      "question_id": "b20261105-02-004",
+      "format": "code",
+      "pages": [
+        "/oss/python/langchain/middleware/custom",
+        "/oss/python/langchain/middleware/overview"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "audit_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": [
+          {
+            "choice_id": "A",
+            "ok": true,
+            "stdout": "A before\nB before\nC before\nC after\nB after\nA after\n",
+            "error_type": null
+          },
+          {
+            "choice_id": "B",
+            "ok": true,
+            "stdout": "A before\nB before\nC before\nA after\nB after\nC after\n",
+            "error_type": null
+          },
+          {
+            "choice_id": "C",
+            "ok": true,
+            "stdout": "C before\nB before\nA before\nA after\nB after\nC after\n",
+            "error_type": null
+          },
+          {
+            "choice_id": "D",
+            "ok": true,
+            "stdout": "C before\nB before\nA before\nC after\nB after\nA after\n",
+            "error_type": null
+          }
+        ]
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 17554,
+      "output_tokens": 463,
+      "cost_usd": 0.059607,
+      "latency_s": 6.793,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:41Z"
+    },
+    {
+      "item_id": "norm-04-012",
+      "source": "db",
+      "question_id": "b20261105-04-012",
+      "format": "short",
+      "pages": [
+        "/oss/python/langchain/multi-agent/subagents",
+        "/oss/python/langchain/multi-agent/subagents-personal-assistant",
+        "/oss/python/migrate/langgraph-supervisor"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "audit_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 27196,
+      "output_tokens": 232,
+      "cost_usd": 0.085068,
+      "latency_s": 5.002,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:42Z"
+    },
+    {
+      "item_id": "norm-02-001",
+      "source": "db",
+      "question_id": "b20261105-02-001",
+      "format": "single",
+      "pages": [
+        "/oss/python/integrations/document_loaders",
+        "/oss/python/langchain/knowledge-base"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 28269,
+      "output_tokens": 232,
+      "cost_usd": 0.088287,
+      "latency_s": 4.897,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:47Z"
+    },
+    {
+      "item_id": "norm-02-002",
+      "source": "db",
+      "question_id": "b20261105-02-002",
+      "format": "multi",
+      "pages": [
+        "/oss/python/langgraph/graph-api",
+        "/oss/python/langgraph/graph-api-state",
+        "https://reference.langchain.com/python/langgraph/graph/state/CompiledStateGraph",
+        "https://reference.langchain.com/python/langgraph/graph/state/StateGraph"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 23080,
+      "output_tokens": 232,
+      "cost_usd": 0.07272,
+      "latency_s": 4.691,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:48Z"
+    },
+    {
+      "item_id": "norm-02-003",
+      "source": "db",
+      "question_id": "b20261105-02-003",
+      "format": "short",
+      "pages": [
+        "/oss/python/langchain/tools"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 17215,
+      "output_tokens": 232,
+      "cost_usd": 0.055125,
+      "latency_s": 4.309,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:52Z"
+    },
+    {
+      "item_id": "norm-02-006",
+      "source": "db",
+      "question_id": "b20261105-02-006",
+      "format": "multi",
+      "pages": [
+        "/oss/python/deepagents/overview",
+        "/oss/python/langgraph/workflows-agents",
+        "https://reference.langchain.com/python/langchain/agents/middleware/todo",
+        "https://reference.langchain.com/python/langchain/agents/middleware/todo/PlanningState"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 50075,
+      "output_tokens": 232,
+      "cost_usd": 0.153705,
+      "latency_s": 5.338,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:53Z"
+    },
+    {
+      "item_id": "norm-03-003",
+      "source": "db",
+      "question_id": "b20261105-03-003",
+      "format": "single",
+      "pages": [
+        "/oss/python/integrations/splitters",
+        "/oss/python/langchain/knowledge-base",
+        "https://reference.langchain.com/python/langchain-text-splitters/character/RecursiveCharacterTextSplitter"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 17614,
+      "output_tokens": 232,
+      "cost_usd": 0.056322,
+      "latency_s": 4.394,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:56Z"
+    },
+    {
+      "item_id": "norm-03-005",
+      "source": "db",
+      "question_id": "b20261105-03-005",
+      "format": "single",
+      "pages": [
+        "/oss/python/integrations/embeddings",
+        "/oss/python/langchain/knowledge-base"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 25334,
+      "output_tokens": 232,
+      "cost_usd": 0.079482,
+      "latency_s": 4.914,
+      "error": null,
+      "judged_at": "2026-11-05T07:54:58Z"
+    },
+    {
+      "item_id": "norm-03-006",
+      "source": "db",
+      "question_id": "b20261105-03-006",
+      "format": "multi",
+      "pages": [
+        "/oss/python/integrations/embeddings",
+        "/oss/python/langchain/knowledge-base"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 25229,
+      "output_tokens": 232,
+      "cost_usd": 0.079167,
+      "latency_s": 4.898,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:01Z"
+    },
+    {
+      "item_id": "norm-03-007",
+      "source": "db",
+      "question_id": "b20261105-03-007",
+      "format": "multi",
+      "pages": [
+        "/oss/python/integrations/vectorstores",
+        "/oss/python/langchain/knowledge-base",
+        "https://reference.langchain.com/python/langchain-chroma/vectorstores/Chroma"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": false,
+        "verdict": "fail",
+        "reasons": [
+          "explanation_correct: The explanation for choice C contains a logical error. It states that after Step A updates id \"1\" to have metadata {\"bar\": \"baz\"}, no document matches filter {\"baz\": \"bar\"}, so the result would be empty. However, the explanation overlooks that document_2 (id \"2\") was originally added with page_content=\"thud\" and metadata={\"bar\": \"baz\"}, not {\"baz\": \"bar\"}. The document example in the reference shows that when filter={\"baz\": \"bar\"} is applied, it returns \"foo\" (the original document_1 before update). After the update in Step A, document_1 no longer has {\"baz\": \"bar\"}, and document_2 never had it, so the filter would indeed return empty results. But the explanation incorrectly suggests document_2 might be considered, when it should clarify that NO documents match the filter after the update. The explanation's reasoning is confusing and partially contradicts itself."
+        ],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [
+        "judge_fail:explanation_correct"
+      ],
+      "rejected": true,
+      "input_tokens": 51921,
+      "output_tokens": 467,
+      "cost_usd": 0.162768,
+      "latency_s": 10.409,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:03Z"
+    },
+    {
+      "item_id": "norm-03-019",
+      "source": "db",
+      "question_id": "b20261105-03-019",
+      "format": "short",
+      "pages": [
+        "/oss/python/langchain/agents",
+        "https://reference.langchain.com/python/langchain/agents/factory/create_agent"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 27239,
+      "output_tokens": 232,
+      "cost_usd": 0.085197,
+      "latency_s": 4.619,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:06Z"
+    },
+    {
+      "item_id": "norm-03-020",
+      "source": "db",
+      "question_id": "b20261105-03-020",
+      "format": "multi",
+      "pages": [
+        "/langsmith/application-structure",
+        "/langsmith/studio",
+        "/oss/python/langgraph/studio"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 11043,
+      "output_tokens": 232,
+      "cost_usd": 0.036609,
+      "latency_s": 4.572,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:10Z"
+    },
+    {
+      "item_id": "norm-03-025",
+      "source": "db",
+      "question_id": "b20261105-03-025",
+      "format": "single",
+      "pages": [
+        "/oss/python/langchain/mcp",
+        "/oss/python/langchain/mcp/connections",
+        "https://reference.langchain.com/python/langchain/mcp/adapter/MCPAdapter"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 10709,
+      "output_tokens": 232,
+      "cost_usd": 0.035607,
+      "latency_s": 4.457,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:14Z"
+    },
+    {
+      "item_id": "norm-03-026",
+      "source": "db",
+      "question_id": "b20261105-03-026",
+      "format": "short",
+      "pages": [
+        "/oss/python/langchain/mcp",
+        "/oss/python/langchain/mcp/connections",
+        "https://reference.langchain.com/python/langchain/mcp/adapter/MCPAdapter"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 10362,
+      "output_tokens": 232,
+      "cost_usd": 0.034566,
+      "latency_s": 4.462,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:15Z"
+    },
+    {
+      "item_id": "norm-03-027",
+      "source": "db",
+      "question_id": "b20261105-03-027",
+      "format": "single",
+      "pages": [
+        "/oss/python/migrate/langchain-mcp-adapters",
+        "https://reference.langchain.com/python/langchain-mcp-adapters/client/MultiServerMCPClient",
+        "https://reference.langchain.com/python/langchain-mcp-adapters/langchain_mcp_adapters/tools/load_mcp_tools"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 11663,
+      "output_tokens": 232,
+      "cost_usd": 0.038469,
+      "latency_s": 4.298,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:18Z"
+    },
+    {
+      "item_id": "norm-03-029",
+      "source": "db",
+      "question_id": "b20261105-03-029",
+      "format": "multi",
+      "pages": [
+        "/oss/python/langchain/mcp/tools",
+        "/oss/python/langchain/middleware/built-in",
+        "/oss/python/langgraph/fault-tolerance"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 40424,
+      "output_tokens": 232,
+      "cost_usd": 0.124752,
+      "latency_s": 5.774,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:19Z"
+    },
+    {
+      "item_id": "norm-03-030",
+      "source": "db",
+      "question_id": "b20261105-03-030",
+      "format": "short",
+      "pages": [
+        "/oss/python/langchain/mcp/tools",
+        "/oss/python/langchain/middleware/built-in",
+        "/oss/python/langgraph/fault-tolerance"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 39092,
+      "output_tokens": 232,
+      "cost_usd": 0.120756,
+      "latency_s": 4.854,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:22Z"
+    },
+    {
+      "item_id": "norm-03-035",
+      "source": "db",
+      "question_id": "b20261105-03-035",
+      "format": "single",
+      "pages": [
+        "/oss/python/langchain/short-term-memory",
+        "/oss/python/langgraph/checkpointers",
+        "/oss/python/langgraph/persistence",
+        "/oss/python/langgraph/use-time-travel"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 37585,
+      "output_tokens": 232,
+      "cost_usd": 0.116235,
+      "latency_s": 4.841,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:25Z"
+    },
+    {
+      "item_id": "norm-03-043",
+      "source": "db",
+      "question_id": "b20261105-03-043",
+      "format": "multi",
+      "pages": [
+        "/oss/python/langchain/multi-agent/handoffs",
+        "/oss/python/langchain/multi-agent/handoffs-customer-support"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 19825,
+      "output_tokens": 232,
+      "cost_usd": 0.062955,
+      "latency_s": 4.711,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:27Z"
+    },
+    {
+      "item_id": "norm-03-046",
+      "source": "db",
+      "question_id": "b20261105-03-046",
+      "format": "short",
+      "pages": [
+        "/oss/python/langgraph/use-subgraphs"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 15160,
+      "output_tokens": 232,
+      "cost_usd": 0.04896,
+      "latency_s": 4.471,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:30Z"
+    },
+    {
+      "item_id": "norm-03-049",
+      "source": "db",
+      "question_id": "b20261105-03-049",
+      "format": "multi",
+      "pages": [
+        "/oss/python/langchain/multi-agent/router",
+        "/oss/python/langchain/multi-agent/router-knowledge-base",
+        "/oss/python/langchain/test/evals"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 21442,
+      "output_tokens": 232,
+      "cost_usd": 0.067806,
+      "latency_s": 4.567,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:32Z"
+    },
+    {
+      "item_id": "norm-03-053",
+      "source": "db",
+      "question_id": "b20261105-03-053",
+      "format": "short",
+      "pages": [
+        "/oss/python/concepts/context",
+        "/oss/python/concepts/memory",
+        "/oss/python/deepagents/context-engineering",
+        "/oss/python/deepagents/memory",
+        "/oss/python/langchain/context-engineering",
+        "/oss/python/langchain/long-term-memory",
+        "/oss/python/langchain/short-term-memory",
+        "/oss/python/langgraph/checkpointers",
+        "/oss/python/langgraph/stores"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [
+          "missing_variants: The accepted_answers list should include 'store' as a valid alternative. The document shows that the parameter is named 'store' in the create_agent signature (e.g., 'store=store' in code examples), and developers familiar with the API would naturally type 'store' as well as 'checkpointer'."
+        ],
+        "missing_variants": [
+          "store"
+        ],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 95293,
+      "output_tokens": 310,
+      "cost_usd": 0.290529,
+      "latency_s": 7.988,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:34Z"
+    },
+    {
+      "item_id": "norm-03-057",
+      "source": "db",
+      "question_id": "b20261105-03-057",
+      "format": "multi",
+      "pages": [
+        "/langsmith/create-few-shot-evaluators",
+        "/langsmith/evaluation-concepts",
+        "/langsmith/improve-judge-evaluator-feedback",
+        "/langsmith/llm-as-judge",
+        "/langsmith/llm-as-judge-sdk",
+        "/langsmith/trajectory-evals",
+        "/oss/python/langchain/test/evals"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 34026,
+      "output_tokens": 232,
+      "cost_usd": 0.105558,
+      "latency_s": 4.738,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:36Z"
+    },
+    {
+      "item_id": "norm-03-058",
+      "source": "db",
+      "question_id": "b20261105-03-058",
+      "format": "short",
+      "pages": [
+        "/langsmith/create-few-shot-evaluators",
+        "/langsmith/evaluation-concepts",
+        "/langsmith/improve-judge-evaluator-feedback",
+        "/langsmith/llm-as-judge",
+        "/langsmith/llm-as-judge-sdk",
+        "/langsmith/trajectory-evals",
+        "/oss/python/langchain/test/evals"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 32786,
+      "output_tokens": 232,
+      "cost_usd": 0.101838,
+      "latency_s": 6.316,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:41Z"
+    },
+    {
+      "item_id": "norm-04-003",
+      "source": "db",
+      "question_id": "b20261105-04-003",
+      "format": "multi",
+      "pages": [
+        "/oss/python/langgraph/graph-api",
+        "/oss/python/langgraph/graph-api-control-flow"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 22649,
+      "output_tokens": 232,
+      "cost_usd": 0.071427,
+      "latency_s": 5.362,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:42Z"
+    },
+    {
+      "item_id": "norm-04-006",
+      "source": "db",
+      "question_id": "b20261105-04-006",
+      "format": "short",
+      "pages": [
+        "/oss/python/langgraph/workflows-agents",
+        "https://reference.langchain.com/python/langgraph.prebuilt/tool_node/ToolNode"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 21731,
+      "output_tokens": 232,
+      "cost_usd": 0.068673,
+      "latency_s": 4.402,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:48Z"
+    },
+    {
+      "item_id": "norm-04-010",
+      "source": "db",
+      "question_id": "b20261105-04-010",
+      "format": "multi",
+      "pages": [
+        "/oss/python/deepagents/human-in-the-loop",
+        "/oss/python/langchain/human-in-the-loop",
+        "/oss/python/langgraph/interrupts",
+        "https://reference.langchain.com/python/langgraph/types/Command",
+        "https://reference.langchain.com/python/langgraph/types/Interrupt"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 41760,
+      "output_tokens": 232,
+      "cost_usd": 0.12876,
+      "latency_s": 5.046,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:48Z"
+    },
+    {
+      "item_id": "norm-08-004",
+      "source": "db",
+      "question_id": "b20261105-08-004",
+      "format": "single",
+      "pages": [
+        "/oss/python/langchain/guardrails"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 9411,
+      "output_tokens": 232,
+      "cost_usd": 0.031713,
+      "latency_s": 4.34,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:52Z"
+    },
+    {
+      "item_id": "norm-09-001",
+      "source": "db",
+      "question_id": "b20261105-09-001",
+      "format": "single",
+      "pages": [
+        "/oss/python/integrations/vectorstores",
+        "/oss/python/langchain/knowledge-base",
+        "https://reference.langchain.com/python/langchain-chroma/vectorstores/Chroma"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 50540,
+      "output_tokens": 232,
+      "cost_usd": 0.1551,
+      "latency_s": 7.993,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:53Z"
+    },
+    {
+      "item_id": "norm-09-004",
+      "source": "db",
+      "question_id": "b20261105-09-004",
+      "format": "short",
+      "pages": [
+        "/oss/python/langchain/guardrails"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 8246,
+      "output_tokens": 232,
+      "cost_usd": 0.028218,
+      "latency_s": 4.231,
+      "error": null,
+      "judged_at": "2026-11-05T07:55:56Z"
+    },
+    {
+      "item_id": "norm-10-002",
+      "source": "db",
+      "question_id": "b20261105-10-002",
+      "format": "short",
+      "pages": [
+        "/oss/python/langchain/middleware/built-in",
+        "/oss/python/langchain/middleware/custom"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "fail",
+        "reasons": [
+          "missing_variants: The accepted_answers list is missing 'reverse' as a standalone answer. The document explicitly states '`after_*` hooks: Last to first (reverse)' where 'reverse' appears as a parenthetical descriptor. A learner who reads this could reasonably type just 'reverse' as the answer, since the question asks for 'the exact two-word phrase' but also provides examples including single descriptors like 'reverse order'. The phrase 'reverse' alone is used in the document to describe this ordering."
+        ],
+        "missing_variants": [
+          "reverse"
+        ],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 34361,
+      "output_tokens": 351,
+      "cost_usd": 0.108348,
+      "latency_s": 8.665,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:01Z"
+    },
+    {
+      "item_id": "norm-13-001",
+      "source": "db",
+      "question_id": "b20261105-13-001",
+      "format": "multi",
+      "pages": [
+        "/oss/python/langchain/agents",
+        "https://reference.langchain.com/python/langchain/agents/factory/create_agent"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 28050,
+      "output_tokens": 232,
+      "cost_usd": 0.08763,
+      "latency_s": 4.684,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:01Z"
+    },
+    {
+      "item_id": "norm-14-002",
+      "source": "db",
+      "question_id": "b20261105-14-002",
+      "format": "single",
+      "pages": [
+        "/oss/python/integrations/retrievers",
+        "https://reference.langchain.com/python/langchain-classic/retrievers/contextual_compression/ContextualCompressionRetriever"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 23564,
+      "output_tokens": 232,
+      "cost_usd": 0.074172,
+      "latency_s": 5.008,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:06Z"
+    },
+    {
+      "item_id": "norm-15-003",
+      "source": "db",
+      "question_id": "b20261105-15-003",
+      "format": "short",
+      "pages": [
+        "/oss/python/integrations/vectorstores",
+        "/oss/python/langchain/knowledge-base",
+        "https://reference.langchain.com/python/langchain-chroma/vectorstores/Chroma"
+      ],
+      "label": {
+        "origin": "real",
+        "defect_type": null,
+        "subset": "crosscheck_clean"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 50045,
+      "output_tokens": 232,
+      "cost_usd": 0.153615,
+      "latency_s": 5.237,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:09Z"
+    },
+    {
+      "item_id": "inj-explanation_error-09-001",
+      "source": "inline",
+      "question_id": "b20261105-09-001",
+      "format": "single",
+      "pages": [
+        "/oss/python/integrations/vectorstores",
+        "/oss/python/langchain/knowledge-base",
+        "https://reference.langchain.com/python/langchain-chroma/vectorstores/Chroma"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ],
+        "source_question_id": "b20261105-09-001",
+        "injection": "보기 C 해설 본문을 보기 A 해설 본문으로 바꿨다"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 50523,
+      "output_tokens": 232,
+      "cost_usd": 0.155049,
+      "latency_s": 5.184,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:11Z"
+    },
+    {
+      "item_id": "inj-explanation_error-03-025",
+      "source": "inline",
+      "question_id": "b20261105-03-025",
+      "format": "single",
+      "pages": [
+        "/oss/python/langchain/mcp",
+        "/oss/python/langchain/mcp/connections",
+        "https://reference.langchain.com/python/langchain/mcp/adapter/MCPAdapter"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ],
+        "source_question_id": "b20261105-03-025",
+        "injection": "보기 C 해설 본문을 보기 D 해설 본문으로 바꿨다"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 10740,
+      "output_tokens": 232,
+      "cost_usd": 0.0357,
+      "latency_s": 4.314,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:14Z"
+    },
+    {
+      "item_id": "inj-explanation_error-03-007",
+      "source": "inline",
+      "question_id": "b20261105-03-007",
+      "format": "multi",
+      "pages": [
+        "/oss/python/integrations/vectorstores",
+        "/oss/python/langchain/knowledge-base",
+        "https://reference.langchain.com/python/langchain-chroma/vectorstores/Chroma"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ],
+        "source_question_id": "b20261105-03-007",
+        "injection": "보기 C 해설 본문을 보기 E 해설 본문으로 바꿨다"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 51580,
+      "output_tokens": 232,
+      "cost_usd": 0.15822,
+      "latency_s": 5.808,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:16Z"
+    },
+    {
+      "item_id": "inj-explanation_error-03-057",
+      "source": "inline",
+      "question_id": "b20261105-03-057",
+      "format": "multi",
+      "pages": [
+        "/langsmith/create-few-shot-evaluators",
+        "/langsmith/evaluation-concepts",
+        "/langsmith/improve-judge-evaluator-feedback",
+        "/langsmith/llm-as-judge",
+        "/langsmith/llm-as-judge-sdk",
+        "/langsmith/trajectory-evals",
+        "/oss/python/langchain/test/evals"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ],
+        "source_question_id": "b20261105-03-057",
+        "injection": "보기 B 해설 본문을 보기 E 해설 본문으로 바꿨다"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 34046,
+      "output_tokens": 232,
+      "cost_usd": 0.105618,
+      "latency_s": 4.74,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:19Z"
+    },
+    {
+      "item_id": "inj-explanation_error-03-035",
+      "source": "inline",
+      "question_id": "b20261105-03-035",
+      "format": "single",
+      "pages": [
+        "/oss/python/langchain/short-term-memory",
+        "/oss/python/langgraph/checkpointers",
+        "/oss/python/langgraph/persistence",
+        "/oss/python/langgraph/use-time-travel"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ],
+        "source_question_id": "b20261105-03-035",
+        "injection": "보기 B 해설 본문을 보기 C 해설 본문으로 바꿨다"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 37575,
+      "output_tokens": 232,
+      "cost_usd": 0.116205,
+      "latency_s": 4.914,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:22Z"
+    },
+    {
+      "item_id": "inj-explanation_error-02-001",
+      "source": "inline",
+      "question_id": "b20261105-02-001",
+      "format": "single",
+      "pages": [
+        "/oss/python/integrations/document_loaders",
+        "/oss/python/langchain/knowledge-base"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "explanation_error",
+        "expected_items": [
+          "explanation_correct"
+        ],
+        "source_question_id": "b20261105-02-001",
+        "injection": "보기 C 해설 본문을 보기 D 해설 본문으로 바꿨다"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 28245,
+      "output_tokens": 232,
+      "cost_usd": 0.088215,
+      "latency_s": 4.974,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:23Z"
+    },
+    {
+      "item_id": "inj-quote_irrelevant-03-026",
+      "source": "inline",
+      "question_id": "b20261105-03-026",
+      "format": "short",
+      "pages": [
+        "/oss/python/langchain/mcp",
+        "/oss/python/langchain/mcp/connections",
+        "https://reference.langchain.com/python/langchain/mcp/adapter/MCPAdapter"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "quote_irrelevant",
+        "expected_items": [
+          "quote_supports_answer"
+        ],
+        "source_question_id": "b20261105-03-026",
+        "injection": "인용을 모두 같은 페이지의 무관한 평문 문장으로 바꿨다: Pick one row from each table. Server shape and connection li / If you want a session held open across several calls, keep t"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": false,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "fail",
+        "reasons": [
+          "The quoted passages do not support the answer. The first quote 'Pick one row from each table. Server shape and connection lifetime are independent; any shape works with any lifetime.' is about table selection and does not mention ClientGroup or protocol negotiation. The second quote 'If you want a session held open across several calls, keep the adapter's context open when you call the agent. The reentrant client reuses the existing connection rather than opening a second one.' is about session management and does not mention MCPConfig downgrading to legacy era or ClientGroup as an alternative."
+        ],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [
+        "judge_fail:quote_supports_answer"
+      ],
+      "rejected": true,
+      "input_tokens": 10343,
+      "output_tokens": 353,
+      "cost_usd": 0.036324,
+      "latency_s": 7.132,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:26Z"
+    },
+    {
+      "item_id": "inj-quote_irrelevant-03-019",
+      "source": "inline",
+      "question_id": "b20261105-03-019",
+      "format": "short",
+      "pages": [
+        "/oss/python/langchain/agents",
+        "https://reference.langchain.com/python/langchain/agents/factory/create_agent"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "quote_irrelevant",
+        "expected_items": [
+          "quote_supports_answer"
+        ],
+        "source_question_id": "b20261105-03-019",
+        "injection": "인용을 모두 같은 페이지의 무관한 평문 문장으로 바꿨다: An agent is a model calling tools in a loop until a given ta"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": false,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "fail",
+        "reasons": [
+          "quote_supports_answer: The grounding quote 'An agent is a model calling tools in a loop until a given task is complete.' is unrelated to the answer. It describes what an agent is, not which parameter to use for custom state schemas. The actual supporting text appears in the 'Agent state' section with the highlighted code comment '# [!code highlight]' next to 'state_schema=MyState', but this specific passage was not quoted in grounding_records."
+        ],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [
+        "judge_fail:quote_supports_answer"
+      ],
+      "rejected": true,
+      "input_tokens": 27212,
+      "output_tokens": 336,
+      "cost_usd": 0.086676,
+      "latency_s": 8.081,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:28Z"
+    },
+    {
+      "item_id": "inj-quote_irrelevant-03-046",
+      "source": "inline",
+      "question_id": "b20261105-03-046",
+      "format": "short",
+      "pages": [
+        "/oss/python/langgraph/use-subgraphs"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "quote_irrelevant",
+        "expected_items": [
+          "quote_supports_answer"
+        ],
+        "source_question_id": "b20261105-03-046",
+        "injection": "인용을 모두 같은 페이지의 무관한 평문 문장으로 바꿨다: Open a public LangSmith run for this example."
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 15085,
+      "output_tokens": 232,
+      "cost_usd": 0.048735,
+      "latency_s": 4.559,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:34Z"
+    },
+    {
+      "item_id": "inj-quote_irrelevant-10-002",
+      "source": "inline",
+      "question_id": "b20261105-10-002",
+      "format": "short",
+      "pages": [
+        "/oss/python/langchain/middleware/built-in",
+        "/oss/python/langchain/middleware/custom"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "quote_irrelevant",
+        "expected_items": [
+          "quote_supports_answer"
+        ],
+        "source_question_id": "b20261105-10-002",
+        "injection": "인용을 모두 같은 페이지의 무관한 평문 문장으로 바꿨다: Build custom middleware by implementing hooks that run at sp"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": false,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": false,
+        "verdict": "fail",
+        "reasons": [
+          "quote_supports_answer: The quote 'Build custom middleware by implementing hooks that run at specific points in the agent execution flow.' does not support the answer about after_* hook ordering. The quote is generic and unrelated to the specific ordering question.",
+          "explanation_correct: The explanation references a non-existent 'Execution order' section and quotes text ('`after_*` hooks: Last to first (reverse)') that does not appear in the provided document. The explanation fabricates document content.",
+          "missing_variants: The accepted_answers list is missing 'reverse' as a standalone answer, which the stem explicitly mentions as a valid format ('e.g., \"first-to-last\" or \"last-to-first\" or \"reverse order\"')."
+        ],
+        "missing_variants": [
+          "reverse"
+        ],
+        "exec_predictions": []
+      },
+      "fail_reasons": [
+        "judge_fail:quote_supports_answer",
+        "judge_fail:explanation_correct"
+      ],
+      "rejected": true,
+      "input_tokens": 34324,
+      "output_tokens": 406,
+      "cost_usd": 0.109062,
+      "latency_s": 8.752,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:37Z"
+    },
+    {
+      "item_id": "inj-quote_irrelevant-03-053",
+      "source": "inline",
+      "question_id": "b20261105-03-053",
+      "format": "short",
+      "pages": [
+        "/oss/python/concepts/context",
+        "/oss/python/concepts/memory",
+        "/oss/python/deepagents/context-engineering",
+        "/oss/python/deepagents/memory",
+        "/oss/python/langchain/context-engineering",
+        "/oss/python/langchain/long-term-memory",
+        "/oss/python/langchain/short-term-memory",
+        "/oss/python/langgraph/checkpointers",
+        "/oss/python/langgraph/stores"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "quote_irrelevant",
+        "expected_items": [
+          "quote_supports_answer"
+        ],
+        "source_question_id": "b20261105-03-053",
+        "injection": "인용을 모두 같은 페이지의 무관한 평문 문장으로 바꿨다: Access short term memory (state) in middleware to create dyn"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 95285,
+      "output_tokens": 232,
+      "cost_usd": 0.289335,
+      "latency_s": 6.004,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:38Z"
+    },
+    {
+      "item_id": "inj-quote_irrelevant-04-006",
+      "source": "inline",
+      "question_id": "b20261105-04-006",
+      "format": "short",
+      "pages": [
+        "/oss/python/langgraph/workflows-agents",
+        "https://reference.langchain.com/python/langgraph.prebuilt/tool_node/ToolNode"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "quote_irrelevant",
+        "expected_items": [
+          "quote_supports_answer"
+        ],
+        "source_question_id": "b20261105-04-006",
+        "injection": "인용을 모두 같은 페이지의 무관한 평문 문장으로 바꿨다: A node for executing tools in LangGraph workflows."
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 21681,
+      "output_tokens": 232,
+      "cost_usd": 0.068523,
+      "latency_s": 4.707,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:44Z"
+    },
+    {
+      "item_id": "inj-key_error-03-029",
+      "source": "inline",
+      "question_id": "b20261105-03-029",
+      "format": "multi",
+      "pages": [
+        "/oss/python/langchain/mcp/tools",
+        "/oss/python/langchain/middleware/built-in",
+        "/oss/python/langgraph/fault-tolerance"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "key_error",
+        "expected_items": [
+          "answer_key_correct"
+        ],
+        "source_question_id": "b20261105-03-029",
+        "injection": "정답 키 B를 오답 D로 바꿨다: ['A', 'B'] -> ['A', 'D']"
+      },
+      "verdict": {
+        "answer_key_correct": false,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": false,
+        "verdict": "fail",
+        "reasons": [
+          "answer_key_correct: The answer key lists A and D as correct. However, D is incorrect. The document explicitly states 'Error handlers receive failure context through a typed `error: NodeError` parameter, injected by type annotation' and shows examples with `(state: State, error: NodeError)` signatures. The handler signature in choice D is valid, not invalid.",
+          "explanation_correct: The explanation for choice D contradicts the document. It claims the signature is invalid, but the document shows this exact signature pattern as the correct way to receive NodeError context in error handlers."
+        ],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [
+        "judge_fail:answer_key_correct",
+        "judge_fail:explanation_correct"
+      ],
+      "rejected": true,
+      "input_tokens": 40424,
+      "output_tokens": 362,
+      "cost_usd": 0.126702,
+      "latency_s": 8.41,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:45Z"
+    },
+    {
+      "item_id": "inj-key_error-03-003",
+      "source": "inline",
+      "question_id": "b20261105-03-003",
+      "format": "single",
+      "pages": [
+        "/oss/python/integrations/splitters",
+        "/oss/python/langchain/knowledge-base",
+        "https://reference.langchain.com/python/langchain-text-splitters/character/RecursiveCharacterTextSplitter"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "key_error",
+        "expected_items": [
+          "answer_key_correct"
+        ],
+        "source_question_id": "b20261105-03-003",
+        "injection": "정답 키 A를 오답 C로 바꿨다: ['A'] -> ['C']"
+      },
+      "verdict": {
+        "answer_key_correct": false,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": false,
+        "verdict": "fail",
+        "reasons": [
+          "answer_key_correct: The answer key lists 'C' (Increase chunk_overlap) as correct, but the document clearly states that add_start_index=True is the correct solution. Choice A is the correct answer according to the document.",
+          "explanation_correct: The explanation_ko correctly identifies A as the correct answer and explains why C is wrong, but this contradicts the answer_key which lists C as correct."
+        ],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [
+        "judge_fail:answer_key_correct",
+        "judge_fail:explanation_correct"
+      ],
+      "rejected": true,
+      "input_tokens": 17614,
+      "output_tokens": 323,
+      "cost_usd": 0.057687,
+      "latency_s": 6.401,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:49Z"
+    },
+    {
+      "item_id": "inj-key_error-03-020",
+      "source": "inline",
+      "question_id": "b20261105-03-020",
+      "format": "multi",
+      "pages": [
+        "/langsmith/application-structure",
+        "/langsmith/studio",
+        "/oss/python/langgraph/studio"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "key_error",
+        "expected_items": [
+          "answer_key_correct"
+        ],
+        "source_question_id": "b20261105-03-020",
+        "injection": "정답 키 C를 오답 E로 바꿨다: ['A', 'C'] -> ['A', 'E']"
+      },
+      "verdict": {
+        "answer_key_correct": false,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": false,
+        "verdict": "fail",
+        "reasons": [
+          "answer_key_correct: The answer key lists A and E as correct, but according to the document, the correct answers are A and C. The document states that after running with --tunnel, you need to manually add the tunnel URL to allowed origins (choice C), not change the port (choice E).",
+          "explanation_correct: The explanation incorrectly identifies E as wrong and C as correct, but the answer key lists A and E as correct. This is a contradiction between the explanation and the answer key. Additionally, the explanation for C correctly identifies it as the right action per the document, but the answer key omits C."
+        ],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [
+        "judge_fail:answer_key_correct",
+        "judge_fail:explanation_correct"
+      ],
+      "rejected": true,
+      "input_tokens": 11043,
+      "output_tokens": 364,
+      "cost_usd": 0.038589,
+      "latency_s": 7.73,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:54Z"
+    },
+    {
+      "item_id": "inj-key_error-03-049",
+      "source": "inline",
+      "question_id": "b20261105-03-049",
+      "format": "multi",
+      "pages": [
+        "/oss/python/langchain/multi-agent/router",
+        "/oss/python/langchain/multi-agent/router-knowledge-base",
+        "/oss/python/langchain/test/evals"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "key_error",
+        "expected_items": [
+          "answer_key_correct"
+        ],
+        "source_question_id": "b20261105-03-049",
+        "injection": "정답 키 A를 오답 E로 바꿨다: ['A', 'D'] -> ['D', 'E']"
+      },
+      "verdict": {
+        "answer_key_correct": false,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": false,
+        "verdict": "fail",
+        "reasons": [
+          "answer_key_correct: The answer key lists D and E as correct, but E is wrong. Choice E (unordered mode) requires the same message structure and tool calls as reference, so it cannot score a final answer without a reference trajectory. The correct answers are A and D.",
+          "explanation_correct: The explanation for E is incorrect. It states 'unordered 모드는 순서는 무관하지만 참조의 모든 툴을 정확히 동일하게 포함해야 하므로, 추가 에이전트 호출을 막는 \"no extras\" 요구사항을 충족하지 않습니다.' This reasoning would make E suitable for requirement 1, not reject it. The real reason E is wrong is that unordered mode requires a reference trajectory (it checks 'Same message structure and tool calls as reference'), so it cannot satisfy requirement 2 which explicitly needs evaluation 'without needing a pre-defined reference answer.'"
+        ],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [
+        "judge_fail:answer_key_correct",
+        "judge_fail:explanation_correct"
+      ],
+      "rejected": true,
+      "input_tokens": 21442,
+      "output_tokens": 443,
+      "cost_usd": 0.070971,
+      "latency_s": 9.467,
+      "error": null,
+      "judged_at": "2026-11-05T07:56:55Z"
+    },
+    {
+      "item_id": "inj-key_error-02-002",
+      "source": "inline",
+      "question_id": "b20261105-02-002",
+      "format": "multi",
+      "pages": [
+        "/oss/python/langgraph/graph-api",
+        "/oss/python/langgraph/graph-api-state",
+        "https://reference.langchain.com/python/langgraph/graph/state/CompiledStateGraph",
+        "https://reference.langchain.com/python/langgraph/graph/state/StateGraph"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "key_error",
+        "expected_items": [
+          "answer_key_correct"
+        ],
+        "source_question_id": "b20261105-02-002",
+        "injection": "정답 키 A를 오답 B로 바꿨다: ['A', 'C'] -> ['B', 'C']"
+      },
+      "verdict": {
+        "answer_key_correct": false,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": false,
+        "verdict": "fail",
+        "reasons": [
+          "answer_key_correct: The answer key lists B and C as correct. However, choice B is incorrect according to the document. Choice B states that returning an empty list with a merging reducer 'always clears the accumulated values,' but the document explicitly states the opposite: 'with a merging reducer, returning an empty value does not clear the field.' The correct answers should be A and C, not B and C.",
+          "explanation_correct: The explanation for choice B is contradictory. It states 'B. 잘못됩니다' (B is wrong) and explains why B is incorrect, yet the answer key marks B as correct. This is a direct contradiction between the explanation and the answer key."
+        ],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [
+        "judge_fail:answer_key_correct",
+        "judge_fail:explanation_correct"
+      ],
+      "rejected": true,
+      "input_tokens": 23080,
+      "output_tokens": 392,
+      "cost_usd": 0.07512,
+      "latency_s": 8.458,
+      "error": null,
+      "judged_at": "2026-11-05T07:57:01Z"
+    },
+    {
+      "item_id": "inj-key_error-13-001",
+      "source": "inline",
+      "question_id": "b20261105-13-001",
+      "format": "multi",
+      "pages": [
+        "/oss/python/langchain/agents",
+        "https://reference.langchain.com/python/langchain/agents/factory/create_agent"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "key_error",
+        "expected_items": [
+          "answer_key_correct"
+        ],
+        "source_question_id": "b20261105-13-001",
+        "injection": "정답 키 A를 오답 D로 바꿨다: ['A', 'C'] -> ['C', 'D']"
+      },
+      "verdict": {
+        "answer_key_correct": false,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": false,
+        "verdict": "fail",
+        "reasons": [
+          "answer_key_correct: The answer key lists C and D as correct, but D is actually wrong. The reference documentation states 'Can be a str (which will be converted to a SystemMessage) or a SystemMessage instance directly' for system_prompt, meaning plain strings ARE accepted, contradicting choice D which claims only SystemMessage instances are accepted.",
+          "explanation_correct: The explanation for choice E is incorrect. It states that state_schema can be passed directly to create_agent, which is TRUE according to the documentation. The explanation claims E is wrong because you can pass state_schema directly, but E claims you MUST use middleware and CANNOT pass state_schema directly. The documentation shows state_schema IS a parameter of create_agent, so E's claim that 'create_agent does not accept a state_schema parameter directly' is false, making E a wrong choice. However, the explanation contradicts the answer key by arguing E should be wrong when the answer key says D is correct."
+        ],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [
+        "judge_fail:answer_key_correct",
+        "judge_fail:explanation_correct"
+      ],
+      "rejected": true,
+      "input_tokens": 28050,
+      "output_tokens": 447,
+      "cost_usd": 0.090855,
+      "latency_s": 11.155,
+      "error": null,
+      "judged_at": "2026-11-05T07:57:05Z"
+    },
+    {
+      "item_id": "inj-cue-04-003",
+      "source": "inline",
+      "question_id": "b20261105-04-003",
+      "format": "multi",
+      "pages": [
+        "/oss/python/langgraph/graph-api",
+        "/oss/python/langgraph/graph-api-control-flow"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ],
+        "source_question_id": "b20261105-04-003",
+        "injection": "오답마다 ' This always happens.'를 붙이고, 정답 보기를 가장 긴 오답의 1.6배 넘게 늘렸다"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": false,
+        "explanation_correct": true,
+        "verdict": "fail",
+        "reasons": [
+          "no_cue: Length test fails. Choice A has 79 words, choice C has 68 words. The longest wrong choice is B with 21 words. Both correct choices exceed 1.5× the longest wrong choice (31.5 words), creating a length cue.",
+          "no_cue: Copy test fails. Both A and C contain the phrase 'It also matches the documented default behavior for this configuration in the current version' and 'This follows from how the framework handles this exact situation, as the reference describes' which appear to be nearly word-for-word copies from documentation-style language, though these specific phrases don't appear in the provided document. More importantly, these repetitive phrases appear only in the correct choices, making them stand out.",
+          "no_cue: Odd one out test fails. Choices A and C both contain the repeated boilerplate phrases mentioned above, while wrong choices B, D, and E end with 'This always happens.' The correct choices share a distinctive verbose form with justification clauses that the wrong choices lack."
+        ],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [
+        "judge_fail:no_cue"
+      ],
+      "rejected": true,
+      "input_tokens": 22740,
+      "output_tokens": 462,
+      "cost_usd": 0.07515,
+      "latency_s": 11.186,
+      "error": null,
+      "judged_at": "2026-11-05T07:57:10Z"
+    },
+    {
+      "item_id": "inj-cue-08-004",
+      "source": "inline",
+      "question_id": "b20261105-08-004",
+      "format": "single",
+      "pages": [
+        "/oss/python/langchain/guardrails"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ],
+        "source_question_id": "b20261105-08-004",
+        "injection": "오답마다 ' This always happens.'를 붙이고, 정답 보기를 가장 긴 오답의 1.6배 넘게 늘렸다"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": false,
+        "explanation_correct": true,
+        "verdict": "fail",
+        "reasons": [
+          "no_cue fails: Length test - Choice A has 73 words, longest wrong choice (D) has 30 words. Ratio 73/30 = 2.43 > 1.5",
+          "no_cue fails: Absolute words test - Choices B, C, and D all contain 'always' but choice A does not"
+        ],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [
+        "judge_fail:no_cue"
+      ],
+      "rejected": true,
+      "input_tokens": 9456,
+      "output_tokens": 312,
+      "cost_usd": 0.033048,
+      "latency_s": 6.417,
+      "error": null,
+      "judged_at": "2026-11-05T07:57:16Z"
+    },
+    {
+      "item_id": "inj-cue-04-010",
+      "source": "inline",
+      "question_id": "b20261105-04-010",
+      "format": "multi",
+      "pages": [
+        "/oss/python/deepagents/human-in-the-loop",
+        "/oss/python/langchain/human-in-the-loop",
+        "/oss/python/langgraph/interrupts",
+        "https://reference.langchain.com/python/langgraph/types/Command",
+        "https://reference.langchain.com/python/langgraph/types/Interrupt"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ],
+        "source_question_id": "b20261105-04-010",
+        "injection": "오답마다 ' This always happens.'를 붙이고, 정답 보기를 가장 긴 오답의 1.6배 넘게 늘렸다"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": true,
+        "explanation_correct": true,
+        "verdict": "pass",
+        "reasons": [],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [],
+      "rejected": false,
+      "input_tokens": 41819,
+      "output_tokens": 232,
+      "cost_usd": 0.128937,
+      "latency_s": 4.976,
+      "error": null,
+      "judged_at": "2026-11-05T07:57:21Z"
+    },
+    {
+      "item_id": "inj-cue-03-006",
+      "source": "inline",
+      "question_id": "b20261105-03-006",
+      "format": "multi",
+      "pages": [
+        "/oss/python/integrations/embeddings",
+        "/oss/python/langchain/knowledge-base"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ],
+        "source_question_id": "b20261105-03-006",
+        "injection": "오답마다 ' This always happens.'를 붙이고, 정답 보기를 가장 긴 오답의 1.6배 넘게 늘렸다"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": false,
+        "explanation_correct": true,
+        "verdict": "fail",
+        "reasons": [
+          "no_cue fails: Length test - Choice A has 72 words, Choice C has 70 words, while wrong choices have: B=26, D=22, E=21 words. Both correct choices are more than 1.5x the longest wrong choice (26 words), violating the length cue test.",
+          "no_cue fails: Odd one out test - Both correct choices A and C contain the phrase 'It also matches the documented default behavior for this configuration in the current version' which does not appear in any wrong choice, making them stand out as a pair with similar structure."
+        ],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [
+        "judge_fail:no_cue"
+      ],
+      "rejected": true,
+      "input_tokens": 25304,
+      "output_tokens": 364,
+      "cost_usd": 0.081372,
+      "latency_s": 8.553,
+      "error": null,
+      "judged_at": "2026-11-05T07:57:22Z"
+    },
+    {
+      "item_id": "inj-cue-03-043",
+      "source": "inline",
+      "question_id": "b20261105-03-043",
+      "format": "multi",
+      "pages": [
+        "/oss/python/langchain/multi-agent/handoffs",
+        "/oss/python/langchain/multi-agent/handoffs-customer-support"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ],
+        "source_question_id": "b20261105-03-043",
+        "injection": "오답마다 ' This always happens.'를 붙이고, 정답 보기를 가장 긴 오답의 1.6배 넘게 늘렸다"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": false,
+        "explanation_correct": true,
+        "verdict": "fail",
+        "reasons": [
+          "no_cue fails: Length test - Choice A has 72 words, Choice B has 60 words, while wrong choices C/D/E have 26/23/22 words respectively. The correct choices are more than 1.5x longer than the longest wrong choice (72 > 26*1.5=39).",
+          "no_cue fails: Odd one out test - Choices A and B both end with 'In practice this is the outcome a developer observes when running the code as written.' while choices C, D, and E end with 'This always happens.' The correct choices share a distinctive form that differs from all wrong choices."
+        ],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [
+        "judge_fail:no_cue"
+      ],
+      "rejected": true,
+      "input_tokens": 19902,
+      "output_tokens": 378,
+      "cost_usd": 0.065376,
+      "latency_s": 8.752,
+      "error": null,
+      "judged_at": "2026-11-05T07:57:26Z"
+    },
+    {
+      "item_id": "inj-cue-14-002",
+      "source": "inline",
+      "question_id": "b20261105-14-002",
+      "format": "single",
+      "pages": [
+        "/oss/python/integrations/retrievers",
+        "https://reference.langchain.com/python/langchain-classic/retrievers/contextual_compression/ContextualCompressionRetriever"
+      ],
+      "label": {
+        "origin": "injected",
+        "defect_type": "cue",
+        "expected_items": [
+          "no_cue"
+        ],
+        "source_question_id": "b20261105-14-002",
+        "injection": "오답마다 ' This always happens.'를 붙이고, 정답 보기를 가장 긴 오답의 1.6배 넘게 늘렸다"
+      },
+      "verdict": {
+        "answer_key_correct": true,
+        "quote_supports_answer": true,
+        "distractors_wrong": true,
+        "mapping_faithful": true,
+        "distractors_plausible": true,
+        "no_cue": false,
+        "explanation_correct": true,
+        "verdict": "fail",
+        "reasons": [
+          "no_cue: Length test - Choice A has 56 words while the longest wrong choice (D) has 21 words, ratio 2.67 > 1.5",
+          "no_cue: Stem leak - The stem asks for a 'design pattern' and choice A explicitly mentions 'documented default behavior' and 'the outcome a developer observes when running the code as written', which are meta-references that don't appear in wrong choices"
+        ],
+        "missing_variants": [],
+        "exec_predictions": []
+      },
+      "fail_reasons": [
+        "judge_fail:no_cue"
+      ],
+      "rejected": true,
+      "input_tokens": 23608,
+      "output_tokens": 333,
+      "cost_usd": 0.075819,
+      "latency_s": 7.415,
+      "error": null,
+      "judged_at": "2026-11-05T07:57:31Z"
+    }
+  ]
+}
