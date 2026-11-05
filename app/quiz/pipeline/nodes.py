@@ -1,7 +1,8 @@
 """파이프라인 노드(design.md 6.1). 상태는 슬롯 1개다."""
 
 import json
-from typing import Any, TypedDict
+import operator
+from typing import Annotated, Any, TypedDict
 
 from quiz import gates, llm, sandbox_client
 from quiz.pipeline import prompts
@@ -23,7 +24,15 @@ class SlotState(TypedDict, total=False):
     judge: dict | None
     gate_fails: list[str]
     fail_reasons: list[str]
-    tokens: dict          # {"input": int, "output": int}
+    tokens: dict          # {"input": int, "output": int}. 시도 1회분
+    exec_result: list[dict] | None
+    exec_match: int | None
+    duplicate_of: str | None
+    peers: list[dict]     # 같은 버킷 passed 문제(dedupe 비교 대상)
+    regen_count: int      # 0~3
+    attempts: Annotated[list[dict], operator.add]  # 시도마다 1개. verification_results 1행이 된다
+    status: str           # passed | dropped. 끝났을 때만 있다
+    drop_reason: str | None
 
 
 def _add_tokens(state: SlotState, raw) -> dict:
@@ -163,12 +172,62 @@ def execute(state: SlotState, run=None) -> dict[str, Any]:
     }
 
 
-def run_gates(state: SlotState) -> dict[str, Any]:
+def run_gates(state: SlotState, gate_fn=None) -> dict[str, Any]:
     question = state.get("question")
     if question is None:
         return {"gate_fails": []}
     snapshots = state["snapshots"]
     # 슬롯에 준 페이지만 대조할 수 있다. 다른 허용 페이지를 인용하면 page_not_allowed로 본다
     allowed = set(state["allowed_pages"]) & set(snapshots)
-    fails = gates.run_gates(question, snapshots, allowed, fmt=state["slot"]["format"])
+    fails = (gate_fn or gates.run_gates)(question, snapshots, allowed, fmt=state["slot"]["format"])
     return {"gate_fails": fails, "fail_reasons": list(state.get("fail_reasons", [])) + fails}
+
+
+def dedupe(state: SlotState) -> dict[str, Any]:
+    """같은 버킷 passed 문제와 비교한다. 같은 quote 또는 본문 Jaccard >= 0.6이면 `duplicate`다(4.4)."""
+    question = state.get("question")
+    if question is None:
+        return {"duplicate_of": None}
+    reason, dup = gates.check_duplicate(question, state.get("peers") or [])
+    if reason is None:
+        return {"duplicate_of": None}
+    return {"duplicate_of": dup, "fail_reasons": list(state.get("fail_reasons", [])) + [reason]}
+
+
+MAX_REGEN = 3
+NO_REGEN = ("version_conflict", "duplicate")  # 재생성 없이 버린다(6.1 판정 규칙)
+ATTEMPT_KEYS = ("question", "judge", "gate_fails", "fail_reasons", "tokens", "exec_result", "exec_match",
+                "duplicate_of")
+
+
+def decide(state: SlotState) -> tuple[str, str | None]:
+    """(passed | dropped | regen, drop_reason)."""
+    fails = state.get("fail_reasons") or []
+    if not fails:
+        return "passed", None
+    for reason in NO_REGEN:
+        if reason in fails:
+            return "dropped", reason
+    if (state.get("regen_count") or 0) >= MAX_REGEN:
+        return "dropped", "regen_exhausted"
+    return "regen", None
+
+
+def record(state: SlotState) -> dict[str, Any]:
+    """이번 시도를 `attempts`에 남기고 판정한다. 끝났으면 `status`를 채운다."""
+    out: dict[str, Any] = {"attempts": [{k: state.get(k) for k in ATTEMPT_KEYS}]}
+    status, reason = decide(state)
+    if status != "regen":
+        out |= {"status": status, "drop_reason": reason}
+    return out
+
+
+def feedback(state: SlotState) -> dict[str, Any]:
+    """실패 이유(Judge 사유 포함)를 다음 생성 입력에 넣고 시도별 값을 비운다."""
+    reasons = list(state.get("fail_reasons") or [])
+    reasons += [f"judge: {r}" for r in (state.get("judge") or {}).get("reasons") or []]
+    return {
+        "feedback": reasons, "regen_count": (state.get("regen_count") or 0) + 1,
+        "question": None, "judge": None, "gate_fails": [], "fail_reasons": [],
+        "tokens": {"input": 0, "output": 0}, "exec_result": None, "exec_match": None, "duplicate_of": None,
+    }

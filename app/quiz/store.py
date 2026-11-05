@@ -101,6 +101,19 @@ def upsert_verification(conn, qid: str, attempt_no: int, state: dict) -> None:
     )
 
 
+def passed_in_bucket(conn, bucket: str, exclude_qid: str | None = None) -> list[dict]:
+    """dedupe 비교 대상: 같은 버킷의 passed 문제(본문, 인용)."""
+    rows = conn.execute(
+        "SELECT question_id, stem_en FROM questions WHERE bucket = ? AND status = 'passed' AND question_id IS NOT ?",
+        (bucket, exclude_qid),
+    ).fetchall()
+    out = []
+    for qid, stem in rows:
+        quotes = conn.execute("SELECT quote FROM grounding_records WHERE question_id = ? ORDER BY idx", (qid,))
+        out.append({"question_id": qid, "stem_en": stem, "grounding_records": [{"quote": q[0]} for q in quotes]})
+    return out
+
+
 def finish_batch(conn, batch_id: str) -> None:
     conn.execute(
         """UPDATE batches SET finished_at = ?,
