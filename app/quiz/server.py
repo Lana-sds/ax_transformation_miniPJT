@@ -4,7 +4,7 @@
 세트 구성은 `quiz.sets`, 복습 큐는 `quiz.review`가 한다.
 
 409 거절(design.md 8.6): 태그 없는 오답이 있을 때 다음 문제와 다음 세트, 정답 행 태그, 이미 푼 문제,
-가장 최근 세트가 아닌 세트의 답 제출과 태그 변경, 10문제를 채우지 못하는 풀.
+가장 최근 세트가 아닌 세트의 답 제출과 태그 변경, 10문제를 채우지 못하는 풀, 감사 표본 20문항을 채우지 못하는 풀.
 409 응답의 `detail`은 `{"reason": ...}`이다.
 """
 
@@ -16,7 +16,7 @@ from typing import Literal
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-from quiz import db, grading, review, sets
+from quiz import audit, db, grading, review, sets
 from quiz.migrate import apply_migrations, current_version
 from quiz.pool import current_pool
 from quiz.store import now
@@ -226,3 +226,71 @@ def tag_attempt(attempt_id: int, body: TagIn) -> dict:
             "confused_segment_id": segment,
             "review": dict(item) if item else None,
         }
+
+
+def _audit_view(conn: sqlite3.Connection, a: dict) -> dict:
+    """감사 화면용. 표본 문제마다 정답 키, 해설, 매핑, 근거를 넣는다(design.md 7.1)."""
+    rows = _questions(conn, a["sample"])
+    questions = []
+    for qid in a["sample"]:
+        row = rows[qid]
+        grounding = [
+            {"page": g["page"], "url": _doc_url(g["page"]), "quote": g["quote"], "answer_basis": g["answer_basis"]}
+            for g in conn.execute(
+                "SELECT page, quote, answer_basis FROM grounding_records WHERE question_id = ? ORDER BY idx", (qid,))
+        ]
+        questions.append({
+            **_public_question(row),
+            "answer_key": json.loads(row["answer_key_json"]),
+            "accepted_answers": json.loads(row["accepted_answers_json"]) if row["accepted_answers_json"] else None,
+            "explanation_ko": row["explanation_ko"],
+            "segments": json.loads(row["segments_json"]),
+            "grounding": grounding,
+            "doc_url": row["doc_url"],
+        })
+    return {**a, "questions": questions}
+
+
+@app.get("/api/audits/current")
+def current_audit() -> dict:
+    with _conn() as conn:
+        a = audit.current(conn)
+        if a is None:
+            raise HTTPException(404, "no audit for current pool")
+        return _audit_view(conn, a)
+
+
+@app.post("/api/audits")
+def create_audit() -> dict:
+    """현재 풀 스냅샷에서 시드와 표본을 만든다. 같은 스냅샷이면 기존 감사를 돌려준다(FR-9.1)."""
+    with _conn() as conn:
+        try:
+            a = audit.create(conn)
+        except audit.NoPool:
+            raise _conflict("no_pool")
+        except audit.PoolTooSmall as exc:
+            raise _conflict("pool_too_small", message=f"pool has {exc.args[0]} questions, audit needs {audit.SAMPLE_SIZE}")
+        return _audit_view(conn, a)
+
+
+class AuditRecordIn(BaseModel):
+    answer_key_error: bool
+    quote_unsupported: bool
+    mapping_unfaithful: bool
+    note: str | None = None
+
+
+@app.put("/api/audits/{audit_id}/records/{question_id}")
+def record_audit(audit_id: str, question_id: str, body: AuditRecordIn) -> dict:
+    """문항별 감사 결과 저장. 표본 20문항이 모두 차면 `result`를 계산한다(FR-9.2)."""
+    with _conn() as conn:
+        try:
+            a = audit.record(conn, audit_id, question_id, answer_key_error=body.answer_key_error,
+                             quote_unsupported=body.quote_unsupported,
+                             mapping_unfaithful=body.mapping_unfaithful, note=body.note)
+        except audit.AuditNotFound:
+            raise HTTPException(404, "audit not found")
+        except audit.NotInSample:
+            raise HTTPException(400, "question not in audit sample")
+        return {"audit_id": audit_id, "question_id": question_id, "record": a["records"][question_id],
+                "recorded": len(a["records"]), "sample_size": len(a["sample"]), "result": a["result"]}
