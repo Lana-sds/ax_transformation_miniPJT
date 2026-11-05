@@ -1,6 +1,6 @@
 # EXP-2 결과: 생성 프롬프트의 인용 복사
 
-상태: 초안
+상태: 확정
 작성일: 2026-11-05
 기록: [04-exp2-generate.md](../../dev-process/04-prompt-model-experiments/04-exp2-generate.md)
 
