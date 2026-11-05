@@ -1,7 +1,19 @@
 # 스냅샷 기대 해시. `quiz snapshot fetch`가 서버 sha256 대조 뒤 쓴다. 손으로 고치지 않는다.
 snapshots:
+  langsmith__application-structure.mdx:
+    sha256: be281f1f0066ea558b1f4f72020336661be2e5e9d4650ce6061c151befee39b1
+    fetched_at: '2026-11-05'
+  langsmith__create-few-shot-evaluators.mdx:
+    sha256: 870e7cc2cccf33a32f05a4df0359e0c7931347a1f26a9fcd50da0b4a81dc2904
+    fetched_at: '2026-11-05'
   langsmith__evaluation-concepts.mdx:
     sha256: f5ba32a97b4818ecbc561ec51e22d95535ab09499efb6e8a397563edf9165206
+    fetched_at: '2026-11-05'
+  langsmith__improve-judge-evaluator-feedback.mdx:
+    sha256: 45ff5eb905a21af767f8104d4a946bdc7adca131e4e74f9d63b76119a9e368b8
+    fetched_at: '2026-11-05'
+  langsmith__llm-as-judge-sdk.mdx:
+    sha256: 4ad123c99cddbb1a6379c8990e6b380f954102ee78b3f5bc3ea84a07861c12ce
     fetched_at: '2026-11-05'
   langsmith__llm-as-judge.mdx:
     sha256: 56dbab35ecce10f24adabd113bed60820869a0f23d98e16b9d5be29c55a3d986
@@ -12,11 +24,32 @@ snapshots:
   langsmith__trace-with-langchain.mdx:
     sha256: a16216813809e220fa1f38defd62dd58ee589ccdcf34a7cb2b7b55aac9233cf3
     fetched_at: '2026-11-05'
+  langsmith__trajectory-evals.mdx:
+    sha256: 36533b10de4bc9bc5ff7ed7e75127137e718146a82bd45c15674302c19629cb8
+    fetched_at: '2026-11-05'
+  oss__python__concepts__context.mdx:
+    sha256: 542a75c006ad1c335d543f1c302e6562934ad6f5f52a04fc5f5e62970573229b
+    fetched_at: '2026-11-05'
   oss__python__concepts__memory.mdx:
     sha256: 0fa038d51bbf96c57e146aaae6eb2e26fa4b60b41835951f56159a1af43e60fe
     fetched_at: '2026-11-05'
+  oss__python__deepagents__context-engineering.mdx:
+    sha256: fdd535d19e02cd8608fb91cca47b181b94300c4f6f392aab2eed604f5cd501cf
+    fetched_at: '2026-11-05'
+  oss__python__deepagents__dynamic-subagents.mdx:
+    sha256: 226917672bf7e97eb148213b6e625aa67f024a66c5af5a45198a36ac057bbdca
+    fetched_at: '2026-11-05'
+  oss__python__deepagents__human-in-the-loop.mdx:
+    sha256: 7c1032af5fcbe5ea23e1242103b6179252d285689557dc3758748fd600aaa996
+    fetched_at: '2026-11-05'
+  oss__python__deepagents__memory.mdx:
+    sha256: d888adcebfffeb08aa76cc11baeb2cf8a5a2058f591f65c239dbf4a43d83a9a1
+    fetched_at: '2026-11-05'
   oss__python__deepagents__overview.mdx:
     sha256: e62cde11c9b19d6054154d8246218d5a8fe54e937400a6ff67cddbef141bdf1c
+    fetched_at: '2026-11-05'
+  oss__python__deepagents__subagents.mdx:
+    sha256: 50122f881873452ee5cb68809ca4fd4c7de179c0d7e6faffcbceb53bfa6250a3
     fetched_at: '2026-11-05'
   oss__python__integrations__document_loaders.mdx:
     sha256: 13cff59b5d19c58259385d6b6902e46003a4e8e14c9161b36539709e7513b683
@@ -35,6 +68,9 @@ snapshots:
     fetched_at: '2026-11-05'
   oss__python__langchain__agents.mdx:
     sha256: d314f316a9acb26046c768533fae186f2d892117a76e936467d8646354ceaa46
+    fetched_at: '2026-11-05'
+  oss__python__langchain__context-engineering.mdx:
+    sha256: 73c2e6249a7b8cea35b32775ef521b610a815b24b398bd490abe8804f070ce58
     fetched_at: '2026-11-05'
   oss__python__langchain__guardrails.mdx:
     sha256: 78c8c53f6f9f879b707b8bf9d9c330a090641d2aebed07828bf209f4baaa7b47
@@ -57,6 +93,9 @@ snapshots:
   oss__python__langchain__mcp__tools.mdx:
     sha256: e1deea142be3d25c5dee5910a06ca6dd8dd18859264d6291bc5fdeb4dee52036
     fetched_at: '2026-11-05'
+  oss__python__langchain__messages.mdx:
+    sha256: 1cd96c13a2db62b54249deb1a3ed74a915e8ee24de9a278e4a8cf7974908a5de
+    fetched_at: '2026-11-05'
   oss__python__langchain__middleware__built-in.mdx:
     sha256: 716946f7bad7f6fb72d0ab2d15717a6ea61a844f2534b5ff5c9f885d284ceeff
     fetched_at: '2026-11-05'
@@ -65,6 +104,9 @@ snapshots:
     fetched_at: '2026-11-05'
   oss__python__langchain__middleware__overview.mdx:
     sha256: 3a091074828dfbb629597d96cd2dd9461d7431526f93bf3be283924b3b896d52
+    fetched_at: '2026-11-05'
+  oss__python__langchain__models.mdx:
+    sha256: 365096d50166aa66ce49c2e6b7f157ea789b7b227c7dec3579598c42ec1bd81f
     fetched_at: '2026-11-05'
   oss__python__langchain__multi-agent__handoffs-customer-support.mdx:
     sha256: bd8d8d3673f9b00aa7a349bbf89ca680679310b7f28b6ed375e0cd5d20948eec
@@ -102,6 +144,9 @@ snapshots:
   oss__python__langchain__tools.mdx:
     sha256: 4cc9c497d1a49269816479fde7363759a5a23e3752a7b7df6660e5ba900a625a
     fetched_at: '2026-11-05'
+  oss__python__langgraph__checkpointers.mdx:
+    sha256: f627a987a43902c540b17774dc439948af1036f869bb041e539c8f1f9fd77702
+    fetched_at: '2026-11-05'
   oss__python__langgraph__fault-tolerance.mdx:
     sha256: 1aa2efc42dd81eb57be2cd7ce751a6e144ac0c97f9f91e1f25f0d31afa7409f0
     fetched_at: '2026-11-05'
@@ -123,11 +168,17 @@ snapshots:
   oss__python__langgraph__persistence.mdx:
     sha256: 534e58724d60260c9a3414c3d2598c53a21a5f3e941c50ad4cae9fe6ed95d8f5
     fetched_at: '2026-11-05'
+  oss__python__langgraph__stores.mdx:
+    sha256: 91b55a1693bc77d3a379c1a354cdab988f1422c7326f72a5fac8257b049978b9
+    fetched_at: '2026-11-05'
   oss__python__langgraph__studio.mdx:
     sha256: f670b4a93f9a0364e2b0e2a0c62b839f7b381078d9497ed25dcfea3f2aec5546
     fetched_at: '2026-11-05'
   oss__python__langgraph__use-subgraphs.mdx:
     sha256: d949f4cf91deb3f102f4ac6d173928db2aa6013ef38e3aa71573267685f7e26b
+    fetched_at: '2026-11-05'
+  oss__python__langgraph__use-time-travel.mdx:
+    sha256: 1a67e87014360ce78502f3fda58c492ab0d3535b736ba10c8266de92d797caab
     fetched_at: '2026-11-05'
   oss__python__langgraph__workflows-agents.mdx:
     sha256: 90571db30f13429920d4a872f0f6049abd2dac6c9213d4b28591df7598b2d52c
@@ -147,6 +198,9 @@ snapshots:
   reference__python__langchain-classic__retrievers__ensemble__EnsembleRetriever.md:
     sha256: e468c05956c914ac4df4dfd2072911bc3a07e05a43d77d44d435d1f709cb8808
     fetched_at: '2026-11-05'
+  reference__python__langchain-core__callbacks.md:
+    sha256: 1217e263dd8604d23a370ca6369220e770b3f5b692791a7769cd199a90013528
+    fetched_at: '2026-11-05'
   reference__python__langchain-core__callbacks__base__BaseCallbackHandler.md:
     sha256: 3641981826a32a29671e1757c0a3b00ac343691352c75528a7e02160e16e5bc8
     fetched_at: '2026-11-05'
@@ -159,9 +213,33 @@ snapshots:
   reference__python__langchain-text-splitters__character__RecursiveCharacterTextSplitter.md:
     sha256: 23089bba412ac2b03c40c5360c765321f98bcdc1131f41fa4f5949c5a3f9df19
     fetched_at: '2026-11-05'
+  reference__python__langchain__agents__factory__create_agent.md:
+    sha256: 557ab8cc697743d48e65edcade37dd6bea91f65b7b2457b0418d8d8414abdb6d
+    fetched_at: '2026-11-05'
+  reference__python__langchain__agents__middleware__todo.md:
+    sha256: 57b5a4532ac2073a3c812b62c99e1338b2460c537f9e1ce380b69c9d2f00bd68
+    fetched_at: '2026-11-05'
+  reference__python__langchain__agents__middleware__todo__PlanningState.md:
+    sha256: 881830fbf42014bd14f3ede62bb8a0b7bdbd0ffe6fe6df5003ce51788f84af48
+    fetched_at: '2026-11-05'
   reference__python__langchain__mcp__adapter__MCPAdapter.md:
     sha256: dcddd6d1d8c55f0aab384fe43d218e6f77cea83b565ce7c53fdcde18e1692284
     fetched_at: '2026-11-05'
   reference__python__langgraph.prebuilt__tool_node__ToolNode.md:
     sha256: 5a68281985b0d4ef16e93acdda2c95eb66b150185b59af3af1bcc9a1d36f8f81
+    fetched_at: '2026-11-05'
+  reference__python__langgraph__graph__message__add_messages.md:
+    sha256: 06e185b0cd1ccf392320072bfc0fcab272a359cad6bdcb9311ce570028ae4f1f
+    fetched_at: '2026-11-05'
+  reference__python__langgraph__graph__state__CompiledStateGraph.md:
+    sha256: 1756e83383eeabfc2ad1755e7d045fcef363cfb97982cf0f70e57f646686bb1d
+    fetched_at: '2026-11-05'
+  reference__python__langgraph__graph__state__StateGraph.md:
+    sha256: 7ca88661c874f23ba02a66e6bec15ffef4f0e6b96fdeb0debcb1b1afebabcdb4
+    fetched_at: '2026-11-05'
+  reference__python__langgraph__types__Command.md:
+    sha256: 38009d95817a3c3613f204b6f676f1fa87e7f4d5458fa137ebb3b7ba816c6a90
+    fetched_at: '2026-11-05'
+  reference__python__langgraph__types__Interrupt.md:
+    sha256: 390fba016653cd2bff5a028a2a4413a6a1751bc9b75d26a43d9e487dc75173df
     fetched_at: '2026-11-05'

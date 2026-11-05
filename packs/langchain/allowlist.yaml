@@ -163,6 +163,24 @@ pages:
   sha256: 4406968ed573b0df658f17fe350795f5a85ca9c7df923c01ff40b5ebe3d65c09
   fetched_at: '2026-11-05'
 - bucket: langgraph_basics
+  topic_no: 1
+  topic: State·노드·엣지
+  path: https://reference.langchain.com/python/langgraph/graph/state/StateGraph
+  kind: api-ref
+  status: 확인
+  snapshot: reference__python__langgraph__graph__state__StateGraph.md
+  sha256: 7ca88661c874f23ba02a66e6bec15ffef4f0e6b96fdeb0debcb1b1afebabcdb4
+  fetched_at: '2026-11-05'
+- bucket: langgraph_basics
+  topic_no: 1
+  topic: State·노드·엣지
+  path: https://reference.langchain.com/python/langgraph/graph/state/CompiledStateGraph
+  kind: api-ref
+  status: 확인
+  snapshot: reference__python__langgraph__graph__state__CompiledStateGraph.md
+  sha256: 1756e83383eeabfc2ad1755e7d045fcef363cfb97982cf0f70e57f646686bb1d
+  fetched_at: '2026-11-05'
+- bucket: langgraph_basics
   topic_no: 2
   topic: 조건부 엣지
   path: /oss/python/langgraph/graph-api
@@ -217,6 +235,24 @@ pages:
   sha256: cd6c0535bd600706a39b31698beb0545b8b9643c03827eeaedda328343e0668e
   fetched_at: '2026-11-05'
 - bucket: langgraph_basics
+  topic_no: 4
+  topic: '`add_messages` 리듀서'
+  path: https://reference.langchain.com/python/langgraph/graph/message/add_messages
+  kind: api-ref
+  status: 확인
+  snapshot: reference__python__langgraph__graph__message__add_messages.md
+  sha256: 06e185b0cd1ccf392320072bfc0fcab272a359cad6bdcb9311ce570028ae4f1f
+  fetched_at: '2026-11-05'
+- bucket: langgraph_basics
+  topic_no: 4
+  topic: '`add_messages` 리듀서'
+  path: /oss/python/langchain/messages
+  kind: docs
+  status: 근접
+  snapshot: oss__python__langchain__messages.mdx
+  sha256: 1cd96c13a2db62b54249deb1a3ed74a915e8ee24de9a278e4a8cf7974908a5de
+  fetched_at: '2026-11-05'
+- bucket: langgraph_basics
   topic_no: 5
   topic: ReAct
   path: /oss/python/langchain/agents
@@ -224,6 +260,15 @@ pages:
   status: 근접
   snapshot: oss__python__langchain__agents.mdx
   sha256: d314f316a9acb26046c768533fae186f2d892117a76e936467d8646354ceaa46
+  fetched_at: '2026-11-05'
+- bucket: langgraph_basics
+  topic_no: 5
+  topic: ReAct
+  path: https://reference.langchain.com/python/langchain/agents/factory/create_agent
+  kind: api-ref
+  status: 근접
+  snapshot: reference__python__langchain__agents__factory__create_agent.md
+  sha256: 557ab8cc697743d48e65edcade37dd6bea91f65b7b2457b0418d8d8414abdb6d
   fetched_at: '2026-11-05'
 - bucket: langgraph_basics
   topic_no: 6
@@ -242,6 +287,15 @@ pages:
   status: 확인
   snapshot: oss__python__langgraph__studio.mdx
   sha256: f670b4a93f9a0364e2b0e2a0c62b839f7b381078d9497ed25dcfea3f2aec5546
+  fetched_at: '2026-11-05'
+- bucket: langgraph_basics
+  topic_no: 6
+  topic: LangSmith Studio
+  path: /langsmith/application-structure
+  kind: docs
+  status: 근접
+  snapshot: langsmith__application-structure.mdx
+  sha256: be281f1f0066ea558b1f4f72020336661be2e5e9d4650ce6061c151befee39b1
   fetched_at: '2026-11-05'
 - bucket: tool_mcp
   topic_no: 1
@@ -406,6 +460,24 @@ pages:
   sha256: 534e58724d60260c9a3414c3d2598c53a21a5f3e941c50ad4cae9fe6ed95d8f5
   fetched_at: '2026-11-05'
 - bucket: middleware_hitl_guardrails
+  topic_no: 3
+  topic: checkpointer·`thread_id`
+  path: /oss/python/langgraph/checkpointers
+  kind: docs
+  status: 확인
+  snapshot: oss__python__langgraph__checkpointers.mdx
+  sha256: f627a987a43902c540b17774dc439948af1036f869bb041e539c8f1f9fd77702
+  fetched_at: '2026-11-05'
+- bucket: middleware_hitl_guardrails
+  topic_no: 3
+  topic: checkpointer·`thread_id`
+  path: /oss/python/langgraph/use-time-travel
+  kind: docs
+  status: 확인
+  snapshot: oss__python__langgraph__use-time-travel.mdx
+  sha256: 1a67e87014360ce78502f3fda58c492ab0d3535b736ba10c8266de92d797caab
+  fetched_at: '2026-11-05'
+- bucket: middleware_hitl_guardrails
   topic_no: 4
   topic: '`interrupt()`·`Command(resume)`'
   path: /oss/python/langgraph/interrupts
@@ -422,6 +494,33 @@ pages:
   status: 확인
   snapshot: oss__python__langchain__human-in-the-loop.mdx
   sha256: 57127da30dd9237baf1369cc3fe4a616467eca3e6632a7d9016719aef28025c0
+  fetched_at: '2026-11-05'
+- bucket: middleware_hitl_guardrails
+  topic_no: 4
+  topic: '`interrupt()`·`Command(resume)`'
+  path: https://reference.langchain.com/python/langgraph/types/Command
+  kind: api-ref
+  status: 확인
+  snapshot: reference__python__langgraph__types__Command.md
+  sha256: 38009d95817a3c3613f204b6f676f1fa87e7f4d5458fa137ebb3b7ba816c6a90
+  fetched_at: '2026-11-05'
+- bucket: middleware_hitl_guardrails
+  topic_no: 4
+  topic: '`interrupt()`·`Command(resume)`'
+  path: https://reference.langchain.com/python/langgraph/types/Interrupt
+  kind: api-ref
+  status: 확인
+  snapshot: reference__python__langgraph__types__Interrupt.md
+  sha256: 390fba016653cd2bff5a028a2a4413a6a1751bc9b75d26a43d9e487dc75173df
+  fetched_at: '2026-11-05'
+- bucket: middleware_hitl_guardrails
+  topic_no: 4
+  topic: '`interrupt()`·`Command(resume)`'
+  path: /oss/python/deepagents/human-in-the-loop
+  kind: docs
+  status: 확인
+  snapshot: oss__python__deepagents__human-in-the-loop.mdx
+  sha256: 7c1032af5fcbe5ea23e1242103b6179252d285689557dc3758748fd600aaa996
   fetched_at: '2026-11-05'
 - bucket: middleware_hitl_guardrails
   topic_no: 5
@@ -505,6 +604,24 @@ pages:
   sha256: 6bc85c198a3110e57355cebf23aa07d89d973b8c5731f8eec1fb4df1917b55d3
   fetched_at: '2026-11-05'
 - bucket: multi_agent
+  topic_no: 4
+  topic: 서브 Agent 설계
+  path: /oss/python/deepagents/subagents
+  kind: docs
+  status: 확인
+  snapshot: oss__python__deepagents__subagents.mdx
+  sha256: 50122f881873452ee5cb68809ca4fd4c7de179c0d7e6faffcbceb53bfa6250a3
+  fetched_at: '2026-11-05'
+- bucket: multi_agent
+  topic_no: 4
+  topic: 서브 Agent 설계
+  path: /oss/python/deepagents/dynamic-subagents
+  kind: docs
+  status: 확인
+  snapshot: oss__python__deepagents__dynamic-subagents.mdx
+  sha256: 226917672bf7e97eb148213b6e625aa67f024a66c5af5a45198a36ac057bbdca
+  fetched_at: '2026-11-05'
+- bucket: multi_agent
   topic_no: 5
   topic: 라우팅 검증
   path: /oss/python/langchain/multi-agent/router
@@ -550,6 +667,24 @@ pages:
   sha256: e62cde11c9b19d6054154d8246218d5a8fe54e937400a6ff67cddbef141bdf1c
   fetched_at: '2026-11-05'
 - bucket: ops_quality
+  topic_no: 1
+  topic: Plan-and-Execute
+  path: https://reference.langchain.com/python/langchain/agents/middleware/todo
+  kind: api-ref
+  status: 근접
+  snapshot: reference__python__langchain__agents__middleware__todo.md
+  sha256: 57b5a4532ac2073a3c812b62c99e1338b2460c537f9e1ce380b69c9d2f00bd68
+  fetched_at: '2026-11-05'
+- bucket: ops_quality
+  topic_no: 1
+  topic: Plan-and-Execute
+  path: https://reference.langchain.com/python/langchain/agents/middleware/todo/PlanningState
+  kind: api-ref
+  status: 근접
+  snapshot: reference__python__langchain__agents__middleware__todo__PlanningState.md
+  sha256: 881830fbf42014bd14f3ede62bb8a0b7bdbd0ffe6fe6df5003ce51788f84af48
+  fetched_at: '2026-11-05'
+- bucket: ops_quality
   topic_no: 2
   topic: 단기·장기 기억
   path: /oss/python/langchain/short-term-memory
@@ -575,6 +710,60 @@ pages:
   status: 확인
   snapshot: oss__python__concepts__memory.mdx
   sha256: 0fa038d51bbf96c57e146aaae6eb2e26fa4b60b41835951f56159a1af43e60fe
+  fetched_at: '2026-11-05'
+- bucket: ops_quality
+  topic_no: 2
+  topic: 단기·장기 기억
+  path: /oss/python/langgraph/checkpointers
+  kind: docs
+  status: 확인
+  snapshot: oss__python__langgraph__checkpointers.mdx
+  sha256: f627a987a43902c540b17774dc439948af1036f869bb041e539c8f1f9fd77702
+  fetched_at: '2026-11-05'
+- bucket: ops_quality
+  topic_no: 2
+  topic: 단기·장기 기억
+  path: /oss/python/langgraph/stores
+  kind: docs
+  status: 확인
+  snapshot: oss__python__langgraph__stores.mdx
+  sha256: 91b55a1693bc77d3a379c1a354cdab988f1422c7326f72a5fac8257b049978b9
+  fetched_at: '2026-11-05'
+- bucket: ops_quality
+  topic_no: 2
+  topic: 단기·장기 기억
+  path: /oss/python/deepagents/memory
+  kind: docs
+  status: 확인
+  snapshot: oss__python__deepagents__memory.mdx
+  sha256: d888adcebfffeb08aa76cc11baeb2cf8a5a2058f591f65c239dbf4a43d83a9a1
+  fetched_at: '2026-11-05'
+- bucket: ops_quality
+  topic_no: 2
+  topic: 단기·장기 기억
+  path: /oss/python/concepts/context
+  kind: docs
+  status: 확인
+  snapshot: oss__python__concepts__context.mdx
+  sha256: 542a75c006ad1c335d543f1c302e6562934ad6f5f52a04fc5f5e62970573229b
+  fetched_at: '2026-11-05'
+- bucket: ops_quality
+  topic_no: 2
+  topic: 단기·장기 기억
+  path: /oss/python/deepagents/context-engineering
+  kind: docs
+  status: 확인
+  snapshot: oss__python__deepagents__context-engineering.mdx
+  sha256: fdd535d19e02cd8608fb91cca47b181b94300c4f6f392aab2eed604f5cd501cf
+  fetched_at: '2026-11-05'
+- bucket: ops_quality
+  topic_no: 2
+  topic: 단기·장기 기억
+  path: /oss/python/langchain/context-engineering
+  kind: docs
+  status: 확인
+  snapshot: oss__python__langchain__context-engineering.mdx
+  sha256: 73c2e6249a7b8cea35b32775ef521b610a815b24b398bd490abe8804f070ce58
   fetched_at: '2026-11-05'
 - bucket: ops_quality
   topic_no: 3
@@ -613,6 +802,24 @@ pages:
   sha256: 3641981826a32a29671e1757c0a3b00ac343691352c75528a7e02160e16e5bc8
   fetched_at: '2026-11-05'
 - bucket: ops_quality
+  topic_no: 3
+  topic: 콜백 관측
+  path: /oss/python/langchain/models
+  kind: docs
+  status: 확인
+  snapshot: oss__python__langchain__models.mdx
+  sha256: 365096d50166aa66ce49c2e6b7f157ea789b7b227c7dec3579598c42ec1bd81f
+  fetched_at: '2026-11-05'
+- bucket: ops_quality
+  topic_no: 3
+  topic: 콜백 관측
+  path: https://reference.langchain.com/python/langchain-core/callbacks
+  kind: api-ref
+  status: 확인
+  snapshot: reference__python__langchain-core__callbacks.md
+  sha256: 1217e263dd8604d23a370ca6369220e770b3f5b692791a7769cd199a90013528
+  fetched_at: '2026-11-05'
+- bucket: ops_quality
   topic_no: 4
   topic: LLM-as-judge
   path: /langsmith/evaluation-concepts
@@ -638,6 +845,42 @@ pages:
   status: 확인
   snapshot: oss__python__langchain__test__evals.mdx
   sha256: a5716beb199f7228411a856a09441f981d616053bc22b6938f76ff42272471ba
+  fetched_at: '2026-11-05'
+- bucket: ops_quality
+  topic_no: 4
+  topic: LLM-as-judge
+  path: /langsmith/llm-as-judge-sdk
+  kind: docs
+  status: 확인
+  snapshot: langsmith__llm-as-judge-sdk.mdx
+  sha256: 4ad123c99cddbb1a6379c8990e6b380f954102ee78b3f5bc3ea84a07861c12ce
+  fetched_at: '2026-11-05'
+- bucket: ops_quality
+  topic_no: 4
+  topic: LLM-as-judge
+  path: /langsmith/trajectory-evals
+  kind: docs
+  status: 확인
+  snapshot: langsmith__trajectory-evals.mdx
+  sha256: 36533b10de4bc9bc5ff7ed7e75127137e718146a82bd45c15674302c19629cb8
+  fetched_at: '2026-11-05'
+- bucket: ops_quality
+  topic_no: 4
+  topic: LLM-as-judge
+  path: /langsmith/create-few-shot-evaluators
+  kind: docs
+  status: 확인
+  snapshot: langsmith__create-few-shot-evaluators.mdx
+  sha256: 870e7cc2cccf33a32f05a4df0359e0c7931347a1f26a9fcd50da0b4a81dc2904
+  fetched_at: '2026-11-05'
+- bucket: ops_quality
+  topic_no: 4
+  topic: LLM-as-judge
+  path: /langsmith/improve-judge-evaluator-feedback
+  kind: docs
+  status: 확인
+  snapshot: langsmith__improve-judge-evaluator-feedback.mdx
+  sha256: 45ff5eb905a21af767f8104d4a946bdc7adca131e4e74f9d63b76119a9e368b8
   fetched_at: '2026-11-05'
 - bucket: ops_quality
   topic_no: 5
