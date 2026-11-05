@@ -13,6 +13,7 @@ GEN_MODEL = "global.anthropic.claude-sonnet-4-6"
 # global 프로필이 일일 토큰 한도에 걸리면 쓰는 US 교차 리전 프로필. 한도가 따로다(2026-11-05 관찰).
 GEN_FALLBACK_MODEL = "us.anthropic.claude-sonnet-4-6"
 JUDGE_MODEL = "global.anthropic.claude-sonnet-4-5-20250929-v1:0"
+JUDGE_FALLBACK_MODEL = "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
 ALLOWED_REGIONS = ("us-east-1", "us-west-2", "ap-northeast-2")
 
 BOTO_CONFIG = Config(
@@ -34,11 +35,24 @@ def region() -> str:
     return value
 
 
-def chat_model(model_id: str, temperature: float | None = None) -> ChatBedrockConverse:
+def chat_model(model_id: str, temperature: float | None = None, region_name: str | None = None) -> ChatBedrockConverse:
     kwargs = {}
     if temperature is not None:
         kwargs["temperature"] = temperature
-    return ChatBedrockConverse(model=model_id, region_name=region(), config=BOTO_CONFIG, **kwargs)
+    return ChatBedrockConverse(model=model_id, region_name=region_name or region(), config=BOTO_CONFIG, **kwargs)
+
+
+def profile_regions(model_id: str) -> tuple[str, ...]:
+    """추론 프로필을 부를 수 있는 리전(bedrock-model-list.md). `us.` 프로필은 ap-northeast-2에 없다."""
+    if model_id.startswith("us."):
+        return ("us-east-1", "us-west-2")
+    return ALLOWED_REGIONS
+
+
+def region_order() -> tuple[str, ...]:
+    """환경 변수 리전을 먼저, 나머지 허용 리전을 그 뒤에 둔다. 일일 한도는 소스 리전마다 따로다."""
+    first = region()
+    return (first,) + tuple(r for r in ALLOWED_REGIONS if r != first)
 
 
 def is_daily_throttle(exc: BaseException) -> bool:
@@ -103,12 +117,35 @@ class FailoverModel:
         return _Structured()
 
 
+def failover_chain(model_ids: tuple[str, ...], temperature: float | None = None) -> FailoverModel:
+    """리전 순서대로, 리전 안에서는 프로필 순서대로 이어 붙인다."""
+    return FailoverModel([chat_model(mid, temperature, region_name=r)
+                          for r in region_order() for mid in model_ids if r in profile_regions(mid)])
+
+
+# 배치 전체가 같은 인스턴스를 써야 전환한 프로필에 머문다.
+_shared: dict[str, FailoverModel] = {}
+_shared_lock = threading.Lock()
+
+
+def reset_models() -> None:
+    with _shared_lock:
+        _shared.clear()
+
+
+def _get(key: str, build) -> FailoverModel:
+    with _shared_lock:
+        if key not in _shared:
+            _shared[key] = build()
+        return _shared[key]
+
+
 def gen_model() -> FailoverModel:
-    return FailoverModel([chat_model(GEN_MODEL), chat_model(GEN_FALLBACK_MODEL)])
+    return _get("gen", lambda: failover_chain((GEN_MODEL, GEN_FALLBACK_MODEL)))
 
 
-def judge_model() -> ChatBedrockConverse:
-    return chat_model(JUDGE_MODEL, temperature=0)
+def judge_model() -> FailoverModel:
+    return _get("judge", lambda: failover_chain((JUDGE_MODEL, JUDGE_FALLBACK_MODEL), temperature=0))
 
 
 def usage(message) -> tuple[int, int]:

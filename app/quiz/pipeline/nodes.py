@@ -156,7 +156,7 @@ def judge(state: SlotState, model=None) -> dict[str, Any]:
     )
     model = model or llm.judge_model()
     out = model.with_structured_output(JudgeVerdict, include_raw=True).invoke(prompt)
-    tokens = _add_tokens(state, out["raw"], model)
+    tokens = _add_tokens(state, out["raw"], model, out.get("model_id"))
     fails = list(state.get("fail_reasons", []))
     if out.get("parsed") is None:
         return {"judge": None, "fail_reasons": fails + ["judge_fail:schema_invalid"], "tokens": tokens}

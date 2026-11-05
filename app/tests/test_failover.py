@@ -83,13 +83,66 @@ def test_all_profiles_throttled_raises():
     assert (a.calls, b.calls) == (1, 1)
 
 
-def test_gen_model_is_failover_global_then_us(monkeypatch):
+@pytest.fixture(autouse=True)
+def fake_aws(monkeypatch):
+    """boto 클라이언트가 자격 증명을 찾느라 기다리지 않게 가짜 값을 넣는다. 호출은 하지 않는다."""
+    monkeypatch.setenv("AWS_ACCESS_KEY_ID", "test")
+    monkeypatch.setenv("AWS_SECRET_ACCESS_KEY", "test")
+    yield
+    llm.reset_models()
+
+
+def _chain(model):
+    return [(m.model_id, m.region_name) for m in model.models]
+
+
+def test_gen_model_chain_starts_in_env_region_then_other_regions(monkeypatch):
     monkeypatch.setenv("AWS_REGION", "us-east-1")
+    llm.reset_models()
     model = llm.gen_model()
     assert isinstance(model, llm.FailoverModel)
-    assert [m.model_id for m in model.models] == [llm.GEN_MODEL, llm.GEN_FALLBACK_MODEL]
-    assert llm.GEN_MODEL == "global.anthropic.claude-sonnet-4-6"
-    assert llm.GEN_FALLBACK_MODEL == "us.anthropic.claude-sonnet-4-6"
+    g, u = llm.GEN_MODEL, llm.GEN_FALLBACK_MODEL
+    # 일일 한도는 소스 리전마다 따로다(2026-11-05 확인). ap-northeast-2에는 us. 프로필이 없다.
+    assert _chain(model) == [(g, "us-east-1"), (u, "us-east-1"), (g, "us-west-2"), (u, "us-west-2"),
+                             (g, "ap-northeast-2")]
+    assert g == "global.anthropic.claude-sonnet-4-6"
+    assert u == "us.anthropic.claude-sonnet-4-6"
+
+
+def test_judge_model_chain_and_temperature(monkeypatch):
+    monkeypatch.setenv("AWS_REGION", "us-west-2")
+    llm.reset_models()
+    model = llm.judge_model()
+    g, u = llm.JUDGE_MODEL, llm.JUDGE_FALLBACK_MODEL
+    assert u == "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
+    assert _chain(model) == [(g, "us-west-2"), (u, "us-west-2"), (g, "us-east-1"), (u, "us-east-1"),
+                             (g, "ap-northeast-2")]
+    assert all(m.temperature == 0 for m in model.models)
+
+
+def test_models_are_shared_so_failover_sticks(monkeypatch):
+    monkeypatch.setenv("AWS_REGION", "us-east-1")
+    llm.reset_models()
+    assert llm.gen_model() is llm.gen_model()
+    assert llm.judge_model() is llm.judge_model()
+
+
+def test_pricing_has_judge_fallback_model():
+    price = pricing.load()["models"][llm.JUDGE_FALLBACK_MODEL]
+    assert (price["input"], price["output"]) == (3.3, 16.5)
+
+
+def test_judge_node_cost_uses_model_actually_called():
+    from test_judge import PASS, judged  # noqa: PLC0415
+
+    class OkJudge(FakeModel):
+        model_id = llm.JUDGE_FALLBACK_MODEL
+
+    primary = Raising(llm.JUDGE_MODEL, client_error("ThrottlingException", DAILY))
+    out = nodes.judge(judged("single"), llm.FailoverModel([primary, OkJudge(PASS)]))
+    assert out["fail_reasons"] == []
+    expected = pricing.cost(llm.JUDGE_FALLBACK_MODEL, 100, 20)
+    assert abs(out["tokens"]["cost_usd"] - expected) < 1e-12
 
 
 def test_pricing_has_fallback_model():

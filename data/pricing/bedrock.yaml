@@ -23,3 +23,7 @@ models:
     name: Claude Sonnet 4.5
     input: 3.0
     output: 15.0
+  us.anthropic.claude-sonnet-4-5-20250929-v1:0:
+    name: Claude Sonnet 4.5 (US cross-region)
+    input: 3.3
+    output: 16.5
