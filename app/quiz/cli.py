@@ -35,6 +35,24 @@ def cmd_snapshot_fetch(args: argparse.Namespace) -> int:
     return 1 if errors else 0
 
 
+def cmd_snapshot_fetch_ref(args: argparse.Namespace) -> int:
+    from datetime import date
+
+    from quiz.allowlist import MANIFEST_PATH, record_fetch
+    from quiz.snapshots import fetch_refs_sync, ref_snapshot_name
+
+    today = date.today().isoformat()
+
+    def done(url: str, sha: str) -> None:
+        record_fetch(MANIFEST_PATH, ref_snapshot_name(url), sha, today)
+        print(f"{ref_snapshot_name(url)} sha256={sha}", flush=True)
+
+    _, errors = fetch_refs_sync(args.urls, done)
+    for url, err in errors.items():
+        print(f"error: {url}: {err}")
+    return 1 if errors else 0
+
+
 def cmd_allowlist_build(args: argparse.Namespace) -> int:
     from quiz import allowlist
 
@@ -80,6 +98,9 @@ def main(argv: list[str] | None = None) -> int:
     fetch = snap.add_parser("fetch", help="docs-langchain MCP에서 문서 페이지를 받는다")
     fetch.add_argument("pages", nargs="+", help="문서 경로. 예: /oss/python/langgraph/graph-api")
     fetch.set_defaults(func=cmd_snapshot_fetch)
+    fref = snap.add_parser("fetch-ref", help="reference-langchain MCP get_symbol 출력을 받는다")
+    fref.add_argument("urls", nargs="+", help="API 레퍼런스 URL")
+    fref.set_defaults(func=cmd_snapshot_fetch_ref)
 
     al = sub.add_parser("allowlist", help="허용 목록").add_subparsers(dest="allowlist_cmd", required=True)
     build = al.add_parser("build", help="page-allowlist.md 표로 allowlist.yaml을 만들고 스냅샷 해시를 검사한다")

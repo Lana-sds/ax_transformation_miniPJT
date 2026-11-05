@@ -104,3 +104,62 @@ def fetch_docs_sync(pages: list[str], on_done=None) -> tuple[dict[str, str], dic
 
 def file_sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+# --- API 레퍼런스(`reference-langchain` MCP `get_symbol` 출력) ---
+
+REF_MCP_URL = "https://reference.langchain.com/mcp"
+REF_TOOL = "get_symbol"
+
+
+def ref_target(url: str) -> tuple[str, str]:
+    """레퍼런스 URL을 (package, symbol)로 바꾼다. /python/<package>/.../<symbol>"""
+    from urllib.parse import urlparse
+
+    parts = urlparse(url).path.strip("/").split("/")
+    if len(parts) < 3 or parts[0] != "python":
+        raise SnapshotError(f"unexpected reference url: {url}")
+    return parts[1], parts[-1]
+
+
+def ref_snapshot_name(url: str) -> str:
+    from urllib.parse import urlparse
+
+    return "reference__" + urlparse(url).path.strip("/").replace("/", "__") + ".md"
+
+
+def check_ref_text(text: str, symbol: str) -> None:
+    """출력 첫 줄이 `# <symbol>`인지 본다. 서버 해시가 없어 이 검사와 로컬 sha256만 남긴다."""
+    if not text.startswith(f"# {symbol}\n"):
+        raise SnapshotError(f"get_symbol output does not start with '# {symbol}': {text[:120]!r}")
+
+
+async def fetch_refs(urls: list[str], on_done=None) -> tuple[dict[str, str], dict[str, str]]:
+    """`get_symbol` 출력 텍스트를 그대로 스냅샷으로 쓴다. ({url: sha256}, {url: 오류})"""
+    SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
+    out: dict[str, str] = {}
+    errors: dict[str, str] = {}
+    async with streamablehttp_client(REF_MCP_URL) as (read, write, _):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+            for url in urls:
+                try:
+                    package, symbol = ref_target(url)
+                    res = await session.call_tool(REF_TOOL, {"package": package, "symbol": symbol,
+                                                             "language": "python"})
+                    text = res.content[0].text
+                    check_ref_text(text, symbol)
+                except SnapshotError as e:
+                    errors[url] = str(e)
+                    continue
+                data = text.encode("utf-8")
+                (SNAPSHOT_DIR / ref_snapshot_name(url)).write_bytes(data)
+                sha = hashlib.sha256(data).hexdigest()
+                out[url] = sha
+                if on_done:
+                    on_done(url, sha)
+    return out, errors
+
+
+def fetch_refs_sync(urls: list[str], on_done=None) -> tuple[dict[str, str], dict[str, str]]:
+    return asyncio.run(fetch_refs(urls, on_done))

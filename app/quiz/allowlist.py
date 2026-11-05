@@ -9,12 +9,10 @@
 
 import re
 from pathlib import Path
-from urllib.parse import urlparse
-
 import yaml
 
 from quiz.db import REPO_ROOT
-from quiz.snapshots import SNAPSHOT_DIR, file_sha256
+from quiz.snapshots import SNAPSHOT_DIR, file_sha256, ref_snapshot_name, snapshot_name
 
 PACK_DIR = REPO_ROOT / "packs" / "langchain"
 ALLOWLIST_PATH = PACK_DIR / "allowlist.yaml"
@@ -61,9 +59,7 @@ def parse_page_table(text: str) -> list[dict]:
 
 def snapshot_for(path: str, kind: str) -> str:
     """docs: 경로의 `/`를 `__`로(.mdx). api-ref: `reference__` + URL 경로(.md, `get_symbol` 출력)."""
-    if kind == "api-ref":
-        return "reference__" + urlparse(path).path.strip("/").replace("/", "__") + ".md"
-    return path.strip("/").replace("/", "__") + ".mdx"
+    return ref_snapshot_name(path) if kind == "api-ref" else snapshot_name(path)
 
 
 def load_manifest(path: Path = MANIFEST_PATH) -> dict[str, dict]:
