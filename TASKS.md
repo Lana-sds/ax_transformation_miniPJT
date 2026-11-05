@@ -100,7 +100,7 @@
   - 확인: 배치를 중간에 끊고 `--resume`하면 `passed`·`dropped`가 아닌 슬롯만 다시 돈다.
 - [x] T2.8 토큰·비용: `verification_results`, `batches`에 토큰 누적, `data/pricing/bedrock.yaml`(AWS 가격 페이지 확인, 출처 URL, 날짜)로 `cost_usd` 계산 (US-2.5, US-7.2, W4)
   - 확인: 배치 1회 뒤 `batches.input_tokens`가 시도 행 합과 같고 단가가 있으면 `cost_usd`가 NULL이 아니다.
-- [ ] T2.9 Langfuse 선택 적용: SDK 키 이름 확인, 환경 변수 3개가 모두 있을 때만 콜백, `batch_id`를 세션 ID·태그로 (US-7.1, W4)
+- [x] T2.9 Langfuse 선택 적용: SDK 키 이름 확인, 환경 변수 3개가 모두 있을 때만 콜백, `batch_id`를 세션 ID·태그로 (US-7.1, W4)
   - 확인: 환경 변수 없이 배치가 성공하고, 있으면 Langfuse UI에 그 `batch_id` trace가 1개 이상 있다.
 - [ ] T2.10 `quiz crosscheck --pool <pool_snapshot_id> | --batch <batch_id>`: Claude 계열이 아닌 모델 2개(`us.amazon.nova-pro-v1:0`, `openai.gpt-oss-120b-1:0`)가 정답 키를 보지 않고 `passed` 문제를 풀어 정답 키 오류 후보를 찾는다. 요구사항 밖 보조 점검(사용자 승인 2026-11-05). 모델에는 `stem_en`, 보기, 형식, `select_count`, 근거 페이지 스냅샷 원문만 준다. 정답 키, 허용 답안, 해설, 매핑, quote, `answer_basis`는 주지 않는다. 코드형은 기본으로 건너뛴다. 리전이 `us-east-1`이 아니면 오류로 멈춘다. `grading.py`로 채점해 `data/crosscheck/<대상 ID>.json`에 문항별 두 모델의 답·일치 여부·근거 문장을 쓰고 불일치 요약 표를 낸다. DB, migrations, `status`는 바꾸지 않는다. 첫 실행은 T3.1 직후다
   - 확인: 파일럿 배치에 돌리면 문항마다 모델 2개의 결과가 파일에 있다.
@@ -127,11 +127,11 @@
 
 - [ ] T4.1 `quiz generate --plan pool` 실행과 재개 (US-2.5, W7)
   - 확인: SQLite 조회로 `passed`가 버킷당 10개, 형식마다 10개 이상이다.
-- [ ] T4.2 `sets.py` 완성: 항상 10문제(M0 임시 규칙 제거), 복습 최대 3개 → 새 문제 → 맞힌 적 있는 문제 오래된 순, `retired` 제외 (US-4.1, W8)
+- [x] T4.2 `sets.py` 완성: 항상 10문제(M0 임시 규칙 제거), 복습 최대 3개 → 새 문제 → 맞힌 적 있는 문제 오래된 순, `retired` 제외 (US-4.1, W8)
   - 확인: `uv run pytest tests/test_sets.py`가 첫 세트, 복습 3개 초과, 새 문제 소진 사례를 통과한다.
-- [ ] T4.3 `review.py`: `n+2`, 1회차 오답 `m+5`, `cleared`, `retired`, 태그 갱신, 개념 실수 변형 대체 (US-5.2, US-5.3, W8)
+- [x] T4.3 `review.py`: `n+2`, 1회차 오답 `m+5`, `cleared`, `retired`, 태그 갱신, 개념 실수 변형 대체 (US-5.2, US-5.3, W8)
   - 확인: `uv run pytest tests/test_review.py`가 간격 계산과 상태 전이를 모두 통과한다.
-- [ ] T4.4 API 완성: `PUT /api/attempts/{id}/tag`, `GET /api/sets/{set_id}`, 태그 없는 오답 409, 오답 행에만 태그 (US-4.4, US-5.1, W9)
+- [x] T4.4 API 완성: `PUT /api/attempts/{id}/tag`, `GET /api/sets/{set_id}`, 태그 없는 오답 409, 오답 행에만 태그 (US-4.4, US-5.1, W9)
   - 확인: `uv run pytest tests/test_api.py`(TestClient)가 409 두 사례와 이어 풀기 응답을 통과한다.
 - [ ] T4.5 UI 형식 컴포넌트: 복수 선택(고를 개수 표시), 단답 입력, 코드 선택(코드 블록, "코드 보기" 링크) (US-4.2, W10)
   - 확인: 형식마다 문제 1개를 브라우저에서 풀어 결과 화면까지 간다.

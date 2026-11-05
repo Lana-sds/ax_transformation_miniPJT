@@ -3,7 +3,7 @@
 | 항목 | 내용 |
 | --- | --- |
 | 문서 상태 | 확정 |
-| 버전 | 6.0 (부록 A) |
+| 버전 | 7.0 (부록 A) |
 | 작성일 | 2026-11-04 |
 | 요구사항 | [requirements.md](../../01-requirements/output/requirements.md) |
 | 관련 산출물 | [page-allowlist.md](page-allowlist.md), [seed.yaml](seed.yaml) |
@@ -159,7 +159,8 @@ flowchart LR
 | JS 런타임·패키지 | Node, npm | 로컬 Node v26.13.0, npm 11.20.0. Bun 1.4.4도 있으나 쓰지 않음(기본값) | NFR-2.3 |
 | 테스트 | pytest(기본값), httpx(FastAPI TestClient) | 앱 dev 의존성 | - |
 | 생성 모델 | `global.anthropic.claude-sonnet-4-6` | Bedrock 모델 ID | NFR-4.1 |
-| 생성 모델 전환 프로필 | `us.anthropic.claude-sonnet-4-6` | 생성 모델이 일일 토큰 한도(`ThrottlingException`, "per day")에 걸리면 이 프로필로 넘어간다. 넘어간 뒤에는 그대로 쓴다. 단가는 실제로 부른 프로필로 매긴다 | NFR-4.1 |
+| 생성 모델 전환 프로필 | `us.anthropic.claude-sonnet-4-6` | 일일 토큰 한도(`ThrottlingException`, "per day")에 걸리면 다음 순서로 넘어간다: 환경 변수 리전의 global → us 프로필, 이어서 나머지 허용 리전의 global → us 프로필(ap-northeast-2는 global만). 넘어간 뒤에는 그대로 쓴다. 단가는 실제로 부른 프로필로 매긴다 | NFR-4.1 |
+| Judge 모델 전환 프로필 | `us.anthropic.claude-sonnet-4-5-20250929-v1:0` | 생성 모델 전환과 같은 규칙이다 | NFR-4.2 |
 | Judge 모델 | `global.anthropic.claude-sonnet-4-5-20250929-v1:0` | Bedrock 모델 ID | NFR-4.2 |
 | 예비 모델 | `global.anthropic.claude-haiku-4-5-20251001-v1:0` | Bedrock 모델 ID | NFR-4.3 |
 
@@ -681,3 +682,4 @@ Seed 수용 기준 번호는 [seed.yaml](seed.yaml) `acceptance_criteria` 순서
 | 4.0 | 2026-11-05 | 구현 M2 중 사용자 승인을 반영했다. 1.4 Langfuse 키 이름과 Bedrock 단가를 닫았다. 3.1 `langfuse` 버전, 3.2 Langfuse 호스트 키, 5.1 `verification_results.cost_usd`(마이그레이션 0002), 5.4 단가 단위 1M 토큰, 8.3 콜백·세션·비용 규칙. 기록은 [03-m2.md](../../dev-process/03-implementation/03-m2.md)에 있다 |
 | 5.0 | 2026-11-05 | 출제 품질 기준(T2.11) 사용자 승인을 반영했다. 6.1 `judge` 출력에 선택형 항목 `distractors_plausible`, `no_cue`를 더했다. 기록은 [03-m2.md](../../dev-process/03-implementation/03-m2.md)에 있다 |
 | 6.0 | 2026-11-05 | 생성 모델 전환 프로필 사용자 승인을 반영했다. 3.1에 `us.anthropic.claude-sonnet-4-6` 행을 더했다. 기록은 [03-m2.md](../../dev-process/03-implementation/03-m2.md)에 있다 |
+| 7.0 | 2026-11-05 | 리전 전환과 Judge 전환 사용자 승인을 반영했다. 3.1 생성 모델 전환 행에 리전 순서를 더하고 Judge 모델 전환 행을 더했다. 기록은 [03-m2.md](../../dev-process/03-implementation/03-m2.md)에 있다 |
