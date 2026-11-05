@@ -125,7 +125,7 @@
 
 ## M4 풀 배치와 풀이 기능 완성 (배치가 도는 동안 서버·UI)
 
-- [ ] T4.1 `quiz generate --plan pool` 실행과 재개 (US-2.5, W7)
+- [x] T4.1 `quiz generate --plan pool` 실행과 재개 (US-2.5, W7)
   - 확인: SQLite 조회로 `passed`가 버킷당 10개, 형식마다 10개 이상이다.
 - [x] T4.2 `sets.py` 완성: 항상 10문제(M0 임시 규칙 제거), 복습 최대 3개 → 새 문제 → 맞힌 적 있는 문제 오래된 순, `retired` 제외 (US-4.1, W8)
   - 확인: `uv run pytest tests/test_sets.py`가 첫 세트, 복습 3개 초과, 새 문제 소진 사례를 통과한다.
