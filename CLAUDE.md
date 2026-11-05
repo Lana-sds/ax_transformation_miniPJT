@@ -13,7 +13,8 @@ LLM 학습 문제 풀이 웹앱 과제(agent-dev-quiz). LangChain 팩을 먼저 
 | `docs/02-spec-design/output/seed.yaml` | 수용 기준 |
 | `SERVICE.md` | PRD. 새 요구사항을 더하지 않는다 |
 | `TASKS.md` | 구현 작업 순서와 일정. 작업은 `확인:` 줄이 통과해야 끝난다 |
-| `docs/dev-process/03-implementation-plan.md` | 단계 계획. 병렬 실행 표가 있다 |
+| `docs/03-implementation/output/implementation.md` | 구현 결과(코드 구조, 검증 결과) |
+| `docs/dev-process/NN-<stage>-plan.md` | 현재 단계 계획. 병렬 실행 표가 있다 |
 
 ## 디렉토리
 - `docs/NN-<stage>/input/`, `output/`: 단계별 입력과 산출물이다. 앞 단계 output은 복사하지 않고 링크한다. 단계는 `docs/dev-process/skillset-by-lifecycle.md`를 따른다.
@@ -34,10 +35,13 @@ LLM 학습 문제 풀이 웹앱 과제(agent-dev-quiz). LangChain 팩을 먼저 
 | `app/` | `uv run quiz generate --plan pilot\|pool\|fill [--count N]`, `--resume <batch_id>` | 문제 생성(Bedrock 호출) |
 | `app/` | `uv run quiz crosscheck --batch <batch_id>` 또는 `--pool <id>` | 교차 풀이 점검(T2.10, Bedrock 호출, us-east-1만) |
 | `app/` | `uv run quiz pool freeze` | 풀 스냅샷 |
+| `app/` | `uv run quiz metrics` | `data/metrics/baseline.json`을 다시 쓴다 |
+| `app/` | `uv run quiz allowlist build` | `allowlist.yaml`을 만들고 스냅샷 해시를 검사한다 |
 | `app/` | `uv run uvicorn quiz.server:app --port 8000` | API 서버 |
 | `web/` | `npm run dev` | `http://localhost:5173`, `/api`를 8000으로 넘긴다 |
 
 처음부터 끝까지 도는 순서는 `docs/03-implementation/output/m0-smoke.md`에 있다.
+`quiz` 명령은 기본으로 `data/quiz.db`를 쓴다. 다른 DB를 쓰려면 `QUIZ_DB`에 경로를 준다.
 
 ## 고정 결정
 - 모델 호출은 AWS Bedrock 경유로 한다. Anthropic API는 직접 부르지 않는다. 쓸 수 있는 모델은 `docs/01-requirements/input/bedrock-model-list.md`를 따른다(Claude, Amazon Nova).
@@ -47,7 +51,6 @@ LLM 학습 문제 풀이 웹앱 과제(agent-dev-quiz). LangChain 팩을 먼저 
 
 ## 작업 규칙
 - 테스트를 먼저 쓰고, 실패를 본 뒤 구현한다.
-- `TASKS.md`의 "M0 임시" 규칙은 표시된 뒤 작업에서 없앤다.
 - 구현하다가 `design.md`와 다른 값을 정하면 기록 파일의 "결정" 표에 적는다. `design.md`는 차이를 사용자에게 보이고 승인받은 뒤 고친다.
 - 확인하지 못한 사실은 "미확인"으로 쓴다. 날짜는 절대 날짜(YYYY-MM-DD)로 쓴다.
 
@@ -60,5 +63,6 @@ LLM 학습 문제 풀이 웹앱 과제(agent-dev-quiz). LangChain 팩을 먼저 
 
 ## 세션과 병렬 작업
 - 진행 상태의 기준은 파일이다(`TASKS.md` 체크박스, 기록 파일의 "인계" 절). 세션 하나는 묶음 하나까지 하고, `/stage <NN> run`으로 이어 간다.
-- 코디네이터(사용자와 대화하는 세션)만 쓰는 파일: `TASKS.md`, `docs/` 전체, `app/pyproject.toml`, `app/uv.lock`, `app/migrations/`, `web/package.json`, `web/package-lock.json`. Bedrock 호출과 `.env`가 필요한 작업은 이 worktree에서만 돌린다.
+- 코디네이터(사용자와 대화하는 세션)만 쓰는 파일: `TASKS.md`, `docs/` 전체, `app/pyproject.toml`, `app/uv.lock`, `app/migrations/`, `web/package.json`, `web/package-lock.json`. Bedrock 호출과 `.env`가 필요한 작업은 코디네이터 worktree에서만 돌린다.
+- 새 단계 worktree에는 git에서 빠진 `.env`와 `data/quiz.db`가 없다. 코디네이터 worktree를 만들면 둘을 복사해 온다.
 - 병렬 워커 절차는 stage 스킬 run 3번과 단계 계획의 "병렬 실행" 표를 따른다.
