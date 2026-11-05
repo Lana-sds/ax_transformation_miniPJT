@@ -3,7 +3,7 @@
 | 항목 | 내용 |
 | --- | --- |
 | 문서 상태 | 확정 |
-| 버전 | 7.0 (부록 A) |
+| 버전 | 8.0 (부록 A) |
 | 작성일 | 2026-11-04 |
 | 요구사항 | [requirements.md](../../01-requirements/output/requirements.md) |
 | 관련 산출물 | [page-allowlist.md](page-allowlist.md), [seed.yaml](seed.yaml) |
@@ -153,7 +153,7 @@ flowchart LR
 | 저장소 | SQLite, Python 표준 `sqlite3` | 별도 설치 없음. 스키마는 `schema_version`과 `migrations/`로 관리 | NFR-2.2, 8.4 |
 | 관측 | `langfuse` SDK, Langfuse Cloud Hobby | `langfuse` 5.1.0. 앱 `uv.lock`에 고정. 환경 변수가 없으면 붙이지 않음 | NFR-5, 8.3 |
 | 샌드박스 Python | CPython, 별도 uv 프로젝트 | 버전은 앱과 같게 둔다(기본값) | GR-7.1 |
-| 샌드박스 패키지 | `langchain`, `langgraph`, `langchain-core` | lock 시점 최신(문서 최신 버전 기준) | GR-7.2 |
+| 샌드박스 패키지 | `langchain`, `langgraph`, `langchain-core`, `langchain-text-splitters`, `numpy` | lock 시점 최신(문서 최신 버전 기준) | GR-7.2 |
 | 샌드박스 MCP 고정 | `mcp==1.30.0`, `fastmcp==2.13.0`, `langchain-mcp-adapters==0.3.2`, `mcp-server-time==2026.10.10` | 고정 | GR-7.2 |
 | 프론트엔드 | React + Vite, TypeScript(기본값, `react-ts` 템플릿) | React 19.3, Vite 8.3, TypeScript 7.0(2026-11-05 설치). `package-lock.json`을 커밋 | NFR-2.3 |
 | JS 런타임·패키지 | Node, npm | 로컬 Node v26.13.0, npm 11.20.0. Bun 1.4.4도 있으나 쓰지 않음(기본값) | NFR-2.3 |
@@ -211,7 +211,7 @@ ax_transformation_miniPJT/
 │   │   └── 0001_init.sql
 │   └── tests/
 ├── sandbox/                        # 코드형 실행 환경(별도 uv 프로젝트, 앱과 의존성 공유 안 함)
-│   ├── pyproject.toml              # langchain·langgraph lock 시점 최신 + MCP 4개 고정(GR-7.2)
+│   ├── pyproject.toml              # langchain·langgraph 등 lock 시점 최신 + MCP 4개 고정(GR-7.2)
 │   ├── uv.lock
 │   ├── runner.py                   # stdin JSON 하나를 받아 실행하고 stdout JSON 하나를 낸다
 │   └── fakes.py                    # GenericFakeChatModel, bind_tools 하위 클래스
@@ -461,7 +461,7 @@ flowchart TD
 | --- | --- | --- | --- |
 | `generate` | 슬롯, 그 주제의 허용 목록 스냅샷 원문, 직전 실패 이유 | 구조화 출력(`with_structured_output`): 문제, 보기, 정답 키, 허용 답안, 해설, segments, grounding_records, 코드형 `exec_spec` | `schema_invalid` |
 | `judge` | 문제 전체, 인용한 스냅샷 원문 | 정답 확인, 근거가 정답을 뒷받침하는지, 오답 보기가 실제로 틀렸는지, 매핑 충실도, 선택형(`single`, `multi`, `code`) 오답 보기의 그럴듯함(`distractors_plausible`), 단서 없음(`no_cue`), 빠진 단답 변형(합쳐서 최대 5개), 코드형 보기별 예측 `{ok, stdout, error_type}` | `judge_fail:<항목>` |
-| `execute` | `exec_spec`, lock 해시 | 보기별 실제 `{ok, stdout, error_type}` | `judge_exec_mismatch`, `version_conflict` |
+| `execute` | `exec_spec`, lock 해시 | 보기별 실제 `{ok, stdout, error_type}` | `judge_exec_mismatch`, `version_conflict`, `sandbox_module_missing` |
 | `gates` | 문제, 스냅샷 | `quote_match`, `mapping_present`, 단답 허용 답안 1~5개, quote 30자 이상, `page`가 `allowlist.yaml`에 있음(4.4) | `quote_mismatch`, `quote_too_short`, `grounding_missing`, `mapping_missing`, `page_not_allowed`, `accepted_answers_count` |
 | `dedupe` | 문제, 같은 버킷 `passed` 문제 | 같은 quote 또는 Jaccard ≥ 0.6이면 `duplicate_of`(4.4) | `duplicate` |
 
@@ -469,7 +469,8 @@ flowchart TD
 
 - 노드 순서는 FR-7.1을 따른다(D-10).
 - `version_conflict`: 실행 결과가 정답 키(인용 원문 기준)와 다르고 Judge도 정답 키에 동의한 경우다. 문서와 고정 버전의 동작 충돌로 보고 재생성 없이 버리고 개수를 센다(GR-7.5). 그 밖의 실행-예측 차이는 `judge_exec_mismatch`이며 재생성한다.
-- `duplicate`는 재생성 없이 버린다. 슬롯은 다음 배치에서 다시 채운다.
+- `sandbox_module_missing`: 실행이 `ModuleNotFoundError`이고 정답 키 기준 기대값은 그 오류가 아닌 경우다. 샌드박스에 없는 패키지를 쓴 코드로 보고 재생성한다. 피드백에 샌드박스 패키지 목록을 넣는다. `version_conflict`보다 먼저 판정한다.
+- `duplicate`는 재생성 없이 버린다. 슬롯은 다음 배치(`generate --plan fill`)에서 다시 채운다.
 - 시도마다 `verification_results`에 한 행을 쓴다. 마지막 판정만 `questions.status`에 반영한다.
 
 생성 규칙:
@@ -572,7 +573,7 @@ sequenceDiagram
 | `snapshot fetch <page...>` | 문서 페이지 스냅샷을 받아 `packs/langchain/snapshots/`에 쓰고 sha256을 출력 |
 | `snapshot fetch-ref <url...>` | API 레퍼런스 스냅샷을 받아 `packs/langchain/snapshots/`에 쓰고 sha256을 출력 |
 | `allowlist build [--allow-missing]` | `docs/02-spec-design/output/page-allowlist.md` 표를 읽어 `packs/langchain/allowlist.yaml`을 만들고 스냅샷 해시를 검사. 스냅샷이 없는 행이 있으면 멈춘다. `--allow-missing`이면 그 행을 `snapshot: null`로 둔다 |
-| `generate --plan pilot\|pool [--count N]` / `generate --resume <batch_id>` | 슬롯 계획을 쓰고 그래프를 돈다. 시작 전에 백업. `pilot`은 버킷당 1문제 |
+| `generate --plan pilot\|pool\|fill [--count N]` / `generate --resume <batch_id>` | 슬롯 계획을 쓰고 그래프를 돈다. 시작 전에 백업. `pilot`은 버킷당 1문제. `fill`은 passed 문제(변형 제외)를 세어 버킷당 10개, 형식마다 10개에 모자란 만큼만 슬롯을 만든다. 형식 부족분(code 먼저)을 부족분이 큰 버킷에 먼저 주고, 나머지는 passed가 적은 형식에 준다. 주제는 기존 문제까지 세어 덜 쓴 주제를 고른다 |
 | `generate --variants` | 변형 문제가 없는 `concept` 큐 항목으로 변형 배치를 돈다 |
 | `pool freeze` | 현재 `passed`(변형 제외) 문제로 풀 스냅샷을 만든다 |
 | `metrics` | `data/metrics/baseline.json`을 다시 쓴다 |
@@ -683,3 +684,4 @@ Seed 수용 기준 번호는 [seed.yaml](seed.yaml) `acceptance_criteria` 순서
 | 5.0 | 2026-11-05 | 출제 품질 기준(T2.11) 사용자 승인을 반영했다. 6.1 `judge` 출력에 선택형 항목 `distractors_plausible`, `no_cue`를 더했다. 기록은 [03-m2.md](../../dev-process/03-implementation/03-m2.md)에 있다 |
 | 6.0 | 2026-11-05 | 생성 모델 전환 프로필 사용자 승인을 반영했다. 3.1에 `us.anthropic.claude-sonnet-4-6` 행을 더했다. 기록은 [03-m2.md](../../dev-process/03-implementation/03-m2.md)에 있다 |
 | 7.0 | 2026-11-05 | 리전 전환과 Judge 전환 사용자 승인을 반영했다. 3.1 생성 모델 전환 행에 리전 순서를 더하고 Judge 모델 전환 행을 더했다. 기록은 [03-m2.md](../../dev-process/03-implementation/03-m2.md)에 있다 |
+| 8.0 | 2026-11-05 | 구현 M4 중 사용자 승인을 반영했다. 3.1 샌드박스 패키지에 `langchain-text-splitters`, `numpy`(requirements 3.0 GR-7.2), 6.1 `sandbox_module_missing` 판정, 7.2 `generate --plan fill`. 기록은 [05-m4.md](../../dev-process/03-implementation/05-m4.md)에 있다 |
