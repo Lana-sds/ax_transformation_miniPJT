@@ -90,7 +90,7 @@
   - 확인: 일부러 정답 키를 틀린 문제를 넣으면 `judge_fail:<항목>`이 나온다.
 - [ ] T2.3 재생성 루프: feedback 노드, 실패 이유를 다음 생성 입력에 넣기, 최대 3회, `regen_exhausted`, 시도마다 `verification_results` 1행 (US-2.2, W6)
   - 확인: 항상 실패하는 가짜 게이트로 돌리면 시도 4행(0~3)과 `dropped`/`regen_exhausted`가 남는다.
-- [ ] T2.4 `sandbox/` uv 프로젝트: 고정 버전(GR-7.2), `fakes.py`(`GenericFakeChatModel`, `bind_tools` 하위 클래스), `runner.py`(stdin JSON → stdout JSON) (US-2.3, W5)
+- [x] T2.4 `sandbox/` uv 프로젝트: 고정 버전(GR-7.2), `fakes.py`(`GenericFakeChatModel`, `bind_tools` 하위 클래스), `runner.py`(stdin JSON → stdout JSON) (US-2.3, W5)
   - 확인: 예제 JSON을 `uv run python runner.py`에 넣으면 `{ok, stdout, error_type}` 한 줄이 나온다.
 - [ ] T2.5 `sandbox_client.py`와 `execute` 노드: `AWS_*`·`LANGFUSE_*` 제거, 보기당 30초, lock 해시, `judge_exec_mismatch`·`version_conflict` 판정 (US-2.3, W5)
   - 확인: `uv run pytest tests/test_sandbox_client.py`가 정상, 무한 루프(`timeout`), 환경 변수 미전달, 두 불일치 사례를 통과한다.
