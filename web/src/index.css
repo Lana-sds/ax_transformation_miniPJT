@@ -178,3 +178,93 @@ blockquote {
 code {
   font-family: ui-monospace, Consolas, monospace;
 }
+
+.qnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.qnav-item {
+  margin: 0;
+  padding: 4px 0;
+  width: 36px;
+  background: var(--bg);
+  color: var(--fg);
+  border-color: var(--line);
+}
+
+.qnav-item.ok {
+  border-color: var(--ok);
+  color: var(--ok);
+}
+
+.qnav-item.ng,
+.qnav-item.untagged {
+  border-color: var(--ng);
+  color: var(--ng);
+}
+
+.qnav-item.untagged {
+  background: #ffebe9;
+}
+
+.qnav-item.current {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.notice {
+  color: var(--accent);
+}
+
+.tag-form {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid var(--ng);
+  border-radius: 8px;
+}
+
+.tag-form .hint {
+  color: var(--muted);
+  margin-top: 0;
+}
+
+.tag-choices {
+  display: flex;
+  gap: 12px;
+}
+
+.tag-choices label,
+.segment-pick label {
+  display: block;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.tag-choices label.chosen,
+.segment-pick label.chosen {
+  border-color: var(--accent);
+  background: #ddf4ff;
+}
+
+.segment-pick {
+  margin-top: 12px;
+  border: none;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.segment-pick .en {
+  margin-left: 6px;
+}
+
+.segment-pick .ko {
+  display: block;
+  margin-left: 24px;
+  color: var(--muted);
+}
