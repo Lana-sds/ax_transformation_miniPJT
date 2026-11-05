@@ -4,6 +4,7 @@
 작성일: 2026-11-05
 수정: 2026-11-05, 사용자 지시로 마감을 2026-11-06 17:00으로 당겼다. 상위 문서(requirements 2.0, seed 1.1.0, SERVICE.md 0.4)를 함께 고쳤다. 변형 문제(T7.1)를 면제하고 체크포인트를 2026-11-06 09:00으로 옮겼다. 일정은 [TASKS.md](../../TASKS.md) "일정" 절에 있다
 수정: 2026-11-05, M0 완료 뒤 "병렬 실행" 절을 더했다. 워커는 격리 worktree 서브에이전트로 띄운다. 격리 worktree는 `main`(`37c2535`)에서 갈라지는 것을 확인했다(2026-11-05). 그래서 워커는 시작할 때 코디네이터 HEAD로 맞춘다
+수정: 2026-11-05, 워커 절차를 stage 스킬 run 3번으로 모았다. 워커는 끝날 때 브랜치와 커밋 해시를 보고한다. 코디네이터는 그 해시를 기록 파일 "인계"·"진행" 절에 적고, 병합 전에 기준 커밋에서 갈라졌는지 확인한다
 대상: [SERVICE.md](../../SERVICE.md), [design.md](../02-spec-design/output/design.md), [seed.yaml](../02-spec-design/output/seed.yaml), [page-allowlist.md](../02-spec-design/output/page-allowlist.md), [06-output.md](02-spec-design/06-output.md). 2단계 확정 산출물 3개와 PRD 1개
 근거: [skillset-by-lifecycle.md](skillset-by-lifecycle.md)의 "3. 구현" 행. 도구 README는 2026-11-05에 다시 읽지 않았다(미확인). 02 계획의 2026-11-04 확인을 따른다.
 
@@ -70,7 +71,7 @@
 
 ### 병렬 실행
 
-코디네이터는 이 worktree(`.env`, `data/quiz.db`가 있는 곳)의 세션이다. 워커는 격리 worktree 서브에이전트다. 워커는 첫 명령으로 `git reset --hard <코디네이터 HEAD>`를 실행하고 `git log -1`로 확인한다. 줄 안의 작업은 위에서부터 순서대로 한다.
+코디네이터는 이 worktree(`.env`, `data/quiz.db`가 있는 곳)의 세션이다. 워커는 격리 worktree 서브에이전트다. 워커 지시, 보고, 해시 기록, 병합 절차는 stage 스킬 run 3번을 따른다. 줄 안의 작업은 위에서부터 순서대로 한다.
 
 | 단계 | 줄 | 작업 | 소유 파일 | 선행 | 실행 위치 |
 | --- | --- | --- | --- | --- | --- |
