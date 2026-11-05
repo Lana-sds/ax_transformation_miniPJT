@@ -250,11 +250,34 @@ SANDBOX_HINT = ("A code choice imported a module that is not installed in the sa
                 "langchain-text-splitters, numpy, mcp, fastmcp, langchain-mcp-adapters.")
 
 
+QUOTE_HINT = ("A quote did not match the page source character for character. The source keeps markdown "
+              "syntax: copy markdown link syntax like [`Name`](/path#anchor) and code fence lines like "
+              "```python theme={...} exactly as written, or choose a sentence without links or code. "
+              "Whitespace differences are ignored.")
+
+
+def _quote_hints(state: SlotState) -> list[str]:
+    """인용 대조에 실패한 근거마다 쓴 인용과, 앞부분이 맞는 스냅샷 원문 구간을 보여 준다."""
+    snapshots = state.get("snapshots") or {}
+    hints = []
+    for rec in (state.get("question") or {}).get("grounding_records") or []:
+        snap = snapshots.get(rec.get("page"))
+        if snap is None or gates.check_quote(rec.get("quote", ""), snap) != "quote_mismatch":
+            continue
+        hint = f"quote_mismatch on page {rec['page']}. Your quote: {rec['quote']!r}."
+        if (src := gates.source_near_quote(rec["quote"], snap)):
+            hint += f" Page source at that place (whitespace collapsed): {src!r}"
+        hints.append(hint)
+    return hints + [QUOTE_HINT]
+
+
 def feedback(state: SlotState) -> dict[str, Any]:
     """실패 이유(Judge 사유 포함)를 다음 생성 입력에 넣고 시도별 값을 비운다."""
     reasons = list(state.get("fail_reasons") or [])
     if "sandbox_module_missing" in reasons:
         reasons.append(SANDBOX_HINT)
+    if "quote_mismatch" in reasons:
+        reasons += _quote_hints(state)
     reasons += [f"judge: {r}" for r in (state.get("judge") or {}).get("reasons") or []]
     return {
         "feedback": reasons, "regen_count": (state.get("regen_count") or 0) + 1,

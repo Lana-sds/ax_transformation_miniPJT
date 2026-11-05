@@ -155,3 +155,30 @@ def test_check_duplicate_returns_reason_and_target():
     b = _q("q2", "alpha beta gamma delta", quote="b" * 40)
     assert gates.check_duplicate(a, [b]) == ("duplicate", "q2")
     assert gates.check_duplicate(a, []) == (None, None)
+
+
+# T4.1 보충: quote_mismatch 재생성 피드백(design.md 6.1). 인용 앞부분이 맞는 스냅샷 원문 구간을 찾는다.
+LINK_SNAPSHOT = (
+    "### Chat mode\n\nChat mode is a simpler UI. Chat mode is only supported for graph's whose state includes "
+    "or extends [`MessagesState`](/oss/python/langgraph/graph-api-state#messagesstate).\n\nNext section."
+)
+
+
+def test_source_near_quote_returns_snapshot_text_with_markdown():
+    from quiz.gates import source_near_quote
+    quote = "Chat mode is only supported for graph's whose state includes or extends `MessagesState`."
+    src = source_near_quote(quote, LINK_SNAPSHOT)
+    assert src.startswith("Chat mode is only supported for graph's")
+    assert "[`MessagesState`](/oss/python/langgraph/graph-api-state#messagesstate)" in src
+
+
+def test_source_near_quote_code_fence_attributes():
+    from quiz.gates import source_near_quote
+    snap = 'Add a conditional edge:\n\n```python theme={"theme":{"light":"x"}}\nbuilder = StateGraph(State)\n```\n'
+    src = source_near_quote("Add a conditional edge:\n\n```python\nbuilder = StateGraph(State)", snap)
+    assert '```python theme={"theme":{"light":"x"}}' in src
+
+
+def test_source_near_quote_none_when_start_not_found():
+    from quiz.gates import source_near_quote
+    assert source_near_quote("Completely different sentence that is not in the page at all.", LINK_SNAPSHOT) is None

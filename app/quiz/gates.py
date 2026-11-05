@@ -21,6 +21,29 @@ def check_quote(quote: str, snapshot: str) -> str | None:
     return None
 
 
+SOURCE_TAIL_CHARS = 120
+
+
+def source_near_quote(quote: str, snapshot: str) -> str | None:
+    """인용 앞부분과 맞는 스냅샷 원문 구간을 돌려준다(재생성 피드백용, design.md 6.1).
+
+    정규화한 인용의 가장 긴 앞부분(최소 MIN_QUOTE_CHARS자)이 정규화한 스냅샷에 있으면, 그 자리부터
+    인용 길이 + SOURCE_TAIL_CHARS자를 돌려준다. 앞부분이 없으면 None이다. 판정에는 쓰지 않는다.
+    """
+    q, s = normalize(quote), normalize(snapshot)
+    if len(q) < MIN_QUOTE_CHARS or q[:MIN_QUOTE_CHARS] not in s:
+        return None
+    lo, hi = MIN_QUOTE_CHARS, len(q)  # 앞부분이 있는지는 길이에 대해 단조라 이분 탐색한다
+    while lo < hi:
+        mid = (lo + hi + 1) // 2
+        if q[:mid] in s:
+            lo = mid
+        else:
+            hi = mid - 1
+    start = s.index(q[:lo])
+    return s[start:start + len(q) + SOURCE_TAIL_CHARS]
+
+
 def check_page(page: str, allowed_pages: set[str]) -> str | None:
     return None if page in allowed_pages else "page_not_allowed"
 

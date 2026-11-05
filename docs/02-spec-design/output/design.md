@@ -3,7 +3,7 @@
 | 항목 | 내용 |
 | --- | --- |
 | 문서 상태 | 확정 |
-| 버전 | 9.0 (부록 A) |
+| 버전 | 10.0 (부록 A) |
 | 작성일 | 2026-11-04 |
 | 요구사항 | [requirements.md](../../01-requirements/output/requirements.md) |
 | 관련 산출물 | [page-allowlist.md](page-allowlist.md), [seed.yaml](seed.yaml) |
@@ -470,6 +470,7 @@ flowchart TD
 - 노드 순서는 FR-7.1을 따른다(D-10).
 - `version_conflict`: 실행 결과가 정답 키(인용 원문 기준)와 다르고 Judge도 정답 키에 동의한 경우다. 문서와 고정 버전의 동작 충돌로 보고 재생성 없이 버리고 개수를 센다(GR-7.5). 그 밖의 실행-예측 차이는 `judge_exec_mismatch`이며 재생성한다.
 - `sandbox_module_missing`: 실행이 `ModuleNotFoundError`이고 정답 키 기준 기대값은 그 오류가 아닌 경우다. 샌드박스에 없는 패키지를 쓴 코드로 보고 재생성한다. 피드백에 샌드박스 패키지 목록을 넣는다. `version_conflict`보다 먼저 판정한다.
+- `quote_mismatch` 피드백: 대조에 실패한 근거마다 페이지, 쓴 인용, 인용 앞부분(30자 이상)이 맞는 스냅샷 원문 구간(공백 축약, 인용 길이 + 120자)을 넣는다. 마크다운 링크와 코드 펜스 줄을 원문 그대로 복사하거나 링크·코드 없는 문장을 고르라는 안내를 더한다. 판정(D-2)은 바꾸지 않는다.
 - `duplicate`는 재생성 없이 버린다. 슬롯은 다음 배치(`generate --plan fill`)에서 다시 채운다.
 - 시도마다 `verification_results`에 한 행을 쓴다. 마지막 판정만 `questions.status`에 반영한다.
 
@@ -686,3 +687,4 @@ Seed 수용 기준 번호는 [seed.yaml](seed.yaml) `acceptance_criteria` 순서
 | 7.0 | 2026-11-05 | 리전 전환과 Judge 전환 사용자 승인을 반영했다. 3.1 생성 모델 전환 행에 리전 순서를 더하고 Judge 모델 전환 행을 더했다. 기록은 [03-m2.md](../../dev-process/03-implementation/03-m2.md)에 있다 |
 | 8.0 | 2026-11-05 | 구현 M4 중 사용자 승인을 반영했다. 3.1 샌드박스 패키지에 `langchain-text-splitters`, `numpy`(requirements 3.0 GR-7.2), 6.1 `sandbox_module_missing` 판정, 7.2 `generate --plan fill`. 기록은 [05-m4.md](../../dev-process/03-implementation/05-m4.md)에 있다 |
 | 9.0 | 2026-11-05 | 사용자 승인으로 7.2 `generate --plan fill`이 버린 문제도 센다. 기록은 [05-m4.md](../../dev-process/03-implementation/05-m4.md)에 있다 |
+| 10.0 | 2026-11-05 | 사용자 승인으로 6.1 판정 규칙에 `quote_mismatch` 재생성 피드백 내용을 더했다. 기록은 [05-m4.md](../../dev-process/03-implementation/05-m4.md)에 있다 |

@@ -4,6 +4,7 @@ import json
 
 from llm_fakes import FakeModel
 from quiz import batch, store
+from quiz.pipeline import nodes
 from quiz.pipeline.graph import build_graph
 from test_generate import PAGE, payload
 from test_judge import PASS
@@ -157,3 +158,27 @@ def test_non_code_skips_execute(tmp_db):
                         run=lambda code: called.append(code))
     process(graph, 1)
     assert called == []
+
+
+def test_feedback_quote_mismatch_shows_quote_and_source():
+    from test_gates import LINK_SNAPSHOT
+    bad = "Chat mode is only supported for graph's whose state includes or extends `MessagesState`."
+    good = "Chat mode is a simpler UI. Chat mode is only"
+    state = {
+        "fail_reasons": ["quote_mismatch"], "judge": None, "regen_count": 0,
+        "snapshots": {"/langsmith/studio": LINK_SNAPSHOT},
+        "question": {"grounding_records": [{"page": "/langsmith/studio", "quote": good},
+                                           {"page": "/langsmith/studio", "quote": bad}]},
+    }
+    fb = nodes.feedback(state)["feedback"]
+    assert fb[0] == "quote_mismatch"
+    text = "\n".join(fb)
+    assert bad in text
+    assert good not in text
+    assert "[`MessagesState`](/oss/python/langgraph/graph-api-state#messagesstate)" in text
+    assert "markdown link" in text and "code fence" in text
+
+
+def test_feedback_without_quote_mismatch_has_no_quote_hint():
+    fb = nodes.feedback({"fail_reasons": ["mapping_missing"], "judge": None, "regen_count": 0})["feedback"]
+    assert fb == ["mapping_missing"]
