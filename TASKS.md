@@ -3,7 +3,7 @@
 | 항목 | 내용 |
 | --- | --- |
 | 작성일 | 2026-11-05 |
-| 기준 | [SERVICE.md](SERVICE.md) 0.5, [requirements.md](docs/01-requirements/output/requirements.md) 3.0, [design.md](docs/02-spec-design/output/design.md) 10.0, [seed.yaml](docs/02-spec-design/output/seed.yaml) 1.1.0 (2026-11-05 13:50 확인) |
+| 기준 | [SERVICE.md](SERVICE.md) 0.5, [requirements.md](docs/01-requirements/output/requirements.md) 3.0, [design.md](docs/02-spec-design/output/design.md) 10.0, [seed.yaml](docs/02-spec-design/output/seed.yaml) 1.1.0 (2026-11-05 13:42 확인) |
 | 단계 계획 | [03-implementation-plan.md](docs/dev-process/03-implementation-plan.md) |
 | 마감 | 2026-11-06 17:00 (C-1) |
 
@@ -32,7 +32,7 @@
 | 2026-11-06 17:00 | 제출 | SERVICE.md 4.1 네 조건 |
 
 - M4의 서버·UI 작업(T4.2~T4.6)은 풀 배치(T4.1)가 도는 동안 한다.
-- 현황(2026-11-05 13:50): M0~M4 완료. passed 60(버킷당 10). 풀 `ps_5dac983c4b29`(60문항)를 고정했고 교차 풀이 검토 뒤 T5.1을 확인한다. T5.2, T5.3 완료. 남은 작업은 T4.8, T4.9, T5.1, T5.4~T5.6, M6, T7.2다.
+- 현황(2026-11-05 13:42): M0~M4 완료. passed 60(버킷당 10). 풀 `ps_5dac983c4b29`(60문항)를 고정했고 교차 풀이 검토 뒤 T5.1을 확인한다. T5.2, T5.3 완료. 남은 작업은 T4.8, T4.9, T5.1, T5.4~T5.6, M6, T7.2다.
 - 스냅샷 수집(T1.5, T1.6)은 서로 독립이라 나눠 맡길 수 있다.
 
 ## M0 최소 경로: 스냅샷 1개 → 문제 1개 → 풀이 결과 화면
@@ -123,11 +123,11 @@
   - 확인: 기록 파일에 6문제 측정값과 60문제 소요 추정이 있다.
 - [x] T3.2 축소 판단: 2026-11-06 09:00에 passed 수를 세고, 30개 미만이면 SERVICE.md 7.2의 2, 3번을 적용해 `data/waivers.yaml`에 더한다. 파일럿 직후에는 추정으로 미리 판단해 둔다
   - 확인: 판단 결과와 근거 숫자가 기록 파일에 있다.
-  - 결과(2026-11-05 13:50): passed 60으로 기준 30을 넘어 축소하지 않는다. T4.1에서 60개를 채워 체크포인트 전에 최종 판단했다. 기록은 04-m3.md다.
+  - 결과(2026-11-05 13:42): passed 60으로 기준 30을 넘어 축소하지 않는다. T4.1에서 60개를 채워 체크포인트 전에 최종 판단했다. 기록은 04-m3.md다.
 
 ## M4 풀 배치와 풀이 기능 완성 (배치가 도는 동안 서버·UI)
 
-M4는 T4.1, T4.6, T4.7 확인으로 2026-11-05 13:42에 완료했다(사용자 확인). T4.8, T4.9는 뒤에 더한 작업이라 끝나는 조건에 넣지 않았고 따로 한다.
+M4는 T4.1, T4.6, T4.7 확인으로 2026-11-05 13:39에 완료했다(사용자 확인). T4.8, T4.9는 뒤에 더한 작업이라 끝나는 조건에 넣지 않았고 따로 한다.
 
 - [x] T4.1 `quiz generate --plan pool` 실행과 재개 (US-2.5, W7). 부족분은 `--plan fill`(design.md 7.2) 보충 9회로 채웠다
   - 확인: SQLite 조회로 `passed`가 버킷당 10개, 형식마다 10개 이상이다.
