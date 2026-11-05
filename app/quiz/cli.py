@@ -81,6 +81,21 @@ def cmd_generate(args: argparse.Namespace) -> int:
     return 1 if left else 0
 
 
+def cmd_crosscheck(args: argparse.Namespace) -> int:
+    from quiz import crosscheck
+    from quiz.env import load_cli_env
+
+    load_cli_env()
+    try:
+        path = crosscheck.run(pool_id=args.pool, batch_id=args.batch, include_code=args.include_code)
+    except crosscheck.CrosscheckRegionError as e:
+        print(f"error: {e}")
+        return 1
+    print(path.with_suffix(".md").read_text(encoding="utf-8"))
+    print(f"file={path}")
+    return 0
+
+
 def cmd_pool_freeze(args: argparse.Namespace) -> int:
     from quiz.pool import freeze
 
@@ -121,6 +136,13 @@ def build_parser() -> argparse.ArgumentParser:
     mode.add_argument("--resume", metavar="BATCH_ID", help="passed·dropped가 아닌 슬롯만 다시 돈다")
     gen.add_argument("--count", type=int, help="슬롯 계획 앞에서 N개만 쓴다")
     gen.set_defaults(func=cmd_generate)
+
+    cc = sub.add_parser("crosscheck", help="T2.10 교차 풀이 점검(Claude 밖 모델 2개, 정답 키 비공개)")
+    target = cc.add_mutually_exclusive_group(required=True)
+    target.add_argument("--pool", metavar="POOL_SNAPSHOT_ID")
+    target.add_argument("--batch", metavar="BATCH_ID")
+    cc.add_argument("--include-code", action="store_true", help="코드형도 푼다(기본은 건너뜀)")
+    cc.set_defaults(func=cmd_crosscheck)
 
     pool = sub.add_parser("pool", help="풀 스냅샷").add_subparsers(dest="pool_cmd", required=True)
     pool.add_parser("freeze", help="passed 문제로 풀 스냅샷을 만든다").set_defaults(func=cmd_pool_freeze)
