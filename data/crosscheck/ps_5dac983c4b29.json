@@ -323,7 +323,7 @@
       "priority": null,
       "flagged": true,
       "weak_grounding": false,
-      "reviewed": null
+      "reviewed": "weak_grounding"
     },
     {
       "question_id": "b20261105-03-009",
@@ -376,7 +376,7 @@
       "priority": 1,
       "flagged": true,
       "weak_grounding": false,
-      "reviewed": null
+      "reviewed": "key_error"
     },
     {
       "question_id": "b20261105-03-013",
@@ -511,7 +511,7 @@
       "priority": 2,
       "flagged": true,
       "weak_grounding": false,
-      "reviewed": null
+      "reviewed": "ok"
     },
     {
       "question_id": "b20261105-03-025",
@@ -868,7 +868,7 @@
       "priority": 2,
       "flagged": true,
       "weak_grounding": false,
-      "reviewed": null
+      "reviewed": "ok"
     },
     {
       "question_id": "b20261105-03-048",
