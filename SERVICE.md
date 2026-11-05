@@ -5,10 +5,10 @@
 | 프로젝트 이름 | `agent-dev-quiz` (LLM Agent Dev Quiz) |
 | 제품 | LangChain 예상 문제 풀이 웹앱. MVP는 LangChain 팩 하나다 |
 | 문서 상태 | 초안 |
-| 버전 | 0.4 |
+| 버전 | 0.5 |
 | 작성일 | 2026-11-04 |
 | 마감 | 2026-11-06 17:00 (AX 미니과제 제출 마감) |
-| 원본 | [requirements.md](docs/01-requirements/output/requirements.md) 2.0, [design.md](docs/02-spec-design/output/design.md) 1.3, [seed.yaml](docs/02-spec-design/output/seed.yaml) 1.1.0 |
+| 원본 | [requirements.md](docs/01-requirements/output/requirements.md) 2.0, [design.md](docs/02-spec-design/output/design.md) 2.0, [seed.yaml](docs/02-spec-design/output/seed.yaml) 1.1.0 |
 
 이 문서는 요구사항 정의서와 설계서를 애자일 작업 단위(에픽, 사용자 스토리, 수용 기준, 마일스톤)로 다시 묶은 것이다. 새 요구사항을 더하지 않는다. 이 문서와 원본이 다르면 요구사항 정의서를 따르고, 구현 값은 설계서를 따른다. 용어는 [요구사항 정의서 1.4](docs/01-requirements/output/requirements.md)와 [설계서 1.3](docs/02-spec-design/output/design.md)을 따른다.
 
@@ -602,11 +602,11 @@ flowchart LR
 
 | 항목 | 확인 방법 | 관련 스토리 |
 | --- | --- | --- |
-| 앱 Python 버전 | 교안 확인 뒤 `.python-version`, `requires-python`에 고정 | US-0.1 |
-| 앱 `langchain`, `langgraph` 버전 | 앱 `uv.lock`에 고정 | US-0.1 |
+| 앱 Python 버전 | 확인함(2026-11-05): 3.14.8. 교안 `.venv` 기준 | US-0.1 |
+| 앱 `langchain`, `langgraph` 버전 | 확인함(2026-11-05): `langchain` 1.4.7, `langgraph` 1.2.17. 앱 `uv.lock`에 고정 | US-0.1 |
 | Langfuse SDK 설정 키 이름 | Langfuse 문서로 확인 | US-7.1 |
 | Bedrock 비용 단가 | AWS 가격 페이지로 `data/pricing/bedrock.yaml`을 채운다 | US-7.2 |
-| 페이지 스냅샷 수집 방법 | 후보 2개 중 선택. MCP 서버 URL과 30KB 출력 한도 처리 확인 | US-1.1 |
+| 페이지 스냅샷 수집 방법 | 확인함(2026-11-05): Python MCP 클라이언트, 줄 범위 분할, sha256 서버 대조(설계서 4.3, D-14) | US-1.1 |
 | Bedrock 요청 제한과 비용 | 첫 배치에서 확인 | US-2.6 |
 | 생성 시간 | 파일럿 배치로 측정 | US-2.6 |
 | 백업 보관 개수 | 구현 시 정한다 | US-0.2 |
@@ -664,3 +664,4 @@ Seed 수용 기준 번호: 1 풀, 2 감사, 3 3세트 풀이, 4 세트 출제, 5
 | 0.2 | 2026-11-04 | 1.5 시스템 구성도를 설계서 2.1 도식 형식(경로별 색, 외부 서비스 묶음)으로 다시 그렸다. 원본을 design.md 1.3으로 맞추고 US-1.1 스냅샷 수집 후보 문구를 설계서 4.3과 같게 고쳤다 |
 | 0.3 | 2026-11-04 | 프로젝트 이름을 `agent-dev-quiz`로 정하고 제목과 머리 표에 반영했다 |
 | 0.4 | 2026-11-05 | 마감을 2026-11-06 17:00으로 당겼다(requirements 2.0, seed 1.1.0). 7.1 마일스톤을 다시 잡고 체크포인트를 2026-11-06 09:00으로 옮겼다. 변형 문제(E6)를 면제했다 |
+| 0.5 | 2026-11-05 | 11장 확인 항목 3개(앱 Python, `langchain`·`langgraph` 버전, 스냅샷 수집 방법)를 구현 M0 결과로 채웠다. 원본을 design.md 2.0으로 맞췄다 |

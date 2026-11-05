@@ -1,0 +1,11 @@
+# 허용 목록(design.md 4.3, GR-2). docs/02-spec-design/output/page-allowlist.md 표에서 만든다.
+# M0 임시: 손으로 쓴 1행이다. T1.4 `quiz allowlist build`가 전체 표로 다시 만든다.
+pages:
+  - bucket: langgraph_basics
+    topic: State·노드·엣지
+    path: /oss/python/langgraph/graph-api
+    kind: docs
+    status: 확인
+    snapshot: oss__python__langgraph__graph-api.mdx
+    sha256: cd6c0535bd600706a39b31698beb0545b8b9643c03827eeaedda328343e0668e
+    fetched_at: "2026-11-05"

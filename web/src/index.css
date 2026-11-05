@@ -1,0 +1,139 @@
+:root {
+  --fg: #1f2328;
+  --muted: #59636e;
+  --line: #d1d9e0;
+  --ok: #1a7f37;
+  --ng: #cf222e;
+  --accent: #0969da;
+  --bg: #ffffff;
+  --panel: #f6f8fa;
+  font-family: system-ui, 'Malgun Gothic', sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 1.3rem;
+}
+
+h3 {
+  font-size: 1rem;
+  margin: 20px 0 6px;
+}
+
+.progress,
+.key,
+.basis {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+button {
+  font: inherit;
+  padding: 8px 18px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.stem {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.choices {
+  list-style: none;
+  padding: 0;
+}
+
+.choices label {
+  display: block;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.choices label.chosen {
+  border-color: var(--accent);
+  background: #ddf4ff;
+}
+
+.result {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--panel);
+  border-radius: 8px;
+}
+
+.verdict {
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.verdict.ok {
+  color: var(--ok);
+}
+
+.verdict.ng {
+  color: var(--ng);
+}
+
+.segments {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.segments td {
+  border: 1px solid var(--line);
+  padding: 6px 8px;
+  vertical-align: top;
+  width: 50%;
+}
+
+blockquote {
+  margin: 6px 0;
+  padding: 6px 12px;
+  border-left: 3px solid var(--line);
+  color: var(--muted);
+  white-space: pre-wrap;
+}
+
+.error {
+  color: var(--ng);
+}
+
+code {
+  font-family: ui-monospace, Consolas, monospace;
+}

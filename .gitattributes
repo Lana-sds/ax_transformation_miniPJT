@@ -1,0 +1,2 @@
+# 스냅샷은 서버 원문과 바이트 단위로 같아야 한다(sha256 대조). 줄바꿈 변환을 막는다.
+packs/langchain/snapshots/** -text

@@ -3,7 +3,7 @@
 | 항목 | 내용 |
 | --- | --- |
 | 문서 상태 | 확정 |
-| 버전 | 1.3 (부록 A) |
+| 버전 | 2.0 (부록 A) |
 | 작성일 | 2026-11-04 |
 | 요구사항 | [requirements.md](../../01-requirements/output/requirements.md) |
 | 관련 산출물 | [page-allowlist.md](page-allowlist.md), [seed.yaml](seed.yaml) |
@@ -41,11 +41,11 @@
 
 | 항목 | 현재 값 | 확인 방법 |
 | --- | --- | --- |
-| 앱 Python 버전 | 교안 `sds-ax-practice` 기준(미확인). 로컬 설치는 3.14.8 | 교안 확인 뒤 `.python-version`, `requires-python`에 고정 |
-| 앱 `langchain`, `langgraph` 버전 | 교안 코드가 도는 버전(미확인) | 앱 `uv.lock`에 고정 |
+| 앱 Python 버전 | 3.14.8. 교안 `.venv`에서 확인(2026-11-05) | 확인함 |
+| 앱 `langchain`, `langgraph` 버전 | `langchain` 1.4.7, `langgraph` 1.2.17. 교안 `.venv`에서 확인(2026-11-05) | 확인함 |
 | Langfuse SDK 설정 키 이름 | 미확인 | Langfuse 문서로 확인 |
 | Bedrock 비용 단가 | 미확인 | AWS 가격 페이지로 `data/pricing/bedrock.yaml`을 채운다 |
-| 페이지 스냅샷 수집 방법 | 후보 2개(4.3) | 구현 첫 작업에서 정한다. MCP 서버 URL과 큰 페이지의 30KB 출력 한도 처리도 확인한다 |
+| 페이지 스냅샷 수집 방법 | Python MCP 클라이언트(4.3). 서버 URL `https://docs.langchain.com/mcp` | 확인함(2026-11-05) |
 | Bedrock 요청 제한과 비용 | 기본값(8.1) | 첫 배치에서 요청 제한 발생 여부와 비용을 확인한다 |
 | 생성 시간 | 없음 | 파일럿 배치로 측정한다(6.2) |
 | 백업 보관 개수 | 없음 | 구현 시 정한다. 위치는 `data/backups/` |
@@ -143,19 +143,21 @@ flowchart LR
 
 | 구성 요소 | 선택 | 버전·고정 방식 | 근거 |
 | --- | --- | --- | --- |
-| 앱 Python | CPython | 교안 `sds-ax-practice` 기준 버전(미확인). 로컬 설치는 3.14.8. `.python-version`과 `requires-python`에 고정 | NFR-3.1 |
+| 앱 Python | CPython | 3.14.8. 교안 `.venv`와 같다. `.python-version`과 `requires-python`(`>=3.14,<3.15`)에 고정 | NFR-3.1 |
 | 패키지 관리 | uv | 로컬 0.13.7. `app/`, `sandbox/` 각자 `uv.lock`을 커밋 | 4.1 |
-| 파이프라인 | `langchain`, `langgraph` | 교안 코드가 도는 버전(미확인). 앱 `uv.lock`에 고정 | NFR-2.4, NFR-3.1 |
-| 모델 클래스 | `langchain-aws`의 `ChatBedrockConverse` | 앱 `uv.lock`에 고정 | NFR-2.5 |
+| 파이프라인 | `langchain`, `langgraph` | `langchain==1.4.7`, `langchain-core==1.7.0`, `langgraph==1.2.17`. 교안 `.venv`와 같다 | NFR-2.4, NFR-3.1 |
+| 모델 클래스 | `langchain-aws`의 `ChatBedrockConverse` | `langchain-aws==1.9.0`. 교안 `.venv`와 같다 | NFR-2.5 |
+| 스냅샷 수집 | `mcp` Python 클라이언트 | `mcp==1.30.0`(샌드박스 고정 버전과 같다) | GR-1.4 |
+| 앱 보조 | `python-dotenv`(CLI `.env` 로드), `pyyaml`(허용 목록) | 앱 `uv.lock`에 고정 | - |
 | 백엔드 | FastAPI + uvicorn | 구현 시점 최신. 앱 `uv.lock`에 고정 | NFR-2.1 |
 | 저장소 | SQLite, Python 표준 `sqlite3` | 별도 설치 없음. 스키마는 `schema_version`과 `migrations/`로 관리 | NFR-2.2, 8.4 |
 | 관측 | `langfuse` SDK, Langfuse Cloud Hobby | 앱 `uv.lock`에 고정. 환경 변수가 없으면 붙이지 않음 | NFR-5, 8.3 |
 | 샌드박스 Python | CPython, 별도 uv 프로젝트 | 버전은 앱과 같게 둔다(기본값) | GR-7.1 |
 | 샌드박스 패키지 | `langchain`, `langgraph`, `langchain-core` | lock 시점 최신(문서 최신 버전 기준) | GR-7.2 |
 | 샌드박스 MCP 고정 | `mcp==1.30.0`, `fastmcp==2.13.0`, `langchain-mcp-adapters==0.3.2`, `mcp-server-time==2026.10.10` | 고정 | GR-7.2 |
-| 프론트엔드 | React + Vite, TypeScript(기본값, `react-ts` 템플릿) | 구현 시점 최신. `package-lock.json`을 커밋 | NFR-2.3 |
+| 프론트엔드 | React + Vite, TypeScript(기본값, `react-ts` 템플릿) | React 19.3, Vite 8.3, TypeScript 7.0(2026-11-05 설치). `package-lock.json`을 커밋 | NFR-2.3 |
 | JS 런타임·패키지 | Node, npm | 로컬 Node v26.13.0, npm 11.20.0. Bun 1.4.4도 있으나 쓰지 않음(기본값) | NFR-2.3 |
-| 테스트 | pytest(기본값) | 앱 dev 의존성 | - |
+| 테스트 | pytest(기본값), httpx(FastAPI TestClient) | 앱 dev 의존성 | - |
 | 생성 모델 | `global.anthropic.claude-sonnet-4-6` | Bedrock 모델 ID | NFR-4.1 |
 | Judge 모델 | `global.anthropic.claude-sonnet-4-5-20250929-v1:0` | Bedrock 모델 ID | NFR-4.2 |
 | 예비 모델 | `global.anthropic.claude-haiku-4-5-20251001-v1:0` | Bedrock 모델 ID | NFR-4.3 |
@@ -164,7 +166,8 @@ flowchart LR
 
 | 항목 | 값 | 쓰는 곳 |
 | --- | --- | --- |
-| Bedrock 리전 | `AWS_REGION`. `us-east-1`, `us-west-2`, `ap-northeast-2` 중 하나. `llm.py`가 `ChatBedrockConverse(region_name=os.environ["AWS_REGION"])`로 직접 넘긴다(D-12). 세 값 밖이면 시작 시 오류로 멈춘다 | CLI |
+| Bedrock 리전 | `AWS_REGION`, 없으면 `AWS_DEFAULT_REGION`. `us-east-1`, `us-west-2`, `ap-northeast-2` 중 하나. `llm.py`가 `region_name`으로 직접 넘긴다(D-12). 세 값 밖이면 시작 시 오류로 멈춘다 | CLI |
+| `.env` | 저장소 루트 `.env`. CLI만 읽는다(`quiz.env`). 서버는 읽지 않는다 | CLI |
 | AWS 자격 증명 | AWS SDK 기본 체인(환경 변수, 프로필) | CLI만. 서버와 샌드박스에는 넘기지 않음 |
 | Langfuse | `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST`. SDK 키 이름은 미확인(1.4) | CLI만 |
 | FastAPI 포트 | `localhost:8000` | 서버, Vite 프록시 |
@@ -192,6 +195,12 @@ ax_transformation_miniPJT/
 │   │   ├── audit.py                # 감사 표본(FR-9)
 │   │   ├── metrics.py              # 기준선 지표(요구사항 7.3)
 │   │   ├── llm.py                  # ChatBedrockConverse 생성, 토큰·비용 기록, Langfuse 콜백
+│   │   ├── allowlist.py            # allowlist.yaml 읽기, 스냅샷 해시 검사
+│   │   ├── snapshots.py            # docs-langchain MCP 스냅샷 수집
+│   │   ├── store.py                # 배치 결과 upsert
+│   │   ├── batch.py                # 배치 실행
+│   │   ├── pool.py                 # 풀 스냅샷 고정
+│   │   ├── env.py                  # CLI 전용 .env 로드
 │   │   ├── pipeline/               # LangGraph 그래프(6.1), 노드, 프롬프트 로더
 │   │   ├── sandbox_client.py       # 샌드박스 subprocess 호출
 │   │   ├── server.py               # FastAPI 앱(7.1)
@@ -237,9 +246,10 @@ ax_transformation_miniPJT/
 - `allowlist.yaml`은 page-allowlist.md 표에서 만든다. 행마다 `snapshot`(파일 이름), `sha256`, `fetched_at`을 둔다.
 - 파이프라인은 `allowlist.yaml`에 있는 스냅샷만 읽는다(GR-2.3).
 - 스냅샷 파일 이름은 경로의 `/`를 `__`로 바꾼 값이다. 예: `oss__python__langchain__knowledge-base.mdx`
-- 스냅샷 수집 방법은 구현 첫 작업에서 정한다(1.4). 후보는 둘이다.
-  - `docs-langchain` MCP를 Python MCP 클라이언트로 부르는 스크립트
-  - 에이전트 세션에서 MCP로 받아 쓰기
+- 스냅샷은 `quiz snapshot fetch <page...>`가 `docs-langchain` MCP를 Python MCP 클라이언트로 불러 받는다(D-14).
+- 호출당 출력이 30KB에서 잘리므로 `sed -n 'a,bp'` 줄 범위로 나눠 받는다. 한 범위가 25,000자를 넘으면 범위를 줄인다.
+- 합친 바이트의 sha256을 서버 `sha256sum` 값과 대조한다. 다르면 멈춘다.
+- 스냅샷은 줄바꿈 변환 없이 저장한다(`.gitattributes` `-text`).
 
 ### 4.4 결정적 검사 규칙 (`gates.py`)
 
@@ -370,6 +380,7 @@ CREATE TABLE audit_records (
 | --- | --- |
 | `question_id` | `f"{batch_id}-{slot_no:03d}"`. 같은 슬롯은 항상 같은 ID다(6.2) |
 | `pool_snapshot_id` | `"ps_" + sha256("\n".join(sorted(question_ids)))[:12]`. 같은 문제 집합이면 같은 ID라 감사 시드가 재현된다(6.6) |
+| `bucket` | `rag`, `langgraph_basics`, `tool_mcp`, `middleware_hitl_guardrails`, `multi_agent`, `ops_quality`(day2~day7 순) |
 | `format`, `question_type` | `CHECK`를 두지 않는다. 형식 추가는 채점 함수 등록과 UI 컴포넌트 추가로 한다(NFR-1.2) |
 | `attempts.answer` | JSON 문자열. 복수 선택은 정렬한 보기 ID 배열이다 |
 | `attempts.mistake_tag` | 정답 행에서만 빈 값을 허용한다. 답 제출 때 행이 생기고 태그는 뒤에 붙으므로 빈 값은 DB 제약 대신 API가 막는다(8.6). 값과 `confused_segment_id`는 DB `CHECK`로 막는다 |
@@ -441,7 +452,7 @@ flowchart TD
 | `generate` | 슬롯, 그 주제의 허용 목록 스냅샷 원문, 직전 실패 이유 | 구조화 출력(`with_structured_output`): 문제, 보기, 정답 키, 허용 답안, 해설, segments, grounding_records, 코드형 `exec_spec` | `schema_invalid` |
 | `judge` | 문제 전체, 인용한 스냅샷 원문 | 정답 확인, 근거가 정답을 뒷받침하는지, 오답 보기가 실제로 틀렸는지, 매핑 충실도, 빠진 단답 변형(합쳐서 최대 5개), 코드형 보기별 예측 `{ok, stdout, error_type}` | `judge_fail:<항목>` |
 | `execute` | `exec_spec`, lock 해시 | 보기별 실제 `{ok, stdout, error_type}` | `judge_exec_mismatch`, `version_conflict` |
-| `gates` | 문제, 스냅샷 | `quote_match`, `mapping_present`, 단답 허용 답안 1~5개, quote 30자 이상, `page`가 `allowlist.yaml`에 있음(4.4) | `quote_mismatch`, `mapping_missing`, `page_not_allowed` |
+| `gates` | 문제, 스냅샷 | `quote_match`, `mapping_present`, 단답 허용 답안 1~5개, quote 30자 이상, `page`가 `allowlist.yaml`에 있음(4.4) | `quote_mismatch`, `quote_too_short`, `grounding_missing`, `mapping_missing`, `page_not_allowed` |
 | `dedupe` | 문제, 같은 버킷 `passed` 문제 | 같은 quote 또는 Jaccard ≥ 0.6이면 `duplicate_of`(4.4) | `duplicate` |
 
 판정 규칙:
@@ -542,6 +553,7 @@ sequenceDiagram
 | 명령 | 동작 |
 | --- | --- |
 | `migrate` | 백업 뒤 마이그레이션 적용 |
+| `snapshot fetch <page...>` | 문서 페이지 스냅샷을 받아 `packs/langchain/snapshots/`에 쓰고 sha256을 출력 |
 | `allowlist build` | `docs/02-spec-design/output/page-allowlist.md` 표를 읽어 `packs/langchain/allowlist.yaml`을 만들고 스냅샷 해시를 검사 |
 | `generate --plan pilot\|pool [--count N]` / `generate --resume <batch_id>` | 슬롯 계획을 쓰고 그래프를 돈다. 시작 전에 백업. `pilot`은 버킷당 1문제 |
 | `generate --variants` | 변형 문제가 없는 `concept` 큐 항목으로 변형 배치를 돈다 |
@@ -601,8 +613,9 @@ sequenceDiagram
 | D-9 | MCP 주제는 개념·설계 문제만 낸다. 코드형은 내지 않는다 | - | 현재 문서는 MCP를 `langchain.mcp.MCPAdapter`로 설명하고, GR-7.2 고정 버전과 교안 코드는 `langchain-mcp-adapters`의 `MultiServerMCPClient`를 쓴다 | 6.1 |
 | D-10 | 파이프라인 노드 순서는 FR-7.1을 따른다 | 결정적 검사를 Judge 앞에 둔다(비용 감소) | 요구사항 순서를 바꾸지 않는다. 비용이 문제가 되면 파일럿 측정 뒤 요구사항과 함께 고친다 | 6.1 |
 | D-11 | `version_conflict`와 `duplicate`는 재생성 없이 버린다 | - | `version_conflict`는 문서와 고정 버전의 동작 충돌이다(GR-7.5) | 6.1 |
-| D-12 | 리전을 `region_name`으로 직접 넘긴다 | botocore가 `AWS_REGION`을 읽게 둔다 | botocore가 이 변수를 리전으로 읽는지 확인하지 못했다 | 3.2 |
+| D-12 | 리전을 `region_name`으로 직접 넘긴다. `AWS_REGION`이 없으면 `AWS_DEFAULT_REGION`을 쓴다 | botocore가 `AWS_REGION`을 읽게 둔다 | botocore가 이 변수를 리전으로 읽는지 확인하지 못했다. 자격 증명 `.env`에는 `AWS_DEFAULT_REGION`만 있다 | 3.2 |
 | D-13 | 배치는 슬롯을 먼저 기록하고 결정적 `question_id`와 upsert로 재개한다 | - | - | 6.2 |
+| D-14 | 스냅샷은 Python MCP 클라이언트로 줄 범위를 나눠 받고 sha256을 서버와 대조한다 | 에이전트 세션에서 MCP로 받아 쓰기 | 30KB 한도를 넘는 페이지(31~74KB)를 바이트 그대로 재현하고 검증할 수 있다 | 4.3 |
 
 ## 10. 요구사항 추적표
 
@@ -644,3 +657,4 @@ Seed 수용 기준 번호는 [seed.yaml](seed.yaml) `acceptance_criteria` 순서
 | 1.1 | 2026-11-04 | 문서 형식 정리. 결정 시점별 1장을 해체해 주제별 절로 옮기고, 설계 결정 표(9장)와 요구사항 추적표(10장)를 더했다. 구현 작업 단위와 모델 등급 권고는 [06-output.md](../../dev-process/02-spec-design/06-output.md)로 옮겼다. 설계 내용은 바꾸지 않았다 |
 | 1.2 | 2026-11-04 | 4.3 스냅샷 수집 후보에서 개발 도구 이름을 뺐다. 설계 내용은 바꾸지 않았다 |
 | 1.3 | 2026-11-04 | 2.1 아키텍처 도식을 다시 그렸다(경로별 색 구분, 외부 서비스 묶음, SQLite를 두 경로 사이에 배치). 4.1 코드 구조를 디렉터리 트리 형식으로 바꿨다. 설계 내용은 바꾸지 않았다 |
+| 2.0 | 2026-11-05 | 구현 M0 결과를 반영했다. 1.4 확인 항목 3개를 닫았다. 3.1 버전 고정, 3.2 리전 대체 변수, 4.1 모듈, 4.3 수집 방법, 5.2 버킷 식별자, 6.1 게이트 실패 이유, 7.2 `snapshot fetch`, D-12 수정, D-14 추가. 기록은 [01-m0.md](../../dev-process/03-implementation/01-m0.md)에 있다 |

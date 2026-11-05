@@ -1,0 +1,11 @@
+# 사용자 면제 기록. 형식은 docs/02-spec-design/output/design.md 5.4를 따른다.
+# 파일이 없거나 비면 면제 없음이다.
+waivers:
+  - date: "2026-11-05"
+    exit_condition: scope_cut_waiver
+    item: "개념 실수 변형 문제 생성 (FR-6, SERVICE.md E6, US-6.1)"
+    reason: "마감이 2026-11-07에서 2026-11-06 17:00으로 당겨져, 사용자가 SERVICE.md 7.2 축소 1번을 체크포인트 전에 적용했다. 복습 큐(FR-5.6)는 원래 문제로 충족한다."
+    passed_count: null        # 면제 시점에 생성 배치를 돌리지 않았다
+    counts_by_bucket: null
+    counts_by_format: null
+    audit_failures: null
