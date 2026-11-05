@@ -84,7 +84,7 @@
 
 ## M2 파이프라인 완성
 
-- [ ] T2.1 `generate` 4형식: 복수 선택(`select_count`), 단답(`accepted_answers`), 코드 선택(`exec_spec`, `doc_url`), 버킷·유형·CCA-F 태그·조회 날짜, `근접` 주제 금지 문구 (US-2.2, US-2.4, W6)
+- [x] T2.1 `generate` 4형식: 복수 선택(`select_count`), 단답(`accepted_answers`), 코드 선택(`exec_spec`, `doc_url`), 버킷·유형·CCA-F 태그·조회 날짜, `근접` 주제 금지 문구 (US-2.2, US-2.4, W6)
   - 확인: 형식마다 슬롯 1개를 노드 단독 실행하면 스키마 검증을 통과한다.
 - [x] T2.2 `judge` 완성: 정답, 근거 지지, 오답 보기, 매핑 충실도, 빠진 단답 변형(합쳐 최대 5개), 코드형 보기별 예측 `{ok, stdout, error_type}` (US-2.2, W6)
   - 확인: 일부러 정답 키를 틀린 문제를 넣으면 `judge_fail:<항목>`이 나온다.

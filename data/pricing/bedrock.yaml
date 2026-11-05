@@ -14,6 +14,11 @@ models:
     name: Claude Sonnet 4.6
     input: 3.0
     output: 15.0
+  # US 교차 리전 프로필(생성 모델 전환용). Regional(CRIS) 단가다. usagetype은 `_Global` 접미어가 없는 행이다.
+  us.anthropic.claude-sonnet-4-6:
+    name: Claude Sonnet 4.6 (US cross-region)
+    input: 3.3
+    output: 16.5
   global.anthropic.claude-sonnet-4-5-20250929-v1:0:
     name: Claude Sonnet 4.5
     input: 3.0

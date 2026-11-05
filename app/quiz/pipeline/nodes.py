@@ -38,13 +38,16 @@ class SlotState(TypedDict, total=False):
     drop_reason: str | None
 
 
-def _add_tokens(state: SlotState, raw, model) -> dict:
-    """시도 1회분 토큰과 비용을 더한다. 단가 없는 모델을 한 번이라도 쓰면 비용은 None이다."""
+def _add_tokens(state: SlotState, raw, model, model_id: str | None = None) -> dict:
+    """시도 1회분 토큰과 비용을 더한다. 단가 없는 모델을 한 번이라도 쓰면 비용은 None이다.
+
+    `model_id`는 실제로 부른 모델이다(프로필 전환 모델). 없으면 `model.model_id`를 쓴다.
+    """
     i, o = llm.usage(raw)
     t = dict(state.get("tokens") or {"input": 0, "output": 0})
     t["input"] += i
     t["output"] += o
-    call = pricing.cost(getattr(model, "model_id", None), i, o)
+    call = pricing.cost(model_id or getattr(model, "model_id", None), i, o)
     prev = t.get("cost_usd", 0.0)
     t["cost_usd"] = None if prev is None or call is None else prev + call
     return t
@@ -88,7 +91,7 @@ def generate(state: SlotState, model=None) -> dict[str, Any]:
     )
     model = model or llm.gen_model()
     out = model.with_structured_output(SCHEMAS[fmt], include_raw=True).invoke(prompt)
-    tokens = _add_tokens(state, out["raw"], model)
+    tokens = _add_tokens(state, out["raw"], model, out.get("model_id"))
     if out.get("parsed") is None:
         return {"question": None, "fail_reasons": ["schema_invalid"], "tokens": tokens}
     question = out["parsed"].model_dump()

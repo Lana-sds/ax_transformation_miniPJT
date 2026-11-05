@@ -4,11 +4,14 @@ Anthropic API를 직접 부르지 않는다(C-2). 서버와 샌드박스는 이 
 """
 
 import os
+import threading
 
 from botocore.config import Config
 from langchain_aws import ChatBedrockConverse
 
 GEN_MODEL = "global.anthropic.claude-sonnet-4-6"
+# global 프로필이 일일 토큰 한도에 걸리면 쓰는 US 교차 리전 프로필. 한도가 따로다(2026-11-05 관찰).
+GEN_FALLBACK_MODEL = "us.anthropic.claude-sonnet-4-6"
 JUDGE_MODEL = "global.anthropic.claude-sonnet-4-5-20250929-v1:0"
 ALLOWED_REGIONS = ("us-east-1", "us-west-2", "ap-northeast-2")
 
@@ -38,8 +41,70 @@ def chat_model(model_id: str, temperature: float | None = None) -> ChatBedrockCo
     return ChatBedrockConverse(model=model_id, region_name=region(), config=BOTO_CONFIG, **kwargs)
 
 
-def gen_model() -> ChatBedrockConverse:
-    return chat_model(GEN_MODEL)
+def is_daily_throttle(exc: BaseException) -> bool:
+    """Bedrock 일일 토큰 한도 스로틀인지 본다. 분당 요청 스로틀은 아니다(그건 botocore가 재시도한다)."""
+    response = getattr(exc, "response", None)
+    if not isinstance(response, dict):
+        return False
+    error = response.get("Error") or {}
+    return error.get("Code") == "ThrottlingException" and "per day" in (error.get("Message") or "").lower()
+
+
+class FailoverModel:
+    """같은 모델의 추론 프로필 여러 개를 차례로 쓴다(2026-11-05 사용자 결정).
+
+    지금 프로필이 일일 토큰 한도에 걸리면 다음 프로필로 넘어가고 그대로 머문다. 호출 하나에서
+    프로필마다 한 번씩만 시도한다. 다른 오류는 그대로 낸다. 구조화 출력 결과에 실제로 부른 모델 ID를
+    `model_id` 키로 붙인다. 단가를 그 모델로 매긴다.
+    """
+
+    def __init__(self, models: list):
+        self.models = list(models)
+        self._active = 0
+        self._lock = threading.Lock()
+
+    @property
+    def model_id(self) -> str | None:
+        return getattr(self.models[self._active], "model_id", None)
+
+    def _call(self, invoke_on):
+        with self._lock:
+            start = self._active
+        last = None
+        for step in range(len(self.models)):
+            idx = (start + step) % len(self.models)
+            model = self.models[idx]
+            try:
+                out = invoke_on(model)
+            except Exception as exc:  # noqa: BLE001 - 일일 한도만 넘기고 나머지는 다시 낸다
+                if not is_daily_throttle(exc):
+                    raise
+                last = exc
+                with self._lock:
+                    if self._active == idx:
+                        self._active = (idx + 1) % len(self.models)
+                continue
+            with self._lock:
+                self._active = idx
+            return out, getattr(model, "model_id", None)
+        raise last
+
+    def with_structured_output(self, schema, include_raw: bool = False):
+        parent = self
+
+        class _Structured:
+            def invoke(self, prompt):
+                out, model_id = parent._call(
+                    lambda m: m.with_structured_output(schema, include_raw=include_raw).invoke(prompt))
+                if include_raw:
+                    out = {**out, "model_id": model_id}
+                return out
+
+        return _Structured()
+
+
+def gen_model() -> FailoverModel:
+    return FailoverModel([chat_model(GEN_MODEL), chat_model(GEN_FALLBACK_MODEL)])
 
 
 def judge_model() -> ChatBedrockConverse:
