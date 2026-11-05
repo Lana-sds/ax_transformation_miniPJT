@@ -9,6 +9,8 @@ export type PublicQuestion = {
   select_count: number | null
   stem_en: string
   choices: Choice[] | null
+  // 이전 세트 기록(T4.8): 오답이 있으면 wrong, 정답만 있으면 seen, 없으면 null
+  review: 'wrong' | 'seen' | null
 }
 
 export type QuizSet = { set_id: string; set_no: number; questions: PublicQuestion[] }

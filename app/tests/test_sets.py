@@ -6,7 +6,7 @@ import random
 import pytest
 
 from quiz import sets
-from quiz_helpers import add_attempt, add_review, add_set, make_pool, qid
+from quiz_helpers import add_attempt, add_review, add_set, make_pool, make_variant, qid
 
 
 def test_first_set_is_ten_new_questions(tmp_db):
@@ -120,3 +120,22 @@ def test_untagged_wrong_lists_only_wrong_rows_without_tag(tmp_db):
     a2 = add_attempt(tmp_db, s1, qid(2), correct=False)
     add_attempt(tmp_db, s1, qid(3), correct=False, tag="concept")
     assert sets.untagged_wrong(tmp_db, s1) == [a2]
+
+
+def test_review_status_from_earlier_sets(tmp_db):
+    """T4.8: 이전 세트 기록에 오답이 있으면 wrong, 정답만 있으면 seen, 없으면 None. 변형은 원래 문제로 센다."""
+    ids = make_pool(tmp_db, 12)
+    variant = make_variant(tmp_db, ids[3], 1)
+    s1 = add_set(tmp_db, 1, ids[:10])
+    add_attempt(tmp_db, s1, ids[0], correct=False, tag="concept")
+    add_attempt(tmp_db, s1, ids[1], correct=True)
+    add_attempt(tmp_db, s1, ids[2], correct=False, tag="concept")
+    add_attempt(tmp_db, s1, ids[3], correct=False, tag="concept")
+    s2 = add_set(tmp_db, 2, [ids[2]])
+    add_attempt(tmp_db, s2, ids[2], correct=True)
+    s3 = add_set(tmp_db, 3, [ids[0], ids[1], ids[2], variant, ids[10]])
+    add_attempt(tmp_db, s3, ids[10], correct=False, tag="concept")  # 이번 세트 기록은 세지 않는다
+
+    status = sets.review_status(tmp_db, 3, [ids[0], ids[1], ids[2], variant, ids[10]])
+    assert status == {ids[0]: "wrong", ids[1]: "seen", ids[2]: "wrong", variant: "wrong", ids[10]: None}
+    assert sets.review_status(tmp_db, 1, ids[:2]) == {ids[0]: None, ids[1]: None}

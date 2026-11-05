@@ -42,8 +42,11 @@ def _doc_url(page: str) -> str:
     return page if page.startswith("http") else DOCS_BASE + page
 
 
-def _public_question(row: sqlite3.Row) -> dict:
-    """답 제출 전 공개 필드. 정답 키, 해설, 매핑, 근거를 넣지 않는다(FR-2.1)."""
+def _public_question(row: sqlite3.Row, review_state: str | None = None) -> dict:
+    """답 제출 전 공개 필드. 정답 키, 해설, 매핑, 근거, topic을 넣지 않는다(FR-2.1).
+
+    review는 이전 세트 기록이다(`sets.review_status`, T4.8).
+    """
     return {
         "question_id": row["question_id"],
         "bucket": row["bucket"],
@@ -51,6 +54,7 @@ def _public_question(row: sqlite3.Row) -> dict:
         "select_count": row["select_count"],
         "stem_en": row["stem_en"],
         "choices": json.loads(row["choices_json"]) if row["choices_json"] else None,
+        "review": review_state,
     }
 
 
@@ -119,8 +123,9 @@ def create_set() -> dict:
             raise _conflict("pool_too_small", message=str(exc))
         chosen = created["question_ids"]
         rows = _questions(conn, chosen)
+        status = sets.review_status(conn, created["set_no"], chosen)
         return {"set_id": created["set_id"], "set_no": created["set_no"],
-                "questions": [_public_question(rows[q]) for q in chosen]}
+                "questions": [_public_question(rows[q], status[q]) for q in chosen]}
 
 
 @app.get("/api/sets/{set_id}")
@@ -132,6 +137,7 @@ def get_set(set_id: str) -> dict:
             raise HTTPException(404, "set not found")
         ids = json.loads(qset["question_ids_json"])
         rows = _questions(conn, ids)
+        status = sets.review_status(conn, qset["set_no"], ids)
         results = {
             a["question_id"]: _result(conn, rows[a["question_id"]], a)
             for a in conn.execute("SELECT * FROM attempts WHERE set_id = ? ORDER BY attempt_id", (set_id,))
@@ -141,7 +147,7 @@ def get_set(set_id: str) -> dict:
             "set_no": qset["set_no"],
             "created_at": qset["created_at"],
             "completed": qset["completed_at"] is not None,
-            "questions": [_public_question(rows[q]) for q in ids],
+            "questions": [_public_question(rows[q], status[q]) for q in ids],
             "results": results,
             "untagged_attempt_ids": sets.untagged_wrong(conn, set_id),
         }

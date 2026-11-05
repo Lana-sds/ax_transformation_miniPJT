@@ -191,5 +191,9 @@ def test_review_flow_through_api(pool_db):
         client.post("/api/sets")  # 2번 세트: 기한 전
         s3 = client.post("/api/sets").json()
         assert s3["questions"][0]["question_id"] == q
+        assert all(x["review"] is None for x in s1["questions"])
+        assert s3["questions"][0]["review"] == "wrong"
+        resumed = client.get(f"/api/sets/{s3['set_id']}").json()
+        assert resumed["questions"][0]["review"] == "wrong"
         assert _answer(client, s3["set_id"], q, "B").json()["correct"] is True
     assert review_row(pool_db, q)["state"] == "cleared"

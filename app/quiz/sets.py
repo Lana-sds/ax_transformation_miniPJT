@@ -84,6 +84,24 @@ def compose(conn: sqlite3.Connection, set_no: int, rng: random.Random | None = N
     return chosen
 
 
+def review_status(conn: sqlite3.Connection, set_no: int, question_ids: list[str]) -> dict[str, str | None]:
+    """문제마다 이전 세트(set_no 미만) 기록. 오답이 있으면 "wrong", 정답만 있으면 "seen", 없으면 None(T4.8).
+
+    변형 문제는 원래 문제의 기록으로 센다.
+    """
+    rows = conn.execute(
+        """SELECT COALESCE(q.variant_of, a.question_id) AS original, MIN(a.correct) AS all_correct
+           FROM attempts a
+           JOIN questions q ON q.question_id = a.question_id
+           JOIN quiz_sets s ON s.set_id = a.set_id
+           WHERE s.set_no < ?
+           GROUP BY original""",
+        (set_no,),
+    ).fetchall()
+    seen = {r["original"]: ("seen" if r["all_correct"] else "wrong") for r in rows}
+    return {q: seen.get(review.original_of(conn, q)) for q in question_ids}
+
+
 def latest_set(conn: sqlite3.Connection) -> sqlite3.Row | None:
     return conn.execute("SELECT * FROM quiz_sets ORDER BY set_no DESC LIMIT 1").fetchone()
 

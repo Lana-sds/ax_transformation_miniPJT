@@ -3,6 +3,7 @@ import { api, ApiError, type AnswerResult, type MistakeTag, type QuizSet } from 
 import { AnswerInput } from './formats/AnswerInput'
 import { isAnswerComplete } from './formats/registry'
 import { Markup } from './MarkupText'
+import { metaLabels } from './meta'
 import { ResultPanel } from './ResultPanel'
 import { TagForm } from './TagForm'
 
@@ -197,6 +198,13 @@ export default function App() {
       {q && (
         <article className="question" data-format={q.format}>
           <form onSubmit={submit}>
+            <p className="qmeta">
+              {metaLabels(q).map((label, i) => (
+                <span key={i} className={i === 2 ? 'qmeta-review' : undefined}>
+                  {label}
+                </span>
+              ))}
+            </p>
             <Markup className="stem" text={q.stem_en} />
             <AnswerInput
               question={q}
