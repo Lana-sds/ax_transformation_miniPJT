@@ -1,6 +1,6 @@
 # EXP-1 결과: Judge 프롬프트와 모델
 
-상태: 초안
+상태: 확정
 작성일: 2026-11-05
 기록: [03-exp1-judge.md](../../dev-process/04-prompt-model-experiments/03-exp1-judge.md)
 
