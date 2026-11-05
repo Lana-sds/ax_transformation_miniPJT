@@ -1,6 +1,8 @@
 """생성 배치 실행(design.md 6.2).
 
 - 시작할 때 슬롯 목록을 `batch_slots`에 먼저 쓴다. `pilot`은 버킷당 1슬롯(6), `pool`은 60슬롯이다.
+- `fill`은 passed 문제(변형 제외)를 세어 버킷당 10개, 형식마다 10개에 모자란 만큼만 슬롯을 만든다
+  (`slots.plan_fill`). `duplicate` 등으로 버린 슬롯을 다음 배치에서 다시 채운다(6.1).
 - 슬롯 사이 동시 실행은 2개다(8.1). 슬롯 하나가 예외로 멈춰도 나머지는 돈다.
 - 모든 슬롯이 `passed`·`dropped`가 되어야 `finished_at`을 채운다.
 - `--resume <batch_id>`는 `batch_slots`에서 `passed`·`dropped`가 아닌 슬롯만 처음부터 다시 돈다.
@@ -21,8 +23,14 @@ DONE = ("passed", "dropped")
 PER_BUCKET = {"pilot": 1, "pool": 10}
 
 
-def make_plan(rows: list[dict], kind: str, count: int | None = None) -> list[dict]:
-    planned = slots.plan_slots(rows, per_bucket=PER_BUCKET[kind])
+FILL_TARGET = 10  # 버킷당, 형식마다
+
+
+def make_plan(rows: list[dict], kind: str, count: int | None = None, have: list[dict] | None = None) -> list[dict]:
+    if kind == "fill":
+        planned = slots.plan_fill(rows, have or [], per_bucket=FILL_TARGET, per_format=FILL_TARGET)
+    else:
+        planned = slots.plan_slots(rows, per_bucket=PER_BUCKET[kind])
     return planned[:count] if count is not None else planned
 
 
@@ -65,7 +73,12 @@ def run_batch(plan: str | None = None, count: int | None = None, resume: str | N
     with db.connect() as conn:
         apply_migrations(conn)
         if resume is None:
-            planned = make_plan(rows, plan, count)
+            have = None
+            if plan == "fill":
+                have = [{"bucket": b, "topic": t, "format": f} for b, t, f in conn.execute(
+                    "SELECT bucket, topic, format FROM questions"
+                    " WHERE status = 'passed' AND variant_of IS NULL ORDER BY question_id")]
+            planned = make_plan(rows, plan, count, have)
             batch_id = store.next_batch_id(conn)
             store.insert_batch(conn, batch_id, "pool", llm.GEN_MODEL, llm.JUDGE_MODEL)
             store.insert_slots(conn, batch_id, planned)

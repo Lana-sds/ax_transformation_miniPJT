@@ -206,3 +206,71 @@ def test_synthetic_deterministic_and_input_not_mutated():
     b = slots.plan_slots(list(reversed(SYNTH)), per_bucket=4)
     assert a == b
     assert SYNTH == before
+
+
+# --- 보충 계획(plan_fill): design.md 6.1 "duplicate 슬롯은 다음 배치에서 다시 채운다" ---
+
+def _have(bucket, topic, fmt):
+    return {"bucket": bucket, "topic": topic, "format": fmt}
+
+
+def test_fill_with_nothing_passed_fills_every_bucket():
+    plan = slots.plan_fill(SYNTH, [], per_bucket=4, per_format=0)
+    assert Counter(s["bucket"] for s in plan) == {"tool_mcp": 4, "multi_agent": 4}
+
+
+def test_fill_covers_only_bucket_deficits():
+    have = [_have("tool_mcp", "@tool", "single")] * 3 + [_have("multi_agent", "router", "multi")] * 4
+    plan = slots.plan_fill(SYNTH, have, per_bucket=4, per_format=0)
+    assert Counter(s["bucket"] for s in plan) == {"tool_mcp": 1}
+
+
+def test_fill_nothing_needed_is_empty():
+    have = [_have("tool_mcp", "@tool", "single")] * 4 + [_have("multi_agent", "router", "multi")] * 4
+    assert slots.plan_fill(SYNTH, have, per_bucket=4, per_format=0) == []
+
+
+def test_fill_puts_format_deficit_first_and_never_code_on_mcp():
+    # code 3개가 부족하다. 버킷 부족분은 tool_mcp 2, multi_agent 2다.
+    have = [_have("tool_mcp", "@tool", "single")] * 2 + [_have("multi_agent", "router", "multi")] * 2
+    plan = slots.plan_fill(SYNTH, have, per_bucket=4, per_format=3)
+    code = [s for s in plan if s["format"] == "code"]
+    assert len(code) == 3
+    assert all(s["topic"] != "MCP client" for s in code)
+
+
+def test_fill_adds_extra_slots_when_format_deficit_exceeds_bucket_deficit():
+    # code만 2개 모자란다. 버킷 부족분은 multi_agent 1이다.
+    have = ([_have("tool_mcp", "@tool", f) for f in ("single", "single", "short", "short")]
+            + [_have("multi_agent", "router", "multi")] * 3)
+    plan = slots.plan_fill(SYNTH, have, per_bucket=4, per_format=2)
+    assert Counter(s["format"] for s in plan)["code"] == 2
+    assert len(plan) == 2
+
+
+def test_fill_rest_goes_to_least_passed_format():
+    have = ([_have("multi_agent", "router", f) for f in ("single", "single", "multi", "short")]
+            + [_have("tool_mcp", "@tool", f) for f in ("single", "multi", "short", "code")])
+    have = [h for h in have if not (h["bucket"] == "multi_agent" and h["format"] == "short")]
+    plan = slots.plan_fill(SYNTH, have, per_bucket=4, per_format=0)
+    # 남은 1슬롯은 passed가 가장 적은 형식(short 1, code 1 동률 → FORMATS 순)이다.
+    assert [(s["bucket"], s["format"]) for s in plan] == [("multi_agent", "short")]
+
+
+def test_fill_prefers_least_used_topic():
+    have = [_have("multi_agent", "router", "single")] * 3
+    plan = slots.plan_fill(SYNTH, have, per_bucket=4, per_format=0)
+    ma = [s for s in plan if s["bucket"] == "multi_agent"]
+    assert [s["topic"] for s in ma] == ["hier"]
+
+
+def test_fill_is_deterministic():
+    have = [_have("tool_mcp", "@tool", "single"), _have("multi_agent", "hier", "code")]
+    assert (slots.plan_fill(SYNTH, have, per_bucket=4, per_format=2)
+            == slots.plan_fill(list(reversed(SYNTH)), list(reversed(have)), per_bucket=4, per_format=2))
+
+
+def test_real_fill_against_pool_matches_targets(rows):
+    plan = slots.plan_fill(rows, [], per_bucket=10, per_format=10)
+    assert Counter(s["bucket"] for s in plan) == {b: 10 for b in BUCKETS}
+    assert all(n >= 10 for n in Counter(s["format"] for s in plan).values())

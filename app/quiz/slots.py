@@ -122,9 +122,18 @@ def _code_ok(topic: dict) -> bool:
     return topic["status"] != MISSING and not topic["is_mcp"] and bool(set(topic["pages"]) - set(topic["mcp_pages"]))
 
 
-def _assign_topics(bucket: str, formats: list[str], topics: list[dict]) -> list[tuple[dict, str]]:
+def _assign_topics(bucket: str, formats: list[str], topics: list[dict],
+                   used: list[tuple[str, str]] | None = None) -> list[tuple[dict, str]]:
+    """`used`는 이미 있는 문제의 (주제, 형식)이다. 보충 계획이 덜 쓴 주제를 먼저 고르게 한다."""
     usage = {id(t): 0 for t in topics}
     fmt_usage = {(id(t), f): 0 for t in topics for f in FORMATS}
+    by_topic = {t["topic"]: t for t in topics}
+    for topic, f in used or []:
+        t = by_topic.get(topic)
+        if t is not None:
+            usage[id(t)] += 1
+            if (id(t), f) in fmt_usage:
+                fmt_usage[(id(t), f)] += 1
     order = {id(t): i for i, t in enumerate(topics)}
     # code를 먼저 배정해야 code 가능 주제가 다른 형식으로 다 차지 않는다
     queue = [f for f in formats if f == CODE_FORMAT] + [f for f in formats if f != CODE_FORMAT]
@@ -179,19 +188,75 @@ def plan_slots(rows: list[dict], per_bucket: int = 10, formats: list[str] = FORM
             raise ValueError(f"bucket {b}: no examinable topic")
         bucket_formats = [formats[(g + k) % len(formats)] for k in range(per_bucket)]
         g += per_bucket
-        counters = {"code": 0, "mcp": 0, "short": 0, "other": 0}
-        for t, f in _assign_topics(b, bucket_formats, examinable):
-            if f == CODE_FORMAT:
-                qtype = TYPES_CODE[counters["code"] % len(TYPES_CODE)]
-                counters["code"] += 1
-            elif t["is_mcp"]:
-                qtype = TYPES_MCP[counters["mcp"] % len(TYPES_MCP)]
-                counters["mcp"] += 1
-            elif f == "short":
-                qtype = TYPES_SHORT[counters["short"] % len(TYPES_SHORT)]
-                counters["short"] += 1
-            else:
-                qtype = TYPES_OTHER[counters["other"] % len(TYPES_OTHER)]
-                counters["other"] += 1
-            slots.append(_slot(t, f, qtype))
+        slots.extend(_typed_slots(_assign_topics(b, bucket_formats, examinable)))
     return slots
+
+
+def _typed_slots(assigned: list[tuple[dict, str]]) -> list[dict]:
+    """버킷 안 순서대로 유형을 돌려 슬롯을 만든다(모듈 설명 "유형")."""
+    counters = {"code": 0, "mcp": 0, "short": 0, "other": 0}
+    out = []
+    for t, f in assigned:
+        if f == CODE_FORMAT:
+            key, types = "code", TYPES_CODE
+        elif t["is_mcp"]:
+            key, types = "mcp", TYPES_MCP
+        elif f == "short":
+            key, types = "short", TYPES_SHORT
+        else:
+            key, types = "other", TYPES_OTHER
+        out.append(_slot(t, f, types[counters[key] % len(types)]))
+        counters[key] += 1
+    return out
+
+
+def plan_fill(rows: list[dict], have: list[dict], per_bucket: int = 10, per_format: int = 10,
+              formats: list[str] = FORMATS) -> list[dict]:
+    """이미 있는 문제(`have`: bucket, topic, format)로 모자란 만큼만 슬롯을 만든다.
+
+    - 버킷마다 `per_bucket`에서 모자란 수만큼 슬롯을 둔다.
+    - 형식마다 `per_format`에서 모자란 수를 먼저 배정한다. code부터, 남은 부족분이 가장 큰 버킷에 준다.
+      동률이면 BUCKETS 순이다. code는 code 가능 주제가 있는 버킷에만 준다.
+    - 형식 부족분이 버킷 부족분보다 크면 그 형식을 받을 수 있는 버킷 중 문제가 가장 적은 버킷에 슬롯을 더한다.
+    - 나머지 슬롯은 (이미 있는 수 + 배정한 수)가 가장 적은 형식에 준다. 동률이면 `formats` 순이다.
+    - 주제는 이미 있는 문제까지 세어 덜 쓴 주제를 먼저 고른다. 같은 주제 반복(duplicate)을 줄인다.
+    같은 입력이면 같은 출력이다.
+    """
+    topics = group_topics(rows)
+    buckets = list(dict.fromkeys(t["bucket"] for t in topics))
+    examinable = {b: [t for t in topics if t["bucket"] == b and t["status"] != MISSING] for b in buckets}
+    have_bucket = {b: sum(1 for h in have if h["bucket"] == b) for b in buckets}
+    fmt_count = {f: sum(1 for h in have if h["format"] == f) for f in formats}
+    need = {b: max(0, per_bucket - have_bucket[b]) for b in buckets}
+    assigned: dict[str, list[str]] = {b: [] for b in buckets}
+
+    def can_take(b: str, f: str) -> bool:
+        return bool(examinable[b]) and (f != CODE_FORMAT or any(_code_ok(t) for t in examinable[b]))
+
+    fmt_order = [f for f in formats if f == CODE_FORMAT] + [f for f in formats if f != CODE_FORMAT]
+    for f in fmt_order:
+        for _ in range(max(0, per_format - fmt_count[f])):
+            open_b = [b for b in buckets if can_take(b, f) and len(assigned[b]) < need[b]]
+            if open_b:
+                b = max(open_b, key=lambda b: (need[b] - len(assigned[b]), -buckets.index(b)))
+            else:
+                takers = [b for b in buckets if can_take(b, f)]
+                if not takers:
+                    raise ValueError(f"no bucket can take format {f}")
+                b = min(takers, key=lambda b: (have_bucket[b] + len(assigned[b]), buckets.index(b)))
+            assigned[b].append(f)
+    for b in buckets:
+        while len(assigned[b]) < need[b]:
+            if not examinable[b]:
+                raise ValueError(f"bucket {b}: no examinable topic")
+            projected = {f: fmt_count[f] + sum(a.count(f) for a in assigned.values()) for f in formats}
+            f = min((f for f in formats if can_take(b, f)), key=lambda f: (projected[f], formats.index(f)))
+            assigned[b].append(f)
+
+    out: list[dict] = []
+    for b in buckets:
+        if not assigned[b]:
+            continue
+        used = sorted((h["topic"], h["format"]) for h in have if h["bucket"] == b)
+        out.extend(_typed_slots(_assign_topics(b, assigned[b], examinable[b], used)))
+    return out

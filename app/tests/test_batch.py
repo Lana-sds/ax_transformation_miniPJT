@@ -6,6 +6,7 @@ import pytest
 
 from llm_fakes import FakeModel
 from quiz import allowlist, batch, slots, store
+from conftest import make_question
 from quiz.cli import build_parser
 from test_generate import payload
 from test_judge import PASS
@@ -126,3 +127,33 @@ def test_cli_generate_arguments():
         p.parse_args(["generate"])
     with pytest.raises(SystemExit):
         p.parse_args(["generate", "--plan", "pilot", "--resume", "b20261105-02"])
+
+
+def test_fill_plan_counts_existing_passed():
+    rows = allowlist.load_rows()
+    have = [{"bucket": "rag", "topic": "x", "format": "single"}] * 10
+    plan = batch.make_plan(rows, "fill", have=have)
+    assert len(plan) == 50
+    assert all(s["bucket"] != "rag" for s in plan)
+
+
+def test_fill_batch_reads_passed_questions_from_db(tmp_db, monkeypatch):
+    seen = {}
+    real = batch.make_plan
+
+    def spy(rows, kind, count=None, have=None):
+        seen["kind"], seen["have"] = kind, have
+        return real(rows, kind, count, have)
+
+    monkeypatch.setattr(batch, "make_plan", spy)
+    make_question(tmp_db, "b20261105-99-001")
+    tmp_db.commit()
+    batch_id = batch.run_batch(plan="fill", count=2, **models())
+    assert seen["kind"] == "fill"
+    assert seen["have"] == [{"bucket": "langgraph_basics", "topic": "t", "format": "single"}]
+    assert tmp_db.execute("SELECT COUNT(*) FROM batch_slots WHERE batch_id = ?", (batch_id,)).fetchone()[0] == 2
+
+
+def test_cli_generate_accepts_fill():
+    a = build_parser().parse_args(["generate", "--plan", "fill"])
+    assert a.plan == "fill"

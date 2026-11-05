@@ -132,7 +132,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     gen = sub.add_parser("generate", help="문제 생성 배치")
     mode = gen.add_mutually_exclusive_group(required=True)
-    mode.add_argument("--plan", choices=["pilot", "pool"], help="pilot: 버킷당 1문제(6), pool: 60슬롯")
+    mode.add_argument("--plan", choices=["pilot", "pool", "fill"],
+                      help="pilot: 버킷당 1문제(6), pool: 60슬롯, fill: passed가 버킷당·형식마다 10개에 모자란 만큼")
     mode.add_argument("--resume", metavar="BATCH_ID", help="passed·dropped가 아닌 슬롯만 다시 돈다")
     gen.add_argument("--count", type=int, help="슬롯 계획 앞에서 N개만 쓴다")
     gen.set_defaults(func=cmd_generate)
