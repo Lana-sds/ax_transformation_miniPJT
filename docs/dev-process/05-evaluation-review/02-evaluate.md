@@ -62,12 +62,21 @@ E3 결과:
 
 사례 작성자가 짚은 문서 차이: requirements FR-3.2는 대소문자와 공백만 정규화한다고 쓰고, seed 기준 6은 백틱과 끝 `()`까지 쓴다. seed 머리말은 둘이 다르면 requirements를 따르라고 한다. 앱은 seed와 design.md 4.4를 따른다. 5단계 발견 후보다.
 
+### ouroboros 결과(작업 `job_a0459ed89d34`, 09:40경 완료)
+
+- 임의 `session_id`(`eval-05-20261106`)를 받았다. 계획 위험 표의 대체 경로는 쓰지 않았다
+- 1단계: lint, build, test 3개 실행, 모두 PASS. static, coverage는 명령 없음으로 건너뜀. 계획 위험 "1단계 검사 0개"는 일어나지 않았다
+- 2단계: 9/9 통과. 기준마다 "Questions Used"(검토 질문 6~12개)와 "Evidence"(코드 줄 번호, 증거 인용)를 냈다. E4 재현 결과를 기준 1, 3, 4, 7 근거에 적었지만 판정은 통과로 뒀다
+- `chained_ralph_job_id` 없음(`auto_evolve: false`)
+- 격리 누수: 근거에 평가 사본에 없는 `docs/02-spec-design/output/design.md:441`(기준 8), `docs/dev-process/03-implementation/03-m2.md:127`, `07-m6.md:21`(기준 9)을 인용했다. 평가자가 사본 밖 원래 저장소를 읽었다. 사본에 남긴 `CLAUDE.md`가 문서 경로를 적고 있어 찾아간 것으로 보인다(미확인). 03 판정 표(`implementation.md` 7.2) 인용은 없다
+- 판정은 `acceptance.md`로 옮겼다. 03과 다른 기준은 7번(표기만 "면제로 인한 부분 충족")이다
+
 ## 인계
 
-갱신: 2026-11-06 09:45
-- 마지막 완료 작업: 증거 E0~E4 수집, `ouroboros_start_evaluate` 호출
-- 다음 작업: 작업 결과를 받아 기준별 판정을 `acceptance.md`에 옮긴다. `chained_ralph_job_id`가 있으면 바로 취소한다
-- 실행 중: ouroboros 평가 `job_a0459ed89d34`(session `eval-05-20261106`)
+갱신: 2026-11-06 09:47
+- 마지막 완료 작업: ouroboros 평가 완료, `acceptance.md` 초안
+- 다음 작업: 5단계 보고 때 이 단계 완료를 사용자에게 확인받는다
+- 실행 중: 없음
 - 사용자 대기: 없음
 - 먼저 읽을 파일: 이 파일, 스크래치 `ev/artifact.md`
 
@@ -87,4 +96,4 @@ E3 결과:
 ## 끝나는 조건 확인
 
 - 조건: 9개 기준과 MVP 완료 조건 4개가 `acceptance.md`에 `통과`, `실패`, `미확인` 중 하나로 있다. 1단계 기계 검사가 하나 이상 돌았다.
-- 결과: 미확인(진행 중)
+- 결과: 충족(사용자 확인 전). `acceptance.md`에 기준 9개와 MVP 조건 4개가 모두 `통과`다(7번은 면제 표기). 1단계 기계 검사 3개가 돌았다
