@@ -2,6 +2,7 @@
 
 상태: 승인 (2026-11-06). 결정 1은 추천안, 결정 2는 Bedrock 호출(상한 2 USD), 결정 3은 "심각도와 함께 보고하고 수정은 목록을 본 뒤 사용자가 정한다"
 작성일: 2026-11-06
+수정: 2026-11-06 09:25. 1단계 `mandela` 보완안 P1~P7을 사용자 승인으로 반영했다([01-mandela.md](05-evaluation-review/01-mandela.md)). (P1) 2단계 `working_dir`는 `docs/`를 뺀 `git archive` 사본이다. (P2) 기준 1, 8은 앱 코드를 쓰지 않는 스크립트로 다시 계산한다. (P3) 기준 4, 6, 7은 코드를 보지 않은 맥락 없는 서브에이전트가 seed 원문으로 만든 사례 표를 API에 돌린다. (P4) 공격자 지시에서 예시를 뺀다. 알려진 문제 재현은 코디네이터가 따로 하고 "지시 재현"으로 표시한다. (P5) 3단계에 결정적 도구(bandit, hypothesis 단답 정규화 퍼징, 샌드박스 안 실제 소켓 시도)를 `uv run --with`로 더한다. (P6) 버린 발견 목록도 5단계에서 사용자에게 보인다. (P7) 교차 풀이는 풀이자 `supporting_sentence`와 저장된 quote를 비교하고 개수로 보고한다
 대상: [input/README.md](../05-evaluation-review/input/README.md)에 링크한 입력 10개. 04 확정 문서 [experiments.md](../04-prompt-model-experiments/output/experiments.md) 1.0
 근거: [skillset-by-lifecycle.md](skillset-by-lifecycle.md)의 "5. 평가와 리뷰" 행. ouroboros README와 설치본 `evaluate` SKILL.md·`docs/guides/evaluation-pipeline.md`(0.59.9), pstack `skills/interrogate/SKILL.md`를 2026-11-06에 다시 읽었다.
 
