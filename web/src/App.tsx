@@ -5,6 +5,7 @@ import { conflictAction } from './conflict'
 import { isAnswerComplete } from './formats/registry'
 import { Markup } from './MarkupText'
 import { metaLabels } from './meta'
+import { objectParticle } from './particle'
 import { createSingleFlight } from './singleFlight'
 import { ResultPanel } from './ResultPanel'
 import { TagForm } from './TagForm'
@@ -204,7 +205,12 @@ export default function App() {
 
       {(!quizSet || (allDone && !blocked)) && (
         <div className="set-actions">
-          {allDone && <p>세트 {quizSet?.set_no}를 다 풀었다.</p>}
+          {allDone && (
+            <p>
+              세트 {quizSet.set_no}
+              {objectParticle(quizSet.set_no)} 다 풀었다.
+            </p>
+          )}
           <button onClick={startSet} disabled={busy}>
             새 세트 시작
           </button>
