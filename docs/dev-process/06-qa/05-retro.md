@@ -43,7 +43,7 @@
 
 ## lifecycle 문서 수정안
 
-[skillset-by-lifecycle.md](../skillset-by-lifecycle.md)에 반영할 변경이다. 직접 고치지 않았다.
+[skillset-by-lifecycle.md](../skillset-by-lifecycle.md)에 반영할 변경이다. 사용자 승인(2026-11-06 13:05)으로 5개 모두 반영했다.
 
 1. 6행 이유 열: "이 프로젝트는 gstack을 설치하지 않고 `qa/` 절차 파일(`SKILL.md`, `sections/exploratory.md`, `sections/qa-patterns.md`, `references/issue-taxonomy.md`, `templates/qa-report-template.md`)만 따른다. 건강 점수 기준표는 `qa-patterns.md`에 있다. 브라우저는 Orca 내장 브라우저로 대신한다. 06에서 결함 7개 중 4개는 사전 점검이 못 찾은 것이다"를 더한다. 근거: 이 회고 "이 단계에서 더한 기준".
 2. "이 프로젝트의 선택" 범위 줄: "6단계는 시간이 남으면 한다"를 "6단계는 2026-11-06에 했다(5단계와 일부 병렬)"로 고친다. "6단계에 쓸 도구는 그 세션이 고른다"를 지우고 1번 내용을 가리킨다.
