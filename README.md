@@ -61,7 +61,7 @@ flowchart LR
 - 실패하면 이유를 붙여 다시 쓴다. 3번 넘게 실패하면 이유와 함께 버린다.
 - 통과한 문제로 풀을 고정하고, 그중 20문항을 사람이 직접 감사했다.
 - 명령: `app/`에서 `uv run quiz generate --plan pool`, `uv run quiz pool freeze`. 전체 명령은 [CLAUDE.md](CLAUDE.md)의 명령 표에 있다.
-- 쉬운 설명: [docs/concepts/question-set-flow.md](docs/concepts/question-set-flow.md), [docs/concepts/quize-pipeline.md](docs/concepts/quize-pipeline.md)
+- 구현 이해용 문서: [docs/concepts/question-set-flow.md](docs/concepts/question-set-flow.md), [docs/concepts/quize-pipeline.md](docs/concepts/quize-pipeline.md), 감사 지표와 품질 개선은 [docs/concepts/audit-and-quality-loop.md](docs/concepts/audit-and-quality-loop.md)
 
 ## 결과
 
@@ -114,7 +114,7 @@ flowchart LR
 | [SERVICE.md](SERVICE.md) | PRD. 에픽, 사용자 스토리, 추적표(상태·근거) |
 | [TASKS.md](TASKS.md) | 구현 작업 순서와 진행 체크 |
 | [RETRO.md](RETRO.md) | 프로젝트 회고와 설계 개선점 |
-| [docs/concepts/](docs/concepts/) | 코드를 쉬운 말로 풀어 쓴 설명 |
+| [docs/concepts/](docs/concepts/) | 구현(03)부터 코드를 직접 리뷰하기 어려워, 만들어진 내용을 이해하려고 정리한 문서. 동작 원리(파이프라인, 풀·세트, 검사, 감사와 품질 개선)와 사용법(Langfuse 기록 읽기). 코드를 보고 쓴 것이라 무엇을 하는지는 알려 주지만 맞게 하는지는 검증하지 않는다. 배경은 [RETRO.md](RETRO.md) "구현부터는 결과물 리뷰가 어려웠다" |
 
 ## 만든 방식
 

@@ -3,7 +3,7 @@
 작성일: 2026-11-06
 상태: 확정(2026-11-06)
 성격: 개인 회고. 단계 산출물(`docs/`)이 아니며 06 QA 단계의 범위와 별개다.
-수정: 2026-11-06, 설계 개선점을 `main`(`138250e`) 코드와 06 QA 결과에 다시 대조했다. 4번 상태, 1·11번 출처, 12번 추가, 머리말
+수정: 2026-11-06, 설계 개선점을 `main`(`138250e`) 코드와 06 QA 결과에 다시 대조했다. 4번 상태, 1·11번 출처, 12번 추가, 머리말. 2026-11-06, `docs/concepts/` 문서 표에 `audit-and-quality-loop.md`를 더했다
 본 문서: [design.md](docs/02-spec-design/output/design.md) 16.0, [findings.md](docs/05-evaluation-review/output/findings.md), [evaluation.md](docs/05-evaluation-review/output/evaluation.md), [01-qa.md](docs/dev-process/06-qa/01-qa.md), [skillset-by-lifecycle.md](docs/dev-process/skillset-by-lifecycle.md), 단계 계획(`docs/dev-process/NN-<stage>-plan.md`)
 
 ## 느낀 점
@@ -27,6 +27,7 @@
 | [langchain-usage.md](docs/concepts/langchain-usage.md) | LangChain 사용 범위와 개념 매핑 |
 | [reading-traces.md](docs/concepts/reading-traces.md) | Langfuse 기록 읽는 법 |
 | [question-set-flow.md](docs/concepts/question-set-flow.md) | 문제 생성에서 풀 고정, 세트 구성까지 |
+| [audit-and-quality-loop.md](docs/concepts/audit-and-quality-loop.md) | 감사 지표와 문제 품질을 높이는 과정 |
 
 ### 스킬은 "썼다"기보다 "차용했다"
 
