@@ -203,7 +203,21 @@ button:disabled {
   padding: 0;
   margin: 0;
   display: grid;
+  /* 긴 코드 보기가 열을 넓혀 화면이 가로로 밀리지 않게 한다(ISSUE-005). */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-2);
+}
+
+.choices > li,
+.choices label {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.choices label pre,
+.choices li pre {
+  overflow-x: auto;
+  max-width: 100%;
 }
 
 .choices label {
