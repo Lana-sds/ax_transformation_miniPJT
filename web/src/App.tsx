@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { api, ApiError, type AnswerResult, type MistakeTag, type QuizSet } from './api'
 import { AnswerInput } from './formats/AnswerInput'
+import { conflictAction } from './conflict'
 import { isAnswerComplete } from './formats/registry'
 import { Markup } from './MarkupText'
 import { metaLabels } from './meta'
@@ -82,13 +83,23 @@ export default function App() {
   }, [])
 
   // 409 untagged_wrong이면 그 세트를 다시 불러 태그 입력으로 보낸다.
+  // set_closed면 저장한 세트 ID를 지우고 새 세트 시작 버튼을 보인다(ISSUE-002).
   async function recover(e: unknown): Promise<boolean> {
     const c = e instanceof ApiError ? e.conflict : null
-    if (c?.reason === 'untagged_wrong' && c.set_id) {
-      setNotice('태그 없는 오답이 있다. 태그를 저장한 뒤 계속한다.')
-      return loadSet(c.set_id)
+    const action = conflictAction(c, quizSet?.set_id ?? null)
+    if (action.kind === 'reload') {
+      if (action.notice) setNotice(action.notice)
+      return loadSet(action.setId)
     }
-    if (c?.reason === 'already_answered' && quizSet) return loadSet(quizSet.set_id)
+    if (action.kind === 'closed') {
+      saveSetId(null)
+      setQuizSet(null)
+      setResults({})
+      setIndex(0)
+      setAnswer([])
+      setNotice(action.notice)
+      return true
+    }
     return false
   }
 
