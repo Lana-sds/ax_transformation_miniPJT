@@ -1,7 +1,10 @@
 """코드형 보기 실행 클라이언트(design.md 8.2, T2.5).
 
 앱은 샌드박스를 subprocess로만 부른다. stdin JSON 하나를 주고 stdout JSON 한 줄을 받는다.
-자식 환경에서 `AWS_*`, `LANGFUSE_*`를 지운다. 보기 1개당 30초가 지나면 프로세스를 끝내고 `timeout`으로 둔다.
+자식 환경은 허용 목록(`ALLOW_KEYS`)에 있는 변수만 넘긴다. `AWS_*`, `LANGFUSE_*`, `QUIZ_DB`, 토큰,
+`USERPROFILE`은 넘기지 않는다(F-1). 자식의 cwd는 실행마다 새로 만든 임시 디렉토리이고, 끝나면 지운다.
+실행기(runner.py)는 그 디렉토리 밖 쓰기와 허용 범위 밖 읽기를 감사 훅으로 막는다.
+보기 1개당 30초가 지나면 프로세스를 끝내고 `timeout`으로 둔다.
 샌드박스 가상 환경은 `uv sync --project sandbox`로 만든다. `uv run`을 거치지 않고 그 Python을 바로 부른다.
 그래야 타임아웃 때 끝낼 프로세스가 실행기 자신이다.
 """
@@ -11,12 +14,17 @@ import json
 import os
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 from quiz.db import REPO_ROOT
 
 SANDBOX_DIR = REPO_ROOT / "sandbox"
 TIMEOUT_SEC = 30
+# Windows에서 Python과 numpy가 도는 데 필요한 것만 넘긴다. 이름은 대문자로 비교한다.
+ALLOW_KEYS = ("SYSTEMROOT", "WINDIR", "SYSTEMDRIVE", "PATH", "PATHEXT", "COMSPEC",
+              "PROCESSOR_ARCHITECTURE", "NUMBER_OF_PROCESSORS", "OS")
+# 허용 목록에 있어도 넘기지 않는다(이중 안전장치).
 STRIP_PREFIXES = ("AWS_", "LANGFUSE_")
 STRIP_KEYS = ("VIRTUAL_ENV",)  # 앱 가상 환경을 샌드박스에 넘기지 않는다
 TIMEOUT = {"ok": False, "stdout": "", "error_type": "timeout"}
@@ -34,10 +42,15 @@ def python_path() -> Path:
     return path
 
 
-def child_env(env: dict[str, str] | None = None) -> dict[str, str]:
+def child_env(env: dict[str, str] | None = None, workdir: str | Path | None = None) -> dict[str, str]:
+    """자식 프로세스 환경. 허용 목록만 넘기고, 임시 디렉토리는 작업 디렉토리로 돌린다."""
     env = dict(os.environ if env is None else env)
-    clean = {k: v for k, v in env.items() if not k.startswith(STRIP_PREFIXES) and k not in STRIP_KEYS}
+    clean = {k.upper(): v for k, v in env.items()
+             if k.upper() in ALLOW_KEYS and not k.upper().startswith(STRIP_PREFIXES) and k.upper() not in STRIP_KEYS}
     clean["PYTHONIOENCODING"] = "utf-8"
+    clean["PYTHONDONTWRITEBYTECODE"] = "1"
+    if workdir is not None:
+        clean["TEMP"] = clean["TMP"] = clean["TMPDIR"] = str(workdir)
     return clean
 
 
@@ -47,14 +60,17 @@ def lock_hash() -> str:
 
 def run(code: str, timeout: float = TIMEOUT_SEC) -> dict:
     """보기 코드 하나를 실행해 `{ok, stdout, error_type}`을 돌려준다."""
-    try:
-        proc = subprocess.run(
-            [str(python_path()), str(SANDBOX_DIR / "runner.py")],
-            input=json.dumps({"code": code}), capture_output=True, text=True, encoding="utf-8",
-            timeout=timeout, env=child_env(), cwd=SANDBOX_DIR,
-        )
-    except subprocess.TimeoutExpired:
-        return dict(TIMEOUT)
+    python = python_path()
+    # 실행마다 빈 작업 디렉토리를 만든다. 실행기는 이 디렉토리 안에만 쓸 수 있다. 끝나면 지운다.
+    with tempfile.TemporaryDirectory(prefix="quiz-sandbox-", ignore_cleanup_errors=True) as work:
+        try:
+            proc = subprocess.run(
+                [str(python), str(SANDBOX_DIR / "runner.py")],
+                input=json.dumps({"code": code}), capture_output=True, text=True, encoding="utf-8",
+                timeout=timeout, env=child_env(workdir=work), cwd=work,
+            )
+        except subprocess.TimeoutExpired:
+            return dict(TIMEOUT)
     lines = proc.stdout.strip().splitlines()
     try:
         out = json.loads(lines[-1])
