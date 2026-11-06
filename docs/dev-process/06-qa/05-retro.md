@@ -58,8 +58,9 @@
 - IMP-3 지난 세트 보기, IMP-4 남은 새 문제 수: 요구사항과 API가 필요하다
 - 성능·접근성 시험, 실제 휴대폰 화면, 사람 손 더블클릭: qa-report.md 1.7
 - `SERVICE.md` 정리: 06이 끝나면 수용 기준 체크박스를 빼고 13절에 상태·근거를 더하기로 한 일이 남아 있다
-- 저장소 루트의 추적되지 않은 `RETRO.md`: 이 세션이 만들지 않았다. 처리할지 사용자가 정한다
-- 시험 부산물(git 제외): `data/experiments/qa06*.db`, `qa-base.db`, `scratch-preqa.db`, `data/experiments/qa-logs/`, `web/node_modules/.scratch/vite.qa06.config.mjs`
+- 저장소 루트의 `RETRO.md`: 이 세션이 만들지 않았다. 다른 세션이 커밋했다(`6a86cf8`)
+- 시험 DB(커밋): `data/experiments/qa-base.db`(시작 상태), `data/experiments/qa06.db`(끝 상태). "회고 뒤 결정" 참고
+- 시험 부산물(git 제외): `data/experiments/qa06-setend1.db`, `qa06-after-tc14-run1.db`, `qa06-run1-evidence.db`, `scratch.db`, `scratch-preqa.db`, `data/experiments/qa-logs/`(서버 로그와 링크 확인 중간 파일), `web/node_modules/.scratch/vite.qa06.config.mjs`
 
 ## 회고 뒤 결정
 
