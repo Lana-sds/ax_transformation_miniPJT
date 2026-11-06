@@ -77,7 +77,7 @@
 
 | 문서 | 용도 |
 | --- | --- |
-| [requirements.md](../../01-requirements/output/requirements.md) 버전 3.0 | 판정 기준 |
+| [requirements.md](../../01-requirements/output/requirements.md) 버전 4.0 | 판정 기준 |
 | [design.md](../../02-spec-design/output/design.md) | 구현 값 대조 |
 | [seed.yaml](../../02-spec-design/output/seed.yaml) 버전 1.1.0 | 수용 기준 |
 | [implementation.md](../../03-implementation/output/implementation.md) 버전 1.0 | 03 판정, 이월 항목 |
@@ -252,7 +252,7 @@
 
 | 요구사항 | 이 문서 위치 | 관계 |
 | --- | --- | --- |
-| C-1 | 1.3, 2.1 | 마감은 2026-11-06 13:30으로 당겨졌다(사용자 전달, 요구사항 문서는 17:00 그대로). 운영 DB와 고정 풀을 바꾸지 않았다 |
+| C-1 | 1.3, 2.1 | 마감 2026-11-06 13:30(요구사항 버전 4.0). 운영 DB와 고정 풀을 바꾸지 않았다 |
 | C-2 | 3.2(기준 6), 5 | 풀이 경로에 모델 호출이 없다. 교차 풀이는 Bedrock이다 |
 | C-3 | 3.2(기준 1), 5 | 인용 독립 재계산, 교차 풀이 근거 문장 대조 |
 | CR-1, CR-2 | 3.1 | 버킷 6개 각 10 |
