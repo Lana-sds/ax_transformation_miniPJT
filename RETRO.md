@@ -2,8 +2,9 @@
 
 작성일: 2026-11-06
 상태: 확정(2026-11-06)
-성격: 개인 회고. 단계 산출물(`docs/`)이 아니며 진행 중인 단계(06 QA)의 범위와 별개다.
-본 문서: [design.md](docs/02-spec-design/output/design.md) 15.0, [findings.md](docs/05-evaluation-review/output/findings.md), [evaluation.md](docs/05-evaluation-review/output/evaluation.md), [01-qa.md](docs/dev-process/06-qa/01-qa.md), [skillset-by-lifecycle.md](docs/dev-process/skillset-by-lifecycle.md), 단계 계획(`docs/dev-process/NN-<stage>-plan.md`)
+성격: 개인 회고. 단계 산출물(`docs/`)이 아니며 06 QA 단계의 범위와 별개다.
+수정: 2026-11-06, 설계 개선점을 `main`(`138250e`) 코드와 06 QA 결과에 다시 대조했다. 4번 상태, 1·11번 출처, 12번 추가, 머리말
+본 문서: [design.md](docs/02-spec-design/output/design.md) 16.0, [findings.md](docs/05-evaluation-review/output/findings.md), [evaluation.md](docs/05-evaluation-review/output/evaluation.md), [01-qa.md](docs/dev-process/06-qa/01-qa.md), [skillset-by-lifecycle.md](docs/dev-process/skillset-by-lifecycle.md), 단계 계획(`docs/dev-process/NN-<stage>-plan.md`)
 
 ## 느낀 점
 
@@ -122,20 +123,22 @@ AI가 만드는 속도가 사람이 검증하는 속도를 앞질러 간 과정�
 
 | # | 개선점 | 개선 방법 | 이미 지적된 곳 | 개선 완료 여부 |
 | --- | --- | --- | --- | --- |
-| 1 | 정답 위치가 A에 쏠렸다. "늘 A"만 골라도 단일·코드 29문항 중 25개를 맞힌다 | 세트를 낼 때 서버가 보기 순서를 섞는다. 또는 생성할 때 정답 위치를 고르게 나눈다 | 05 [findings.md](docs/05-evaluation-review/output/findings.md) F-20, [evaluation.md](docs/05-evaluation-review/output/evaluation.md) 6.1 | 추후 개선 |
+| 1 | 정답 위치가 A에 쏠렸다. "늘 A"만 골라도 단일·코드 29문항 중 25개를 맞힌다 | 세트를 낼 때 서버가 보기 순서를 섞는다. 또는 생성할 때 정답 위치를 고르게 나눈다 | 05 [findings.md](docs/05-evaluation-review/output/findings.md) F-20, [evaluation.md](docs/05-evaluation-review/output/evaluation.md) 6.1, 06 [qa-report.md](docs/06-qa/output/qa-report.md) 4.1 DEF-6(TC-16 재집계) | 추후 개선 |
 | 2 | 감사에서 떨어진 문제가 다시 고정하기 전까지 계속 출제된다 | 세트를 만드는 코드(`sets.compose`)가 `status='passed'`인 문제만 고르게 한다 | 05 findings.md 3절 "남은 한계" | 추후 개선 |
 | 3 | 감사 화면이 표본 20문항의 정답을 보여 준다. 풀의 3분의 1이 정답이 보인 채 출제된다(FR-2.1과 충돌) | 감사한 문항을 출제에서 빼거나 우선순위를 낮춘다. 또는 감사 전용 풀을 따로 둔다 | 05 findings.md 4절 관찰, evaluation.md 6.1 | 추후 개선 |
-| 4 | 오답 제출과 새 세트 생성이 동시에 오면 둘 다 통과한다. 그 오답은 태그를 못 단다. 같은 문제를 동시에 다시 내거나 세트를 동시에 만들면 500 오류가 난다 | 확인과 쓰기를 한 트랜잭션(`BEGIN IMMEDIATE`)으로 묶는다. 제약 위반은 409로 바꿔 돌려준다 | 05 findings.md F-9, F-10 | 추후 개선 |
+| 4 | 오답 제출과 새 세트 생성이 동시에 오면 둘 다 통과한다. 그 오답은 태그를 못 단다. 같은 문제를 동시에 다시 내거나 세트를 동시에 만들면 500 오류가 난다 | 확인과 쓰기를 한 트랜잭션(`BEGIN IMMEDIATE`)으로 묶는다. 제약 위반은 409로 바꿔 돌려준다 | 05 findings.md F-9, F-10, 06 qa-report.md 4.1 DEF-1, DEF-2 | 일부 개선. 화면 쪽은 06에서 고쳤다(DEF-1 두 번 클릭 잠금 `229b84e`, DEF-2 닫힌 세트에서 빠져나가기 `9b35bd6`). 서버 쪽 트랜잭션은 추후 개선 |
 | 5 | 샌드박스가 같은 프로세스 안의 방어라서 결과 줄 위조가 남아 있다 | 결과를 물려받은 파일 기술자가 아닌 별도 채널로 돌려받는다. 운영체제 수준 격리(컨테이너 등)를 쓴다 | [design.md](docs/02-spec-design/output/design.md) 8.2 "한계", 05 findings.md F-6, evaluation.md 6.1 | 추후 개선 |
 | 6 | 생성 모델(Sonnet 4.6)과 Judge(Sonnet 4.5)가 같은 계열이다. 둘이 같이 틀리면 `version_conflict`(라이브러리 버전 문제)로 잘못 분류된다 | 실행 결과와 정답 키가 다를 때만 다른 계열 모델(Nova, gpt-oss)로 한 번 더 판정한다 | 05 findings.md F-13, evaluation.md 6.1 "같은 계열 검토"(위험만 기록, 방법은 미기록) | 추후 개선 |
 | 7 | 문제를 보충해 다시 고정하면 풀 ID가 바뀌어 감사 20문항을 처음부터 다시 해야 한다. 이미 검토한 문항이 또 뽑히거나 새 문항이 빠질 수 있다 | 감사 결과를 문항 단위로 이어받는다. 새 표본은 검토하지 않은 문항에서 먼저 뽑는다 | 없음(이번에 새로 찾음) | 추후 개선 |
 | 8 | 다시 고정하면 `baseline.json`의 `sets`에서 지난 풀이 기록이 빠져 학습 추이가 끊긴다 | 세트마다 `pool_snapshot_id`를 붙여 전부 남긴다 | 없음(이번에 새로 찾음) | 추후 개선 |
 | 9 | 변형 문제는 풀 밖이라 감사를 받지 않는다. Judge만 보고 출제된다 | 변형 배치에도 작은 감사 표본을 둔다. 또는 교차 풀이를 통과해야만 낸다 | 없음. 05 수용 기준 7은 변형 데이터가 없어 면제됐다 | 추후 개선 |
 | 10 | 출처 원문을 다시 받아 최신 문서와 비교하는 절차가 없다. 문서가 바뀌어도 알 수 없다 | `snapshot fetch --check`로 최신 문서와 해시를 비교한다. 바뀐 페이지를 근거로 쓰는 문제를 표시한다 | 없음(이번에 새로 찾음) | 추후 개선 |
-| 11 | 새 문제가 떨어져도 화면과 지표에 신호가 없다. 앱은 예전 문제로 조용히 세트를 채운다 | API와 화면에 남은 새 문제 수를 보여 준다. 기준 아래로 내려가면 보충을 안내한다 | 06 [01-qa.md](docs/dev-process/06-qa/01-qa.md) IMP-4(기록만) | 추후 개선 |
+| 11 | 새 문제가 떨어져도 화면과 지표에 신호가 없다. 앱은 예전 문제로 조용히 세트를 채운다 | API와 화면에 남은 새 문제 수를 보여 준다. 기준 아래로 내려가면 보충을 안내한다 | 06 [01-qa.md](docs/dev-process/06-qa/01-qa.md) IMP-4(기록만), qa-report.md 4.3 | 추후 개선 |
+| 12 | "독해 실수"로 헷갈린 구절을 고를 때 문제 본문 구절만 고를 수 있다. 영·한 구절 매핑(`segments`)에 보기 문장이 없어 보기를 잘못 읽은 경우는 태그로 남지 않는다. 평가 풀 60문항의 구절 248개 중 보기 문장에서 온 것은 0개다 | 생성할 때 보기 문장도 구절 매핑에 넣는다. 구절 ID를 본문과 보기로 나눈다 | 없음(이번에 새로 찾음. 06 TC-7에서 구절 목록이 본문 문장뿐이었다) | 추후 개선 |
 
 ### 우선순위
 
 - 먼저 고칠 것: 1번. 학습 효과를 직접 깎는다.
 - 풀을 보충하는 순간 드러나는 것: 2, 7, 8, 9번.
+- 생성 프롬프트와 스키마를 바꿀 때 같이 볼 것: 12번. 1번(정답 위치)과 같은 생성 단계 변경이다.
 - 풀을 오래 쓸수록 커지는 것: 6, 10번.
