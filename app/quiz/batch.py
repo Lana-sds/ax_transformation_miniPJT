@@ -4,23 +4,30 @@
 - `fill`은 passed 문제(변형 제외)를 세어 버킷당 10개, 형식마다 10개에 모자란 만큼만 슬롯을 만든다
   (`slots.plan_fill`). `duplicate` 등으로 버린 슬롯을 다음 배치에서 다시 채운다(6.1).
 - 슬롯 사이 동시 실행은 2개다(8.1). 슬롯 하나가 예외로 멈춰도 나머지는 돈다.
-- 모든 슬롯이 `passed`·`dropped`가 되어야 `finished_at`을 채운다.
-- `--resume <batch_id>`는 `batch_slots`에서 `passed`·`dropped`가 아닌 슬롯만 처음부터 다시 돈다.
+  모델 호출은 동시에 하고, 마지막 중복 검사와 결과 쓰기는 `_RECORD_LOCK` 안에서 하나씩 한다(4.4).
+- 모든 슬롯이 `passed`·`dropped`·`audit_failed`가 되어야 `finished_at`을 채운다.
+- `--resume <batch_id>`는 `batch_slots`에서 `passed`·`dropped`·`audit_failed`가 아닌 슬롯만 처음부터 다시 돈다.
+  `audit_failed`(감사에서 빠진 문제)는 끝난 슬롯이라 다시 만들지 않는다.
   슬롯의 근거 페이지는 허용 목록에서 다시 만든다(`slots.slot_for`).
 """
 
+import threading
 import traceback
 from concurrent.futures import ThreadPoolExecutor
 
-from quiz import allowlist, db, llm, slots, store
+from quiz import allowlist, db, gates, llm, slots, store
 from quiz.backup import backup
 from quiz.migrate import apply_migrations
 from quiz.pipeline import graph as slot_graph
 from quiz.pipeline.graph import build_graph
 
 WORKERS = 2
-DONE = ("passed", "dropped")
+# 끝난 슬롯. `audit_failed`는 passed였다가 감사에서 빠진 문제다. 다시 만들거나 덮어쓰지 않는다
+DONE = ("passed", "dropped", "audit_failed")
 PER_BUCKET = {"pilot": 1, "pool": 10}
+# 마지막 중복 검사와 판정 쓰기를 한 번에 하나씩 한다. 같은 버킷 슬롯 둘이 동시에 끝나도 뒤 슬롯이 앞 결과를 본다.
+# 모델 호출은 잠그지 않는다
+_RECORD_LOCK = threading.Lock()
 
 
 FILL_TARGET = 10  # 버킷당, 형식마다
@@ -48,7 +55,16 @@ def process_slot(graph, batch_id: str, slot_no: int, slot: dict, snapshots: dict
     }, llm.trace_config(batch_id))
     question = state.get("question")
     fetched_at = (question or {}).get("fetched_at") or min(fetched.values())
-    with db.connect() as conn:
+    with _RECORD_LOCK, db.connect() as conn:
+        if state["status"] == "passed":
+            # 그래프의 dedupe는 슬롯 시작 때 읽은 peers만 본다. 그 뒤 같은 버킷에서 passed가 된 문제와 다시 비교한다
+            reason, dup = gates.check_duplicate(
+                question, store.passed_in_bucket(conn, slot["bucket"], exclude_qid=qid))
+            if reason is not None:
+                last = state["attempts"][-1]
+                last["duplicate_of"] = dup
+                last["fail_reasons"] = list(last.get("fail_reasons") or []) + [reason]
+                state = {**state, "status": "dropped", "drop_reason": reason, "duplicate_of": dup}
         store.upsert_question(
             conn, qid, batch_id, slot, question, status=state["status"], drop_reason=state.get("drop_reason"),
             regen_count=state.get("regen_count") or 0, fetched_at=fetched_at,
