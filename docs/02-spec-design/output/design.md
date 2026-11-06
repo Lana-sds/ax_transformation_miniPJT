@@ -3,7 +3,7 @@
 | 항목 | 내용 |
 | --- | --- |
 | 문서 상태 | 확정 |
-| 버전 | 14.0 (부록 A) |
+| 버전 | 15.0 (부록 A) |
 | 작성일 | 2026-11-04 |
 | 요구사항 | [requirements.md](../../01-requirements/output/requirements.md) |
 | 관련 산출물 | [page-allowlist.md](page-allowlist.md), [seed.yaml](seed.yaml) |
@@ -412,7 +412,7 @@ CREATE TABLE audit_records (
 | 대상 | 규칙 |
 | --- | --- |
 | `question_id` | `f"{batch_id}-{slot_no:03d}"`. 같은 슬롯은 항상 같은 ID다(6.2) |
-| `pool_snapshot_id` | `"ps_" + sha256("\n".join(sorted(question_ids)))[:12]`. 풀 스냅샷은 출제할 문제 목록을 고정한 것이다. 같은 문제 집합이면 같은 ID라 감사 시드(표본을 뽑는 난수 시작값)가 재현된다(6.6) |
+| `pool_snapshot_id` | `"ps_" + sha256("\n".join(sorted(question_ids)))[:12]`. 풀 스냅샷은 출제할 문제 목록을 고정한 것이다. 같은 문제 집합이면 같은 ID라 감사 시드(표본을 뽑는 난수 시작값)가 재현된다(6.6) 현재 풀 스냅샷은 마지막으로 고정한 스냅샷이다. 이미 있는 목록을 다시 고정하면 그 스냅샷의 `created_at`을 그 시각으로 바꾼다 |
 | `audit_id` | `"au_"` + `pool_snapshot_id`의 `ps_` 뒤 12자. 풀 스냅샷당 감사는 하나다(6.6) |
 | `bucket` | 학습 일차별 주제 묶음. `rag`, `langgraph_basics`, `tool_mcp`, `middleware_hitl_guardrails`, `multi_agent`, `ops_quality`(day2~day7 순) |
 | `format`, `question_type` | `CHECK`를 두지 않는다. 형식 추가는 채점 함수 등록과 UI 컴포넌트 추가로 한다(NFR-1.2) |
@@ -523,7 +523,8 @@ flowchart TD
 ### 6.2 배치 실행과 재개
 
 - 배치는 시작할 때 슬롯 목록(버킷, 주제, 형식, 유형)을 `batch_slots`에 먼저 쓴다. `question_id`는 5.2 규칙으로 정한다.
-- `quiz generate --resume <batch_id>`는 상태가 `passed`·`dropped`가 아닌 슬롯만 처음부터 다시 돈다. 중단된 슬롯의 `regen_count`는 0으로 되돌린다.
+- `quiz generate --resume <batch_id>`는 상태가 `passed`·`dropped`·`audit_failed`가 아닌 슬롯만 처음부터 다시 돈다. `audit_failed`는 끝난 슬롯이다. 중단된 슬롯의 `regen_count`는 0으로 되돌린다.
+- 워커가 여럿이면 슬롯 결과를 저장하기 직전에 잠금을 잡는다. 잠금 안에서 같은 버킷 `passed` 문제를 DB에서 다시 읽어 유사 중복(4.4)을 다시 검사한 뒤 저장한다. 모델 호출은 잠그지 않는다.
 - 문제·근거·검증 결과 쓰기는 `question_id`(검증은 `question_id, attempt_no`) 기준 upsert(있으면 고치고 없으면 넣기)다.
 - 첫 배치는 파일럿(시험 생성)으로 버킷당 1문제(6개)를 돌려 문제당 시간과 비용을 잰다. 이 값으로 60개 소요를 추정한다.
 
@@ -636,7 +637,14 @@ sequenceDiagram
 ### 8.2 샌드박스 격리
 
 - 앱은 샌드박스를 subprocess로만 부른다. stdin JSON 하나를 주고 stdout JSON 하나를 받는다.
-- 자식 프로세스 환경에서 `AWS_*`, `LANGFUSE_*`를 지운다. 네트워크 호출, Bedrock, 앱 DB 접근을 하지 않는다.
+- 자식 프로세스 작업 폴더는 실행마다 새로 만드는 임시 폴더다. 실행이 끝나면 지운다.
+- 자식 프로세스 환경은 허용 목록이다. `SYSTEMROOT`, `WINDIR`, `SYSTEMDRIVE`, `PATH`, `PATHEXT`, `COMSPEC`, `PROCESSOR_ARCHITECTURE`, `NUMBER_OF_PROCESSORS`, `OS`만 넘긴다. `TEMP`, `TMP`, `TMPDIR`은 작업 폴더를 가리킨다. `AWS_*`, `LANGFUSE_*`, `QUIZ_DB`와 그 밖의 변수는 넘기지 않는다.
+- 실행기는 모델 코드를 돌리기 전에 Python 감사 훅(`sys.addaudithook`)을 건다. 훅은 뗄 수 없다. 훅이 막는 것은 다음과 같다.
+  - 네트워크: `socket.*` 이벤트 전부(`_socket` 직접 호출 포함). `NetworkBlockedError`로 드러난다. asyncio가 쓰는 루프백 socketpair만 예외다.
+  - 파일: 쓰기는 작업 폴더 안만, 읽기는 작업 폴더, Python 설치·가상 환경, 샌드박스 폴더만 허용한다. 그 밖은 `PermissionError`다.
+  - 프로세스와 네이티브: 하위 프로세스, `os.system`, `ctypes`, `sqlite3`, Windows API 모듈. `PermissionError`다.
+- 한계: 같은 프로세스 안의 방어이고 운영체제 수준 격리가 아니다. 감사 이벤트가 없는 경로(파일 존재 확인, 물려받은 파일 기술자에 결과 줄 쓰기)는 막지 못한다. 결과 줄 위조는 05 평가 F-6으로 남아 있다.
+- 네트워크 호출, Bedrock, 앱 DB 접근을 하지 않는다.
 - 타임아웃은 실행 1건(보기 1개)당 30초다. 넘기면 프로세스를 끝내고 결과를 `timeout`으로 둔다. Judge가 `timeout`을 예측하지 않았으면 불일치다.
 
 ### 8.3 관측(모델 호출 기록 추적)
@@ -750,3 +758,4 @@ Seed 수용 기준 번호는 [seed.yaml](seed.yaml) `acceptance_criteria` 순서
 | 12.1 | 2026-11-05 | 용어 표를 찾지 않고 읽을 수 있게 내부 용어(팩, 허용 목록, 스냅샷, 시드, 결정적 검사 등)를 쓰인 곳에서 괄호로 풀어 썼다. 4.1 `packs/`, `data/` 주석을 더했다. 설계 내용은 바꾸지 않았다 |
 | 13.0 | 2026-11-05 | 프롬프트·모델 실험(04) 중 사용자 승인을 반영했다. 3.2 프롬프트 디렉토리(`QUIZ_PROMPTS_DIR`)와 Judge 항목 추가 파일, 4.1 `experiments.py`·`data/experiments/`, 7.2 `generate --slots`·`experiment judge`·`experiment summary`·운영 DB 보호, 8.3 실험 Judge의 Langfuse 미기록, D-16, 10장 7.3 행. Judge 항목과 실패 이유 목록은 바꾸지 않았다. 기록은 [05-mandela.md](../../dev-process/04-prompt-model-experiments/05-mandela.md)에 있다 |
 | 14.0 | 2026-11-06 | 평가·리뷰(05) 중 사용자 승인으로 4.1의 `data/quiz.db`를 커밋 대상으로 바꿨다. 최종 제출에 평가받은 DB(풀이·감사·복습 기록 포함)를 넣는다. `.gitignore`에 `!data/quiz.db`를 더했다. 기록은 [05-findings.md](../../dev-process/05-evaluation-review/05-findings.md)에 있다 |
+| 15.0 | 2026-11-06 | 평가·리뷰(05) 발견 F-1~F-5 수정을 사용자 승인으로 반영했다. 8.2 샌드박스 격리(임시 작업 폴더, 환경 허용 목록, 감사 훅, 한계), 6.2 재개 대상에서 `audit_failed` 제외와 동시 슬롯 중복 재검사, 5.2 `pool_snapshot_id` 행에 현재 풀 정의. 기록은 [05-findings.md](../../dev-process/05-evaluation-review/05-findings.md)에 있다 |

@@ -1,6 +1,6 @@
 # 리뷰 발견 사항
 
-상태: 초안. 심각도와 조치는 2026-11-06 09:52 사용자 확인
+상태: 초안. 심각도와 조치는 2026-11-06 09:52 사용자 확인. 높음 5개 수정 완료
 작성일: 2026-11-06
 평가 대상 커밋: `3a48c4cb463e2023ce5d5cd7a36f011cc44bb965`
 기록: [03-interrogate.md](../../dev-process/05-evaluation-review/03-interrogate.md)(재현 명령과 출력), [04-carryover.md](../../dev-process/05-evaluation-review/04-carryover.md), [05-findings.md](../../dev-process/05-evaluation-review/05-findings.md)
@@ -21,18 +21,18 @@
 
 ## 2. 목록
 
-조치 값: `수정`(커밋 해시), `기록만`, `해당 없음`. 마감 단축안(2026-11-06 09:45)에 따라 "높음"만 고친다.
+조치 값: `수정`(병합 커밋, 워커 커밋), `기록만`, `해당 없음`. 마감 단축안(2026-11-06 09:45)에 따라 "높음"만 고친다.
 
 | ID | 심각도 | 제목 | 위치 | 출처 | 실제 데이터 영향 | 조치 |
 | --- | --- | --- | --- | --- | --- | --- |
-| F-1 | 높음 | 샌드박스 코드가 호스트 파일을 읽고 쓴다. 저장소 루트 `.env`, 저장소 밖 파일, 앱 DB(`QUIZ_DB`가 자식 환경에 넘어감)에 닿는다. 읽은 비밀은 실행 결과로 `verification_results.exec_result_json`에 저장된다 | `sandbox/runner.py`, `app/quiz/sandbox_client.py` 33~38, 51행, `nodes.py` 260행 | A-1, A-3, A-4 | 운영 DB 저장값에서 비밀 문자열 확인 안 함(미확인) | 수정 중 |
-| F-2 | 높음 | 네트워크 차단이 `socket.socket` 클래스 패치뿐이다. `_socket` 직접 사용으로 TCP 연결, DNS, UDP가 된다. F-1과 합치면 `.env`를 밖으로 보낼 수 있다 | `sandbox/runner.py` | A-2(03 8장 기술 부채와 같은 내용) | - | 수정 중 |
-| F-3 | 높음 | `--resume`이 `audit_failed` 문제를 끝나지 않은 슬롯으로 보고 같은 `question_id`로 다시 만든다. 고정 풀 안 문제 내용이 바뀌고 `passed`로 돌아온다. 다시 고정해도 같은 스냅샷 ID라 감사 표본도 같다 | `app/quiz/batch.py` `DONE = ("passed", "dropped")` | C-2 | 운영 DB에 `audit_failed` 2개가 있다. 그 배치를 재개하면 일어난다 | 수정 중 |
-| F-4 | 높음 | 감사 실패 문제가 현재 풀에 남아 출제된다. `freeze`가 기존 스냅샷과 같은 목록이면 `INSERT OR IGNORE`라 `created_at`이 그대로이고, `current_pool`은 `created_at` 최신을 고른다 | `app/quiz/pool.py` 21, 30행 | B-4 | 지금 현재 풀 60개는 모두 `passed`다 | 수정 중 |
-| F-5 | 높음 | 워커 2개가 같은 버킷 슬롯을 동시에 돌리면 서로의 결과를 보지 못해 유사 중복 검사를 피한다 | `app/quiz/batch.py`(`peers`를 슬롯 시작 때 한 번 읽음) | C-1, 이월 8 | 고정 풀 안에 같은 버킷·같은 인용 쌍 3개(`03-013/014`, `03-025/026`, `03-047/048`). seed 유사 중복 규칙 위반이다 | 수정 중 |
+| F-1 | 높음 | 샌드박스 코드가 호스트 파일을 읽고 쓴다. 저장소 루트 `.env`, 저장소 밖 파일, 앱 DB(`QUIZ_DB`가 자식 환경에 넘어감)에 닿는다. 읽은 비밀은 실행 결과로 `verification_results.exec_result_json`에 저장된다 | `sandbox/runner.py`, `app/quiz/sandbox_client.py` 33~38, 51행, `nodes.py` 260행 | A-1, A-3, A-4 | 운영 DB 저장값에서 비밀 문자열 확인 안 함(미확인) | 수정(`021aa87`, W1 `b59be43`) |
+| F-2 | 높음 | 네트워크 차단이 `socket.socket` 클래스 패치뿐이다. `_socket` 직접 사용으로 TCP 연결, DNS, UDP가 된다. F-1과 합치면 `.env`를 밖으로 보낼 수 있다 | `sandbox/runner.py` | A-2(03 8장 기술 부채와 같은 내용) | - | 수정(`021aa87`, W1 `b59be43`) |
+| F-3 | 높음 | `--resume`이 `audit_failed` 문제를 끝나지 않은 슬롯으로 보고 같은 `question_id`로 다시 만든다. 고정 풀 안 문제 내용이 바뀌고 `passed`로 돌아온다. 다시 고정해도 같은 스냅샷 ID라 감사 표본도 같다 | `app/quiz/batch.py` `DONE = ("passed", "dropped")` | C-2 | 운영 DB에 `audit_failed` 2개가 있다. 그 배치를 재개하면 일어난다 | 수정(`66097c9`, W2 `d58da24`) |
+| F-4 | 높음 | 감사 실패 문제가 현재 풀에 남아 출제된다. `freeze`가 기존 스냅샷과 같은 목록이면 `INSERT OR IGNORE`라 `created_at`이 그대로이고, `current_pool`은 `created_at` 최신을 고른다 | `app/quiz/pool.py` 21, 30행 | B-4 | 지금 현재 풀 60개는 모두 `passed`다 | 수정(`66097c9`, W2 `d58da24`) |
+| F-5 | 높음 | 워커 2개가 같은 버킷 슬롯을 동시에 돌리면 서로의 결과를 보지 못해 유사 중복 검사를 피한다 | `app/quiz/batch.py`(`peers`를 슬롯 시작 때 한 번 읽음) | C-1, 이월 8 | 고정 풀 안에 같은 버킷·같은 인용 쌍 3개(`03-013/014`, `03-025/026`, `03-047/048`). seed 유사 중복 규칙 위반이다 | 수정(`66097c9`, W2 `d58da24`) |
 | F-6 | 중간 | 샌드박스 코드가 물려받은 파일 기술자에 가짜 결과 줄을 쓰고 끝내면 그 줄이 실행 결과가 된다. 코드형 Judge-실행 일치 검사를 속일 수 있다 | `sandbox/runner.py`, `sandbox_client.py` 마지막 줄 파싱 | A-6 | 풀 코드형 11문항 재실행은 기대값과 모두 같다(E2) | 기록만 |
-| F-7 | 중간 | 파이프를 물려받은 손자 프로세스가 있으면 시간 제한이 늘어난다(`timeout=5`에 16초). 분리된 손자는 종료 뒤에도 살아남는다 | `sandbox_client.py` `subprocess.run(timeout=)` | A-5 | - | 기록만 |
-| F-8 | 중간 | 자식 환경 정리가 접두사 제외 목록(`AWS_`, `LANGFUSE_`)이다. 다른 토큰(`GITHUB_TOKEN` 등)과 `QUIZ_DB`, `USERPROFILE`이 넘어간다 | `sandbox_client.py` `child_env` | A-7 | 고정 결정(`AWS_*`, `LANGFUSE_*` 제거)은 지킨다 | 기록만 |
+| F-7 | 중간 | 파이프를 물려받은 손자 프로세스가 있으면 시간 제한이 늘어난다(`timeout=5`에 16초). 분리된 손자는 종료 뒤에도 살아남는다 | `sandbox_client.py` `subprocess.run(timeout=)` | A-5 | - | 해당 없음. F-1 수정의 하위 프로세스 차단으로 재현이 막혔다(`021aa87`) |
+| F-8 | 중간 | 자식 환경 정리가 접두사 제외 목록(`AWS_`, `LANGFUSE_`)이다. 다른 토큰(`GITHUB_TOKEN` 등)과 `QUIZ_DB`, `USERPROFILE`이 넘어간다 | `sandbox_client.py` `child_env` | A-7 | 고정 결정(`AWS_*`, `LANGFUSE_*` 제거)은 지킨다 | 해당 없음. F-1 수정의 환경 허용 목록으로 재현이 막혔다(`021aa87`) |
 | F-9 | 중간 | 오답 제출과 새 세트 생성이 동시에 오면 둘 다 성공한다. 그 오답은 태그를 영영 못 달고(`409 set_closed`) 복습 큐에도 안 들어간다 | `app/quiz/server.py` `submit_answer`, `create_set`(확인과 쓰기가 한 트랜잭션이 아님) | B-1 | 운영 DB의 태그 없는 오답 1행(`s010`)은 이 경합이 아니다 | 기록만 |
 | F-10 | 중간 | 같은 문제 동시 재제출은 409 대신 500, 세트 동시 생성도 500이다. DB 제약이 중복 행은 막는다 | `server.py` | B-2, B-3 | - | 기록만 |
 | F-11 | 중간 | 교차 풀이가 스냅샷 sha256을 검사하지 않는다. 변조된 문서가 풀이 모델에 들어간다 | `app/quiz/crosscheck.py` `read_snapshots` | C-3 | 지금 스냅샷 81개는 해시가 맞다(E1) | 기록만 |
@@ -45,7 +45,18 @@
 | F-18 | 낮음 | 교차 풀이가 토큰 수와 비용을 기록하지 않고 Langfuse에도 남지 않는다. 두 모델 단가가 단가표에 없다 | `crosscheck.py`, `data/pricing/bedrock.yaml` | 이월 2 | 05 교차 풀이 비용 미확인 | 기록만 |
 | F-19 | 낮음 | 기준선 지표에서 배치 `b20261105-01` 비용이 null이고, 문제 0개인 미완료 배치 `b20261105-07`이 남아 있다 | `data/metrics/baseline.json`, `data/quiz.db` | 기준 8, 이월 10 | `--resume b20261105-07`을 돌리면 5문항을 새로 만든다 | 기록만 |
 
-## 3. 발견이 아닌 관찰
+## 3. 수정 확인
+
+| ID | 수정 | 확인 |
+| --- | --- | --- |
+| F-1, F-2 | 실행기가 모델 코드를 돌리기 전 감사 훅을 건다. 파일은 임시 작업 폴더 밖 쓰기와 허용 폴더 밖 읽기, 네트워크는 `socket.*` 이벤트 전부(`_socket` 포함), 하위 프로세스·`ctypes`·`sqlite3`를 막는다. 자식 작업 폴더는 실행마다 새 임시 폴더, 환경은 허용 목록이다. design.md 15.0 8.2 | 재현 스크립트: 저장소 루트 가짜 비밀 읽기 `PermissionError`, `win.ini` `PermissionError`, `_socket` 반출 `NetworkBlockedError`(리스너 수신 0), 자식 `QUIZ_DB` 없음, 앱 DB 쓰기 실패, 가짜 `GITHUB_TOKEN` 없음, 손자 프로세스 `PermissionError`(0.7초). 풀 코드형 44보기를 실제 경로로 다시 돌려 기대값·Judge 예측 불일치 0. 새 테스트 앱 6개, 샌드박스 16개 |
+| F-3 | `batch.DONE`에 `audit_failed`를 더했다. design.md 6.2 | `unfinished() = 0`, 재개 뒤에도 `audit_failed` 문제 그대로 |
+| F-4 | 이미 있는 목록을 다시 고정하면 그 스냅샷 `created_at`을 지금으로 바꾼다. design.md 5.2 | `current_pool`이 `freeze` 결과와 같다. 감사 실패 문제 출제 0 |
+| F-5 | 저장 직전 잠금 안에서 같은 버킷 passed를 DB에서 다시 읽어 중복을 다시 검사한다. design.md 6.2 | 워커 2개에서 passed 1개, 나머지 `dropped duplicate`. 5회 반복 통과(W2). 기존 데이터의 3쌍은 그대로 둔다 |
+
+전체 테스트: 앱 `385 passed`, 샌드박스 `32 passed`(2026-11-06 병합 뒤). 남은 한계: 감사 훅은 같은 프로세스 안 방어다. 결과 줄 위조(F-6)는 막지 못한다. 감사 뒤 다시 고정하기 전에는 현재 풀에 `audit_failed` 문제가 남는다(`sets.compose`가 상태를 보지 않음).
+
+## 4. 발견이 아닌 관찰
 
 | 관찰 | 이유 |
 | --- | --- |
@@ -54,7 +65,7 @@
 | 서버는 자기 환경 변수를 지우지 않는다 | 셸에 `AWS_*`를 export하고 서버를 띄우면 받는다. 실행하지 않았다. 운영 절차(CLAUDE.md "서버에는 넘기지 않는다")에 기댄다 |
 | 코드가 `docs/02-spec-design/output/page-allowlist.md`를 읽는다 | 허용 목록 원본이다. CLAUDE.md "코드는 docs/ 밖"은 코드 위치 규칙이라 어긋나지 않는다 |
 
-## 4. 버린 것
+## 5. 버린 것
 
 | 출처 | 수 | 이유 |
 | --- | --- | --- |

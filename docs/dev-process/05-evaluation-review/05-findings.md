@@ -38,12 +38,20 @@
 - 병합 뒤 재현 스크립트: C-1(`race.py 2`) passed 1개, 나머지 `dropped duplicate`, `[]`. C-2(`auditfail.py`) `unfinished() = 0`, 재개 뒤에도 `audit_failed 'Question alpha delta version 0'` 그대로, 다시 고정하면 새 스냅샷 `ps_c16445816275`(1문항). B-4(`probe_b4.py`) `current_pool -> ps_e9183e97416f`(A), `audit_failed question served in sets: 0`
 - W2가 짚은 design.md 차이(승인 필요): 6.2 "passed·dropped가 아닌 슬롯만 다시 돈다" → `audit_failed`도 끝난 슬롯. 5.1 `pool_snapshots.created_at`은 마지막 고정 시각. "현재 풀 = 마지막으로 고정한 스냅샷" 정의 추가
 
+- 10:08 W1 보고. 브랜치 `worktree-agent-ae5d1be703ce3bed1` @ `b59be43eb668f9e5d3156f86c37ad4593aaa0999`. 바꾼 파일 `sandbox/runner.py`, `sandbox/tests/test_runner.py`, `app/quiz/sandbox_client.py`, `app/tests/test_sandbox_client.py`. 새 테스트 샌드박스 16개, 앱 6개(먼저 실패 확인). 기존 `test_aws_and_langfuse_env_not_passed`의 기대(`QUIZ_KEEP_ME`가 넘어감)를 허용 목록 계약에 맞게 바꿨다. 경로 해석은 `os.path.realpath` 대신 `nt._getfullpathname`, `nt._getfinalpathname`을 쓴다(지시와 다른 점. 모델 코드가 `ntpath`를 바꿔도 판정이 안 바뀌게). `sqlite3`는 `:memory:`까지 막는다(`ATTACH`가 감사 이벤트 없이 파일을 연다)
+- 병합: W1 `worktree-agent-ae5d1be703ce3bed1` @ `b59be43eb668f9e5d3156f86c37ad4593aaa0999` → `021aa87`. `merge-base --is-ancestor f138ca5 b59be43` 통과. 병합 뒤 앱 385 passed, 샌드박스 32 passed
+- 병합 뒤 재현: 스크래치 `ev/v_a2.py`(실제 경로). A-1 `PermissionError` 2건, A-2 `NetworkBlockedError`, 리스너 수신 `[]`, A-3 자식 `QUIZ_DB` `None`, DB 쓰기 실패(`pwned` 테이블 없음), A-7 넘어간 변수 `[]`, A-5 손자 프로세스 `PermissionError` 0.7초, A-6 위조는 여전히 `{"ok": true, "stdout": "expected answer
+"}`(F-6, 기록만). 스크래치 `ev/e02b_code.py`: 풀 코드형 11문항 44보기 실제 경로 재실행, 기대값 불일치 0, Judge 예측 불일치 0
+- 10:12 W2 차이 3곳의 design.md 수정을 사용자에게 보이고 승인받았다. 승인된 8.2와 함께 design.md 15.0
+- 10:15 `data/quiz.db` 행 수 0단계와 같다(13개 테이블 모두). sha256 `89fa897d…` 그대로
+- F-7, F-8은 F-1 수정으로 재현이 막혀 `해당 없음`으로 바꿨다
+
 ## 인계
 
-갱신: 2026-11-06 09:54
-- 마지막 완료 작업: 고칠 목록 확인, 워커 띄움
-- 다음 작업: 워커 결과를 `git merge-base --is-ancestor f138ca5 <해시>`로 확인하고 병합한다. 병합 뒤 전체 테스트, E2(코드형 44보기 재실행), 공격자 재현 스크립트를 다시 돌린다. design.md 8.2를 고친다(승인됨). `data/quiz.db` 행 수를 다시 센다
-- 실행 중: W1: F-1, F-2, 기준 f138ca59b652aedc0a2d19b0ffe4586c1fc30802
+갱신: 2026-11-06 10:17
+- 마지막 완료 작업: W1, W2 병합과 확인, design.md 15.0, 행 수 대조
+- 다음 작업: 사용자에게 단계 완료를 확인받고 `doc` 모드로 간다
+- 실행 중: 없음
 - 사용자 대기: 없음
 - 먼저 읽을 파일: `findings.md`
 
@@ -54,6 +62,7 @@
 | 수정 범위 | F-1~F-5 수정, F-6~F-19 기록만 | 계획 결정 3(09:45 단축안으로 "높음"만) |
 | 샌드박스 방식 | 감사 훅 + 임시 작업 폴더 + 환경 허용 목록. design.md 8.2를 고친다 | design.md 8.2 값(사용자 승인 09:52) |
 | 풀의 중복 쌍 3개 | 데이터는 그대로 둔다 | 없음 |
+| W2 수정의 설계 반영 | 6.2 재개 대상, 6.2 동시 슬롯 중복 재검사, 5.2 현재 풀 정의. 사용자 승인 10:12 | design.md 6.2, 5.2 → 15.0 |
 | 제출 PR에 `data/quiz.db` 포함 | 평가받은 DB(sha256 `89fa897d…`)를 커밋한다. `.gitignore`에 `!data/quiz.db`. 커밋 전 비밀 문자열 검사(텍스트 칸 5,468개, AWS 키 형식·`aws_secret_access_key`·Langfuse 키 접두사·`.env` 형식 줄·Bearer 토큰) 0건. 사용자 승인 10:03 | design.md 4.1(`*.db`로 커밋 안 함) → 14.0 |
 
 ## 계획과 다른 점
@@ -63,4 +72,4 @@
 ## 끝나는 조건 확인
 
 - 조건: 모든 `F-n`에 상태가 있다. 전체 테스트가 통과한다. `data/quiz.db` 행 수가 0단계와 같다.
-- 결과: 미확인(진행 중)
+- 결과: 충족(사용자 확인 전). F-1~F-19 모두 조치 값이 있다(수정 5, 해당 없음 2, 기록만 12). 앱 385 passed, 샌드박스 32 passed. `data/quiz.db` 행 수 0단계와 같다
