@@ -1,6 +1,6 @@
 # 리뷰 발견 사항
 
-상태: 초안. 심각도와 조치는 2026-11-06 09:52 사용자 확인. 높음 5개 수정 완료
+상태: 확정(2026-11-06 10:30). 최종 문서 evaluation.md 1.0의 근거 자료
 작성일: 2026-11-06
 평가 대상 커밋: `3a48c4cb463e2023ce5d5cd7a36f011cc44bb965`
 기록: [03-interrogate.md](../../dev-process/05-evaluation-review/03-interrogate.md)(재현 명령과 출력), [04-carryover.md](../../dev-process/05-evaluation-review/04-carryover.md), [05-findings.md](../../dev-process/05-evaluation-review/05-findings.md)
@@ -44,6 +44,7 @@
 | F-17 | 낮음 | 04 보고서의 "03 운영 판정을 `control-s45` 반복 실행으로 볼 수 있는가"는 53문항 중 38문항만 성립한다 | `experiments.md` 1.8 | 이월 1 | - | 기록만 |
 | F-18 | 낮음 | 교차 풀이가 토큰 수와 비용을 기록하지 않고 Langfuse에도 남지 않는다. 두 모델 단가가 단가표에 없다 | `crosscheck.py`, `data/pricing/bedrock.yaml` | 이월 2 | 05 교차 풀이 비용 미확인 | 기록만 |
 | F-19 | 낮음 | 기준선 지표에서 배치 `b20261105-01` 비용이 null이고, 문제 0개인 미완료 배치 `b20261105-07`이 남아 있다 | `data/metrics/baseline.json`, `data/quiz.db` | 기준 8, 이월 10 | `--resume b20261105-07`을 돌리면 5문항을 새로 만든다 | 기록만 |
+| F-20 | 중간 | 고정 풀의 정답 위치가 A에 쏠렸다. 단일 선택 18개 중 14개, 코드 선택 11개 모두, 복수 선택 14개 중 13개가 A를 포함한다. "늘 A"를 고르면 단일·코드 29문항 중 25개를 맞힌다. 요구사항에 보기 순서 규칙이 없고 Judge `no_cue`는 문항 안 단서만 본다 | 생성 프롬프트, 세트 출제(`server.py` 보기 순서) | 06 사전 QA Q-3, 05 DB 조회로 확인 | 평가 풀 그대로 | 기록만 |
 
 ## 3. 수정 확인
 
