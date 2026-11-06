@@ -275,13 +275,16 @@ uv run uvicorn quiz.server:app --port 8000
 | 평가 대상 풀이 바뀐다 | 평가 대상은 고정 풀 `ps_326384fb5422`(60문항)와 감사 `au_326384fb5422`다. 새로 고정하면 앱이 가장 최근 풀을 쓰므로 세트 구성과 수용 기준 증거가 평가 대상과 어긋난다 |
 | 비용과 한도가 겹친다 | 생성 비용이 더 든다. Bedrock 일일 토큰 한도를 05 계획 4단계(이월 항목)의 교차 풀이와 함께 쓴다 |
 
-별도 DB에 돌리면 운영 DB와 평가 대상 풀은 그대로다. 04 실험과 같은 방식이다.
+별도 빈 DB에 돌리면 운영 DB와 평가 대상 풀은 그대로다. 04 실험과 같은 방식이다(design.md D-16).
 
 ```bash
-cp data/quiz.db data/experiments/scratch.db
-cd app && QUIZ_DB=../data/experiments/scratch.db uv run quiz generate --plan pilot
+cd app
+QUIZ_DB=../data/experiments/scratch.db uv run quiz migrate
+QUIZ_DB=../data/experiments/scratch.db uv run quiz generate --plan pilot
 ```
 
+- `data/quiz.db`를 복사해서 쓰지 않는다. 생성 계획은 같은 입력이면 같은 버킷·주제·형식의 슬롯을 만들기 때문에, 이미 있는 60문항과 겹쳐 `duplicate`로 버려지는 문제가 많아진다.
 - `pilot`은 6슬롯, 약 1.7 USD다(파일럿 슬롯당 0.286 USD, design.md 1.4).
+- 실제 예(2026-11-06): 빈 `scratch.db`에 `--plan pool --count 36`(passed 30, 8.55 USD), 이어서 `--plan fill`(passed 23, 9.67 USD)로 53문항을 만들었다.
 - `.env`가 필요하므로 코디네이터 worktree에서만 돌린다.
 - `data/experiments/*.db`는 git에서 빠진다.
