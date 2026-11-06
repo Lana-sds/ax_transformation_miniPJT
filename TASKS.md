@@ -5,7 +5,7 @@
 | 작성일 | 2026-11-05 |
 | 기준 | [SERVICE.md](SERVICE.md) 0.5, [requirements.md](docs/01-requirements/output/requirements.md) 3.0, [design.md](docs/02-spec-design/output/design.md) 10.0, [seed.yaml](docs/02-spec-design/output/seed.yaml) 1.1.0 (2026-11-05 13:42 확인) |
 | 단계 계획 | [03-implementation-plan.md](docs/dev-process/03-implementation-plan.md) |
-| 마감 | 2026-11-06 17:00 (C-1) |
+| 마감 | 2026-11-06 13:30 (C-1). 2026-11-06 09:45 사용자 전달로 변경. 원래 17:00 |
 
 ## 읽는 법
 
