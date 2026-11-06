@@ -1,0 +1,12 @@
+{
+ "observationCommand": "curl /docs /scalar /redoc /openapi.json; open /docs; snapshot",
+ "observed": {
+  "/docs": 200,
+  "/scalar": 200,
+  "/redoc": 200,
+  "/openapi.json": 200,
+  "swagger": "agent-dev-quiz 0.1.0 OAS 3.1, 엔드포인트 목록 보임"
+ },
+ "hypothesis": "링크: 풀 53문항의 근거 페이지 URL과 코드형 doc_url이 공식 문서에서 200이어야 한다",
+ "nextCommand": "curl -I each distinct URL"
+}

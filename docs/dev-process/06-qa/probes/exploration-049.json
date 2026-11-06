@@ -1,0 +1,10 @@
+{
+ "observationCommand": "curl -I 42 URLs (https://docs.langchain.com + page)",
+ "observed": {
+  "200": 34,
+  "bad": 7,
+  "bad_form": "page가 https://reference.langchain.com/... 절대 URL이라 접두를 붙이면 https://docs.langchain.comhttps://... 가 된다"
+ },
+ "hypothesis": "화면도 page 앞에 docs 주소를 붙인다면 API 레퍼런스 근거 링크가 깨진다. 그런 문제를 푼 세트 화면에서 근거 링크 href를 본다",
+ "nextCommand": "find set containing such question; open its result; read a[href]"
+}

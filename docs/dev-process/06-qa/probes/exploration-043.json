@@ -1,0 +1,16 @@
+{
+ "observationCommand": "click 감사 시작; net; snapshot",
+ "observed": {
+  "POST /api/audits": 200,
+  "items": 20,
+  "form": [
+   "정답 키 오류",
+   "인용이 정답을 뒷받침하지 않는다",
+   "영·한 매핑 중 충실하지 않은 구절이 있다",
+   "메모(선택)",
+   "저장"
+  ]
+ },
+ "hypothesis": "1번에 아무것도 체크하지 않고 저장하면 PUT 200, 저장 표시가 나고 새로고침 뒤에도 유지된다(FR-9.2)",
+ "nextCommand": "click 저장; net; reload; snapshot"
+}
