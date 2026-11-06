@@ -3,7 +3,7 @@
 | 항목 | 내용 |
 | --- | --- |
 | 문서 상태 | 확정 |
-| 버전 | 13.0 (부록 A) |
+| 버전 | 14.0 (부록 A) |
 | 작성일 | 2026-11-04 |
 | 요구사항 | [requirements.md](../../01-requirements/output/requirements.md) |
 | 관련 산출물 | [page-allowlist.md](page-allowlist.md), [seed.yaml](seed.yaml) |
@@ -248,7 +248,7 @@ ax_transformation_miniPJT/
 │   ├── crosscheck/                 # 교차 풀이 결과 .json, .md(커밋)
 │   ├── experiments/                # 실험별(<EXP-n>/) 프롬프트 사본, 문항·슬롯 목록, 결과 .json(커밋). arm별 실험 DB는 `*.db`로 커밋 안 함
 │   ├── waivers.yaml                # 완료 기준을 못 채웠을 때 사용자가 승인한 예외(커밋)
-│   ├── quiz.db                     # SQLite. `.gitignore`의 `*.db`로 커밋 안 함
+│   ├── quiz.db                     # SQLite. 평가받은 제출본을 커밋한다(`.gitignore` 예외 `!data/quiz.db`). 다른 `*.db`는 커밋 안 함
 │   └── backups/                    # SQLite 백업(8.4). 커밋 안 함
 └── docs/                           # 단계별 문서. 코드를 두지 않는다
 ```
@@ -749,3 +749,4 @@ Seed 수용 기준 번호는 [seed.yaml](seed.yaml) `acceptance_criteria` 순서
 | 12.0 | 2026-11-05 | 구현 결과서 정리 중 사용자 승인을 반영했다. 1.4 요청 제한·비용과 생성 시간을 측정값으로 닫았다. 2.1 도식의 수집 방법 표기, 4.1 코드 구조(모듈, 마이그레이션 0002, 프롬프트 하위 디렉토리, `data/crosscheck/`), 5.2 `audit_id`, 5.4 `baseline.json` 범위 규칙, 6.3 풀 부족·풀 소속, 6.5 동순위·이월·큐 갱신 시점·`cleared` 뒤 오답·변형 선택, 6.6 감사 거절과 다시 기록, 7.1 응답 필드와 422, 8.6 409 이유 값. 8.4는 바꾸지 않았다. 서버 시작 마이그레이션 백업은 구현을 고쳤다. 기록은 [09-output.md](../../dev-process/03-implementation/09-output.md), 근거 결정은 [05-m4.md](../../dev-process/03-implementation/05-m4.md), [06-m5.md](../../dev-process/03-implementation/06-m5.md), [07-m6.md](../../dev-process/03-implementation/07-m6.md)의 결정 표에 있다 |
 | 12.1 | 2026-11-05 | 용어 표를 찾지 않고 읽을 수 있게 내부 용어(팩, 허용 목록, 스냅샷, 시드, 결정적 검사 등)를 쓰인 곳에서 괄호로 풀어 썼다. 4.1 `packs/`, `data/` 주석을 더했다. 설계 내용은 바꾸지 않았다 |
 | 13.0 | 2026-11-05 | 프롬프트·모델 실험(04) 중 사용자 승인을 반영했다. 3.2 프롬프트 디렉토리(`QUIZ_PROMPTS_DIR`)와 Judge 항목 추가 파일, 4.1 `experiments.py`·`data/experiments/`, 7.2 `generate --slots`·`experiment judge`·`experiment summary`·운영 DB 보호, 8.3 실험 Judge의 Langfuse 미기록, D-16, 10장 7.3 행. Judge 항목과 실패 이유 목록은 바꾸지 않았다. 기록은 [05-mandela.md](../../dev-process/04-prompt-model-experiments/05-mandela.md)에 있다 |
+| 14.0 | 2026-11-06 | 평가·리뷰(05) 중 사용자 승인으로 4.1의 `data/quiz.db`를 커밋 대상으로 바꿨다. 최종 제출에 평가받은 DB(풀이·감사·복습 기록 포함)를 넣는다. `.gitignore`에 `!data/quiz.db`를 더했다. 기록은 [05-findings.md](../../dev-process/05-evaluation-review/05-findings.md)에 있다 |
