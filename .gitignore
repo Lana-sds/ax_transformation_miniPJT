@@ -39,6 +39,8 @@ pnpm-debug.log*
 *.sqlite3
 *.db
 !data/quiz.db
+!data/experiments/qa-base.db
+!data/experiments/qa06.db
 logs/
 *.log
 

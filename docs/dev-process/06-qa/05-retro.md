@@ -60,3 +60,9 @@
 - `SERVICE.md` 정리: 06이 끝나면 수용 기준 체크박스를 빼고 13절에 상태·근거를 더하기로 한 일이 남아 있다
 - 저장소 루트의 추적되지 않은 `RETRO.md`: 이 세션이 만들지 않았다. 처리할지 사용자가 정한다
 - 시험 부산물(git 제외): `data/experiments/qa06*.db`, `qa-base.db`, `scratch-preqa.db`, `data/experiments/qa-logs/`, `web/node_modules/.scratch/vite.qa06.config.mjs`
+
+## 회고 뒤 결정
+
+| 결정 | 내용 | 바뀐 기존 결정 |
+| --- | --- | --- |
+| 시험 DB 커밋(2026-11-06, 사용자) | `data/experiments/qa-base.db`(시작 상태, sha256 `bc18eb9e…`)와 `qa06.db`(끝 상태, sha256 `1bae17ea…`)를 커밋한다. 비밀 형식 검사 0건. `scratch.db`는 시험 뒤 다른 서버가 써서 넣지 않는다 | design.md 4.1 "다른 `*.db`는 커밋 안 함" → 16.0 |
