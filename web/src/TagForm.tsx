@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { api, type AnswerResult, type MistakeTag } from './api'
+import { createSingleFlight } from './singleFlight'
 
 // 오답 태그(FR-4.1, FR-4.2). 독해 실수면 헷갈린 영어 구절을 고른다. 자동 태그는 없다(FR-4.3).
 // 처음 태그하면 복습 큐가 갱신되고, 다시 저장하면 태그만 바뀐다(D-d).
@@ -13,6 +14,8 @@ export function TagForm({ result, onTagged, onError }: Props) {
   const [tag, setTag] = useState<MistakeTag | null>(result.mistake_tag)
   const [segment, setSegment] = useState<string | null>(result.confused_segment_id)
   const [busy, setBusy] = useState(false)
+  // 저장 중이면 두 번째 PUT을 보내지 않는다(ISSUE-001).
+  const [flight] = useState(createSingleFlight)
 
   const ready = tag === 'concept' || (tag === 'reading' && !!segment)
   const unchanged =
@@ -20,15 +23,17 @@ export function TagForm({ result, onTagged, onError }: Props) {
 
   async function save() {
     if (!tag || !ready || busy) return
-    setBusy(true)
-    try {
-      const r = await api.tagAttempt(result.attempt_id, tag, segment)
-      onTagged(r.mistake_tag, r.confused_segment_id)
-    } catch (e) {
-      onError(e)
-    } finally {
-      setBusy(false)
-    }
+    await flight(async () => {
+      setBusy(true)
+      try {
+        const r = await api.tagAttempt(result.attempt_id, tag, segment)
+        onTagged(r.mistake_tag, r.confused_segment_id)
+      } catch (e) {
+        onError(e)
+      } finally {
+        setBusy(false)
+      }
+    })
   }
 
   return (

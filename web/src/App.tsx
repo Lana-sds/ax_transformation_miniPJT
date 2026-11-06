@@ -4,6 +4,7 @@ import { AnswerInput } from './formats/AnswerInput'
 import { isAnswerComplete } from './formats/registry'
 import { Markup } from './MarkupText'
 import { metaLabels } from './meta'
+import { createSingleFlight } from './singleFlight'
 import { ResultPanel } from './ResultPanel'
 import { TagForm } from './TagForm'
 
@@ -51,6 +52,8 @@ export default function App() {
   const [error, setError] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+  // 처리 중이면 두 번째 요청을 보내지 않는다(ISSUE-001).
+  const [flight] = useState(createSingleFlight)
 
   function showError(e: unknown) {
     const c = e instanceof ApiError ? e.conflict : null
@@ -90,16 +93,18 @@ export default function App() {
   }
 
   async function run(fn: () => Promise<void>) {
-    setBusy(true)
-    setError(null)
-    setNotice(null)
-    try {
-      await fn()
-    } catch (e) {
-      if (!(await recover(e))) showError(e)
-    } finally {
-      setBusy(false)
-    }
+    await flight(async () => {
+      setBusy(true)
+      setError(null)
+      setNotice(null)
+      try {
+        await fn()
+      } catch (e) {
+        if (!(await recover(e))) showError(e)
+      } finally {
+        setBusy(false)
+      }
+    })
   }
 
   function startSet() {
