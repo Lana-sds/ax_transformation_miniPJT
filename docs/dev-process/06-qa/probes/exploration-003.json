@@ -1,0 +1,17 @@
+{
+ "observationCommand": "curl GET /api/sets/s001-123793ed",
+ "observed": {
+  "qkeys": [
+   "bucket",
+   "choices",
+   "format",
+   "question_id",
+   "review",
+   "select_count",
+   "stem_en"
+  ],
+  "forbidden_hits": []
+ },
+ "hypothesis": "TC-4: 복수 선택은 고를 개수를 안내하고(2개를 고르세요 0/2), 1개만 고르면 제출이 잠겨야 한다. 일부만 맞으면 오답이어야 한다",
+ "nextCommand": "A 1개만 체크하고 제출 버튼 상태 확인"
+}

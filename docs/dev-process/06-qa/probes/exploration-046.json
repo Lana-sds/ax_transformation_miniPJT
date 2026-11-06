@@ -1,0 +1,10 @@
+{
+ "observationCommand": "viewport 375; reload; click 8; measure; screenshot",
+ "observed": {
+  "vw": 375,
+  "doc": 574,
+  "screenshot": "모바일 에뮬레이션에서 빈 화면으로 찍힘(도구 한계)"
+ },
+ "hypothesis": "TC-16: 평가 대상 풀 ps_326384fb5422의 정답 위치 분포를 읽기 전용으로 다시 센다(F-20 수치 확인)",
+ "nextCommand": "python sqlite mode=ro count answer keys by format"
+}

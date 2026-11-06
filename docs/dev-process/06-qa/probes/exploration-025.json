@@ -1,0 +1,20 @@
+{
+ "observationCommand": "click 새 세트 시작; localStorage set_id",
+ "observed": {
+  "set_id": "s001-502338cf",
+  "formats": [
+   "single",
+   "single",
+   "short",
+   "single",
+   "short",
+   "short",
+   "multi",
+   "code",
+   "single",
+   "code"
+  ]
+ },
+ "hypothesis": "Q1 오답(C) → 독해 태그, Q2 정답(A)",
+ "nextCommand": "pick C; submit; tag_reading; nextq; pick A; submit"
+}

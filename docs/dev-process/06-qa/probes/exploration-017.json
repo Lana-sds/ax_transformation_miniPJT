@@ -1,0 +1,9 @@
+{
+ "observationCommand": "tag_reading; nextq; pick A C (C 클릭은 도우미 ref 추출 실패로 다시 누름)",
+ "observed": {
+  "PUT /api/attempts/3/tag": 200,
+  "Q4": "선택 2/2(A,C)"
+ },
+ "hypothesis": "정답 A,C면 정답 표시, 태그 영역 없음, 다음 문제 활성",
+ "nextCommand": "submit; verdict"
+}

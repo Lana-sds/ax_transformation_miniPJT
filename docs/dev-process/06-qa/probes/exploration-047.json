@@ -1,0 +1,18 @@
+{
+ "observationCommand": "sqlite ro count",
+ "observed": {
+  "single": {
+   "A": 14,
+   "B": 3,
+   "C": 1
+  },
+  "multi_contains_A": "13/14",
+  "code": {
+   "A": 11
+  },
+  "always_A_single_code": "25/29",
+  "quiz.db_sha256": "89fa897d... 같음"
+ },
+ "hypothesis": "TC-17: 5175/docs, /scalar, /redoc가 프록시로 열린다",
+ "nextCommand": "curl -I; orca navigate /docs; snapshot"
+}

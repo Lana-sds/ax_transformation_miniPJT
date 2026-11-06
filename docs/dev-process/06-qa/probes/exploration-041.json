@@ -1,0 +1,8 @@
+{
+ "observationCommand": "click 문제 4; eval 해설 text",
+ "observed": {
+  "해설": "...the agent does **not** exit after that step..."
+ },
+ "hypothesis": "TC-12(FR-9.1, FR-9.2): 감사 링크를 누르면 감사 화면에 20문항 목록이 나오고 결과를 저장할 수 있다",
+ "nextCommand": "click 감사; snapshot"
+}

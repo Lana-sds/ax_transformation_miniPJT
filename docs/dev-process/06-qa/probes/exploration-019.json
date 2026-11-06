@@ -1,0 +1,16 @@
+{
+ "observationCommand": "nextq; pick B; submit; eval result sections",
+ "observed": {
+  "verdict": "정답",
+  "h3": [
+   "해설",
+   "영·한 구절 매핑",
+   "근거"
+  ],
+  "table_rows": 4,
+  "doc_links": 2,
+  "blockquotes": 2
+ },
+ "hypothesis": "Q6 단일 오답(C) → 개념 태그 → 다음",
+ "nextCommand": "nextq; pick C; submit; tag_concept"
+}

@@ -1,0 +1,10 @@
+{
+ "observationCommand": "submit; reload; snapshot; localStorage",
+ "observed": {
+  "POST answers": 409,
+  "after_reload": "세트 2 화면, 제출 disabled, 새 세트 시작 없음",
+  "set_id": "s002-d933f2c2"
+ },
+ "hypothesis": "TC-10: 세트 1 오답 3개(due_set_no=3)가 세트 3에 복습으로 나와야 한다(FR-5.1, FR-5.4). 화면을 세트 3으로 옮겨 본다(Q-2 우회: 저장소 값 교체)",
+ "nextCommand": "curl GET /api/sets/s003-cd557431; localStorage set s003; reload"
+}

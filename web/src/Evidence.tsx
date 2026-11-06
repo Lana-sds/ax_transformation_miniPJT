@@ -1,5 +1,5 @@
 import type { Grounding, Segment } from './api'
-import { Markup } from './MarkupText'
+import { Markup, MarkupInline } from './MarkupText'
 
 // 해설, 영·한 구절 매핑, 근거, 코드 보기 링크. 풀이 결과(ResultPanel)와 감사 화면(AuditPage)이 같이 쓴다.
 // doc_url은 코드형에만 있다(pipeline/nodes.py). 있으면 "코드 보기"를 공식 문서 페이지로 건다.
@@ -21,8 +21,12 @@ export function Evidence({ explanation, segments, grounding, docUrl }: Props) {
         <tbody>
           {segments.map((s) => (
             <tr key={s.segment_id}>
-              <td className="en">{s.en}</td>
-              <td className="ko">{s.ko}</td>
+              <td className="en">
+                <MarkupInline text={s.en} />
+              </td>
+              <td className="ko">
+                <MarkupInline text={s.ko} />
+              </td>
             </tr>
           ))}
         </tbody>

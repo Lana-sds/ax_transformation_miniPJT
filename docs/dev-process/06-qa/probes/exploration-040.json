@@ -1,0 +1,8 @@
+{
+ "observationCommand": "localStorage s010; reload; snapshot",
+ "observed": {
+  "text": "세트 10를 다 풀었다."
+ },
+ "hypothesis": "** 재현: 세트 10의 4번(01-021) 결과 해설에 ** 별표가 그대로 보일 것이다",
+ "nextCommand": "click 문제 목록 4; eval 해설 text"
+}

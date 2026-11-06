@@ -1,0 +1,9 @@
+{
+ "observationCommand": "snapshot",
+ "observed": {
+  "text": "세트 1를 다 풀었다.",
+  "button": "새 세트 시작 e457"
+ },
+ "hypothesis": "TC-14(Q-1, F-10): 같은 틱에 새 세트 시작을 두 번 누르면 POST /api/sets가 두 번 가서 500 또는 세트 2개가 생길 수 있다",
+ "nextCommand": "orca eval: b.click(); b.click()"
+}

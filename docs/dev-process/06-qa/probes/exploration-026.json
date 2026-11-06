@@ -1,0 +1,10 @@
+{
+ "observationCommand": "pick C; submit; tag_reading; nextq; pick A; submit; nextq; snapshot",
+ "observed": {
+  "Q1": "오답, 태그 저장",
+  "Q2": "정답",
+  "Q3": "단답 textbox e288, 제출 disabled"
+ },
+ "hypothesis": "TC-5: 허용 답안 store에 대해 '  `Store()`  '(앞뒤 공백, 백틱, 대문자, 끝 괄호)를 내면 정규화 뒤 정답이어야 한다(FR-3.2, design 4.4)",
+ "nextCommand": "orca fill --element @e288 --value '  `Store()`  '; submit"
+}

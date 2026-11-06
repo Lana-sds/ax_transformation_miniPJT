@@ -1,0 +1,12 @@
+{
+ "observationCommand": "click @e93; click @e72; net",
+ "observed": {
+  "PUT /api/attempts/1/tag": 200,
+  "mistake_tag": "reading",
+  "confused_segment_id": "s3",
+  "due_set_no": 3,
+  "다음 문제": "enabled"
+ },
+ "hypothesis": "다음 문제로 가면 2번(복수 선택)이 열린다",
+ "nextCommand": "orca click --element @e61; snapshot"
+}

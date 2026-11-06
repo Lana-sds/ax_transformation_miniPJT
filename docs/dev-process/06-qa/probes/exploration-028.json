@@ -1,0 +1,6 @@
+{
+ "observationCommand": "Q4 pick A; submit; tag_concept",
+ "observed": "Q4 오답, 개념 태그 저장, 다음 문제 활성",
+ "hypothesis": "Q5 단답 Lazy_Load() 정답, Q6 단답 schema 오답 → 독해 태그",
+ "nextCommand": "nextq; fill; submit; ..."
+}

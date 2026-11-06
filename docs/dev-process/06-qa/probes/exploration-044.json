@@ -1,0 +1,9 @@
+{
+ "observationCommand": "click 저장; net; reload; innerText",
+ "observed": {
+  "PUT record": 200,
+  "after_reload": "1/20, 1번 qnav-item ok, 화면은 2번으로 이동"
+ },
+ "hypothesis": "TC-13: 375x812에서 풀이 화면(문제, 보기, 코드, 결과, 태그)에 가로 스크롤이 없어야 한다",
+ "nextCommand": "orca exec 'set viewport 375 812'; 풀이 화면 열기; scrollWidth 비교"
+}

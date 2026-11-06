@@ -1,0 +1,6 @@
+{
+ "observationCommand": "orca click --element @e22; orca snapshot",
+ "observed": "선택 1/2, 제출 disabled",
+ "hypothesis": "경계: 3개째 선택이 막히는지 본다",
+ "nextCommand": "B, C 클릭 뒤 snapshot"
+}

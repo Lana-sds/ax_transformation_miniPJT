@@ -1,0 +1,13 @@
+{
+ "observationCommand": "click 감사; snapshot; net",
+ "observed": {
+  "url": "#audit",
+  "GET /api/audits/current": [
+   404,
+   404
+  ],
+  "button": "감사 시작"
+ },
+ "hypothesis": "감사 시작을 누르면 표본 20문항이 나온다",
+ "nextCommand": "click 감사 시작; snapshot; net"
+}

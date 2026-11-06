@@ -6,6 +6,7 @@
 수정: 2026-11-05, 과제 범위를 적었다. 5단계까지 하고, 6단계는 시간이 남으면 한다
 수정: 2026-11-05, 04 실험 회고([07-retro.md](04-prompt-model-experiments/07-retro.md)) 수정안 4개 반영. 4행 `/arena` 사용 방식, 4행 보조를 `mandela`로 교체, 실험 전 `mandela` 점검, 실험 배치 ID와 비용 재추정
 수정: 2026-11-06, 05 평가 회고([07-retro.md](05-evaluation-review/07-retro.md)) 수정안 5개 반영. 5행 1순위에 `/interrogate` 추가와 역할 구분, `evaluate` 격리 사본 주의, 평가 전 `mandela` 점검, 샌드박스 탈출 확인, 마감 13:30과 6단계 병렬 진행
+수정: 2026-11-06, 06 QA 회고([05-retro.md](06-qa/05-retro.md)) 수정안 5개 반영. 6행 gstack `/qa` 절차만 따르기와 Orca 브라우저, superpowers 검증 절차, QA 전용 DB·포트, 화면 수정 병렬과 병합 시점. 범위 줄의 6단계 수행
 전제: LangChain / LangGraph / DeepAgents + Langfuse, 로컬 미니 프로젝트.
 근거: 각 저장소 README를 읽고 정리한 내용이며, 실제 조합을 돌려 검증하지는 않았다.
 paperthin(2026-11-04 추가)은 README 요약을 바탕으로 했다. 단계 매핑은 스킬 이름과 설명에서 추론한 것이고, README에 명시된 분류가 아니다. Windows 지원 여부도 확인하지 못했다.
@@ -32,7 +33,7 @@ paperthin(2026-11-04 추가)은 README 요약을 바탕으로 했다. 단계 매
 | 3. 구현 | `03-implementation` | superpowers (TDD, worktree, subagent) | pstack `/tdd`, `/blast-radius` | 규율은 superpowers가 자동으로 강제하고, 영향 범위 분석은 pstack이 낫다. 이 프로젝트는 superpowers를 쓰지 않았다("이 프로젝트의 선택" 참고). UI 컴포넌트 테스트 도구는 0단계에서 정한다. 없으면 UI 작업은 테스트를 먼저 쓸 수 없다. |
 | 4. 프롬프트와 모델 실험 | `04-prompt-model-experiments` | pstack `/arena` | paperthin `mandela` | 변형 N개를 시도해 최선을 합친다. 이 프로젝트는 `/arena`를 설치하지 않고 SKILL.md 절차만 따른다. 설치본의 모델 설정과 교차 Judge는 Cursor 기준이라 이 환경에서 쓸 수 없다. 서브에이전트가 한 모델 계열뿐이면 교차 Judge를 건너뛴다. 변형의 판정은 앱에서 A/B로 잰다. 실패 원인이 확인된 과제에서 쓴다. ouroboros `evolve`는 명세를 진화시키는 도구이고 프롬프트 A/B를 재지 않아 보조에서 뺐다. |
 | 5. 평가와 리뷰 | `05-evaluation-review` | ouroboros `evaluate`(기준 증명), pstack `/interrogate`(결함 탐지) | gstack `/review`, paperthin `mandela`, `factchk`, `shower`, `sip` | 기준 충족 증명, 다중 모델 적대적 리뷰, 프로덕션 버그 탐지. paperthin은 평가 누수 점검(`mandela`), 사실 검증(`factchk`), 무맥락 재독(`shower`), 작성 직후 자가 점검(`sip`)을 더한다. `evaluate`는 기계 검사와 기준별 판정으로 충족을 증명한다. 결함은 찾지 못할 수 있다. 결함 탐지는 `/interrogate` 절차가 맡는다. 이 프로젝트는 `/interrogate`를 설치하지 않고 SKILL.md 절차만 따른다. 공격자마다 중심 영역을 나누고 예시를 주지 않는다. 05에서 발견 20개 중 `evaluate`는 0개, 공격자는 14개(높음 5개 모두)를 냈다. `evaluate`의 `working_dir`를 판정 문서를 뺀 사본으로 줘도 평가자가 원래 저장소를 읽을 수 있다. 격리가 필요하면 사본의 `CLAUDE.md`에서 문서 경로를 지우고, 근거에 사본 밖 경로가 있는지 확인한다. |
-| 6. QA | `06-qa` | gstack `/qa` | superpowers 검증 스킬 | 실제 브라우저에서 버그를 재현하고 고친다. UI가 있는 앱에 유용하다. |
+| 6. QA | `06-qa` | gstack `/qa` | superpowers 검증 스킬 | 실제 브라우저에서 버그를 재현하고 고친다. UI가 있는 앱에 유용하다. 이 프로젝트는 gstack을 설치하지 않고 `qa/` 절차 파일(`SKILL.md`, `sections/exploratory.md`, `sections/qa-patterns.md`, `references/issue-taxonomy.md`, `templates/qa-report-template.md`)만 따른다. 건강 점수 기준표는 `qa-patterns.md`에 있다. 브라우저는 Orca 내장 브라우저로 대신한다. 06에서 결함 7개 중 4개는 사전 점검이 못 찾은 것이다. superpowers도 설치하지 않고 `verification-before-completion` 절차만 따른다. 회귀 테스트는 수정을 되돌리거나 핵심 줄을 바꿔 실패를 본다. 브라우저 시험은 세션마다 전용 DB 사본과 전용 포트를 쓴다. 시작 전에 포트 주인을 확인한다. 같은 DB를 여는 서버가 둘이면 시험이 섞인다. 화면 수정은 격리 워커가 시험과 동시에 하고, 병합은 시험과 기준 점수 뒤에 한다. 개발 서버가 화면을 다시 불러오기 때문이다. |
 | 7. 배포 | `07-deploy` | gstack `/ship`, `/canary` | pstack ship 플레이북, paperthin `re0-merge`, `re0-release` | PR 생성과 배포 후 모니터링. |
 | 8. 운영과 회고 | `08-operations-retro` | gstack `/retro`, `/cso` | pstack `/reflect`, `/correct`, paperthin `re0-memo`, `ssotize`, `catchup` | 회고와 보안 감사. paperthin은 교훈 정리, 문서 중복 통합, 공백 후 맥락 복구를 맡는다. |
 | 문서와 산출물 정리 (전 단계 공통) | - | paperthin `re0`, `debloat`, `ssotize` | paperthin `detool`, `dedash`, `reorder` | 반복 작업 후 산출물을 최신 v0로 정리하고, 흩어진 사실을 한 곳으로 모은다. |
@@ -40,7 +41,7 @@ paperthin(2026-11-04 추가)은 README 요약을 바탕으로 했다. 단계 매
 
 ## 이 프로젝트(로컬 미니 프로젝트)의 선택
 
-- 범위: 과제 목표는 5단계(평가와 리뷰)까지다. 6단계(QA)는 시간이 남으면 한다. 7단계(배포)와 8단계(운영과 회고)는 하지 않는다. 마감은 `TASKS.md`를 따른다(2026-11-06 13:30. 2026-11-06 09:45에 17:00에서 당겨졌다). 6단계는 5단계와 병렬로 다른 세션이 했다(2026-11-06 10:00 사용자 정정). 6단계에 쓸 도구는 그 세션이 고른다. 7, 8단계 디렉토리는 2026-11-05에 지웠다. 8단계의 회고 역할은 단계마다 끝에 하는 회고(`retro`)가 대신한다.
+- 범위: 과제 목표는 5단계(평가와 리뷰)까지다. 6단계(QA)는 2026-11-06에 했다(5단계와 일부 병렬). 7단계(배포)와 8단계(운영과 회고)는 하지 않는다. 마감은 `TASKS.md`를 따른다(2026-11-06 13:30. 2026-11-06 09:45에 17:00에서 당겨졌다). 6단계 사전 점검은 5단계와 병렬로 다른 세션이 했다(2026-11-06 10:00 사용자 정정). 6단계 도구 사용 방식은 6행 이유 열에 있다. 7, 8단계 디렉토리는 2026-11-05에 지웠다. 8단계의 회고 역할은 단계마다 끝에 하는 회고(`retro`)가 대신한다.
 - 기본: 처음에는 **superpowers 하나**로 시작하려 했다. 3단계(구현)는 superpowers를 설치하지 않고 구현 스킬 없이 진행했다. 작업 순서는 TASKS.md, 진행은 프로젝트 내장 stage 스킬 run 모드다. TDD는 `CLAUDE.md` 작업 규칙으로 지켰다. 병렬은 격리 worktree 서브에이전트로 했다. 격리 worktree는 기본 브랜치에서 갈라지므로 워커는 코디네이터 HEAD로 맞춘 뒤 시작한다. superpowers와 비교한 근거는 없다.
 - 요구가 불명확할 때만 ouroboros `interview`를 한 번 쓴다.
 - 프롬프트나 그래프 구조를 비교할 때만 pstack `/arena`를 쓴다.

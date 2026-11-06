@@ -1,0 +1,11 @@
+{
+ "observationCommand": "click 개념 실수 radio(e110); click 태그 저장(e111); net slice(2); snapshot",
+ "observed": {
+  "개념 실수": "checked",
+  "태그 저장": "enabled e111",
+  "PUT": "없음",
+  "다음 문제": "disabled"
+ },
+ "hypothesis": "클릭이 전달되지 않았을 수 있다. 같은 ref로 한 번 더 눌러 죽은 버튼인지 가린다",
+ "nextCommand": "orca click --element @e111"
+}

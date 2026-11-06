@@ -1,0 +1,57 @@
+{
+ "date": "2026-11-06",
+ "url": "http://localhost:5175/",
+ "healthScore": 90,
+ "provisional": true,
+ "untested": [
+  "performance",
+  "accessibility"
+ ],
+ "rawScore": 90.27,
+ "issues": [
+  {
+   "id": "DEF-1",
+   "title": "새 세트 시작 두 번 클릭 시 POST /api/sets 두 번, 500 오류 화면",
+   "severity": "medium",
+   "category": "functional"
+  },
+  {
+   "id": "DEF-2",
+   "title": "닫힌 세트에 묶인 화면에서 빠져나갈 방법 없음(set_closed)",
+   "severity": "high",
+   "category": "functional"
+  },
+  {
+   "id": "DEF-3",
+   "title": "세트 끝 문구 조사 오류(세트 1를, 세트 10를)",
+   "severity": "low",
+   "category": "content"
+  },
+  {
+   "id": "DEF-4",
+   "title": "문제 본문·해설의 **굵게** 표시가 별표째 보임",
+   "severity": "low",
+   "category": "content"
+  },
+  {
+   "id": "DEF-5",
+   "title": "375px 폭에서 코드 선택 보기가 페이지 가로 스크롤을 만든다",
+   "severity": "medium",
+   "category": "visual"
+  },
+  {
+   "id": "DEF-6",
+   "title": "정답 위치가 A에 쏠림(단일·코드 29문항 중 25개 A)",
+   "severity": "medium",
+   "category": "functional"
+  }
+ ],
+ "categoryScores": {
+  "console": 100,
+  "links": 100,
+  "visual": 92,
+  "functional": 69,
+  "ux": 100,
+  "content": 94
+ }
+}

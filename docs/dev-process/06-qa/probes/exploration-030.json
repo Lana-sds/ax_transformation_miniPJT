@@ -1,0 +1,11 @@
+{
+ "observationCommand": "Q4~Q10 처리(028은 백그라운드로 넘어간 명령이 먼저 씀)",
+ "observed": {
+  "Q7": "정답",
+  "Q8": "정답",
+  "Q9": "정답",
+  "Q10": "정답"
+ },
+ "hypothesis": "TC-10: 세트 끝이면 다 풀었다 문구와 새 세트 시작이 보인다",
+ "nextCommand": "snapshot"
+}

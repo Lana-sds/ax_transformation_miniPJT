@@ -1,0 +1,19 @@
+{
+ "observationCommand": "viewport 375x812; click 1,7,8,10; measure scrollWidth",
+ "observed": {
+  "vw": 375,
+  "Q1": {
+   "doc": 360,
+   "note": "코드 블록 PRE overflow-x auto 안에서만 넓음"
+  },
+  "Q8": {
+   "doc": 574,
+   "wide": "LI>LABEL>PRE 보기 코드, overflow visible"
+  },
+  "Q10": {
+   "doc": 629
+  }
+ },
+ "hypothesis": "코드 선택 보기 안의 코드가 보기 상자를 밀어 페이지 가로 스크롤이 생긴다. 새로고침 뒤 같은 조작으로 다시 확인한다",
+ "nextCommand": "reload; hook; click 8; measure"
+}

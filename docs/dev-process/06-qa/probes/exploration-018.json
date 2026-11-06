@@ -1,0 +1,11 @@
+{
+ "observationCommand": "submit; verdict; net",
+ "observed": {
+  "attempt_id": 4,
+  "correct": true,
+  "태그 영역": "없음",
+  "다음 문제": "enabled"
+ },
+ "hypothesis": "TC-3: 단일 선택 정답이면 정답 여부, 한국어 해설, 영·한 구절 매핑 표, 근거 링크·인용이 모두 보여야 한다(FR-2.2, FR-2.3)",
+ "nextCommand": "nextq; pick B; submit; eval result sections"
+}

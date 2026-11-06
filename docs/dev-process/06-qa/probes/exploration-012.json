@@ -1,0 +1,13 @@
+{
+ "observationCommand": "click A,C; click 제출; net",
+ "observed": {
+  "attempt_id": 2,
+  "correct": false,
+  "answer_key": [
+   "A",
+   "D"
+  ]
+ },
+ "hypothesis": "TC-8: 개념 실수를 고르면 구절 선택 없이 바로 저장할 수 있어야 한다",
+ "nextCommand": "click 개념 실수 radio; click 태그 저장"
+}

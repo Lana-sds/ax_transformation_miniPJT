@@ -1,0 +1,6 @@
+{
+ "observationCommand": "orca click B, C; orca snapshot",
+ "observed": "선택 2/2(A,B), C는 체크 안 됨, 제출 활성",
+ "hypothesis": "A,B 제출 결과로 정답 키를 보고 부분 일치면 오답 판정인지 본다(FR-3.1)",
+ "nextCommand": "orca click --element @e16"
+}

@@ -1,0 +1,14 @@
+{
+ "observationCommand": "fill; submit; net",
+ "observed": {
+  "answer": [
+   "`Store()`"
+  ],
+  "correct": true,
+  "answer_key": [
+   "store"
+  ]
+ },
+ "hypothesis": "Q4 오답(A) → 개념 태그",
+ "nextCommand": "nextq; pick A; submit; tag_concept"
+}

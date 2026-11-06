@@ -1,0 +1,6 @@
+{
+ "observationCommand": "click @e61; snapshot",
+ "observed": "문제 2 복수 선택 2개, 선택 0/2",
+ "hypothesis": "A,C 제출 결과가 맞으면 다음 문제가 바로 열려야 한다(태그 없음)",
+ "nextCommand": "click A, C, 제출"
+}

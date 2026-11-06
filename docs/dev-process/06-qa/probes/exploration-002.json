@@ -1,0 +1,6 @@
+{
+ "observationCommand": "orca click --element @e4; orca snapshot; net.sh",
+ "observed": "세트 1 s001-123793ed, 문제 목록 1만 열림, 2~10 disabled, POST /api/sets 200, 콘솔 오류 0",
+ "hypothesis": "TC-2: 풀이 전 세트 응답에 정답 키·해설·매핑·근거·topic이 없어야 한다(FR-2.1)",
+ "nextCommand": "orca eval: POST /api/sets 응답 문제 객체 키 집합"
+}
