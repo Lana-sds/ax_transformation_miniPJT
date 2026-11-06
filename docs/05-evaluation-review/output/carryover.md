@@ -1,6 +1,6 @@
 # 이월 항목 확인 결과
 
-상태: 확정(2026-11-06 10:30). 최종 문서 evaluation.md 1.0의 근거 자료
+상태: 확정(2026-11-06 10:25). 최종 문서 evaluation.md 1.0의 근거 자료
 작성일: 2026-11-06
 기록: [04-carryover.md](../../dev-process/05-evaluation-review/04-carryover.md)
 

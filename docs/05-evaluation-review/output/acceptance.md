@@ -1,6 +1,6 @@
 # 수용 기준 검증 매트릭스
 
-상태: 확정(2026-11-06 10:30). 최종 문서 evaluation.md 1.0의 근거 자료
+상태: 확정(2026-11-06 10:25). 최종 문서 evaluation.md 1.0의 근거 자료
 작성일: 2026-11-06
 평가 대상 커밋: `3a48c4cb463e2023ce5d5cd7a36f011cc44bb965`(코드는 `01898460`과 같다)
 기록: [02-evaluate.md](../../dev-process/05-evaluation-review/02-evaluate.md), [03-interrogate.md](../../dev-process/05-evaluation-review/03-interrogate.md)
