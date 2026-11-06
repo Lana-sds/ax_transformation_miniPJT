@@ -1,7 +1,7 @@
 # 03 interrogate 기록
 
 상태: 진행 중
-시작: 2026-11-06 09:28
+시작: 2026-11-06 09:22(공격자 C 소요 653초와 09:35 이전 완료로 거꾸로 셈. 분 단위는 미확인)
 완료:
 계획: [05-evaluation-review-plan.md](../05-evaluation-review-plan.md)의 3단계
 세션 모델: Opus 5.5(`claude-opus-5-5`). 공격자 서브에이전트는 같은 모델을 이어받는다(미확인. 서브에이전트 정의의 기본값). 추론 강도: 미확인
@@ -9,7 +9,7 @@
 ## 입력
 
 - 기준 커밋: `3a48c4cb463e2023ce5d5cd7a36f011cc44bb965`. 평가 대상 커밋 `01898460` 뒤에 기록만 더했다. 코드는 같다
-- 공격자 3명: worktree 격리 서브에이전트(general-purpose), 한 메시지에서 동시에 띄웠다(09:28)
+- 공격자 3명: worktree 격리 서브에이전트(general-purpose), 한 메시지에서 동시에 띄웠다(약 09:22)
 
 ### 의도 재진술
 
@@ -32,7 +32,7 @@
 
 ### 공격자 보고(원문 요약)
 
-공격자 A(완료 약 09:36, 도구 호출 37회, 브랜치 `worktree-agent-a54b89f589e8a39ee` @ `3a48c4c`, 커밋 없음, 임시 파일 삭제). Docker 없음. 샌드박스는 `sandbox/.venv` Python으로 `runner.py`를 subprocess로 띄운다. 격리 수단은 같은 프로세스 안 socket 몽키패치, 환경 변수 접두사 제거, `subprocess.run(timeout=)` 셋이다.
+공격자 A(소요 441초, 도구 호출 37회, 브랜치 `worktree-agent-a54b89f589e8a39ee` @ `3a48c4c`, 커밋 없음, 임시 파일 삭제). Docker 없음. 샌드박스는 `sandbox/.venv` Python으로 `runner.py`를 subprocess로 띄운다. 격리 수단은 같은 프로세스 안 socket 몽키패치, 환경 변수 접두사 제거, `subprocess.run(timeout=)` 셋이다.
 
 | 번호 | 제목 | 핵심 출력 |
 | --- | --- | --- |
@@ -47,7 +47,7 @@
 A가 버틴 것: 샌드박스 `os.environ`에 `AWS_*`, `LANGFUSE_*` 없음. 손자 `cmd /c set AWS` 빈 출력. `urllib` 차단. fd 1 위조 실패. 단순 무한 루프는 timeout. 서버는 `.env`가 있어도 `os.environ`에 AWS/LANGFUSE 없음, `dotenv`·`quiz.env`·`quiz.llm`·`boto3`·`langfuse`를 로드하지 않음. 문서에 `.env`를 셸로 퍼뜨리는 안내 없음. 참고: 서버는 자기 환경을 지우지 않는다(셸에 export하면 받음, 실행하지 않음).
 A가 실행하지 못한 것: 샌드박스에서 ctypes `ReadProcessMemory`로 부모 CLI 환경 변수 읽기. 자동 모드 권한 분류기가 거부했다. 코디네이터도 시도하지 않는다(권한 결정을 우회하지 않는다). 미확인으로 남긴다.
 
-공격자 B(완료 약 09:36, 도구 호출 34회, 브랜치 `worktree-agent-a601d18a699ed3e10` @ `3a48c4c`, 커밋 없음, 추적 안 되는 `app/probe_b*.py` 4개).
+공격자 B(소요 432초, 도구 호출 34회, 브랜치 `worktree-agent-a601d18a699ed3e10` @ `3a48c4c`, 커밋 없음, 추적 안 되는 `app/probe_b*.py` 4개).
 
 | 번호 | 제목 | 핵심 출력 |
 | --- | --- | --- |
@@ -60,7 +60,7 @@ A가 실행하지 못한 것: 샌드박스에서 ctypes `ReadProcessMemory`로 �
 
 B가 버틴 것: 세트 응답 문제 필드는 `bucket, choices, format, question_id, review, select_count, stem_en`뿐이고 답 전 `results`는 `{}`. 단일·복수·단답 채점 경계(4.4 규칙과 같음). 복습 큐 전이(세트 1 오답 due 3, 세트 3 오답 round 2 due 8, 세트 8 오답 retired, 이후 미출제). `untagged_wrong`, `set_closed`, `correct_row` 409. 잘못된 태그·segment 422. 경합에서도 UNIQUE가 중복 행을 막음.
 
-공격자 C(완료 약 09:40, 도구 호출 54회, 브랜치 `worktree-agent-a34f9d3aec1cb3e94` @ `3a48c4c`, 커밋 없음, `git status` 0줄). 스크립트와 임시 DB, 변조용 저장소 복사본은 코디네이터 스크래치 `c/` 아래에 있다. C의 전체 테스트는 368 passed, 6 failed(`test_sandbox_client`, 샌드박스 가상 환경 미설치. 발견에서 뺐다).
+공격자 C(소요 653초, 도구 호출 54회, 브랜치 `worktree-agent-a34f9d3aec1cb3e94` @ `3a48c4c`, 커밋 없음, `git status` 0줄). 스크립트와 임시 DB, 변조용 저장소 복사본은 코디네이터 스크래치 `c/` 아래에 있다. C의 전체 테스트는 368 passed, 6 failed(`test_sandbox_client`, 샌드박스 가상 환경 미설치. 발견에서 뺐다).
 
 | 번호 | 제목 | 핵심 출력 |
 | --- | --- | --- |
@@ -72,7 +72,7 @@ B가 버틴 것: 세트 응답 문제 필드는 `bucket, choices, format, questi
 
 C가 버틴 것: 인용 30자 경계, 대소문자·한 글자·U+200B 변경은 `quote_mismatch`, NFKC·줄바꿈 차이는 통과, 근거 2개 중 1개만 꾸며도 실패, page 끝 `/`·전체 URL은 `page_not_allowed`, Jaccard 0.6 경계, 공백·백틱·대소문자만 다른 본문 duplicate, 워커 1개 재개, `quiz experiment judge`가 DB 바이트를 바꾸지 않음, 가드가 junction·8.3·끝 점·대문자·상대 경로·ADS를 막음, `run_batch`·`run_judge`는 변조 시 멈춤, `snapshot: null` 행 0. 경계 관찰: quote 앞 1글자만 빼도 "같은 quote" 검사를 피한다(사양과는 맞음).
 
-### 코디네이터 검증(2026-11-06 09:40~09:55, 이 worktree)
+### 코디네이터 검증(2026-11-06 09:30~09:35, 이 worktree)
 
 A 검증: 스크래치 `ev/v_a.py`(실제 경로 `quiz.sandbox_client.run`). 실제 `.env` 대신 저장소 루트 가짜 파일 `zz-dummy-secret.txt`(`DUMMY_SECRET=fake-123`, 끝나고 지움)를 읽게 했다. 반출은 localhost 리스너로만 했다. 임시 DB `ev/tmp-va.db`.
 
@@ -109,7 +109,7 @@ C 검증: C의 스크립트(스크래치 `c/`)를 읽고 다시 돌렸다. 가�
 
 C-3 재실행 뒤 복사본 스냅샷이 변조된 채 남았다(스크립트에 되돌리기 단계가 없다). 이 worktree 원본으로 복사본 파일만 되돌렸다(sha256 앞 16자 `cd6c0535bd600706` 일치). 이 worktree `packs/`는 바뀌지 않았다(`git status --short packs` 0줄).
 
-### P5 결정적 도구(2026-11-06 10:00경)
+### P5 결정적 도구(2026-11-06 09:34)
 
 | 도구 | 명령 | 결과 |
 | --- | --- | --- |
@@ -123,7 +123,7 @@ P5 결정적 도구 중 "샌드박스 안 실제 소켓 시도"는 A-2 검증이
 
 ## 인계
 
-갱신: 2026-11-06 10:05
+갱신: 2026-11-06 09:35
 - 마지막 완료 작업: 공격자 3명 보고 검증(17건 재현, 버림 0), P5 도구 실행
 - 다음 작업: 5단계에서 발견을 `F-n`으로 합치고 심각도를 매겨 사용자에게 보인다. 버린 목록(bandit 7건, B-관찰)도 함께 보인다(P6). 이 기록의 "완료"는 그때 사용자 확인으로 바꾼다
 - 실행 중: 없음. 공격자 worktree 3개(`.claude/worktrees/agent-a54b…`, `agent-a601…`, `agent-a34f…`)는 커밋이 없어 병합하지 않는다
