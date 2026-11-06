@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { api, type AnswerResult, type MistakeTag } from './api'
 import { createSingleFlight } from './singleFlight'
+import { MarkupInline } from './MarkupText'
 
 // 오답 태그(FR-4.1, FR-4.2). 독해 실수면 헷갈린 영어 구절을 고른다. 자동 태그는 없다(FR-4.3).
 // 처음 태그하면 복습 큐가 갱신되고, 다시 저장하면 태그만 바뀐다(D-d).
@@ -72,8 +73,8 @@ export function TagForm({ result, onTagged, onError }: Props) {
                 checked={segment === s.segment_id}
                 onChange={() => setSegment(s.segment_id)}
               />
-              <span className="en">{s.en}</span>
-              <span className="ko">{s.ko}</span>
+              <MarkupInline className="en" text={s.en} />
+              <MarkupInline className="ko" text={s.ko} />
             </label>
           ))}
         </fieldset>

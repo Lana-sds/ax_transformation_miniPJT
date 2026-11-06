@@ -46,3 +46,8 @@ export function parseMarkup(src: string): MarkupPart[] {
   splitInline(src.slice(last), out)
   return out
 }
+
+// 영·한 구절처럼 줄 안에 놓이는 문자열용(ISSUE-007). 코드 블록도 인라인 코드로 바꿔 <pre>가 들어가지 않게 한다.
+export function inlineParts(src: string): Exclude<MarkupPart, { kind: 'block' }>[] {
+  return parseMarkup(src).map((p) => (p.kind === 'block' ? { kind: 'inline', code: p.code } : p))
+}

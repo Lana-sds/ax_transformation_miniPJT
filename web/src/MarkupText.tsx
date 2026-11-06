@@ -1,4 +1,22 @@
-import { parseMarkup } from './markup'
+import { inlineParts, parseMarkup } from './markup'
+
+// 줄 안 문자열(영·한 구절)용. <span> 안에 인라인 코드와 굵게만 둔다(ISSUE-007).
+export function MarkupInline({ text, className }: { text: string; className?: string }) {
+  return (
+    <span className={className}>
+      {inlineParts(text).map((p, i) => {
+        if (p.kind === 'inline')
+          return (
+            <code className="inline-code" key={i}>
+              {p.code}
+            </code>
+          )
+        if (p.kind === 'strong') return <strong key={i}>{p.text}</strong>
+        return p.text
+      })}
+    </span>
+  )
+}
 
 // 코드 블록은 <pre><code>, 인라인 코드는 <code>, **굵게**는 <strong>으로 보이고 나머지는 문자열 그대로 둔다(T4.7).
 // 근거 인용(Evidence의 blockquote)은 이 컴포넌트를 쓰지 않아 원문 그대로 보인다.
