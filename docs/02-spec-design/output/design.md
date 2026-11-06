@@ -3,7 +3,7 @@
 | 항목 | 내용 |
 | --- | --- |
 | 문서 상태 | 확정 |
-| 버전 | 16.0 (부록 A) |
+| 버전 | 17.0 (부록 A) |
 | 작성일 | 2026-11-04 |
 | 요구사항 | [requirements.md](../../01-requirements/output/requirements.md) |
 | 관련 산출물 | [page-allowlist.md](page-allowlist.md), [seed.yaml](seed.yaml) |
@@ -246,7 +246,7 @@ ax_transformation_miniPJT/
 │   ├── pricing/
 │   │   └── bedrock.yaml            # 단가표(커밋)
 │   ├── crosscheck/                 # 교차 풀이 결과 .json, .md(커밋)
-│   ├── experiments/                # 실험별(<EXP-n>/) 프롬프트 사본, 문항·슬롯 목록, 결과 .json(커밋). arm별 실험 DB는 `*.db`로 커밋 안 함. 06 QA 시험 DB `qa-base.db`(시작 상태)와 `qa06.db`(끝 상태)는 증거로 커밋한다(`.gitignore` 예외)
+│   ├── experiments/                # 실험별(<EXP-n>/) 프롬프트 사본, 문항·슬롯 목록, 결과 .json(커밋). arm별 실험 DB는 `*.db`로 커밋 안 함. 예외로 EXP-2 원자료 `EXP-2/control.db`, `EXP-2/arena.db`는 커밋한다. 06 QA 시험 DB `qa-base.db`(시작 상태)와 `qa06.db`(끝 상태)는 증거로 커밋한다(`.gitignore` 예외)
 │   ├── waivers.yaml                # 완료 기준을 못 채웠을 때 사용자가 승인한 예외(커밋)
 │   ├── quiz.db                     # SQLite. 평가받은 제출본을 커밋한다(`.gitignore` 예외 `!data/quiz.db`). 다른 `*.db`는 커밋 안 함
 │   └── backups/                    # SQLite 백업(8.4). 커밋 안 함
@@ -760,3 +760,4 @@ Seed 수용 기준 번호는 [seed.yaml](seed.yaml) `acceptance_criteria` 순서
 | 14.0 | 2026-11-06 | 평가·리뷰(05) 중 사용자 승인으로 4.1의 `data/quiz.db`를 커밋 대상으로 바꿨다. 최종 제출에 평가받은 DB(풀이·감사·복습 기록 포함)를 넣는다. `.gitignore`에 `!data/quiz.db`를 더했다. 기록은 [05-findings.md](../../dev-process/05-evaluation-review/05-findings.md)에 있다 |
 | 15.0 | 2026-11-06 | 평가·리뷰(05) 발견 F-1~F-5 수정을 사용자 승인으로 반영했다. 8.2 샌드박스 격리(임시 작업 폴더, 환경 허용 목록, 감사 훅, 한계), 6.2 재개 대상에서 `audit_failed` 제외와 동시 슬롯 중복 재검사, 5.2 `pool_snapshot_id` 행에 현재 풀 정의. 기록은 [05-findings.md](../../dev-process/05-evaluation-review/05-findings.md)에 있다 |
 | 16.0 | 2026-11-06 | QA(06) 뒤 사용자 승인으로 4.1의 `data/experiments/`에 06 QA 시험 DB 2개(`qa-base.db` 시작 상태, `qa06.db` 끝 상태)를 커밋 대상으로 더했다. `scratch.db`는 시험 뒤 다른 서버가 써서 시험 상태와 맞지 않아 넣지 않았다. `.gitignore`에 예외 2줄을 더했다. 기록은 [05-retro.md](../../dev-process/06-qa/05-retro.md)에 있다 |
+| 17.0 | 2026-11-06 | 사용자 승인으로 4.1의 `data/experiments/`에 EXP-2 원자료 DB 2개(`EXP-2/control.db`, `EXP-2/arena.db`)를 커밋 대상으로 더했다. 로컬 worktree를 정리하면 사라지기 때문이다. 실험 결과서 3장이 원자료로 가리키는 파일이다. `.gitignore`에 예외 2줄을 더했다 |
