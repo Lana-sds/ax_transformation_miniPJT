@@ -7,6 +7,7 @@ import { Markup } from './MarkupText'
 import { metaLabels } from './meta'
 import { objectParticle } from './particle'
 import { createSingleFlight } from './singleFlight'
+import { HEADER_TIPS } from './tooltips'
 import { ResultPanel } from './ResultPanel'
 import { TagForm } from './TagForm'
 
@@ -171,10 +172,26 @@ export default function App() {
         <span className="progress">
           {quizSet && (
             <>
-              세트 {quizSet.set_no} · {answeredCount}/{questions.length} ·{' '}
+              {/* 툴팁은 마우스를 올리거나 Tab으로 초점을 주면 보인다(IMP-1, IMP-2). */}
+              <span className="tip">
+                <span className="tip-target" tabIndex={0} aria-describedby={HEADER_TIPS.setNo.id}>
+                  세트 {quizSet.set_no}
+                </span>
+                <span className="tip-text" role="tooltip" id={HEADER_TIPS.setNo.id}>
+                  {HEADER_TIPS.setNo.text}
+                </span>
+              </span>{' '}
+              · {answeredCount}/{questions.length} ·{' '}
             </>
           )}
-          <a href="#audit">감사</a>
+          <span className="tip tip-end">
+            <a href="#audit" aria-describedby={HEADER_TIPS.audit.id}>
+              감사
+            </a>
+            <span className="tip-text" role="tooltip" id={HEADER_TIPS.audit.id}>
+              {HEADER_TIPS.audit.text}
+            </span>
+          </span>
         </span>
       </header>
 
