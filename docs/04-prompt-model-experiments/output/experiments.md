@@ -3,7 +3,7 @@
 | 항목 | 내용 |
 | --- | --- |
 | 문서 상태 | 확정 |
-| 버전 | 1.0 (부록 B) |
+| 버전 | 1.1 (부록 B) |
 | 작성일 | 2026-11-05 |
 | 구현 결과서 | [implementation.md](../../03-implementation/output/implementation.md) 1.0 |
 | 관련 산출물 | [exp-1.md](exp-1.md), [exp-2.md](exp-2.md) |
@@ -351,7 +351,7 @@ flowchart LR
 
 ### 4.2 결과
 
-원자료는 arm별 실험 DB `data/experiments/EXP-2/control.db`, `arena.db`다. 두 파일은 git에 올리지 않았다(`*.db` 제외 규칙). 미완료 슬롯은 없다.
+원자료는 arm별 실험 DB `data/experiments/EXP-2/control.db`, `arena.db`다. 두 파일은 2026-11-06에 git에 올렸다(design.md 17.0 4.1 예외). 미완료 슬롯은 없다.
 
 | 지표 | `control` | `arena` |
 | --- | --- | --- |
@@ -551,3 +551,4 @@ uv run quiz experiment summary --exp EXP-2
 | --- | --- | --- |
 | 0.1 | 2026-11-05 | 초안 |
 | 1.0 | 2026-11-05 | 확정 |
+| 1.1 | 2026-11-06 | 3장 원자료 위치 문장을 고쳤다. EXP-2 실험 DB 2개를 git에 올렸기 때문이다. 실험 내용은 바꾸지 않았다 |

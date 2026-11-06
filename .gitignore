@@ -41,6 +41,8 @@ pnpm-debug.log*
 !data/quiz.db
 !data/experiments/qa-base.db
 !data/experiments/qa06.db
+!data/experiments/EXP-2/control.db
+!data/experiments/EXP-2/arena.db
 logs/
 *.log
 
