@@ -1,0 +1,29 @@
+{
+ "date": "2026-11-06",
+ "url": "http://localhost:5175/",
+ "commit": "86d1a2263ab3bbaacd751788fbf1d482264ad48c",
+ "healthScore": 98,
+ "provisional": true,
+ "untested": [
+  "performance",
+  "accessibility"
+ ],
+ "rawScore": 97.87,
+ "issues": [
+  {
+   "id": "DEF-6",
+   "title": "정답 위치가 A에 쏠림(단일·코드 29문항 중 25개 A)",
+   "severity": "medium",
+   "category": "functional"
+  }
+ ],
+ "categoryScores": {
+  "console": 100,
+  "links": 100,
+  "visual": 100,
+  "functional": 92,
+  "ux": 100,
+  "content": 100
+ },
+ "baselineNote": "기준(baseline.json) 90에는 3단계에서 찾은 DEF-7(content low)이 빠져 있다. 넣으면 Content 91, 점수 90(90.07)이다"
+}
