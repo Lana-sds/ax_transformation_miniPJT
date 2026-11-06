@@ -1,0 +1,159 @@
+{
+  "target": "b20261105-01",
+  "kind": "batch",
+  "models": [
+    "us.amazon.nova-pro-v1:0",
+    "openai.gpt-oss-120b-1:0"
+  ],
+  "created_at": "2026-11-06T00:41:17Z",
+  "review_values": [
+    "ok",
+    "key_error",
+    "weak_grounding",
+    "ambiguous"
+  ],
+  "summary": {
+    "questions": 5,
+    "flagged": [],
+    "priority_1": [],
+    "priority_2": [],
+    "weak_grounding": [],
+    "errors": []
+  },
+  "items": [
+    {
+      "question_id": "b20261105-01-001",
+      "format": "single",
+      "answer_key": [
+        "A"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "Tenant ID. Required for Chroma Cloud connections. Default is 'default_tenant' for local Chroma servers.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "tenant: Tenant ID. Required for Chroma Cloud connections. Default is 'default_tenant' for local Chroma servers.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-01-002",
+      "format": "multi",
+      "answer_key": [
+        "A",
+        "D"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, D",
+          "supporting_sentence": "Set `add_start_index=True` so each split keeps a `start_index` metadata field for its character offset in the original document.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A, D",
+          "supporting_sentence": "Set `add_start_index=True` so each split keeps a `start_index` metadata field for its character offset in the original document.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-01-003",
+      "format": "short",
+      "answer_key": [
+        "checkpointer"
+      ],
+      "accepted_answers": [
+        "checkpointer"
+      ],
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "checkpointer",
+          "supporting_sentence": "Persisting conversation history with `thread_id` requires the agent to be configured with a [checkpointer](/oss/python/langchain/long-term-memory). When deployed on [LangSmith](/langsmith/deployment), a checkpointer is provisioned automatically. Locally, pass one explicitly, for example `create_agent(..., checkpointer=InMemorySaver())`.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "checkpointer",
+          "supporting_sentence": "Persisting conversation history with `thread_id` requires the agent to be configured with a [checkpointer](/oss/python/langchain/long-term-memory).",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-01-005",
+      "format": "single",
+      "answer_key": [
+        "A"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "The following parameter names are reserved and cannot be used as tool arguments. Using these names will cause runtime errors.",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A",
+          "supporting_sentence": "The following parameter names are reserved and cannot be used as tool arguments. Using these names will cause runtime errors.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    },
+    {
+      "question_id": "b20261105-01-006",
+      "format": "multi",
+      "answer_key": [
+        "A",
+        "D"
+      ],
+      "accepted_answers": null,
+      "results": {
+        "us.amazon.nova-pro-v1:0": {
+          "unanswerable": false,
+          "answer": "A, D",
+          "supporting_sentence": "The `handle_tool_errors` flag is gone. Behavior is now fixed: an MCP tool that reports `isError=True` reaches the model as a [`ToolMessage`](https://reference.langchain.com/python/langchain-core/messages/tool/ToolMessage) with `status=\"error\"` carrying the server's message, while transport failures raise. See [Tools](/oss/python/langchain/mcp/tools#errors).",
+          "verdict": "match"
+        },
+        "openai.gpt-oss-120b-1:0": {
+          "unanswerable": false,
+          "answer": "A, D",
+          "supporting_sentence": "`handle_tool_errors` — **Removed as a flag.** Behavior is now fixed: `isError=True` becomes a `ToolMessage(status=\"error\")`; transport failures raise.",
+          "verdict": "match"
+        }
+      },
+      "priority": null,
+      "flagged": false,
+      "weak_grounding": false,
+      "reviewed": null
+    }
+  ]
+}

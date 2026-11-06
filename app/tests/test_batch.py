@@ -1,6 +1,7 @@
 """배치 CLI(T2.7, design.md 6.2, 7.2). 모델과 게이트는 가짜로 바꾼다. 허용 목록과 스냅샷은 저장소 것을 쓴다."""
 
 import threading
+import time
 
 import pytest
 
@@ -15,9 +16,10 @@ from test_judge import PASS
 class PayloadByFormat(FakeModel):
     """생성 스키마 이름으로 형식을 알아 그 형식 payload를 준다. fail_from번째 호출부터 예외를 던진다."""
 
-    def __init__(self, fail_from: int | None = None):
+    def __init__(self, fail_from: int | None = None, same: bool = False):
         super().__init__(None)
         self.fail_from = fail_from
+        self.same = same  # True면 모든 슬롯에 같은 본문과 같은 인용을 준다(dedupe 경합 재현)
         self.lock = threading.Lock()
 
     def with_structured_output(self, schema, include_raw=False):
@@ -34,8 +36,9 @@ class PayloadByFormat(FakeModel):
                        "CodeQuestion": "code"}[schema.__name__]
                 p = payload(fmt)
                 # 슬롯마다 본문과 인용이 달라야 dedupe에 걸리지 않는다
-                p["stem_en"] = f"Question number {n} about {fmt} " + "x" * n
-                p["grounding_records"] = [{**p["grounding_records"][0], "quote": f"quote {n} " + "q" * 40}]
+                k = 0 if parent.same else n
+                p["stem_en"] = f"Question number {k} about {fmt} " + "x" * k
+                p["grounding_records"] = [{**p["grounding_records"][0], "quote": f"quote {k} " + "q" * 40}]
                 from langchain_core.messages import AIMessage
                 raw = AIMessage(content="", usage_metadata={"input_tokens": 100, "output_tokens": 20,
                                                             "total_tokens": 120})
@@ -173,3 +176,61 @@ def test_fill_batch_passes_dropped_questions_as_tried(tmp_db, monkeypatch):
     tmp_db.commit()
     batch.run_batch(plan="fill", count=1, **models())
     assert seen["tried"] == [{"bucket": "langgraph_basics", "topic": "t", "format": "single"}]
+
+
+def test_resume_keeps_audit_failed_question(tmp_db):
+    """감사에서 빠진 문제(audit_failed)는 끝난 슬롯이다. 재개가 다시 만들거나 덮어쓰지 않는다(F-3)."""
+    first = models(fail_from=3)
+    batch_id = batch.run_batch(plan="pilot", workers=1, **first)
+    failed = store.question_id(batch_id, 1)
+    tmp_db.execute("UPDATE questions SET status = 'audit_failed' WHERE question_id = ?", (failed,))
+    tmp_db.commit()
+    before = tuple(tmp_db.execute("SELECT stem_en, updated_at FROM questions WHERE question_id = ?",
+                                  (failed,)).fetchone())
+
+    second = models()
+    batch.run_batch(resume=batch_id, **second)
+    assert len(second["gen_model"].prompts) == 4  # 끝나지 않은 4슬롯만 돈다
+    row = tmp_db.execute("SELECT status, stem_en, updated_at FROM questions WHERE question_id = ?",
+                         (failed,)).fetchone()
+    assert tuple(row) == ("audit_failed", *before)
+    assert batch.unfinished(batch_id) == 0
+    assert tmp_db.execute("SELECT finished_at FROM batches WHERE batch_id = ?", (batch_id,)).fetchone()[0]
+
+    third = models()
+    batch.run_batch(resume=batch_id, **third)
+    assert third["gen_model"].prompts == []
+    assert tmp_db.execute("SELECT status FROM questions WHERE question_id = ?", (failed,)).fetchone()[0] \
+        == "audit_failed"
+
+
+class SlowJudge(FakeModel):
+    """Judge 호출마다 잠깐 멈춘다. 두 슬롯이 동시에 dedupe에 닿게 한다."""
+
+    def with_structured_output(self, schema, include_raw=False):
+        inner = super().with_structured_output(schema, include_raw)
+
+        class S:
+            def invoke(self, prompt):
+                time.sleep(0.5)
+                return inner.invoke(prompt)
+        return S()
+
+
+def test_parallel_slots_in_same_bucket_dedupe_each_other(tmp_db):
+    """같은 버킷 두 슬롯이 동시에 같은 문제를 만들면 하나만 passed, 하나는 duplicate로 버린다(F-5)."""
+    m = models()
+    m["gen_model"] = PayloadByFormat(same=True)
+    m["judge_model"] = SlowJudge(PASS | {"exec_predictions": code_ok_predictions()})
+    batch_id = batch.run_batch(plan="pool", count=2, workers=2, **m)
+    buckets = {r[0] for r in tmp_db.execute("SELECT bucket FROM batch_slots WHERE batch_id = ?", (batch_id,))}
+    assert len(buckets) == 1
+    rows = tmp_db.execute("SELECT question_id, status, drop_reason FROM questions WHERE batch_id = ?"
+                          " ORDER BY question_id", (batch_id,)).fetchall()
+    assert sorted((r[1], r[2] or "") for r in rows) == [("dropped", "duplicate"), ("passed", "")]
+    passed = next(r[0] for r in rows if r[1] == "passed")
+    dropped = next(r[0] for r in rows if r[1] == "dropped")
+    v = tmp_db.execute("SELECT duplicate_of, fail_reasons_json FROM verification_results WHERE question_id = ?"
+                       " ORDER BY attempt_no DESC LIMIT 1", (dropped,)).fetchone()
+    assert v[0] == passed and "duplicate" in v[1]
+    assert len(m["gen_model"].prompts) == 2  # duplicate는 재생성하지 않는다
