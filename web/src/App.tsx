@@ -1,9 +1,13 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { api, ApiError, type AnswerResult, type MistakeTag, type QuizSet } from './api'
 import { AnswerInput } from './formats/AnswerInput'
+import { conflictAction } from './conflict'
 import { isAnswerComplete } from './formats/registry'
 import { Markup } from './MarkupText'
 import { metaLabels } from './meta'
+import { objectParticle } from './particle'
+import { createSingleFlight } from './singleFlight'
+import { HEADER_TIPS } from './tooltips'
 import { ResultPanel } from './ResultPanel'
 import { TagForm } from './TagForm'
 
@@ -51,6 +55,8 @@ export default function App() {
   const [error, setError] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+  // 처리 중이면 두 번째 요청을 보내지 않는다(ISSUE-001).
+  const [flight] = useState(createSingleFlight)
 
   function showError(e: unknown) {
     const c = e instanceof ApiError ? e.conflict : null
@@ -79,27 +85,39 @@ export default function App() {
   }, [])
 
   // 409 untagged_wrong이면 그 세트를 다시 불러 태그 입력으로 보낸다.
+  // set_closed면 저장한 세트 ID를 지우고 새 세트 시작 버튼을 보인다(ISSUE-002).
   async function recover(e: unknown): Promise<boolean> {
     const c = e instanceof ApiError ? e.conflict : null
-    if (c?.reason === 'untagged_wrong' && c.set_id) {
-      setNotice('태그 없는 오답이 있다. 태그를 저장한 뒤 계속한다.')
-      return loadSet(c.set_id)
+    const action = conflictAction(c, quizSet?.set_id ?? null)
+    if (action.kind === 'reload') {
+      if (action.notice) setNotice(action.notice)
+      return loadSet(action.setId)
     }
-    if (c?.reason === 'already_answered' && quizSet) return loadSet(quizSet.set_id)
+    if (action.kind === 'closed') {
+      saveSetId(null)
+      setQuizSet(null)
+      setResults({})
+      setIndex(0)
+      setAnswer([])
+      setNotice(action.notice)
+      return true
+    }
     return false
   }
 
   async function run(fn: () => Promise<void>) {
-    setBusy(true)
-    setError(null)
-    setNotice(null)
-    try {
-      await fn()
-    } catch (e) {
-      if (!(await recover(e))) showError(e)
-    } finally {
-      setBusy(false)
-    }
+    await flight(async () => {
+      setBusy(true)
+      setError(null)
+      setNotice(null)
+      try {
+        await fn()
+      } catch (e) {
+        if (!(await recover(e))) showError(e)
+      } finally {
+        setBusy(false)
+      }
+    })
   }
 
   function startSet() {
@@ -154,10 +172,26 @@ export default function App() {
         <span className="progress">
           {quizSet && (
             <>
-              세트 {quizSet.set_no} · {answeredCount}/{questions.length} ·{' '}
+              {/* 툴팁은 마우스를 올리거나 Tab으로 초점을 주면 보인다(IMP-1, IMP-2). */}
+              <span className="tip">
+                <span className="tip-target" tabIndex={0} aria-describedby={HEADER_TIPS.setNo.id}>
+                  세트 {quizSet.set_no}
+                </span>
+                <span className="tip-text" role="tooltip" id={HEADER_TIPS.setNo.id}>
+                  {HEADER_TIPS.setNo.text}
+                </span>
+              </span>{' '}
+              · {answeredCount}/{questions.length} ·{' '}
             </>
           )}
-          <a href="#audit">감사</a>
+          <span className="tip tip-end">
+            <a href="#audit" aria-describedby={HEADER_TIPS.audit.id}>
+              감사
+            </a>
+            <span className="tip-text" role="tooltip" id={HEADER_TIPS.audit.id}>
+              {HEADER_TIPS.audit.text}
+            </span>
+          </span>
         </span>
       </header>
 
@@ -188,7 +222,12 @@ export default function App() {
 
       {(!quizSet || (allDone && !blocked)) && (
         <div className="set-actions">
-          {allDone && <p>세트 {quizSet?.set_no}를 다 풀었다.</p>}
+          {allDone && (
+            <p>
+              세트 {quizSet.set_no}
+              {objectParticle(quizSet.set_no)} 다 풀었다.
+            </p>
+          )}
           <button onClick={startSet} disabled={busy}>
             새 세트 시작
           </button>
