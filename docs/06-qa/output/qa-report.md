@@ -2,8 +2,8 @@
 
 | 항목 | 내용 |
 | --- | --- |
-| 문서 상태 | 초안 |
-| 버전 | 0.1 (부록 B) |
+| 문서 상태 | 확정 |
+| 버전 | 1.0 (부록 B) |
 | 작성일 | 2026-11-06 |
 | 평가·리뷰 보고서 | [evaluation.md](../../05-evaluation-review/output/evaluation.md) 1.1 |
 | 관련 산출물 | [baseline.json](baseline.json)(수정 전 점수), [after.json](after.json)(수정 후 점수), [screenshots/](screenshots/) |
@@ -325,3 +325,4 @@
 | 버전 | 날짜 | 내용 |
 | --- | --- | --- |
 | 0.1 | 2026-11-06 | 초안 |
+| 1.0 | 2026-11-06 | 확정. 사용자 검토 승인 |
