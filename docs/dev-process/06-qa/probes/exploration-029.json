@@ -1,0 +1,6 @@
+{
+ "observationCommand": "Q5, Q6",
+ "observed": "Q5 정답, Q6 오답 독해 태그",
+ "hypothesis": "Q7 A,C, Q8~Q10 A 정답이면 세트 끝",
+ "nextCommand": "nextq; pick ...; submit"
+}

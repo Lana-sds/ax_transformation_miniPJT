@@ -1,0 +1,14 @@
+{
+ "observationCommand": "curl GET /api/sets/s003-cd557431; reload with set s003; snapshot",
+ "observed": {
+  "set3_review": [
+   "01-019 wrong",
+   "01-025 wrong",
+   "01-035 wrong"
+  ],
+  "screen": "복습 표시 보임",
+  "note": "01-035는 개념 실수 태그. 변형 문제 없음(면제)이라 원래 문제"
+ },
+ "hypothesis": "TC-11(FR-1.5): 세트를 정답으로 계속 풀면 새 문제가 바닥난 뒤 복습·맞힌 문제로 10문제를 채워야 한다",
+ "nextCommand": "uv run python exhaust.py s003-cd557431 8"
+}

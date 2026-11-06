@@ -1,0 +1,12 @@
+{
+ "observationCommand": "orca click --element @e111; net; snapshot",
+ "observed": {
+  "PUT /api/attempts/2/tag": 200,
+  "mistake_tag": "concept",
+  "confused_segment_id": null,
+  "다음 문제": "enabled",
+  "note": "첫 클릭은 PUT 없음, 같은 ref 두 번째 클릭은 정상. 재현 안 됨"
+ },
+ "hypothesis": "TC-6: 코드 선택 문제는 코드 블록이 문장과 구분되고 코드 보기 링크가 공식 문서를 연다(FR-2.4)",
+ "nextCommand": "click 다음 문제; snapshot; eval code/pre/link"
+}

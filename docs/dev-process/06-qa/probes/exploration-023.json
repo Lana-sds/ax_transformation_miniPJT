@@ -1,0 +1,16 @@
+{
+ "observationCommand": "nextq; pick A; submit; verdict (Q7,Q8,Q9); net",
+ "observed": {
+  "POST /api/sets/s001-123793ed/answers": [
+   409,
+   409
+  ],
+  "detail": {
+   "reason": "set_closed"
+  },
+  "screen": "처리할 수 없다: set_closed, 새 세트 버튼 없음",
+  "db": "s002-c34731f9가 02:07:37Z에 생김. 8002 로그의 POST /api/sets는 1회"
+ },
+ "hypothesis": "다른 서버(8001)가 같은 scratch.db로 세트를 만들었다. 시험을 전용 DB(qa06.db)로 옮기고 화면 저장소를 비운 뒤 다시 시작한다",
+ "nextCommand": "localStorage.clear(); reload"
+}

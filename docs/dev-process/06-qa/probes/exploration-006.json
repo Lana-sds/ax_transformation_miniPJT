@@ -1,0 +1,18 @@
+{
+ "observationCommand": "orca click --element @e16; net.sh; eval 해설 innerText",
+ "observed": {
+  "POST answers": 200,
+  "correct": false,
+  "answer": [
+   "A",
+   "B"
+  ],
+  "answer_key": [
+   "A",
+   "C"
+  ],
+  "note": "해설 본문에 **정답.** 별표가 그대로 보인다"
+ },
+ "hypothesis": "TC-7: 오답이면 태그 영역이 나오고 다음 문제가 잠겨야 한다",
+ "nextCommand": "orca snapshot 태그 영역"
+}

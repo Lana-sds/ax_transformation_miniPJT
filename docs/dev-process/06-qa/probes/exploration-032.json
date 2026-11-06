@@ -1,0 +1,8 @@
+{
+ "observationCommand": "orca eval double click (tab closed: No browser tab open in this worktree)",
+ "observed": {
+  "tab": "닫혀 있었음. 새 탭 page 4b691552-f36e-4b1a-b859-eeec50d125a9, set_id s001-502338cf 복원, 세트 1를 다 풀었다 화면"
+ },
+ "hypothesis": "같은 상태에서 TC-14 그대로 다시 한다",
+ "nextCommand": "orca eval: b.click(); b.click()"
+}

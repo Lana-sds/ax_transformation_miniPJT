@@ -1,0 +1,6 @@
+{
+ "observationCommand": "orca snapshot",
+ "observed": "heading agent-dev-quiz; link 감사 [e3]; button 새 세트 시작 [e4]",
+ "hypothesis": "TC-1 기준: 첫 화면에서 새 세트를 시작하면 10문제 세트가 열리고 1번만 열려야 한다",
+ "nextCommand": "orca click @e4"
+}

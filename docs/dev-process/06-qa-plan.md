@@ -2,6 +2,7 @@
 
 상태: 승인 (2026-11-06). 결정 1은 추천안, 결정 2는 "화면 버그 다 수정", 결정 3은 "설치 없이 최대한 절차 따르기"
 작성일: 2026-11-06
+수정: 2026-11-06 11:00. run 0단계에서 8001, 5174에 10:42에 띄워진 서버가 이미 있었다(같은 scratch 풀). 멈추는 명령이 권한 분류기에 막혀 그대로 두고, 이 단계 서버를 API 8002, 웹 5175(`web/node_modules/.scratch/vite.qa06.config.mjs`)로 따로 띄웠다. 서버 로그는 `data/experiments/qa-logs/`(git 제외)에 남긴다
 수정: 2026-11-06 11:00. 사용자 결정을 반영했다. (결정 2) 화면 코드(`web/`)에서 고칠 수 있는 버그는 심각도와 관계없이 모두 고친다. 1단계에서 새로 찾은 것도 포함한다. 서버·채점·데이터를 바꿔야 하는 버그(F-10 서버 쪽 500, F-20 정답 쏠림)는 기록만 한다. 12:50 시간 제한은 둔다. (결정 3) gstack `qa/` 디렉토리의 나머지 절차 파일(`sections/exploratory.md`, `sections/qa-patterns.md`, `sections/scope.md`, `sections/browser-verify.md`, `references/issue-taxonomy.md`, `templates/qa-report-template.md`)을 2026-11-06에 읽고 2장 "gstack 절차 적용표"에 반영했다. 건강 점수 기준표를 읽었으므로 건강 점수를 쓴다
 대상: [input/pre-qa-findings.md](../06-qa/input/pre-qa-findings.md) 1개. 05 확정 문서 [evaluation.md](../05-evaluation-review/output/evaluation.md) 1.1과 근거 자료 [findings.md](../05-evaluation-review/output/findings.md)
 근거: [skillset-by-lifecycle.md](skillset-by-lifecycle.md)의 "6. QA" 행. gstack README와 `qa/SKILL.md`, superpowers `skills/verification-before-completion/SKILL.md`를 2026-11-06에 다시 읽었다.

@@ -1,0 +1,24 @@
+{
+ "observationCommand": "click A; 제출; net; eval links",
+ "observed": {
+  "attempt_id": 3,
+  "correct": false,
+  "answer_key": [
+   "C"
+  ],
+  "links": [
+   [
+    "/langsmith/llm-as-judge-sdk",
+    "https://docs.langchain.com/langsmith/llm-as-judge-sdk",
+    "_blank"
+   ],
+   [
+    "코드 보기",
+    "https://docs.langchain.com/langsmith/llm-as-judge-sdk",
+    "_blank"
+   ]
+  ]
+ },
+ "hypothesis": "Q3 독해 태그 저장 뒤 Q4 복수 선택 정답(A,C)이면 정답 표시와 다음 문제가 바로 열린다",
+ "nextCommand": "tag_reading; nextq; click A,C; 제출"
+}

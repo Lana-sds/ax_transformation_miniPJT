@@ -1,0 +1,18 @@
+{
+ "observationCommand": "orca eval double click; net; server log; DB",
+ "observed": {
+  "POST /api/sets": [
+   200,
+   500
+  ],
+  "log": "sqlite3.IntegrityError: UNIQUE constraint failed: quiz_sets.set_no",
+  "screen": "Error: 500 Internal Server Error",
+  "sets": [
+   "s001-502338cf",
+   "s002-81c3abdd"
+  ],
+  "localStorage": "s002-81c3abdd"
+ },
+ "hypothesis": "확정을 위해 같은 초기 상태(qa06-setend1.db, set_id s001-502338cf)에서 같은 명령을 다시 돌린다",
+ "nextCommand": "localStorage set; reload; hook; orca eval double click"
+}

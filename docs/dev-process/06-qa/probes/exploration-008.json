@@ -1,0 +1,6 @@
+{
+ "observationCommand": "orca reload; hook; orca snapshot",
+ "observed": "hook 다시 hooked(새 문서), 세트 1 문제 1 오답 결과와 오답 태그 영역 복원, 다음 문제 disabled",
+ "hypothesis": "TC-7: 독해 실수를 고르면 헷갈린 구절 목록이 나와야 한다(FR-4.2)",
+ "nextCommand": "orca click --element @e70; snapshot"
+}

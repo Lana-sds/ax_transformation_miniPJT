@@ -1,0 +1,11 @@
+{
+ "observationCommand": "curl POST /api/sets",
+ "observed": {
+  "set_id": "s003-cd557431",
+  "set_no": 3,
+  "tab_set_id": "s002-d933f2c2",
+  "tab_q1": "단답 textbox e60"
+ },
+ "hypothesis": "탭에서 세트 2 1번에 답하면 409 set_closed, 화면에 새 세트 버튼이 없을 것이다",
+ "nextCommand": "fill x; submit; snapshot buttons"
+}

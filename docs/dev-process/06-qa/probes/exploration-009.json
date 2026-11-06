@@ -1,0 +1,6 @@
+{
+ "observationCommand": "orca click --element @e70; snapshot",
+ "observed": "독해 실수 checked, 헷갈린 영어 구절 radio 4개(문제 문장 구절, 영·한 쌍)",
+ "hypothesis": "구절 하나를 고르고 저장하면 PUT tag 200, 다음 문제가 열려야 한다",
+ "nextCommand": "click @e93; click 태그 저장; snapshot; net"
+}

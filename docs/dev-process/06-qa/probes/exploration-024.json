@@ -1,0 +1,6 @@
+{
+ "observationCommand": "localStorage.clear(); reload; hook; snapshot",
+ "observed": "첫 화면, 새 세트 시작 버튼(e226)",
+ "hypothesis": "전용 DB에서 세트 1 시작",
+ "nextCommand": "click 새 세트 시작"
+}

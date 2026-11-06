@@ -1,0 +1,91 @@
+{
+ "observationCommand": "uv run python exhaust.py s003-cd557431 8",
+ "observed": [
+  {
+   "set_id": "s005-3c85b995",
+   "set_no": 5,
+   "n": 10,
+   "unique": 10,
+   "composition": {
+    "new": 10,
+    "wrong-before": 0,
+    "correct-before": 0
+   },
+   "review_flag": 0,
+   "distinct_answered_before": 27,
+   "pool": 53
+  },
+  {
+   "set_id": "s006-6a02e714",
+   "set_no": 6,
+   "n": 10,
+   "unique": 10,
+   "composition": {
+    "new": 10,
+    "wrong-before": 0,
+    "correct-before": 0
+   },
+   "review_flag": 0,
+   "distinct_answered_before": 37,
+   "pool": 53
+  },
+  {
+   "set_id": "s007-9524eefa",
+   "set_no": 7,
+   "n": 10,
+   "unique": 10,
+   "composition": {
+    "new": 6,
+    "wrong-before": 0,
+    "correct-before": 4
+   },
+   "review_flag": 4,
+   "distinct_answered_before": 47,
+   "pool": 53
+  },
+  {
+   "set_id": "s008-57adff6a",
+   "set_no": 8,
+   "n": 10,
+   "unique": 10,
+   "composition": {
+    "new": 0,
+    "wrong-before": 3,
+    "correct-before": 7
+   },
+   "review_flag": 10,
+   "distinct_answered_before": 53,
+   "pool": 53
+  },
+  {
+   "set_id": "s009-6f06b68e",
+   "set_no": 9,
+   "n": 10,
+   "unique": 10,
+   "composition": {
+    "new": 0,
+    "wrong-before": 0,
+    "correct-before": 10
+   },
+   "review_flag": 10,
+   "distinct_answered_before": 53,
+   "pool": 53
+  },
+  {
+   "set_id": "s010-e7c118ce",
+   "set_no": 10,
+   "n": 10,
+   "unique": 10,
+   "composition": {
+    "new": 0,
+    "wrong-before": 0,
+    "correct-before": 10
+   },
+   "review_flag": 10,
+   "distinct_answered_before": 53,
+   "pool": 53
+  }
+ ],
+ "hypothesis": "조사 오류 재현: 끝난 세트 10을 화면에 열면 '세트 10를 다 풀었다.'가 나올 것이다(10=십, 을이 맞다)",
+ "nextCommand": "localStorage set s010-e7c118ce; reload; snapshot"
+}

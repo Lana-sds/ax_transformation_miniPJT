@@ -1,0 +1,13 @@
+{
+ "observationCommand": "replay double click from qa06-setend1.db",
+ "observed": {
+  "POST /api/sets": [
+   200,
+   500
+  ],
+  "screen": "Error: 500 Internal Server Error",
+  "new_set": "s002-d933f2c2"
+ },
+ "hypothesis": "TC-15(Q-2): 화면이 세트 2를 연 채 다른 클라이언트가 세트 3을 만들면, 이 화면에서 답할 때 set_closed가 나고 빠져나갈 길이 없을 것이다",
+ "nextCommand": "curl -X POST /api/sets; 화면에서 1번 답 제출"
+}

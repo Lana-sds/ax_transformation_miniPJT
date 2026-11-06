@@ -1,0 +1,14 @@
+{
+ "observationCommand": "fill x; submit; net; snapshot",
+ "observed": {
+  "POST answers": 409,
+  "reason": "set_closed",
+  "screen": "처리할 수 없다: set_closed",
+  "buttons": [
+   "제출"
+  ],
+  "새 세트 시작": "없음"
+ },
+ "hypothesis": "같은 명령으로 다시 확인. 새로고침으로도 풀리지 않는지 본다",
+ "nextCommand": "submit; reload; snapshot"
+}

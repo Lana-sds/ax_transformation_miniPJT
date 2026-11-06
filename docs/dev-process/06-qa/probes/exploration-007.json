@@ -1,0 +1,6 @@
+{
+ "observationCommand": "orca snapshot",
+ "observed": "오답 태그 영역(독해/개념 radio, 태그 저장 disabled), 다음 문제 disabled",
+ "hypothesis": "TC-9: 태그 전 새로고침하면 같은 문제의 태그 입력으로 돌아와야 한다(FR-8.1)",
+ "nextCommand": "orca reload; snapshot"
+}
