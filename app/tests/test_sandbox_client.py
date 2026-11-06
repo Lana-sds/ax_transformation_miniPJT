@@ -1,6 +1,8 @@
 """샌드박스 클라이언트와 execute 노드(T2.5, design.md 6.1·8.2). 실제 sandbox/ 실행기를 subprocess로 부른다."""
 
 import hashlib
+import os
+from pathlib import Path
 
 import pytest
 
@@ -40,17 +42,60 @@ def test_aws_and_langfuse_env_not_passed(monkeypatch):
     monkeypatch.setenv("AWS_SECRET_ACCESS_KEY", "secret")
     monkeypatch.setenv("AWS_REGION", "us-east-1")
     monkeypatch.setenv("LANGFUSE_SECRET_KEY", "secret")
-    monkeypatch.setenv("QUIZ_KEEP_ME", "kept")
+    monkeypatch.setenv("QUIZ_KEEP_ME", "dummy")
     code = ("import os\n"
             "print(sorted(k for k in os.environ if k.startswith(('AWS_', 'LANGFUSE_'))))\n"
             "print(os.environ.get('QUIZ_KEEP_ME'))")
-    assert sandbox_client.run(code)["stdout"] == "[]\nkept\n"
+    # 허용 목록 밖의 변수는 넘기지 않는다(F-1). QUIZ_* 도 마찬가지다.
+    assert sandbox_client.run(code)["stdout"] == "[]\nNone\n"
 
 
 def test_child_env_strips_prefixes_and_virtualenv():
     env = sandbox_client.child_env({"AWS_X": "1", "LANGFUSE_Y": "2", "VIRTUAL_ENV": "/app/.venv", "PATH": "p"})
     assert "AWS_X" not in env and "LANGFUSE_Y" not in env and "VIRTUAL_ENV" not in env
     assert env["PATH"] == "p"
+
+
+def test_child_env_is_allow_list(tmp_path):
+    env = sandbox_client.child_env(
+        {"QUIZ_DB": "C:/repo/data/quiz.db", "GITHUB_TOKEN": "dummy-token", "USERPROFILE": "C:/Users/x",
+         "HOME": "C:/Users/x", "APPDATA": "C:/Users/x/AppData", "SystemRoot": "C:/Windows", "PATH": "p"},
+        workdir=tmp_path)
+    for key in ("QUIZ_DB", "GITHUB_TOKEN", "USERPROFILE", "HOME", "APPDATA"):
+        assert key not in env
+    assert env["SYSTEMROOT"] == "C:/Windows"
+    assert env["TEMP"] == env["TMP"] == str(tmp_path)
+
+
+def test_quiz_db_and_tokens_absent_in_child(monkeypatch):
+    monkeypatch.setenv("QUIZ_DB", "C:/dummy/quiz.db")
+    monkeypatch.setenv("GITHUB_TOKEN", "dummy-token")
+    code = "import os\nprint([k for k in ('QUIZ_DB', 'GITHUB_TOKEN', 'USERPROFILE') if k in os.environ])"
+    assert sandbox_client.run(code) == {"ok": True, "stdout": "[]\n", "error_type": None}
+
+
+def test_child_runs_in_fresh_temp_dir_removed_afterwards():
+    out = sandbox_client.run("import os\nopen('x.txt', 'w').write('x')\nprint(os.getcwd())")
+    assert out["ok"] is True, out
+    work = out["stdout"].strip()
+    assert sandbox_client.SANDBOX_DIR.resolve() != Path(work).resolve()
+    assert not os.path.exists(work)
+
+
+def test_repo_files_not_readable_from_child():
+    target = str(sandbox_client.SANDBOX_DIR.parent / "CLAUDE.md")
+    out = sandbox_client.run(f"print(open({target!r}).read()[:20])")
+    assert out == {"ok": False, "stdout": "", "error_type": "PermissionError"}
+
+
+def test_relative_parent_file_not_readable_from_child():
+    out = sandbox_client.run("print(open('../.env').read())")
+    assert out == {"ok": False, "stdout": "", "error_type": "PermissionError"}
+
+
+def test_low_level_socket_blocked_from_child():
+    code = "import _socket\n_socket.getaddrinfo('localhost', 80)"
+    assert sandbox_client.run(code)["error_type"] == "NetworkBlockedError"
 
 
 def test_lock_hash_is_sha256_of_sandbox_lock():
